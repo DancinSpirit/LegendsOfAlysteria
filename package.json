@@ -1,6 +1,6 @@
 {
   "name": "loa",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.1",
     "mongoose": "^5.11.18",
+    "node-sass-middleware": "^0.11.0",
     "nodemon": "^2.0.7"
   }
 }
