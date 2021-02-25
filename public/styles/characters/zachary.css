@@ -58,6 +58,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  border: solid 1px;
 }
 .grid-titles,
 .grid-content-container {
