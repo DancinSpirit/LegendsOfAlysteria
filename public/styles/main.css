@@ -2,14 +2,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  transition: 1000ms; }
-
+  transition: 1000ms;
+}
 a {
   text-decoration: none;
-  color: white; }
-
-html, body {
+  color: white;
+}
+html,
+body {
   height: 100%;
+  width: 100%;
   overflow: hidden;
   font-family: 'Oswald', sans-serif;
-  color: white; }
+}

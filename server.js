@@ -2,7 +2,6 @@ const express = require("express");
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const MongoStore = require('connect-mongo').default;
-const sass = require("node-sass-middleware");
 const db = require("./models");
 
 const ctrl = require("./controllers");
@@ -30,14 +29,6 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7 * 1
     }  
 }));
-
-app.use(
-    sass({
-        src: __dirname + '/sass',
-        dest: __dirname + '/public', 
-        debug: true 
-    })
-)
 
 app.use("/character", ctrl.character);
 

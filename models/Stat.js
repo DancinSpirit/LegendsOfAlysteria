@@ -11,9 +11,9 @@ const statSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-statSchema.methods.diceValue = async function diceValue(){
+statSchema.methods.diceValue = function diceValue(){
     let total = 0;
-    dice.forEach(dieValue => {
+    this.dice.forEach(dieValue => {
         total = total + dieValue;
         if(this.priorityStat){
             total++;
@@ -22,8 +22,8 @@ statSchema.methods.diceValue = async function diceValue(){
     return total;
 }
 
-statSchema.methods.baseValue = async function baseValue(){
-    let total = this.diceValue;
+statSchema.methods.baseValue = function baseValue(){
+    let total = this.diceValue();
     let nextStat = total + 1;
     let trainingThreshold = (nextStat*5)+(nextStat*nextStat);
     let trainingPoints = this.trainingPoints;
@@ -36,8 +36,8 @@ statSchema.methods.baseValue = async function baseValue(){
     return total;
 }
 
-statSchema.methods.totalValue = async function totalValue(traits){
-    let total = this.baseValue;
+statSchema.methods.totalValue = function totalValue(traits){
+    let total = this.baseValue();
     traits.forEach(trait => {
         total = total+trait.statModifiers[statId];
     });

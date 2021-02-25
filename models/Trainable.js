@@ -7,7 +7,7 @@ const trainableSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-trainableSchema.methods.rank = async function rank(){
+trainableSchema.methods.rank = function rank(){
     let rankValue = 0;
     if(this.trainingPoints>14){
         rankValue++;
@@ -33,7 +33,7 @@ trainableSchema.methods.rank = async function rank(){
     return rankValue;
 }
 
-trainableSchema.methods.modifier = async function modifier(){
+trainableSchema.methods.modifier = function modifier(){
     var typeMod = 1;
     var rankMod = -5;
     if(this.type>0){

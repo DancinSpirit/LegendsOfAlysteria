@@ -1,12 +1,183 @@
 <section id = "basic-info">
-    <img src=<%=character.avatar%> id="character-image">
-    <section id = "character-name" class = "character-box">
-        <section id = "character-box-title">
-            Character: 
-        </section>
-        <section id ="character-box-content">
-            <%=character.currentInfo.firstName%> <%=character.currentInfo.lastName%>
-        </section>
+    <section id="basic-info-image">
+        <img src=<%=character.avatar%> id="character-image">
     </section>
+    <section id="basic-info-content">
+        <section class="basic-info-row">
+            <section class = "basic-info-group">
+                <section id = "character-name" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Character: 
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.firstName%> <%=character.currentInfo.lastName%>
+                    </section>
+                </section>
+            </section>
+            <section class = "basic-info-row-space">
+
+            </section>
+            <section class = "basic-info-group">
+                <section id = "character-stress-level" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Stress Level: 
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.stressLevel%>
+                    </section>
+                </section>
+            </section>
+            <section class = "basic-info-row-space">
+
+            </section>
+            <section class = "basic-info-group">
+                <section id = "character-info-level" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Information Level: 
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        Not Yet Implemented
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="basic-info-row">
+            <section class = "basic-info-group">
+                <section id = "character-age" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Age:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.age%>
+                    </section>
+                </section>
+                <section id = "character-birthday" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Birthday:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.birthDate()%>
+                    </section>
+                </section>
+            </section>
+            <section class = "basic-info-row-space">
+
+            </section>
+            <section class = "basic-info-group">
+                <section id = "character-fate-rerolls" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Fate Rerolls:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.fateRerolls.available%>/<%=character.currentInfo.fateRerolls.max%>
+                    </section>
+                </section>
+                <section id = "character-mana" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Mana:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.mana.available%>/<%=character.currentInfo.mana.max%>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="basic-info-row">
+            <section class = "basic-info-group">
+                <section id = "character-profession" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Profession:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.profession%>
+                    </section>
+                </section>
+            </section>
+            <section class = "basic-info-row-space">
+
+            </section>
+            <section class = "basic-info-group">
+                <section id = "character-savings" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Savings:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.savings%>
+                    </section>
+                </section>
+                <section id = "character-salary" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Salary:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.salary%>
+                    </section>
+                </section>
+                <section id = "character-lifestyle" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Lifestyle:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.lifestyleString()%>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="basic-info-row">
+            <section class = "basic-info-group">
+                <section id = "character-description" class = "character-box">
+                    <section class = "character-box-title character-box-section">
+                        Description:
+                    </section>
+                    <section class ="character-box-content character-box-section">
+                        <%=character.currentInfo.description%>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="basic-info-row">
+            <section id = "character-stats" class = "basic-info-grid">
+                <section class = "grid-titles">
+                    <section class = "character-box-title character-box-section grid-title">
+                        Stats:
+                    </section>
+                    <section class = "character-box-title character-box-section grid-title">
+                        Base Stat:
+                    </section>
+                    <section class = "character-box-title character-box-section grid-title">
+                        Trait Mods:
+                    </section>
+                    <section class = "character-box-title character-box-section grid-title">
+                        Final Stat:
+                    </section>
+                    <section class = "character-box-title character-box-section grid-title">
+                        Rerolls:
+                    </section>
+                </section>
+                <%for(let x=0; x<character.currentInfo.stats.length; x++){%>
+                    <section class = "grid-content-container">
+                        <section class = "character-box-content character-box-section stat-row grid-content">
+                            <%=character.currentInfo.stats[x].name%>
+                        </section>
+                        <section class = "character-box-content character-box-section stat-row grid-content">
+                            <%=character.currentInfo.stats[x].baseValue()%>
+                        </section>
+                        <section class = "character-box-content character-box-section stat-row grid-content">
+                            Not Yet Implemented
+                        </section>
+                        <section class = "character-box-content character-box-section stat-row grid-content">
+                            Not Yet Implemented <!-- character.currentInfo.stats[x].totalValue() -->
+                        </section>
+                        <section class = "character-box-content character-box-section stat-row grid-content">
+                            <%=character.currentInfo.stats[x].rerolls.available%>/<%=character.currentInfo.stats[x].rerolls.max%>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+    </section>  
+</section>
+<section id="traits">
+
 </section>
 
