@@ -1,25 +1,26 @@
 const express = require("express");
-const session = require("express-session");
-const fileUpload = require("express-fileupload");
-const MongoStore = require("connect-mongo")(session);
+const session = require('express-session');
+const fileUpload = require('express-fileupload');
+const MongoStore = require('connect-mongo').default;
 const db = require("./models");
-const cntrl = require("./controllers");
+
+const ctrl = require("./controllers");
+
 const app = express();
-require("dotenv").config();
+require("dotenv").config()
 
 const PORT = process.env.PORT;
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended:true}));
-app.use(methodOverride("_method"));
 app.use(fileUpload({
     createParentPath: true
 }));
 
 app.use(session({
-    store: new MongoStore({
-        url: process.env.MONGODB_URI
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI
     }),
     secret: process.env.SECRET,
     resave: false,

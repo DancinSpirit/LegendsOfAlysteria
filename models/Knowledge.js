@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const skillSchema = new mongoose.Schema(
+const knowledgeSchema = new mongoose.Schema(
     {
         name: {type: String},
         info: {type: mongoose.Schema.Types.ObjectId, ref: "Trainable"},
@@ -8,6 +8,6 @@ const skillSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-const Skill = mongoose.model("Skill", skillSchema);
+const Knowledge = mongoose.model("Knowledge", knowledgeSchema);
 
-module.exports = Skill;
+module.exports = Knowledge;

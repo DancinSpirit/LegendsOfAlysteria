@@ -44,6 +44,6 @@ statSchema.methods.totalValue = async function totalValue(traits){
     return total;
 }
 
-const Stat = mongoose.model("Stat", StatSchema);
+const Stat = mongoose.model("Stat", statSchema);
 
 module.exports = Stat;
