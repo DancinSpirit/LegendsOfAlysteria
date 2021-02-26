@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const traitSchema = new mongoose.Schema(
     {
         name: {type: String},
-        type: {type: String},
+        type: {type: Number},
         description: {type: String},
         effect: {type: String},
         statModifiers: [{type: Number}]

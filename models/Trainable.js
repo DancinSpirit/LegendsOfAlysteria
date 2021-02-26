@@ -39,28 +39,28 @@ trainableSchema.methods.modifier = function modifier(){
     if(this.type>0){
         typeMod=2*this.type;
     }
-    if(this.rank===1){ //E
+    if(this.rank()===1){ //E
         rankMod = -2.5;
     }
-    if(this.rank===2){ //D
+    if(this.rank()===2){ //D
         rankMod = 0;
     }
-    if(this.rank===3){ //C
+    if(this.rank()===3){ //C
         rankMod = 2.5;
     }
-    if(this.rank===4){ //B
+    if(this.rank()===4){ //B
         rankMod = 6.25;
     }
-    if(this.rank===5){ //A
+    if(this.rank()===5){ //A
         rankMod = 10;
     }
-    if(this.rank===6){ //S
+    if(this.rank()===6){ //S
         rankMod = 15;
     }
-    if(this.rank===7){ //SS
+    if(this.rank()===7){ //SS
         rankMod = 17.5;
     }
-    if(this.rank===8){ //SSS
+    if(this.rank()===8){ //SSS
         rankMod = 20;
     }
     return Math.floor(rankMod*typeMod);

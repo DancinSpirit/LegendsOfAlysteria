@@ -14,6 +14,8 @@ const characterInfoSchema = new mongoose.Schema(
         lifestyle: {type: Number},
         description: {type: String},
         stats: [{type: mongoose.Schema.Types.ObjectId, ref: "Stat"}],
+        traits: [[{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}]],
+        knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "KnowledgeTree"}],
     },
     {timestamps: true}
 )
@@ -46,6 +48,10 @@ characterInfoSchema.methods.lifestyleString = function lifestyleString(){
     if(this.lifestyle===4){
         return "Emperor";
     }
+}
+
+characterInfoSchema.methods.allTraits = function allTraits(){
+    return [...this.traits[0],...this.traits[1],...this.traits[2],...this.traits[3],...this.traits[4]];
 }
 
 const CharacterInfo = mongoose.model("CharacterInfo", characterInfoSchema);

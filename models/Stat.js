@@ -39,7 +39,8 @@ statSchema.methods.baseValue = function baseValue(){
 statSchema.methods.totalValue = function totalValue(traits){
     let total = this.baseValue();
     traits.forEach(trait => {
-        total = total+trait.statModifiers[statId];
+        if(trait.statModifiers.length)
+        total = total+trait.statModifiers[this.statId];
     });
     return total;
 }

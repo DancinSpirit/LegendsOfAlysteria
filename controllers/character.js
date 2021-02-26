@@ -3,11 +3,12 @@ const router = express.Router();
 const db = require("../models");
 
 router.get("/:id", async function(req,res){
-    res.render("main",{state: "character"});
+    const foundCharacter = await db.Character.findById(req.params.id).populate("currentInfo");
+    res.render("main",{state: "character", theme: foundCharacter.currentInfo.firstName.toLowerCase()});
 })
 
 router.get("/:id/component", async function(req,res){
-    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats"}});
+    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees", populate:{path:"generalKnowledge specializedKnowledge", populate:{path:"info knowledgeTree", populate:{path:"generalKnowledge specializedKnowledge", populate:{path:"info"}}}}}});
     res.render("components/character", {character: foundCharacter});
 })
 

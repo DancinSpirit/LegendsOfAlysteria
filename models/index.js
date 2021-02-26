@@ -27,8 +27,7 @@ module.exports = {
     Stat: require("./Stat"),
     Trait: require("./Trait"),
     Knowledge: require("./Knowledge"),
-    RelatedKnowledge: require("./RelatedKnowledge"),
-    Skill: require("./Skill"),
+    KnowledgeTree: require("./KnowledgeTree"),
     Stat: require("./Stat"),
     Trainable: require("./Trainable")
 }

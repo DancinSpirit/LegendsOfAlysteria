@@ -1,22 +1,53 @@
 body{
-    background-color: blue;
+    background-color: @background;
 }
+
+/* width */
+::-webkit-scrollbar {
+width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: @light;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: @darker;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: @dark;
+}
+
+
 #character-page{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100vh;
+    font-size: 13px;
 }
+    #character-left{
+        width: 60%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
     #basic-info {
         display: flex;
         flex-direction: row;
-        height: 100%;
+        width: 100%;
+        height: 60%;
     }
         #basic-info-image{
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding-top: 10px;
+            padding-left: 10px;
         }
             #character-image {
             max-height: 100%;
@@ -25,10 +56,12 @@ body{
     
         #basic-info-content {
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            margin:10px;
         }
             .basic-info-row {
-                margin-top: 10px;
-                margin-right: 10px;
                 margin-bottom: 10px;
                 display: flex;
                 flex-direction: row;
@@ -68,4 +101,82 @@ body{
             .grid-content, .grid-title{
                 width: 20%;
             }
-  
+    #traits{
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        width: 100%;
+        height: 40%;
+    }
+        .trait-section{
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+        }
+            .trait-section-title{
+                background-color: @darker;
+                font-weight: bold;
+                text-align: center;
+                border: solid 1px;
+            }
+            .traits{
+                overflow-y: auto;
+            }
+            .trait{
+                display: flex;
+                flex-direction: column;
+                border: solid 1px;
+            }
+
+#character-right{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 40%;
+    height: 60%;
+}
+
+.knowledge-box{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.knowledge-grid{
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 13px);
+    overflow-x: auto;
+}
+
+.knowledge-column{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.knowledge-content{
+    height: 100%;
+    width: 100%;
+}
+
+.title-column-box, .knowledge-column-box{
+    border: solid 1px;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.general-box{
+    height:25%;
+}
+
+.special-box{
+    height:20%;
+}
+
+.highlight{
+    background-color: @highlight;
+}
