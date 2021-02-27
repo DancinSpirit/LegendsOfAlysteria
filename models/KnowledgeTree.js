@@ -6,7 +6,7 @@ const knowledgeTreeSchema = new mongoose.Schema(
         highlySpecializedKnowledge: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledge"}],
         bonusKnowledge: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledge"}],
         skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledge"}],
-        specialties: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledge"}]
+        specialties: [{type: mongoose.Schema.Types.ObjectId, ref: "Specialty"}]
     },
     {timestamps: true}
 )

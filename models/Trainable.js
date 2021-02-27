@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const trainableSchema = new mongoose.Schema(
     {
         trainingPoints: {type: Number},
-        type: {type: Number}
+        type: {type: Number},
+        prodigy: {type: Boolean}
     },
     {timestamps: true}
 )
@@ -13,6 +14,9 @@ trainableSchema.methods.rank = function rank(){
         rankValue++;
     }
     if(this.trainingPoints>29){
+        rankValue++;
+    }
+    if(this.trainingPoints>59){
         rankValue++;
     }
     if(this.trainingPoints>149){
@@ -29,6 +33,34 @@ trainableSchema.methods.rank = function rank(){
     }
     if(this.trainingPoints>5069){
         rankValue++;
+    } 
+    return rankValue;
+}
+trainableSchema.methods.rankString = function rankString(){
+    let rankValue = "N/A";
+    if(this.trainingPoints>14){
+        rankValue = "E";
+    }
+    if(this.trainingPoints>29){
+        rankValue = "D";
+    }
+    if(this.trainingPoints>59){
+        rankValue = "C";
+    }
+    if(this.trainingPoints>149){
+        rankValue = "B";
+    }
+    if(this.trainingPoints>359){
+        rankValue = "A";
+    }
+    if(this.trainingPoints>869){
+        rankValue = "S";
+    }
+    if(this.trainingPoints>2099){
+        rankValue = "SS";
+    }
+    if(this.trainingPoints>5069){
+        rankValue = "SSS";
     } 
     return rankValue;
 }
@@ -65,6 +97,39 @@ trainableSchema.methods.modifier = function modifier(){
     }
     return Math.floor(rankMod*typeMod);
 }
+
+/* Skill Only Methods */
+
+trainableSchema.methods.expertModifier = function expertModifier(){
+    if((this.trainingPoints-360)>0)
+    return Math.floor((this.trainingPoints - 360)/50);
+    else
+    return 0;
+}
+
+trainableSchema.methods.eliteModifier = function eliteModifier(){
+    if((this.trainingPoints-870)>0)
+    return Math.floor((this.trainingPoints - 870)/100);
+    else
+    return 0;
+}
+trainableSchema.methods.masteryModifier = function eliteModifier(){
+    if((this.trainingPoints-2100)>0)
+    return Math.floor((this.trainingPoints - 2100)/200);
+    else
+    return 0;
+}
+trainableSchema.methods.legendaryModifier = function eliteModifier(){
+    if((this.trainingPoints-5070)>0)
+    return Math.floor((this.trainingPoints - 5070)/300);
+    else
+    return 0;
+}
+
+trainableSchema.methods.skillModifier = function skillModifier(){
+    return this.modifier() + this.expertModifier() + this.eliteModifier() + this.masteryModifier() + this.legendaryModifier();
+}
+
 
 const Trainable = mongoose.model("Trainable", trainableSchema);
 

@@ -8,7 +8,7 @@ router.get("/:id", async function(req,res){
 })
 
 router.get("/:id/component", async function(req,res){
-    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees", populate:{path:"generalKnowledge specializedKnowledge", populate:{path:"info knowledgeTree", populate:{path:"generalKnowledge specializedKnowledge", populate:{path:"info"}}}}}});
+    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info knowledgeTree", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
     res.render("components/character", {character: foundCharacter});
 })
 

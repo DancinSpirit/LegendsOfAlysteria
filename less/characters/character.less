@@ -111,7 +111,7 @@ background: @dark;
         .trait-section{
             display: flex;
             flex-direction: column;
-            width: 25%;
+            flex-grow: 1;
         }
             .trait-section-title{
                 background-color: @darker;
@@ -125,56 +125,127 @@ background: @dark;
             .trait{
                 display: flex;
                 flex-direction: column;
-                border: solid 1px;
+                border-bottom: solid 1px;
+                border-left: solid 1px;
+                border-right: solid 1px;
             }
 
 #character-right{
     margin-top: 10px;
     margin-right: 10px;
+    margin-bottom: 10px;
     width: 40%;
-    height: 60%;
+}
+
+.meta-trait{
+    height: 15%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: @light;
+}
+
+.meta-trait-content{
+    border-bottom: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
 .knowledge-box{
-    height: 100%;
+    height: calc(85% - 10px);
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
 }
 
 .knowledge-grid{
     display: flex;
     flex-direction: row;
-    height: calc(100% - 13px);
-    overflow-x: auto;
+    height: calc(100% - 25px);
+    background-color: @light;
+}
+
+.knowledge-grid-title{
+    height: 25px;
 }
 
 .knowledge-column{
     display: flex;
     flex-direction: column;
-    width: 25%;
+    flex: 1 1 0px;
+}
+
+.title-column{
+    min-width: 20%;
+    max-width: 20%;
 }
 
 .knowledge-content{
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
 }
 
-.title-column-box, .knowledge-column-box{
-    border: solid 1px;
+.title-column-box{
+    border-bottom: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
     height: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.general-box{
-    height:25%;
+.skill-title-box{
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.general-title-box{
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.special-box{
-    height:20%;
+.knowledge-column-general{
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.knowledge-column-skill{
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.knowledge-column-box{
+    height: 20%;
+    display: flex;
+    flex-direction: row;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.knowledge-content-box{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 .highlight{

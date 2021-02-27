@@ -6,7 +6,8 @@ const statSchema = new mongoose.Schema(
         priorityStat: {type: Boolean},
         dice: [{type:Number}],
         trainingPoints: {type:Number},
-        rerolls: {available: {type: Number}, max: {type: Number}}
+        rerolls: {available: {type: Number}, max: {type: Number}},
+        isBroken: {type: Boolean}
     },
     {timestamps: true}
 )
@@ -42,7 +43,26 @@ statSchema.methods.totalValue = function totalValue(traits){
         if(trait.statModifiers.length)
         total = total+trait.statModifiers[this.statId];
     });
+    if(total>30){
+        if(!this.isBroken){
+            return 30;
+        }
+    }
     return total;
+}
+
+statSchema.methods.totalValueString = function totalvalueString(traits){
+    let total = this.baseValue();
+    traits.forEach(trait => {
+        if(trait.statModifiers.length)
+        total = total+trait.statModifiers[this.statId];
+    });
+    if(total>30){
+        if(!this.isBroken){
+            return `${total} [30]`;
+        }
+    }
+    return total;  
 }
 
 const Stat = mongoose.model("Stat", statSchema);

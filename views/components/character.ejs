@@ -171,7 +171,7 @@
                                 <%}%>
                             </section>
                             <section class = "character-box-content character-box-section stat-row grid-content highlight">
-                                <%=character.currentInfo.stats[x].totalValue(character.currentInfo.allTraits())%>
+                                <%=character.currentInfo.stats[x].totalValueString(character.currentInfo.allTraits())%>
                             </section>
                             <section class = "character-box-content character-box-section stat-row grid-content">
                                 <%=character.currentInfo.stats[x].rerolls.available%>/<%=character.currentInfo.stats[x].rerolls.max%>
@@ -183,7 +183,8 @@
         </section>  
     </section>
     <section id="traits">
-        <section id = "special-traits" class="trait-section">
+        <%if(character.currentInfo.traits[1].length){%>
+        <section class="trait-section">
             <section class = "trait-section-title character-box-section">
                 Special Traits
             </section>
@@ -203,7 +204,9 @@
                 <%}%>
             </section>
         </section>
-        <section id = "special-traits" class="trait-section">
+        <%}%>
+        <%if(character.currentInfo.traits[2].length){%>
+        <section class="trait-section">
             <section class = "trait-section-title character-box-section">
                 Aptitude Traits
             </section>
@@ -223,7 +226,9 @@
                 <%}%>
             </section>
         </section>
-        <section id = "special-traits" class="trait-section">
+        <%}%>
+        <%if(character.currentInfo.traits[3].length){%>
+        <section class="trait-section">
             <section class = "trait-section-title character-box-section">
                 Personality Traits
             </section>
@@ -243,7 +248,9 @@
                 <%}%>
             </section>
         </section>
-        <section id = "special-traits" class="trait-section">
+        <%}%>
+        <%if(character.currentInfo.traits[4].length){%>
+        <section class="trait-section">
             <section class = "trait-section-title character-box-section">
                 Flavor Traits
             </section>
@@ -260,16 +267,32 @@
                 <%}%>
             </section>
         </section>
+        <%}%>
     </section>
 </section>
 <section id = "character-right">
+    <%if(character.currentInfo.traits[0].length){%>
+    <section class = "meta-trait">
+        <section class = "trait-section-title character-box-section knowledge-grid-title">
+            Meta Trait
+        </section>
+        <section class = "meta-trait-content">
+            <section class = "character-box-title character-box-section">
+                <%=character.currentInfo.traits[0][0].name%>
+            </section>
+            <section class = "character-box-content character-box-section">
+                <%=character.currentInfo.traits[0][0].description%>
+            </section>
+        </section>
+    </section>
+    <%}%>
     <section class = "knowledge-box">
         <section class = "trait-section-title character-box-section knowledge-grid-title">
             Knowledge and Skills
         </section>
         <section class = "knowledge-grid">
-            <section class = "knowledge-column">
-                <section class = "title-column-box character-box-title character-box-section">
+            <section class = "knowledge-column title-column">
+                <section class = "title-column-box character-box-title character-box-section general-title-box">
                     General
                 </section>
                 <section class = "title-column-box character-box-title character-box-section">
@@ -278,7 +301,7 @@
                 <section class = "title-column-box character-box-title character-box-section">
                     Highly Specialized
                 </section>
-                <section class = "title-column-box character-box-title character-box-section">
+                <section class = "title-column-box character-box-title character-box-section skill-title-box">
                     Skills
                 </section>
                 <section class = "title-column-box character-box-title character-box-section">
@@ -287,19 +310,24 @@
             </section>
             <%for(let x=0; x<character.currentInfo.knowledgeTrees.length; x++){%>
                 <section class = "knowledge-column">
-                    <section class = "knowledge-column-box">
+                    <section class = "knowledge-column-general">
                         <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].generalKnowledge.length; y++){%>
                             <section class = "knowledge-content">
-                                <section class = "character-box-title character-box-section general-box">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
                                     <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].name%>
                                 </section>
-                                <section class = "character-box-content character-box-section general-box">
-                                    Rank: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.rank()%>
+                                <%if(character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.rankString()%>
                                 </section>
-                                <section class = "character-box-content character-box-section general-box">
+                                <section class = "character-box-content character-box-section knowledge-content-box">
                                     Training Points: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.trainingPoints%>
                                 </section>
-                                <section class = "character-box-content character-box-section highlight general-box">
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
                                     Modifier: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.modifier()%>
                                 </section>
                             </section>
@@ -308,20 +336,120 @@
                     <section class = "knowledge-column-box">
                         <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].specializedKnowledge.length; y++){%>
                             <section class = "knowledge-content">
-                                <section class = "character-box-title character-box-section special-box">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
                                     <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].name%>
                                 </section>
-                                <section class = "character-box-content character-box-section special-box">
-                                    Rank: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.rank()%>
+                                <%if(character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.rankString()%>
                                 </section>
-                                <section class = "character-box-content character-box-section special-box">
+                                <section class = "character-box-content character-box-section knowledge-content-box">
                                     Training Points: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.trainingPoints%>
                                 </section>
-                                <section class = "character-box-content character-box-section special-box">
+                                <section class = "character-box-content character-box-section knowledge-content-box">
                                     Modifier: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.modifier()%>
                                 </section>
-                                <section class = "character-box-content character-box-section highlight special-box">
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
                                     Total Modifier: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].totalModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-box">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.modifier()%>
+                                </section>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Total Modifier: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].totalModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-skill">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].skills.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].skills[y].name%>  
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>   
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.modifier()%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.expertModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Expert Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.expertModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.eliteModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Elite Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.eliteModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.masteryModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Mastery Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.masteryModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.legendaryModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Legendary Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.legendaryModifier()%>
+                                </section>
+                                <%}%>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Total Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].totalSkillModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-box">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].specialties.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].specialties[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].specialties[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].specialties[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].specialties[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].specialties[y].effect%>
                                 </section>
                             </section>
                         <%}%>
