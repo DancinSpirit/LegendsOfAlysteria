@@ -5,21 +5,23 @@ body{
 /* width */
 ::-webkit-scrollbar {
 width: 10px;
+height: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-background: @light;
+background: darken(@light,12%);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-background: @darker;
+background: darken(@darker,10%);
+border: darken(@light,12%) solid 1px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-background: @dark;
+background: darken(@darker,25%);
 }
 
 

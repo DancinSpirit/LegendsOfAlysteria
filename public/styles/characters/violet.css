@@ -4,18 +4,20 @@ body {
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #d9d2e9;
+  background: #b6a9d5;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8e7cc3;
+  background: #7059b3;
+  border: #b6a9d5 solid 1px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b4a7d6;
+  background: #4e3c83;
 }
 #character-page {
   display: flex;
