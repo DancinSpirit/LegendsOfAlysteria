@@ -16,6 +16,7 @@ const characterInfoSchema = new mongoose.Schema(
         stats: [{type: mongoose.Schema.Types.ObjectId, ref: "Stat"}],
         traits: [[{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}]],
         knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "KnowledgeTree"}],
+        combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "CombatStyle"}]
     },
     {timestamps: true}
 )

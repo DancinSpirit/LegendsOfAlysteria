@@ -30,5 +30,13 @@ module.exports = {
     KnowledgeTree: require("./KnowledgeTree"),
     Stat: require("./Stat"),
     Trainable: require("./Trainable"),
-    Specialty: require("./Specialty")
-}
+    Specialty: require("./Specialty"),
+    CombatStyle: require("./CombatStyle"),
+    FightingStyle: require("./FightingStyle"),
+    Reroll: require("./Reroll"),
+    WeaponType: require("./WeaponType"),
+    Equipment: require("./Equipment"),
+    EquipmentType: require("./EquipmentType"),
+    Armor: require("./EquipmentTypes/Armor"),
+    Weapon: require("./EquipmentTypes/Weapon")
+};

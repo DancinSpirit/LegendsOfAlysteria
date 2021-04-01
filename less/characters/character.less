@@ -1,5 +1,5 @@
 body{
-    background-color: @background;
+    background-color: @light;
 }
 
 /* width */
@@ -24,12 +24,38 @@ border: darken(@light,12%) solid 1px;
 background: darken(@darker,25%);
 }
 
-
-#character-page{
+#character-navbar{
+    height: 30px;
     display: flex;
     flex-direction: row;
-    height: 100vh;
+}
+
+.character-nav-button{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    background-color: @background;
+    height: 30px;
+    border-top: @light solid 4px;
+    border-left: @light solid 3px;
+    color: white;
+}
+
+.character-nav-button:hover{
+    cursor: pointer;
+}
+
+.character-nav-button-unselected{
+    background-color: darken(@background,15%);
+}
+
+#character-sheet{
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 30px);
+    width: 100%;
     font-size: 13px;
+    background: @background;
 }
     #character-left{
         width: 60%;
@@ -115,7 +141,7 @@ background: darken(@darker,25%);
             flex-direction: column;
             flex-grow: 1;
         }
-            .trait-section-title{
+            .character-big-title{
                 background-color: @darker;
                 font-weight: bold;
                 text-align: center;
@@ -252,4 +278,47 @@ background: darken(@darker,25%);
 
 .highlight{
     background-color: @highlight;
+}
+
+.character-super-title{
+    background-color: lighten(@background,10%);
+    font-weight: bold;
+    text-align: center;
+    border: solid 1px;
+}
+
+.combat-style{
+    padding: 10px;
+    width: 100%;
+}
+
+.combat-style-column{
+    width: 50%;
+}
+
+.combat-style-box{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.combat-style-box-content{
+    display: flex;
+    flex-direction: row;
+    border-bottom: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+}
+
+.combat-style-box-half{
+    width: 50%;
+    background-color: @light;
+}
+
+.combat-row-half{
+    width: 50%;
+}
+
+.combat-style-content-row{
+    display: flex;
+    flex-direction: row;
 }

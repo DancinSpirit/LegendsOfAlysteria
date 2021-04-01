@@ -1,0 +1,461 @@
+<section id = "character-left">
+    <section id = "basic-info">
+        <section id="basic-info-image">
+            <img src=<%=character.avatar%> id="character-image">
+        </section>
+        <section id="basic-info-content">
+            <section class="basic-info-row">
+                <section class = "basic-info-group">
+                    <section id = "character-name" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Character: 
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.firstName%> <%=character.currentInfo.lastName%>
+                        </section>
+                    </section>
+                </section>
+                <section class = "basic-info-row-space">
+
+                </section>
+                <section class = "basic-info-group">
+                    <section id = "character-stress-level" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Stress Level: 
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.stressLevel%>
+                        </section>
+                    </section>
+                </section>
+                <section class = "basic-info-row-space">
+
+                </section>
+                <section class = "basic-info-group">
+                    <section id = "character-info-level" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Information Level: 
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            Not Yet Implemented
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="basic-info-row">
+                <section class = "basic-info-group">
+                    <section id = "character-age" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Age:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.age%>
+                        </section>
+                    </section>
+                    <section id = "character-birthday" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Birthday:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.birthDate()%>
+                        </section>
+                    </section>
+                </section>
+                <section class = "basic-info-row-space">
+
+                </section>
+                <section class = "basic-info-group">
+                    <section id = "character-fate-rerolls" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Fate Rerolls:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.fateRerolls.available%>/<%=character.currentInfo.fateRerolls.max%>
+                        </section>
+                    </section>
+                    <section id = "character-mana" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Mana:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.mana.available%>/<%=character.currentInfo.mana.max%>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="basic-info-row">
+                <section class = "basic-info-group">
+                    <section id = "character-profession" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Profession:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.profession%>
+                        </section>
+                    </section>
+                </section>
+                <section class = "basic-info-row-space">
+
+                </section>
+                <section class = "basic-info-group">
+                    <section id = "character-savings" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Savings:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.savings%>
+                        </section>
+                    </section>
+                    <section id = "character-salary" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Salary:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.salary%>
+                        </section>
+                    </section>
+                    <section id = "character-lifestyle" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Lifestyle:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.lifestyleString()%>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="basic-info-row">
+                <section class = "basic-info-group">
+                    <section id = "character-description" class = "character-box">
+                        <section class = "character-box-title character-box-section">
+                            Description:
+                        </section>
+                        <section class ="character-box-content character-box-section">
+                            <%=character.currentInfo.description%>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="basic-info-row">
+                <section id = "character-stats" class = "basic-info-grid">
+                    <section class = "grid-titles">
+                        <section class = "character-box-title character-box-section grid-title">
+                            Stats:
+                        </section>
+                        <section class = "character-box-title character-box-section grid-title">
+                            Base Stat:
+                        </section>
+                        <section class = "character-box-title character-box-section grid-title">
+                            Trait Mods:
+                        </section>
+                        <section class = "character-box-title character-box-section grid-title">
+                            Final Stat:
+                        </section>
+                        <section class = "character-box-title character-box-section grid-title">
+                            Rerolls:
+                        </section>
+                    </section>
+                    <%for(let x=0; x<character.currentInfo.stats.length; x++){%>
+                        <section class = "grid-content-container">
+                            <section class = "character-box-content character-box-section stat-row grid-content">
+                                <%=character.currentInfo.stats[x].name%>
+                            </section>
+                            <section class = "character-box-content character-box-section stat-row grid-content">
+                                <%=character.currentInfo.stats[x].baseValue()%>
+                            </section>
+                            <section class = "character-box-content character-box-section stat-row grid-content">
+                                <%for(let y=0; y<character.currentInfo.allTraits().length; y++){%>
+                                    <%if(character.currentInfo.allTraits()[y].statModifiers[x]>0){%>
+                                        + <%=character.currentInfo.allTraits()[y].statModifiers[x]%>
+                                    <%}%>
+                                <%}%>
+                            </section>
+                            <section class = "character-box-content character-box-section stat-row grid-content highlight">
+                                <%=character.currentInfo.stats[x].totalValueString(character.currentInfo.allTraits())%>
+                            </section>
+                            <section class = "character-box-content character-box-section stat-row grid-content">
+                                <%=character.currentInfo.stats[x].rerolls.available%>/<%=character.currentInfo.stats[x].rerolls.max%>
+                            </section>
+                        </section>
+                    <%}%>
+                </section>
+            </section>
+        </section>  
+    </section>
+    <section id="traits">
+        <%if(character.currentInfo.traits[1].length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section">
+                Special Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<character.currentInfo.traits[1].length; x++){%>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section">
+                        <%=character.currentInfo.traits[1][x].name%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <%=character.currentInfo.traits[1][x].description%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <b>Effect:</b> <%=character.currentInfo.traits[1][x].effect%>
+                    </section>
+                </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(character.currentInfo.traits[2].length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section">
+                Aptitude Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<character.currentInfo.traits[2].length; x++){%>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section">
+                        <%=character.currentInfo.traits[2][x].name%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <%=character.currentInfo.traits[2][x].description%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <b>Effect:</b> <%=character.currentInfo.traits[2][x].effect%>
+                    </section>
+                </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(character.currentInfo.traits[3].length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section">
+                Personality Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<character.currentInfo.traits[3].length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <%=character.currentInfo.traits[3][x].name%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <%=character.currentInfo.traits[3][x].description%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <b>Effect:</b> <%=character.currentInfo.traits[3][x].effect%>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(character.currentInfo.traits[4].length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section">
+                Flavor Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<character.currentInfo.traits[4].length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <%=character.currentInfo.traits[4][x].name%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <%=character.currentInfo.traits[4][x].description%>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+    </section>
+</section>
+<section id = "character-right">
+    <%if(character.currentInfo.traits[0].length){%>
+    <section class = "meta-trait">
+        <section class = "character-big-title character-box-section knowledge-grid-title">
+            Meta Trait
+        </section>
+        <section class = "meta-trait-content">
+            <section class = "character-box-title character-box-section">
+                <%=character.currentInfo.traits[0][0].name%>
+            </section>
+            <section class = "character-box-content character-box-section">
+                <%=character.currentInfo.traits[0][0].description%>
+            </section>
+        </section>
+    </section>
+    <%}%>
+    <section class = "knowledge-box">
+        <section class = "character-big-title character-box-section knowledge-grid-title">
+            Knowledge and Skills
+        </section>
+        <section class = "knowledge-grid">
+            <section class = "knowledge-column title-column">
+                <section class = "title-column-box character-box-title character-box-section general-title-box">
+                    General
+                </section>
+                <section class = "title-column-box character-box-title character-box-section">
+                    Specialized
+                </section>
+                <section class = "title-column-box character-box-title character-box-section">
+                    Highly Specialized
+                </section>
+                <section class = "title-column-box character-box-title character-box-section skill-title-box">
+                    Skills
+                </section>
+                <section class = "title-column-box character-box-title character-box-section">
+                    Specialties
+                </section>
+            </section>
+            <%for(let x=0; x<character.currentInfo.knowledgeTrees.length; x++){%>
+                <section class = "knowledge-column">
+                    <section class = "knowledge-column-general">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].generalKnowledge.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].generalKnowledge[y].info.modifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-box">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].specializedKnowledge.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].info.modifier()%>
+                                </section>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Total Modifier: <%=character.currentInfo.knowledgeTrees[x].specializedKnowledge[y].totalModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-box">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].info.modifier()%>
+                                </section>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Total Modifier: <%=character.currentInfo.knowledgeTrees[x].highlySpecializedKnowledge[y].totalModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-skill">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].skills.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].skills[y].name%>  
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>   
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.modifier()%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.expertModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Expert Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.expertModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.eliteModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Elite Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.eliteModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.masteryModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Mastery Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.masteryModifier()%>
+                                </section>
+                                <%}%>
+                                <%if(character.currentInfo.knowledgeTrees[x].skills[y].info.legendaryModifier()>0){%>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Legendary Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].info.legendaryModifier()%>
+                                </section>
+                                <%}%>
+                                <section class = "character-box-content character-box-section highlight knowledge-content-box">
+                                    Total Modifier: <%=character.currentInfo.knowledgeTrees[x].skills[y].totalSkillModifier()%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                    <section class = "knowledge-column-box">
+                        <%for(let y=0; y<character.currentInfo.knowledgeTrees[x].specialties.length; y++){%>
+                            <section class = "knowledge-content">
+                                <section class = "character-box-title character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].specialties[y].name%>
+                                </section>
+                                <%if(character.currentInfo.knowledgeTrees[x].specialties[y].info.prodigy){%>
+                                    <section class = "character-box-content character-box-section knowledge-content-box">
+                                        <i>Prodigy!</i>
+                                    </section>
+                                <%}%>  
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Rank: <%=character.currentInfo.knowledgeTrees[x].specialties[y].info.rankString()%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    Training Points: <%=character.currentInfo.knowledgeTrees[x].specialties[y].info.trainingPoints%>
+                                </section>
+                                <section class = "character-box-content character-box-section knowledge-content-box">
+                                    <%=character.currentInfo.knowledgeTrees[x].specialties[y].effect%>
+                                </section>
+                            </section>
+                        <%}%>
+                    </section>
+                </section>
+            <%}%>
+        </section>
+    </section>
+</section>

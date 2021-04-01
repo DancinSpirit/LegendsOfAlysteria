@@ -1,5 +1,5 @@
 body {
-  background-color: #d9d2e9;
+  background-color: #efefef;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -8,16 +8,16 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #b6a9d5;
+  background: #d0d0d0;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #7059b3;
-  border: #b6a9d5 solid 1px;
+  background: #808080;
+  border: #d0d0d0 solid 1px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #4e3c83;
+  background: #595959;
 }
 #character-navbar {
   height: 30px;
@@ -28,17 +28,17 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
-  background-color: #674ea7;
+  background-color: #666666;
   height: 30px;
-  border-top: #d9d2e9 solid 4px;
-  border-left: #d9d2e9 solid 3px;
+  border-top: #efefef solid 4px;
+  border-left: #efefef solid 3px;
   color: white;
 }
 .character-nav-button:hover {
   cursor: pointer;
 }
 .character-nav-button-unselected {
-  background-color: #473673;
+  background-color: #404040;
 }
 #character-sheet {
   display: flex;
@@ -46,7 +46,7 @@ body {
   height: calc(100vh - 30px);
   width: 100%;
   font-size: 13px;
-  background: #674ea7;
+  background: #666666;
 }
 #character-left {
   width: 60%;
@@ -97,11 +97,11 @@ body {
   flex-grow: 1;
 }
 .character-box-title {
-  background-color: #b4a7d6;
+  background-color: #cccccc;
   font-weight: bold;
 }
 .character-box-content {
-  background-color: #d9d2e9;
+  background-color: #efefef;
 }
 .character-box-section {
   padding: 4px;
@@ -134,7 +134,7 @@ body {
   flex-grow: 1;
 }
 .character-big-title {
-  background-color: #8e7cc3;
+  background-color: #999999;
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -160,7 +160,7 @@ body {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #d9d2e9;
+  background-color: #efefef;
 }
 .meta-trait-content {
   border-bottom: solid 1px;
@@ -179,7 +179,7 @@ body {
   display: flex;
   flex-direction: row;
   height: calc(100% - 25px);
-  background-color: #d9d2e9;
+  background-color: #efefef;
 }
 .knowledge-grid-title {
   height: 25px;
@@ -254,10 +254,10 @@ body {
   align-items: center;
 }
 .highlight {
-  background-color: #d5a6bd;
+  background-color: #f3f3f3;
 }
 .character-super-title {
-  background-color: #836dbb;
+  background-color: #808080;
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -282,7 +282,7 @@ body {
 }
 .combat-style-box-half {
   width: 50%;
-  background-color: #d9d2e9;
+  background-color: #efefef;
 }
 .combat-row-half {
   width: 50%;

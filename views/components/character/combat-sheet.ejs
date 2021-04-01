@@ -1,0 +1,78 @@
+<%for(let x=0; x<character.currentInfo.combatStyles.length; x++){%>
+<section class = "combat-style">
+    <section class = "character-super-title character-box-section">
+        <%=character.currentInfo.combatStyles[x].name%>
+    </section>
+    <section class = "combat-style-column">
+        <section class = "combat-style-box">
+            <section class = "character-big-title character-box-section">
+                <%=character.currentInfo.combatStyles[x].weaponStyle.name%>
+            </section>
+            <section class = "combat-style-box-content">
+                <section class = "combat-style-box-half">
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-title character-box-section combat-row-half">
+                            Modifier:
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%=character.currentInfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                        </section>
+                    </section>
+                </section>
+                <section class = "combat-style-box-half">
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-title character-box-section combat-row-half">
+                            Rank:
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%=character.currentInfo.combatStyles[x].weaponStyle.info.rankString()%>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class = "combat-style-box">
+            <section class = "character-big-title character-box-section">
+                Fighting Styles
+            </section>
+            <section class = "combat-style-box-content">
+                <section class = "combat-style-box-half">
+                    <%if(character.currentInfo.combatStyles[x].fightingStyles.length){%>
+                            <section class = "character-box-title character-box-section">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].name%>
+                            </section>
+                            <section class = "combat-stlyle-content-row">
+                                <section class = "character-box-title character-box-section combat-row-half">
+                                    Advantage Over:
+                                </section>
+                                <section class = "character-box-content character-box-section combat-row-half">
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].advantageOver.name%>
+                                </section>
+                            </section>
+                    <%}else if(character.currentInfo.combatStyles[x].fightingStyles.length===2){%>
+                        <section class = "combat-style-box-half">
+                            <section class = "character-box-title character-box-section">
+                                Rank:
+                            </section>
+                            <section class = "character-box-content character-box-section">
+                                <%=character.currentInfo.combatStyles[x].weaponStyle.info.rankString()%>
+                            </section>
+                        </section>
+                        <section class = "combat-style-box-half">
+                            <section class = "character-box-title character-box-section">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].name%>
+                            </section>
+                            <section class = "character-box-content character-box-section">
+                                <%=character.currentInfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                            </section>
+                        </section>
+                    <%}%>
+                </section>
+            </section>
+        </section>
+    </section>
+    <section class = "combat-style-column">
+
+    </section>
+</section>
+<%}%>
