@@ -19,10 +19,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #595959;
 }
+#character-page {
+  transform: translateY(-20px);
+}
 #character-navbar {
   height: 30px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
 }
 .character-nav-button {
   padding-left: 10px;
@@ -43,7 +46,7 @@ body {
 #character-sheet {
   display: flex;
   flex-direction: row;
-  height: calc(100vh - 30px);
+  height: calc(100vh - 80px - 10px);
   width: 100%;
   font-size: 13px;
   background: #666666;

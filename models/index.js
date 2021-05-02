@@ -22,21 +22,24 @@ mongoose.connection.on("error", function(err){
 });
 
 module.exports = {
-    Character: require("./Character"),
-    CharacterInfo: require("./CharacterInfo"),
-    Stat: require("./Stat"),
-    Trait: require("./Trait"),
-    Knowledge: require("./Knowledge"),
-    KnowledgeTree: require("./KnowledgeTree"),
-    Stat: require("./Stat"),
-    Trainable: require("./Trainable"),
-    Specialty: require("./Specialty"),
-    CombatStyle: require("./CombatStyle"),
-    FightingStyle: require("./FightingStyle"),
-    Reroll: require("./Reroll"),
-    WeaponType: require("./WeaponType"),
-    Equipment: require("./Equipment"),
-    EquipmentType: require("./EquipmentType"),
-    Armor: require("./EquipmentTypes/Armor"),
-    Weapon: require("./EquipmentTypes/Weapon")
+    /* Character Models */
+    Character: require("./CharacterModels/Character"),
+    CharacterInfo: require("./CharacterModels/CharacterInfo"),
+    Stat: require("./CharacterModels/Stat"),
+    Trait: require("./CharacterModels/Trait"),
+    Knowledge: require("./CharacterModels/Knowledge"),
+    KnowledgeTree: require("./CharacterModels/KnowledgeTree"),
+    Stat: require("./CharacterModels/Stat"),
+    Trainable: require("./CharacterModels/Trainable"),
+    Specialty: require("./CharacterModels/Specialty"),
+    CombatStyle: require("./CharacterModels/CombatStyle"),
+    FightingStyle: require("./CharacterModels/FightingStyle"),
+    Reroll: require("./CharacterModels/Reroll"),
+    WeaponType: require("./CharacterModels/WeaponType"),
+    Equipment: require("./CharacterModels/Equipment"),
+    EquipmentType: require("./CharacterModels/EquipmentType"),
+    Armor: require("./CharacterModels/EquipmentTypes/Armor"),
+    Weapon: require("./CharacterModels/EquipmentTypes/Weapon"),
+    /* User Model */
+    User: require("./User")
 };

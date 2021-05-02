@@ -1,7 +1,10 @@
+/* INSERT CUSTOM COLORS HERE */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: 1000ms;
 }
 
 a {
@@ -13,4 +16,21 @@ html, body {
     height: 100%;
     overflow: hidden;
     font-family: 'Oswald', sans-serif;
+    background-color: rgb(94, 92, 85);
 }
+
+.loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: visible;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@import "nav.less";
+@import "auth.less";

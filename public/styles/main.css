@@ -1,7 +1,9 @@
+/* INSERT CUSTOM COLORS HERE */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: 1000ms;
 }
 a {
   text-decoration: none;
@@ -12,4 +14,173 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: 'Oswald', sans-serif;
+  background-color: #5e5c55;
+}
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+nav {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+}
+#top {
+  height: 50%;
+  display: flex;
+  background: #d8cf9e;
+  box-shadow: 0px 0px 5px 1px black;
+}
+#bottom {
+  height: 50%;
+  display: flex;
+}
+#left {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  font-size: 27px;
+}
+/* This is to hide the shadow from #slide-bar */
+#shadow-hide {
+  position: absolute;
+  background: #d8cf9e;
+  min-width: 277px;
+  width: 41%;
+  height: 40px;
+  z-index: 1;
+}
+#title {
+  padding-left: 10px;
+  font-family: 'Cookie';
+  font-size: 30px;
+}
+#title-form {
+  padding-left: 35px;
+  height: 100%;
+}
+#game-name-input {
+  font-size: 27px;
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Oswald', sans-serif;
+  width: 100%;
+  outline: none;
+}
+#title-form:focus-within {
+  background-color: #01628b;
+}
+#slide-bar {
+  content: "";
+  background-color: #05384e;
+  min-width: 260px;
+  width: 34%;
+  height: 40px;
+  position: absolute;
+  transform: translateX(-150%) skew(-40deg, 0deg);
+  box-shadow: 3px 2px 5px 0px black;
+}
+#nav-buttons {
+  height: 40px;
+  width: 30%;
+  background-color: #05384e;
+  position: absolute;
+  padding-left: 3px;
+  z-index: 1;
+  transform: translateX(-200%);
+}
+.nav-buttons {
+  height: 100%;
+  display: flex;
+  align-content: center;
+}
+#main-buttons {
+  justify-content: flex-end;
+}
+.nav-button {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding-left: 8px;
+  padding-right: 8px;
+  color: white;
+}
+.slide-button:hover {
+  background-color: #0b5d80;
+  transition: 500ms;
+}
+.login-button:hover {
+  background-color: #9c957b;
+  transition: 500ms;
+}
+#right {
+  width: 50%;
+  padding-right: 10px;
+}
+#login-buttons {
+  justify-content: flex-end;
+}
+.center-container {
+  height: calc(100vh - 40px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  /* This is to account for the bottom part of the navbar - Needs to be in the below transitions */
+  transform: translateY(-40px);
+}
+#login {
+  transform: translate(-100%, -40px);
+}
+#register {
+  transform: translateY(calc(100% - 40px));
+}
+/* FORMS */
+.form {
+  background-color: #1E2747;
+  padding: 10px;
+  border: solid 1px;
+  box-shadow: 0px 0px 5px #03A9F4;
+}
+#file-upload-form {
+  padding-left: 50px;
+}
+.form-input {
+  color: #606060;
+  border-color: #03A9F4;
+  border-radius: 4px;
+}
+.form-input:focus {
+  outline-color: #53bde0;
+  color: #53bde0;
+}
+.submit-button {
+  background-color: #03A9F4;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px #03A9F4;
+  color: white;
+  padding: 3px;
+  margin-top: 10px;
+}
+.form-title {
+  text-shadow: 0px 0px 10px #03A9F4;
+}
+.center-form {
+  text-align: center;
+}
+.right-form {
+  text-align: right;
 }

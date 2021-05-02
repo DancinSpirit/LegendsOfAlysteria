@@ -7,6 +7,8 @@ const db = require("./models");
 const ctrl = require("./controllers");
 
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 require("dotenv").config()
 
 const PORT = process.env.PORT;
@@ -31,11 +33,12 @@ app.use(session({
 }));
 
 app.use("/character", ctrl.character);
+app.use("/", ctrl.auth)
 
-app.get("/", async function(req,res){
-    res.render("main",{state: "main"});
-})
+io.on('connection', (socket) => {
+    console.log('User Connected!');
+});
 
-app.listen(PORT, function(){
+http.listen(PORT, function(){
     console.log(`Live at http://localhost:${PORT}/`);
 })

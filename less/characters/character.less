@@ -24,10 +24,14 @@ border: darken(@light,12%) solid 1px;
 background: darken(@darker,25%);
 }
 
+#character-page{
+    transform: translateY(-20px)
+}
+
 #character-navbar{
     height: 30px;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
 }
 
 .character-nav-button{
@@ -52,7 +56,7 @@ background: darken(@darker,25%);
 #character-sheet{
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 30px);
+    height: calc(100vh - 80px - 10px);
     width: 100%;
     font-size: 13px;
     background: @background;
