@@ -1,4 +1,36 @@
 /* INSERT CUSTOM COLORS HERE */
+#light {
+  color: #fae3ca;
+  display: none;
+}
+#dark {
+  color: #f9cb9c;
+  display: none;
+}
+#darker {
+  color: #f6b26b;
+  display: none;
+}
+#highlight {
+  color: #ffe599;
+  display: none;
+}
+#background {
+  color: #e69138;
+  display: none;
+}
+#navbar-select {
+  color: #efb77c;
+  display: none;
+}
+#slidebar-select {
+  color: #da7d1b;
+  display: none;
+}
+#slidebar {
+  color: #ba6b17;
+  display: none;
+}
 * {
   margin: 0;
   padding: 0;
@@ -37,6 +69,10 @@ body {
 }
 #loading {
   display: none;
+}
+#loading-2 {
+  display: none;
+  transform: translateY(-100%);
 }
 nav {
   height: 80px;

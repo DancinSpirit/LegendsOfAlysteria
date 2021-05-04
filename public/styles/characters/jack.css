@@ -21,6 +21,7 @@ body {
 }
 #character-page {
   transform: translateY(100%);
+  z-index: 5;
 }
 #character-navbar {
   height: 30px;

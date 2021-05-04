@@ -1,7 +1,17 @@
+let superState = null;
+let superStateChange = false;
+
 const load = async function(newState){
     console.log(newState);
+    /* SuperState Checks */ 
+    if(!newState.includes("haracter")||newState ==="characters"){   
+        console.log("superstate" + superState)
+        if(superState ==="character" || superState ==="editCharacter")
+            superStateChange = true;
+    }
     await reset();
     if(newState === "character" ){
+        superState = "character"
         await character();
         newState = "characterBasic";
     }
@@ -12,6 +22,7 @@ const load = async function(newState){
             characterCombat();
         }
     if(newState === "editCharacter"){
+        superState = "editCharacter"
         await editCharacter();
         newState = "editCharacterBasic";
     }
@@ -33,7 +44,11 @@ const load = async function(newState){
     state = newState;
 }
 
+/*State Management*/
 load(state);
+window.addEventListener('popstate', (event) => {
+    load(event.state);
+})
 
 
 /* BUTTONS! */

@@ -21,10 +21,31 @@ const reset = function(){
         if(state ==="characters"){
             $("#characters").css("transform", "translateY(-1000%)");
         }
+        if(!superStateChange){
+            console.log("GEGEEG")
         resolve();
+        }else{
+                superState = null;
+                superStateChange = false;
+                $("#character-page").css("transform", "translateY(100%)")
+                $("#loading").css("display","flex");
+                $("#loading-2").css("display","flex");
+                $("#top").css("background-color", $("#background").css("color"))
+                $("#shadow-hide").css("background-color",$("#background").css("color"))
+                $(".login-button").css("color","black")
+                $("#title").css("color","black")
+                $("#slide-bar").css("background-color",$("#slidebar").css("color"))
+                $("#nav-buttons").css("background-color",$("#slidebar").css("color"))
+                $("body").css("background-color",$("#light").css("color"))
+                setTimeout(function(){
+                    $("#character-page").css("display","none");
+                    $("#loading").css("display","none");
+                    $("#loading-2").css("display","none");
+                    resolve();
+                }, 1000)
+        }
     })
 }
-
 /* AUTH STATES */
 const login = function(){
     $.ajax({
@@ -99,12 +120,16 @@ const characters = function(){
         url: `/character/component`,
         success: function(res){
             $("#characters").html(res);
-            $("#characters").css("transform", "translateY(0%)");
+            $("#characters").css("transform", "translateY(-40px)");
+            if(window.location.pathname != "/character")
             window.history.pushState("characters",'',"/character")
             $(".characterLink").on("click", function(){
                 if(gamemaster){
                 window.history.pushState("editCharacter", '', `/character/${$(this).attr('id')}`)
                 load("editCharacter");
+                }else{
+                window.history.pushState("character", '', `/character/${$(this).attr('id')}`)
+                load("character");
                 }
             })
         }
@@ -117,28 +142,26 @@ const character = function(){
         $.ajax({
             method: "GET",
             url: `${window.location.href}/component`,
-            success: function(res){
-                $("#character-page").html(res);
-                $("#character-page").css("transform","translateY(-20px)")
-                $("#character-sheet").html('<div class="loading" >Loading&#8230;</div>');
-                $(".character-nav-button-unselected").on("click", ()=>{
-                    $("#character-sheet").html('<div class="loading">Loading&#8230;</div>');
+            success: function(originalRes){
+                $.ajax({
+                    method: "GET",
+                    url: `${window.location.href}/style`,
+                    success: function(res){
+                        $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                        $("#loading").css("display","flex");
+                        $("#loading-2").css("display","flex");
+                        $("#character-page").css("display","block");
+                        const loadCharacterListener = setInterval(function(){
+                            if($("#css-load-tester").css("color")==="rgb(255, 255, 255)"){
+                                clearInterval(loadCharacterListener);
+                                loadCharacter(originalRes);
+                                $("#loading").css("display","none");
+                                $("#loading-2").css("display","none");
+                                resolve();
+                            }
+                        },50)
+                    }
                 })
-                $("#basic-character-sheet-button").on("click", ()=>{
-                    load("characterBasic");
-                })
-                $("#combat-character-sheet-button").on("click", ()=>{
-                    load("characterCombat");
-                })
-                $("#top").css("background-color",$("#character-sheet").css("background-color"))
-                $("#shadow-hide").css("background-color",$("#character-sheet").css("background-color"))
-                $(".login-button").css("color","white")
-                $("#title").css("color","white")
-                $("#slide-bar").css("background-color",$(".character-nav-button-unselected").css("background-color"))
-                $("#nav-buttons").css("background-color",$(".character-nav-button-unselected").css("background-color"))
-                $("#nav-buttons").css("transform", "translate(0%)");
-                $("#slide-bar").css("transform", "skew(-40deg, 0deg) translateX(0%)");
-                resolve();
             }
         })
     })
@@ -177,11 +200,14 @@ const editCharacter = function(){
                     success: function(res){
                         $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
                         $("#loading").css("display","flex");
+                        $("#loading-2").css("display","flex");
+                        $("#character-page").css("display","block");
                         const loadCharacterListener = setInterval(function(){
                             if($("#css-load-tester").css("color")==="rgb(255, 255, 255)"){
                                 clearInterval(loadCharacterListener);
                                 loadCharacter(originalRes);
                                 $("#loading").css("display","none");
+                                $("#loading-2").css("display","none");
                                 resolve();
                             }
                         },50)
@@ -191,6 +217,17 @@ const editCharacter = function(){
         })
     })
 }
+    const editCharacterBasic = function(){
+        previousRequest = $.ajax({
+            method: "GET",
+            url: `${window.location.href}/component/basic-sheet`,
+            success: function(res){
+                $("#character-sheet").html(res);
+            }
+        })
+        $("#edit-basic-character-sheet-button").removeClass("character-nav-button-unselected");
+    }
+
 const loadCharacter = function(res){
     $("#character-page").html(res);
     $("#character-page").css("transform","translateY(-20px)")
@@ -213,16 +250,4 @@ const loadCharacter = function(res){
     $("#nav-buttons").css("transform", "translate(0%)");
     $("#slide-bar").css("transform", "skew(-40deg, 0deg) translateX(0%)");
 }
-
-    const editCharacterBasic = function(){
-        previousRequest = $.ajax({
-            method: "GET",
-            url: `${window.location.href}/component/basic-sheet`,
-            success: function(res){
-                $("#character-sheet").html(res);
-            }
-        })
-        $("#edit-basic-character-sheet-button").removeClass("character-nav-button-unselected");
-    }
-
 

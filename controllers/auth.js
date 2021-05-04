@@ -25,6 +25,7 @@ router.post("/register", async function(req, res){
     req.body.password = hash;
     req.body.avatar = "/images/avatar_placeholder.png";
     req.body.bio = "This user hasn't written a bio yet!";
+    req.body.gamemaster = false;
     const newUser = await db.User.create(req.body);
     console.log(newUser);
     req.session.currentUser = newUser;

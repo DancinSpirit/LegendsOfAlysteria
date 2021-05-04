@@ -6,6 +6,40 @@
 @highlight: #ffe599;
 @background: #e69138;
 
+#light{
+    color:@light;
+    display: none;
+}
+#dark{
+    color:@dark;
+    display: none;
+}
+#darker{
+    color:@darker;
+    display: none;
+}
+#highlight{
+    color:@highlight;
+    display: none;
+}
+#background{
+    color:@background;
+    display: none;
+}
+#navbar-select{
+    color:lighten(@background,15%);
+    display:none;
+}
+#slidebar-select{
+    color:darken(@background,8%);
+    display:none;
+}
+#slidebar{
+    color:darken(@background,15%);
+    display:none;
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -36,6 +70,7 @@ html, body {
     left: 0;
     bottom: 0;
     right: 0;
+    
 }
 
 .resize-animation-stopper * {
@@ -49,6 +84,11 @@ html, body {
 
 #loading{
     display: none;
+}
+
+#loading-2{
+    display: none;
+    transform: translateY(-100%);
 }
 
 @import "nav.less";
