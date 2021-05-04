@@ -23,12 +23,6 @@ statSchema.methods.diceValue = function diceValue(){
     return total;
 }
 
-const exampleObject = {
-    name: "Hello",
-    numberOne: 1,
-    numberTwo: 2
-}
-
 statSchema.methods.baseValue = function baseValue(){
     let total = this.diceValue();
     let nextStat = total + 1;

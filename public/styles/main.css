@@ -7,14 +7,14 @@
 }
 a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 html,
 body {
   height: 100%;
   overflow: hidden;
   font-family: 'Oswald', sans-serif;
-  background-color: #5e5c55;
+  background-color: #fae3ca;
 }
 .loading {
   position: fixed;
@@ -28,6 +28,16 @@ body {
   bottom: 0;
   right: 0;
 }
+.resize-animation-stopper * {
+  animation: none !important;
+  transition: none !important;
+}
+#css-load-tester {
+  color: black;
+}
+#loading {
+  display: none;
+}
 nav {
   height: 80px;
   display: flex;
@@ -36,7 +46,7 @@ nav {
 #top {
   height: 50%;
   display: flex;
-  background: #d8cf9e;
+  background: #e69138;
   box-shadow: 0px 0px 5px 1px black;
 }
 #bottom {
@@ -52,7 +62,7 @@ nav {
 /* This is to hide the shadow from #slide-bar */
 #shadow-hide {
   position: absolute;
-  background: #d8cf9e;
+  background: #e69138;
   min-width: 277px;
   width: 41%;
   height: 40px;
@@ -63,25 +73,9 @@ nav {
   font-family: 'Cookie';
   font-size: 30px;
 }
-#title-form {
-  padding-left: 35px;
-  height: 100%;
-}
-#game-name-input {
-  font-size: 27px;
-  background: none;
-  border: none;
-  color: white;
-  font-family: 'Oswald', sans-serif;
-  width: 100%;
-  outline: none;
-}
-#title-form:focus-within {
-  background-color: #01628b;
-}
 #slide-bar {
   content: "";
-  background-color: #05384e;
+  background-color: #ba6b17;
   min-width: 260px;
   width: 34%;
   height: 40px;
@@ -92,7 +86,7 @@ nav {
 #nav-buttons {
   height: 40px;
   width: 30%;
-  background-color: #05384e;
+  background-color: #ba6b17;
   position: absolute;
   padding-left: 3px;
   z-index: 1;
@@ -117,11 +111,14 @@ nav {
   color: white;
 }
 .slide-button:hover {
-  background-color: #0b5d80;
+  background-color: #da7d1b;
   transition: 500ms;
 }
+.login-button {
+  color: black;
+}
 .login-button:hover {
-  background-color: #9c957b;
+  background-color: #efb77c;
   transition: 500ms;
 }
 #right {
@@ -149,34 +146,34 @@ nav {
 }
 /* FORMS */
 .form {
-  background-color: #1E2747;
+  background-color: #e69138;
   padding: 10px;
   border: solid 1px;
-  box-shadow: 0px 0px 5px #03A9F4;
+  box-shadow: 0px 0px 5px #f9cb9c;
 }
 #file-upload-form {
   padding-left: 50px;
 }
 .form-input {
-  color: #606060;
-  border-color: #03A9F4;
+  color: black;
+  border-color: #f9cb9c;
   border-radius: 4px;
 }
 .form-input:focus {
-  outline-color: #53bde0;
+  outline-color: #f6b26b;
   color: #53bde0;
 }
 .submit-button {
-  background-color: #03A9F4;
+  background-color: #f9cb9c;
   border: none;
   border-radius: 4px;
-  box-shadow: 0px 0px 10px #03A9F4;
-  color: white;
+  box-shadow: 0px 0px 10px #fae3ca;
+  color: black;
   padding: 3px;
   margin-top: 10px;
 }
 .form-title {
-  text-shadow: 0px 0px 10px #03A9F4;
+  text-shadow: 0px 0px 10px #fae3ca;
 }
 .center-form {
   text-align: center;

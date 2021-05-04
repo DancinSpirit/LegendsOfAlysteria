@@ -113,13 +113,13 @@ trainableSchema.methods.eliteModifier = function eliteModifier(){
     else
     return 0;
 }
-trainableSchema.methods.masteryModifier = function eliteModifier(){
+trainableSchema.methods.masteryModifier = function masteryModifier(){
     if((this.trainingPoints-2100)>0)
     return Math.floor((this.trainingPoints - 2100)/200);
     else
     return 0;
 }
-trainableSchema.methods.legendaryModifier = function eliteModifier(){
+trainableSchema.methods.legendaryModifier = function legendaryModifier(){
     if((this.trainingPoints-5070)>0)
     return Math.floor((this.trainingPoints - 5070)/300);
     else

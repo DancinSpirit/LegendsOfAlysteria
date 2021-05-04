@@ -2,6 +2,17 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
+/* Characters Index */
+router.get("/", async function(req, res){
+    res.render("main",{state: "characters"})
+})
+
+/* Load Characters Component */
+router.get("/component", async function(req,res){
+    const allCharacters = await db.Character.find({}).populate("currentInfo");
+    res.render(`components/characters`, {characters: allCharacters});
+})
+
 /* Character Page */
 router.get("/:id", async function(req,res){
     const foundCharacter = await db.Character.findById(req.params.id).populate("currentInfo");
@@ -12,6 +23,12 @@ router.get("/:id", async function(req,res){
 router.get("/:id/component", async function(req,res){
     const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees combatStyles", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties weaponStyle fightingStyles", populate:{path:"info knowledgeTree advantageOver weakAgainst", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
     res.render(`components/${character(req.session.currentUser.gamemaster)}`, {character: foundCharacter});
+})
+
+/* Load Character Style Component */
+router.get("/:id/style", async function(req,res){
+    const foundCharacter = await db.Character.findById(req.params.id).populate("currentInfo");
+    res.send(foundCharacter.currentInfo.firstName.toLowerCase());
 })
 
 /* Load Basic Sheet Component */

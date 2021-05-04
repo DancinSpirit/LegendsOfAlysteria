@@ -1,4 +1,5 @@
 const load = async function(newState){
+    console.log(newState);
     await reset();
     if(newState === "character" ){
         await character();
@@ -23,12 +24,19 @@ const load = async function(newState){
     if(newState === "register"){
         register();
     }
+    if(newState === "gamemasterHub"){
+        gamemasterHub();
+    }
+    if(newState === "characters"){
+        characters();
+    }
     state = newState;
 }
 
 load(state);
 
 
+/* BUTTONS! */
 $("#login-button").on("click", function(){
     load("login");
 })
@@ -36,38 +44,16 @@ $("#register-button").on("click", function(){
     load("register");
 })
 
-$("#login-form").on("submit", function(e){
-    e.preventDefault();
-    const formData = $(this).serialize();
-    $.ajax({
-        method: "POST",
-        url: "/login",
-        data: formData,
-        success: function (res) {
-          $("#response-message").html(res);
-          if (res === "Login Successful!") {
-            /* Change Page State */
-          } else {
-            /* Error */
-          }
-        }
-      })
+$("#characters-button").on("click", function(){
+    load("characters");
 })
 
-$("#registration-form").submit(function (e) {
-    e.preventDefault();
-    const formData = $(this).serialize();
-    $.ajax({
-      method: "POST",
-      url: "/register",
-      data: formData,
-      success: function (res) {
-        $("#response-message").html(res);
-        if (res === "Registration Successful!") {
-          /* Change Page State */
-        } else {
-          /* Error */
-        }
-      }
-    })
-  })
+/* RESIZE ANIMATION STOPPER */
+let resizeTimer;
+window.addEventListener("resize", () => {
+  document.body.classList.add("resize-animation-stopper");
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    document.body.classList.remove("resize-animation-stopper");
+  }, 400);
+});

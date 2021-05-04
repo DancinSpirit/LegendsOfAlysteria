@@ -32,6 +32,11 @@ app.use(session({
     }  
 }));
 
+app.use(async function(req,res,next){
+    app.locals.user = req.session.currentUser;
+    next();
+}) 
+
 app.use("/character", ctrl.character);
 app.use("/", ctrl.auth)
 

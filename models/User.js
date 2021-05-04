@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema(
     avatar: {type: String},
     firstName: {type: String},
     lastName: {type: String},
-    bio: {type: String}
+    bio: {type: String},
+    gamemaster: {type: Boolean}
   },
   {timestamps: true}
 )

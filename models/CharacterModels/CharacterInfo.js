@@ -21,6 +21,10 @@ const characterInfoSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
+characterInfoSchema.methods.fullName = function fullname(){
+    return this.firstName + " " + this.lastName;
+}
+
 characterInfoSchema.methods.birthDate = function birthDate(){
     let year = Math.floor(this.birthday/365);
     let day = this.birthday%365;

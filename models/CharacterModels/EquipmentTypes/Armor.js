@@ -8,5 +8,4 @@ const armorSchema = EquipmentType.discriminator('Armor', new mongoose.Schema({
     weight: {type: Number},
 }))
 
-
 module.exports = mongoose.model("Armor", armorSchema.scheme);

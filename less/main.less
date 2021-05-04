@@ -1,5 +1,11 @@
 /* INSERT CUSTOM COLORS HERE */
 
+@light: #fae3ca;
+@dark: #f9cb9c;
+@darker: #f6b26b;
+@highlight: #ffe599;
+@background: #e69138;
+
 * {
     margin: 0;
     padding: 0;
@@ -9,14 +15,14 @@
 
 a {
     text-decoration: none;
-    color: white;
+    color: black;
 }
 
 html, body {
     height: 100%;
     overflow: hidden;
     font-family: 'Oswald', sans-serif;
-    background-color: rgb(94, 92, 85);
+    background-color: @light;
 }
 
 .loading {
@@ -30,6 +36,19 @@ html, body {
     left: 0;
     bottom: 0;
     right: 0;
+}
+
+.resize-animation-stopper * {
+    animation: none !important;
+    transition: none !important;
+}
+
+#css-load-tester{
+    color: black;
+}
+
+#loading{
+    display: none;
 }
 
 @import "nav.less";

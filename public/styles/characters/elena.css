@@ -20,7 +20,7 @@ body {
   background: #0b1930;
 }
 #character-page {
-  transform: translateY(-20px);
+  transform: translateY(100%);
 }
 #character-navbar {
   height: 30px;
@@ -293,4 +293,8 @@ body {
 .combat-style-content-row {
   display: flex;
   flex-direction: row;
+}
+/* Tester */
+#css-load-tester {
+  color: white;
 }

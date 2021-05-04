@@ -31,12 +31,16 @@ router.post("/register", async function(req, res){
     return res.send("Registration Successful!");
 })
 
+/* Login */
 router.post("/login", async function(req, res){
     const foundUser = await db.User.findOne({username: req.body.username});
     if(!foundUser) return res.send({displayText: "That username doesn't exist!"})
     const match = await bcrypt.compare(req.body.password, foundUser.password);
     if(!match) return res.send({displayText: "Password Invalid"});
     req.session.currentUser = foundUser;
+    if(foundUser.gamemaster)
+    return res.send("Welcome Gamemaster!");
+    else
     return res.send("Login Successful!");
 })
 
