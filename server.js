@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
-const MongoStore = require('connect-mongo').default;
+const MongoStore = require('connect-mongo');
 const db = require("./models");
 
 const ctrl = require("./controllers");
