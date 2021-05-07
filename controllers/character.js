@@ -7,6 +7,26 @@ router.get("/", async function(req, res){
     res.render("main",{state: "characters"})
 })
 
+/* Create Character */
+router.post("/", async function(req, res){
+    const traitArray = [[],[],[],[],[]]
+    const newCharacterInfo = await db.CharacterInfo.create({firstName: "New", lastName: "Character", traits: traitArray, avatar: "https://pwco.com.sg/wp-content/uploads/2020/05/Generic-Profile-Placeholder-v3-400x400.png"});
+    const newCharacter = await db.Character.create({currentInfo: newCharacterInfo});
+    res.send(newCharacter._id);
+})
+
+/* Edit Character Info*/
+router.put("/:id", async function(req, res){
+    const character = await db.Character.findById(req.params.id);
+    if(req.body.birthday){
+        /* Program Birthday Handler at Later Date */
+    }
+    else{
+    const updatedCharacterInfo = await db.CharacterInfo.findByIdAndUpdate(character.currentInfo._id,req.body);
+    }
+
+})
+
 /* Load Characters Component */
 router.get("/component", async function(req,res){
     const allCharacters = await db.Character.find({}).populate("currentInfo");

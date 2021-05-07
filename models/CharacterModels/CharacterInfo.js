@@ -3,6 +3,7 @@ const characterInfoSchema = new mongoose.Schema(
     {
         firstName: {type: String},
         lastName: {type: String},
+        avatar: {type: String},
         birthday: {type: Number},
         age: {type: Number},
         stressLevel: {type: Number},

@@ -295,6 +295,10 @@ body {
   display: flex;
   flex-direction: row;
 }
+#character-light {
+  color: #d9d2e9;
+  display: none;
+}
 /* Tester */
 #css-load-tester {
   color: white;

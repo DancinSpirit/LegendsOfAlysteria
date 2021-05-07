@@ -22,27 +22,26 @@ const reset = function(){
             $("#characters").css("transform", "translateY(-1000%)");
         }
         if(!superStateChange){
-            console.log("GEGEEG")
-        resolve();
+            resolve();
         }else{
-                superState = null;
-                superStateChange = false;
-                $("#character-page").css("transform", "translateY(100%)")
-                $("#loading").css("display","flex");
-                $("#loading-2").css("display","flex");
-                $("#top").css("background-color", $("#background").css("color"))
-                $("#shadow-hide").css("background-color",$("#background").css("color"))
-                $(".login-button").css("color","black")
-                $("#title").css("color","black")
-                $("#slide-bar").css("background-color",$("#slidebar").css("color"))
-                $("#nav-buttons").css("background-color",$("#slidebar").css("color"))
-                $("body").css("background-color",$("#light").css("color"))
-                setTimeout(function(){
-                    $("#character-page").css("display","none");
-                    $("#loading").css("display","none");
-                    $("#loading-2").css("display","none");
-                    resolve();
-                }, 1000)
+            superState = null;
+            superStateChange = false;
+            $("#character-page").css("transform", "translateY(100%)")
+            $("#loading").css("display","flex");
+            $("#loading-2").css("display","flex");
+            $("#top").css("background-color", $("#background").css("color"))
+            $("#shadow-hide").css("background-color",$("#background").css("color"))
+            $(".login-button").css("color","black")
+            $("#title").css("color","black")
+            $("#slide-bar").css("background-color",$("#slidebar").css("color"))
+            $("#nav-buttons").css("background-color",$("#slidebar").css("color"))
+            $("body").css("background-color",$("#light").css("color"))
+            setTimeout(function(){
+                $("#character-page").css("display","none");
+                $("#loading").css("display","none");
+                $("#loading-2").css("display","none");
+                resolve();
+            }, 1000)
         }
     })
 }
@@ -125,12 +124,27 @@ const characters = function(){
             window.history.pushState("characters",'',"/character")
             $(".characterLink").on("click", function(){
                 if(gamemaster){
-                window.history.pushState("editCharacter", '', `/character/${$(this).attr('id')}`)
-                load("editCharacter");
+                    window.history.pushState("editCharacter", '', `/character/${$(this).attr('id')}`)
+                    load("editCharacter");
                 }else{
-                window.history.pushState("character", '', `/character/${$(this).attr('id')}`)
-                load("character");
+                    window.history.pushState("character", '', `/character/${$(this).attr('id')}`)
+                    load("character");
                 }
+            })
+            $("#create-character").on("click", function(){
+                $.ajax({
+                    method: "POST",
+                    url: "/character",
+                    success: function(res){
+                        if(gamemaster){
+                            window.history.pushState("editCharacter", '', `/character/${res}`)
+                            load("editCharacter");
+                        }else{
+                            window.history.pushState("character", '', `/character/${res}`)
+                            load("character");
+                        }
+                    }
+                })
             })
         }
     })
@@ -157,6 +171,12 @@ const character = function(){
                                 loadCharacter(originalRes);
                                 $("#loading").css("display","none");
                                 $("#loading-2").css("display","none");
+                                $("#character-edit").focusout(function(){
+                                    $.ajax({
+                                        method: "PUT",
+                                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).value()}`
+                                    })
+                                })
                                 resolve();
                             }
                         },50)
@@ -247,6 +267,8 @@ const loadCharacter = function(res){
     $("#title").css("color","white")
     $("#slide-bar").css("background-color",$(".character-nav-button-unselected").css("background-color"))
     $("#nav-buttons").css("background-color",$(".character-nav-button-unselected").css("background-color"))
+    console.log($("#character-light"))
+    $("body").css("background-color",$("#character-light").css("color"))
     $("#nav-buttons").css("transform", "translate(0%)");
     $("#slide-bar").css("transform", "skew(-40deg, 0deg) translateX(0%)");
 }

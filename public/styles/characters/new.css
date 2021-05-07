@@ -1,5 +1,5 @@
 body {
-  background-color: #efefef;
+  background-color: #fae3ca;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -8,16 +8,16 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #d0d0d0;
+  background: #f5c592;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #808080;
-  border: #d0d0d0 solid 1px;
+  background: #f3993b;
+  border: #f5c592 solid 1px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #595959;
+  background: #d5730d;
 }
 #character-page {
   transform: translateY(100%);
@@ -32,17 +32,17 @@ body {
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
-  background-color: #666666;
+  background-color: #e69138;
   height: 30px;
-  border-top: #efefef solid 4px;
-  border-left: #efefef solid 3px;
+  border-top: #fae3ca solid 4px;
+  border-left: #fae3ca solid 3px;
   color: white;
 }
 .character-nav-button:hover {
   cursor: pointer;
 }
 .character-nav-button-unselected {
-  background-color: #404040;
+  background-color: #ba6b17;
 }
 #character-sheet {
   display: flex;
@@ -50,7 +50,7 @@ body {
   height: calc(100vh - 80px - 10px);
   width: 100%;
   font-size: 13px;
-  background: #666666;
+  background: #e69138;
 }
 #character-left {
   width: 60%;
@@ -101,11 +101,11 @@ body {
   flex-grow: 1;
 }
 .character-box-title {
-  background-color: #cccccc;
+  background-color: #f9cb9c;
   font-weight: bold;
 }
 .character-box-content {
-  background-color: #efefef;
+  background-color: #fae3ca;
 }
 .character-box-section {
   padding: 4px;
@@ -138,7 +138,7 @@ body {
   flex-grow: 1;
 }
 .character-big-title {
-  background-color: #999999;
+  background-color: #f6b26b;
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -164,7 +164,7 @@ body {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #efefef;
+  background-color: #fae3ca;
 }
 .meta-trait-content {
   border-bottom: solid 1px;
@@ -183,7 +183,7 @@ body {
   display: flex;
   flex-direction: row;
   height: calc(100% - 25px);
-  background-color: #efefef;
+  background-color: #fae3ca;
 }
 .knowledge-grid-title {
   height: 25px;
@@ -258,10 +258,10 @@ body {
   align-items: center;
 }
 .highlight {
-  background-color: #f3f3f3;
+  background-color: #ffe599;
 }
 .character-super-title {
-  background-color: #808080;
+  background-color: #ecaa65;
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -286,7 +286,7 @@ body {
 }
 .combat-style-box-half {
   width: 50%;
-  background-color: #efefef;
+  background-color: #fae3ca;
 }
 .combat-row-half {
   width: 50%;
@@ -296,7 +296,7 @@ body {
   flex-direction: row;
 }
 #character-light {
-  color: #efefef;
+  color: #fae3ca;
   display: none;
 }
 /* Tester */
