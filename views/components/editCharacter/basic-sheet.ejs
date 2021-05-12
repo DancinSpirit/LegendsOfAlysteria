@@ -2,6 +2,12 @@
     <section id = "basic-info">
         <section id="basic-info-image">
             <img src=<%=character.currentInfo.avatar%> id="character-image">
+            <form id="image-upload-form" class="mt-4" action="/character/image/<%=character.id%>" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input id="file" type="file" name="file" class="form-control-file border"/>
+                </div>
+                <button id="file-submit" type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </section>
         <section id="basic-info-content">
             <section class="basic-info-row">
@@ -48,7 +54,7 @@
                         <section class = "character-box-title character-box-section">
                             Age:
                         </section>
-                        <section class ="character-box-content character-box-section" role="textbox" contenteditable>
+                        <section id="age" class ="character-box-content character-box-section character-edit" role="textbox" contenteditable>
                             <%=character.currentInfo.age%>
                         </section>
                     </section>
@@ -90,7 +96,7 @@
                         <section class = "character-box-title character-box-section">
                             Profession:
                         </section>
-                        <section class ="character-box-content character-box-section" role="textbox" contenteditable>
+                        <section class ="character-box-content character-box-section character-edit" id="profession" role="textbox" contenteditable>
                             <%=character.currentInfo.profession%>
                         </section>
                     </section>
@@ -131,7 +137,7 @@
                         <section class = "character-box-title character-box-section">
                             Description:
                         </section>
-                        <section class ="character-box-content character-box-section" role="textbox" contenteditable>
+                        <section class ="character-box-content character-box-section character-edit" id = "description" role="textbox" contenteditable>
                             <%=character.currentInfo.description%>
                         </section>
                     </section>
@@ -184,7 +190,6 @@
         </section>  
     </section>
     <section id="traits">
-        <%if(character.currentInfo.traits[1].length){%>
         <section class="trait-section">
             <section class = "character-big-title character-box-section">
                 Special Traits
@@ -192,21 +197,23 @@
             <section class = "traits">
                 <%for(let x=0; x<character.currentInfo.traits[1].length; x++){%>
                 <section class = "trait">
-                    <section class = "character-box-title character-box-section">
-                        <%=character.currentInfo.traits[1][x].name%>
+                    <section class = "character-box-title character-box-section character-edit deletable-trait" role="textbox" id="traits|1]|<%=x%>].name" contenteditable><%=character.currentInfo.traits[1][x].name%>
+                        <i id="traits|1]|<%=x%>]" class="fas fa-times-circle clickable"></i>
+                    </section>
+                    <section class = "character-box-content character-box-section character-edit" id="traits|1]|<%=x%>].description" role="textbox" contenteditable><%=character.currentInfo.traits[1][x].description%>
                     </section>
                     <section class = "character-box-content character-box-section">
-                        <%=character.currentInfo.traits[1][x].description%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <b>Effect:</b> <%=character.currentInfo.traits[1][x].effect%>
+                        <b>Effect:</b> <span role="textbox" class = "character-edit" contenteditable id="traits|1]|<%=x%>].effect"><%=character.currentInfo.traits[1][x].effect%></span>
                     </section>
                 </section>
                 <%}%>
+                <section class = "trait">
+                    <section type="1" class = "character-box-title character-box-section clickable add-trait">
+                        Add a New Trait
+                    </section>
+                </section>
             </section>
         </section>
-        <%}%>
-        <%if(character.currentInfo.traits[2].length){%>
         <section class="trait-section">
             <section class = "character-big-title character-box-section">
                 Aptitude Traits
@@ -214,69 +221,75 @@
             <section class = "traits">
                 <%for(let x=0; x<character.currentInfo.traits[2].length; x++){%>
                 <section class = "trait">
-                    <section class = "character-box-title character-box-section">
-                        <%=character.currentInfo.traits[2][x].name%>
+                    <section class = "character-box-title character-box-section character-edit deletable-trait" role="textbox" id="traits|2]|<%=x%>].name" contenteditable><%=character.currentInfo.traits[2][x].name%>
+                        <i id="traits|2]|<%=x%>]" class="fas fa-times-circle clickable"></i>
+                    </section>
+                    <section class = "character-box-content character-box-section character-edit" id="traits|2]|<%=x%>].description" role="textbox" contenteditable><%=character.currentInfo.traits[2][x].description%>
                     </section>
                     <section class = "character-box-content character-box-section">
-                        <%=character.currentInfo.traits[2][x].description%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <b>Effect:</b> <%=character.currentInfo.traits[2][x].effect%>
+                        <b>Effect:</b> <span role="textbox" class = "character-edit" contenteditable id="traits|2]|<%=x%>].effect"><%=character.currentInfo.traits[2][x].effect%></span>
                     </section>
                 </section>
                 <%}%>
+                <section class = "trait">
+                    <section type="2" class = "character-box-title character-box-section clickable add-trait">
+                        Add a New Trait
+                    </section>
+                </section>
             </section>
         </section>
-        <%}%>
-        <%if(character.currentInfo.traits[3].length){%>
         <section class="trait-section">
             <section class = "character-big-title character-box-section">
                 Personality Traits
             </section>
             <section class = "traits">
                 <%for(let x=0; x<character.currentInfo.traits[3].length; x++){%>
-                    <section class = "trait">
-                        <section class = "character-box-title character-box-section">
-                            <%=character.currentInfo.traits[3][x].name%>
-                        </section>
-                        <section class = "character-box-content character-box-section">
-                            <%=character.currentInfo.traits[3][x].description%>
-                        </section>
-                        <section class = "character-box-content character-box-section">
-                            <b>Effect:</b> <%=character.currentInfo.traits[3][x].effect%>
-                        </section>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section character-edit deletable-trait" role="textbox" id="traits|3]|<%=x%>].name" contenteditable><%=character.currentInfo.traits[3][x].name%>
+                        <i id="traits|3]|<%=x%>]"class="fas fa-times-circle clickable"></i>
                     </section>
+                    <section class = "character-box-content character-box-section character-edit" id="traits|3]|<%=x%>].description" role="textbox" contenteditable><%=character.currentInfo.traits[3][x].description%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <b>Effect:</b> <span role="textbox" class = "character-edit" contenteditable id="traits|3]|<%=x%>].effect"><%=character.currentInfo.traits[3][x].effect%></span>
+                    </section>
+                </section>
                 <%}%>
+                <section class = "trait">
+                    <section type="3" class = "character-box-title character-box-section clickable add-trait">
+                        Add a New Trait
+                    </section>
+                </section>
             </section>
         </section>
-        <%}%>
-        <%if(character.currentInfo.traits[4].length){%>
         <section class="trait-section">
             <section class = "character-big-title character-box-section">
                 Flavor Traits
             </section>
             <section class = "traits">
                 <%for(let x=0; x<character.currentInfo.traits[4].length; x++){%>
-                    <section class = "trait">
-                        <section class = "character-box-title character-box-section">
-                            <%=character.currentInfo.traits[4][x].name%>
-                        </section>
-                        <section class = "character-box-content character-box-section">
-                            <%=character.currentInfo.traits[4][x].description%>
-                        </section>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section character-edit deletable-trait" role="textbox" id="traits|4]|<%=x%>].name" contenteditable><%=character.currentInfo.traits[4][x].name%>
+                        <i id="traits|4]|<%=x%>]" class="fas fa-times-circle clickable"></i></section>
+                    <section class = "character-box-content character-box-section character-edit" id="traits|4]|<%=x%>].description" role="textbox" contenteditable><%=character.currentInfo.traits[4][x].description%>
                     </section>
+                </section>
                 <%}%>
+                <section class = "trait">
+                    <section type="4" class = "character-box-title character-box-section clickable add-trait">
+                        Add a New Trait
+                    </section>
+                </section>
             </section>
         </section>
-        <%}%>
     </section>
 </section>
 <section id = "character-right">
-    <%if(character.currentInfo.traits[0].length){%>
     <section class = "meta-trait">
         <section class = "character-big-title character-box-section knowledge-grid-title">
             Meta Trait
         </section>
+        <%if(character.currentInfo.traits[0].length){%>
         <section class = "meta-trait-content">
             <section class = "character-box-title character-box-section">
                 <%=character.currentInfo.traits[0][0].name%>
@@ -285,8 +298,14 @@
                 <%=character.currentInfo.traits[0][0].description%>
             </section>
         </section>
+        <%}else{%>
+        <section class = "meta-trait-content">
+            <section type="0" class = "character-box-title character-box-section clickable add-trait">
+                Add A Meta Trait!
+            </section>
+        </section>
+        <%}%>
     </section>
-    <%}%>
     <section class = "knowledge-box">
         <section class = "character-big-title character-box-section knowledge-grid-title">
             Knowledge and Skills

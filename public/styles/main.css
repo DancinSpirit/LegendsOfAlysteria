@@ -74,6 +74,9 @@ body {
   display: none;
   transform: translateY(-100%);
 }
+.clickable:hover {
+  cursor: pointer;
+}
 nav {
   height: 80px;
   display: flex;

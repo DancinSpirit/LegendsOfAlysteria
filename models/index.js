@@ -41,5 +41,11 @@ module.exports = {
     Armor: require("./CharacterModels/EquipmentTypes/Armor"),
     Weapon: require("./CharacterModels/EquipmentTypes/Weapon"),
     /* User Model */
-    User: require("./User")
+    User: require("./User"),
+    /* Player Model */
+    Player: require("./Player"),
+    /* Story Models */
+    Story: require("./Story"),
+    Season: require("./Season"),
+    Event: require("./Event"),
 };

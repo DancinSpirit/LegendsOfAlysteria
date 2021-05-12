@@ -4,11 +4,10 @@ const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true},
     password: { type: String, required: true},
-    avatar: {type: String},
     firstName: {type: String},
     lastName: {type: String},
-    bio: {type: String},
-    gamemaster: {type: Boolean}
+    gamemaster: {type: Boolean},
+    player: {type: mongoose.Schema.Types.ObjectId, ref: "Player"},
   },
   {timestamps: true}
 )

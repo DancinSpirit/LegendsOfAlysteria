@@ -58,7 +58,6 @@ $("#login-button").on("click", function(){
 $("#register-button").on("click", function(){
     load("register");
 })
-
 $("#characters-button").on("click", function(){
     load("characters");
 })

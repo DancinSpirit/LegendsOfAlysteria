@@ -299,6 +299,13 @@ body {
   color: #efefef;
   display: none;
 }
+#image-upload-form {
+  display: none;
+}
+.deletable-trait {
+  display: flex;
+  justify-content: space-between;
+}
 /* Tester */
 #css-load-tester {
   color: white;

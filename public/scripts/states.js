@@ -171,12 +171,6 @@ const character = function(){
                                 loadCharacter(originalRes);
                                 $("#loading").css("display","none");
                                 $("#loading-2").css("display","none");
-                                $("#character-edit").focusout(function(){
-                                    $.ajax({
-                                        method: "PUT",
-                                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).value()}`
-                                    })
-                                })
                                 resolve();
                             }
                         },50)
@@ -218,7 +212,16 @@ const editCharacter = function(){
                     method: "GET",
                     url: `${window.location.href}/style`,
                     success: function(res){
-                        $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                        $.ajax({
+                            method: "GET",
+                            url: `/styles/characters/${res}.css`,
+                            success: function(){
+                                $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                            },
+                            error: function(){
+                                $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/new.css`))
+                            }
+                        })
                         $("#loading").css("display","flex");
                         $("#loading-2").css("display","flex");
                         $("#character-page").css("display","block");
@@ -243,6 +246,7 @@ const editCharacter = function(){
             url: `${window.location.href}/component/basic-sheet`,
             success: function(res){
                 $("#character-sheet").html(res);
+                loadEditing();
             }
         })
         $("#edit-basic-character-sheet-button").removeClass("character-nav-button-unselected");
@@ -273,3 +277,112 @@ const loadCharacter = function(res){
     $("#slide-bar").css("transform", "skew(-40deg, 0deg) translateX(0%)");
 }
 
+const loadEditing = function(){
+    $(".character-edit").focusout(function(){
+        $.ajax({
+            method: "PUT",
+            url: `${window.location.href}?${$(this).attr("id")}=${$(this).text()}`,
+            success: function(res){
+                console.log("Character updated!")
+            }
+        })
+    })
+    /* Image Upload */
+    $("#character-image").on("click", function() {
+        $("#file").click();
+    })
+    $("#file").change(function () {
+        $("#file-submit").click();
+    })
+    $(".add-trait").on("click", function(){
+        const thisButton = this;
+        $.ajax({
+            method: "POST",
+            url: `${window.location.href}/trait/${$(this).attr("type")}`,
+            success: function(res){
+                console.log("Trait Added!")
+                if($(thisButton).attr("type") == 4){
+                    $(thisButton).before(`<section class="trait"><section class="character-box-title character-box-section character-edit" role="textbox" id="traits|${$(thisButton).attr("type")}]|${res}].name" contenteditable=""></section><section class="character-box-content character-box-section character-edit" id="traits|${$(thisButton).attr("type")}]|${res}].description" role="textbox" contenteditable=""></section></section>`);
+                }else if($(thisButton).attr("type") == 0){
+
+                }else{
+                $(thisButton).before(`<section class="trait"><section class="character-box-title character-box-section character-edit" role="textbox" id="traits|${$(thisButton).attr("type")}]|${res}].name" contenteditable=""></section><section class="character-box-content character-box-section character-edit" id="traits|${$(thisButton).attr("type")}]|${res}].description" role="textbox" contenteditable=""></section><section class="character-box-content character-box-section"><b>Effect:</b> <span role="textbox" class="character-edit" contenteditable="" id="traits|${$(thisButton).attr("type")}]|${res}].effect"></span></section></section>`);
+                }
+                $(".character-edit").off("focusout");
+                $(".character-edit").focusout(function(){
+                    $.ajax({
+                        method: "PUT",
+                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).text()}`,
+                        success: function(res){
+                            console.log("Character updated!")
+                        }
+                    })
+                })
+            }
+        })
+    })
+    
+    const deleteButton = function(button){
+        if(!button.startsWith(".")){
+            button = document.getElementById(button);
+        }
+        $(button).on("click", function(){
+            const id = $(this).attr("id");
+            const $name =  $(document.getElementById(`${id}.name`));
+            const $description = $(document.getElementById(`${id}.description`));
+            const $effect = $(document.getElementById(`${id}.effect`))
+            $name.off("focusout");
+            $description.off("focusout");
+            $effect.off("focusout");
+            const oldName = $name.text();
+            const oldNameHtml = $name.html();
+            const oldDescrip = $description.html();
+            $name.text('Are you sure you want to delete "' + oldName + '"?');
+            $description.html("<button id='yes-button'>YES</button><button id='no-button'>NO</button>");
+            $("#yes-button").on("click", function(){
+                thisButton = this;
+                $.ajax({
+                    method: "DELETE",
+                    url: `${window.location.href}/trait/${id}}`,
+                    success: function(res){
+                        $(thisButton).parent().parent().remove();
+                        /* UPDATE INDEXES! */
+                    } 
+                })
+            })
+            $("#no-button").on("click", function(){
+                $name.html(oldNameHtml);
+                $description.html(oldDescrip);
+                $name.on("focusout", function(){
+                    $.ajax({
+                        method: "PUT",
+                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).text()}`,
+                        success: function(res){
+                            console.log("Character updated!")
+                        }
+                    })
+                });
+                $description.on("focusout", function(){
+                    $.ajax({
+                        method: "PUT",
+                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).text()}`,
+                        success: function(res){
+                            console.log("Character updated!")
+                        }
+                    })
+                });
+                $effect.on("focusout", function(){
+                    $.ajax({
+                        method: "PUT",
+                        url: `${window.location.href}?${$(this).attr("id")}=${$(this).text()}`,
+                        success: function(res){
+                            console.log("Character updated!")
+                        }
+                    })
+                });
+                deleteButton(id);
+            })
+        })
+    }
+    deleteButton(".fa-times-circle");
+}

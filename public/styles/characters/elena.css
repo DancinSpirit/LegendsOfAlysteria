@@ -1,5 +1,5 @@
 body {
-  background-color: #1A65A9;
+  background-color: #3386d3;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -8,16 +8,16 @@ body {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #124574;
+  background: #2467a5;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #19396f;
-  border: #124574 solid 1px;
+  background: #0f3355;
+  border: #2467a5 solid 1px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #0b1930;
+  background: #030c14;
 }
 #character-page {
   transform: translateY(100%);
@@ -34,8 +34,8 @@ body {
   padding-top: 5px;
   background-color: #234E98;
   height: 30px;
-  border-top: #1A65A9 solid 4px;
-  border-left: #1A65A9 solid 3px;
+  border-top: #3386d3 solid 4px;
+  border-left: #3386d3 solid 3px;
   color: white;
 }
 .character-nav-button:hover {
@@ -101,11 +101,11 @@ body {
   flex-grow: 1;
 }
 .character-box-title {
-  background-color: #1A598F;
+  background-color: #1A65A9;
   font-weight: bold;
 }
 .character-box-content {
-  background-color: #1A65A9;
+  background-color: #3386d3;
 }
 .character-box-section {
   padding: 4px;
@@ -138,7 +138,7 @@ body {
   flex-grow: 1;
 }
 .character-big-title {
-  background-color: #234E98;
+  background-color: #164d81;
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -164,7 +164,7 @@ body {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #1A65A9;
+  background-color: #3386d3;
 }
 .meta-trait-content {
   border-bottom: solid 1px;
@@ -183,7 +183,7 @@ body {
   display: flex;
   flex-direction: row;
   height: calc(100% - 25px);
-  background-color: #1A65A9;
+  background-color: #3386d3;
 }
 .knowledge-grid-title {
   height: 25px;
@@ -286,7 +286,7 @@ body {
 }
 .combat-style-box-half {
   width: 50%;
-  background-color: #1A65A9;
+  background-color: #3386d3;
 }
 .combat-row-half {
   width: 50%;
@@ -296,8 +296,15 @@ body {
   flex-direction: row;
 }
 #character-light {
-  color: #1A65A9;
+  color: #3386d3;
   display: none;
+}
+#image-upload-form {
+  display: none;
+}
+.deletable-trait {
+  display: flex;
+  justify-content: space-between;
 }
 /* Tester */
 #css-load-tester {

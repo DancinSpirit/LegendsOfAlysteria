@@ -33,14 +33,29 @@ app.use(session({
 }));
 
 app.use(async function(req,res,next){
+    if(req.session.currentUser){
     app.locals.user = req.session.currentUser;
+    }else{
+    app.locals.user = {};
+    app.locals.user.gamemaster = false;
+    }
     next();
 }) 
 
 app.use("/character", ctrl.character);
+app.use("/story", ctrl.story);
 app.use("/", ctrl.auth)
 
 io.on('connection', (socket) => {
+    socket.on('nextLine', (msg)=>{
+        io.emit('nextLine', msg);
+    })
+    socket.on('edit', (info)=>{
+        io.emit('edit', info);
+    })
+    socket.on('delete', (index)=>{
+        io.emit('delete', index);
+    })
     console.log('User Connected!');
 });
 
