@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Corsiva';
+  src: url(/fonts/Corsiva.ttf);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -47,6 +52,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  transition: 500ms;
 }
 
 .boxtext {
@@ -105,10 +111,6 @@ form {
   color: gray;
 }
 
-.invisible {
-  display: none;
-}
-
 .invisible-2{
   visibility: hidden;
 }
@@ -120,7 +122,7 @@ form {
 }
 
 .eventType{
-  font-family: 'Cookie';
+  font-family: 'Corsiva';
   display: flex;
   justify-content: center;
   font-size: 28px;
@@ -141,6 +143,85 @@ form {
   padding-bottom: 0px;
 }
 
+.turn-title{
+  font-family: 'Corsiva';
+  display: flex;
+  justify-content: center;
+  font-size: 80px;
+  padding: 0px;
+}
+.turn-subtitle{
+  font-family: 'Corsiva';
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+  padding: 0px;
+}
+
+.story-supertitle{
+  font-family: 'Philosopher', sans-serif;
+  display: flex;
+  justify-content: center;
+  font-size: 26px;
+  padding: 5px;
+}
+
+.story-title{
+  font-family: 'Corsiva';
+  display: flex;
+  justify-content: center;
+  font-size: 80px;
+  padding: 0px;
+}
+
+.story-subtitle{
+  font-family: 'Corsiva';
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  padding: 0px;
+}
+
+#left-arrow{
+  position: absolute;
+  left: 0;
+}
+#right-arrow{
+  position: absolute;
+  right: 0;
+}
+
+#left-arrow, #right-arrow{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1vw;
+  cursor: pointer;
+}
+
+.arrow-box{
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  padding: .75vw;
+}
+
+.fa-chevron-left, .fa-chevron-right{
+  color: white;
+  font-size: 30px;
+}
+
+#player-bottom-left, .left{
+  transform: translateX(-100%);
+}
+#player-bottom-right, .right{
+  transform: translateX(100%);
+}
+
+.invisible {
+  display: none;
+}
 
 /* FONT CLASSES */
 .oswald{

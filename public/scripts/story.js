@@ -5,21 +5,88 @@ let song;
 let eventText = [];
 let images = story.images;
 
-$.ajax({
-    method: "GET",
-    url: `/story/${eventId}`,
-    success: function(res){
-        eventText.push("[EMPTYONE]")
-        eventText.push(`[TYPE] ~ ${res.type} ~ `)
-        eventText.push(`[TITLE]${res.title}`);
-        if(res.type==="Alysteria Prologue"){
-            eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
+/* Load New Page */
+$("#left-arrow").on("click", function(){
+    $("#player-bottom-right").empty();
+    $("#player-bottom-right").attr("id","player-bottom-left")
+    $("#player-bottom").attr("id","player-bottom-right");
+    $("#player-bottom-left").attr("id","player-bottom");
+    $("#gamemaster-bottom").empty();
+    index=-1;
+    $.ajax({
+        method: "GET",
+        url: `/story/navigate/${story._id}/${eventId}/${phase}/left/getId`,
+        success: function(res){
+            loadNewPage(res);
         }
-        eventText.push("[EMPTYTWO]");
-        eventText.push(...res.text);
-        nextLine();
-    }
+    })
 })
+/* Load New Page */
+$("#right-arrow").on("click", function(){
+    $("#player-bottom-left").empty();
+    $("#player-bottom-left").attr("id","player-bottom-right")
+    $("#player-bottom").attr("id","player-bottom-left");
+    $("#player-bottom-right").attr("id","player-bottom");
+    $("#gamemaster-bottom").empty();
+    index=-1;
+    $.ajax({
+        method: "GET",
+        url: `/story/navigate/${story._id}/${eventId}/${phase}/right/getId`,
+        success: function(res){
+            loadNewPage(res);
+        }
+    })
+})
+const loadNewPage = function(res){
+    $("#left-arrow").children().removeClass("invisible")
+    eventId = res;
+    console.log(res);
+    if(res.startsWith("[TURN TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.replace("[TURN TITLE]").split("|")[2]}/${res.replace("[Turn Title]").split("|")[1]}/world`)
+        loadTitle(res);
+    }else if(res.startsWith("[STORY TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}`)
+        loadTitle(res);
+    }else{
+        $.ajax({
+            method: "GET",
+            url: `/story/getEvent/${eventId}`,
+            success: function(res){
+                window.history.pushState(res._id,"",`/story/${story.type}/${res.season.year}/${res.season.season}/${res.phase}/${res.type}`)
+            }
+        })
+        loadEvent();
+    }
+}
+
+const loadEvent = function(){
+    $.ajax({
+        method: "GET",
+        url: `/story/getEvent/${eventId}`,
+        success: function(res){
+            $("#player-bottom").empty();
+            eventText = [];
+            eventText.push("[EMPTYONE]")
+            eventText.push(`[TYPE] ~ ${res.type} ~ `)
+            eventText.push(`[TITLE]${res.title}`);
+            if(res.type==="Alysteria Prologue"){
+                eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
+            }
+            eventText.push("[EMPTYTWO]");
+            eventText.push(...res.text);
+            nextLine();
+        }
+    })
+}
+const loadTitle = function(res){
+    if(res.startsWith("[STORY")){
+        $("#left-arrow").children().addClass("invisible")
+    }
+    $("#player-bottom").empty();
+    eventText = [];
+    eventText.push(res)
+    nextLine();
+}
 
 /* Socket Recievers */
 socket.on('nextLine', function (text) {
@@ -204,13 +271,19 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[EMPTYONE]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy' style="transition:500ms"></div>`);
-        $(".big-boy").height(($("#player-box").height()/2) - $(".eventType").height() - $(".title").height() - $(".subtitle").height())
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        setTimeout(function(){
+            $(`#boxtext-${index}`).css("transition","500ms");
+        },500)
+        $(".big-boy").height(($("#player-box").height()/2))
         nextLine();
         return "";
     }
     if(text.startsWith("[EMPTYTWO]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy' style="transition:500ms"></div>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        setTimeout(function(){
+            $(`#boxtext-${index}`).css("transition","500ms");
+        },500)
         $(".big-boy").height(($("#player-box").height()/2) - $(".eventType").height() - $(".title").height() - $(".subtitle").height())
         eventText.splice(0,5);
         index = index - 5;
@@ -236,6 +309,28 @@ const specialCommand = function (text) {
         setTimeout(function(){
             nextLine();
         },500)
+        return "";
+    }
+    /* TURN TITLE */
+    if(text.startsWith("[TURN TITLE]")){
+        $("body").css("background-image", `url(https://i.pinimg.com/originals/ae/7f/fd/ae7ffdcecade2dec146719999f6486d6.jpg)`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height()/2))
+        $("#player-bottom").append(`<p class='boxtext turn-title'>Turn ${text.replace("[TURN TITLE]","").split("|")[0]}</p>`);
+        $("#player-bottom").append(`<p class='boxtext turn-subtitle'>${text.replace("[TURN TITLE]","").split("|")[1].charAt(0).toUpperCase() + text.replace("[TURN TITLE","").split("|")[1].slice(1)} of Year ${text.replace("[TURN TITLE","").split("|")[2]}</p>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height()/2)  - $(".turn-title").height() - $(".turn-subtitle").height())
+        return "";
+    }
+    if(text.startsWith("[STORY TITLE]")){
+        $("body").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height()/2))
+        $("#player-bottom").append(`<p class='boxtext story-supertitle'>Not! Conquering High Fantasy</p>`);
+        $("#player-bottom").append(`<p class='boxtext story-title'>Legends of Alysteria</p>`);
+        $("#player-bottom").append(`<p class='boxtext story-subtitle'>The ${text.replace("[STORY TITLE]","")} Collection</p>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height()/2) - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height())
         return "";
     }
 }
@@ -332,5 +427,28 @@ $("#player-tab").on("click", function () {
     $("#user-input").css("display","none");
 })
 
+window.history.replaceState(eventId,"");
 
+const loadEventId = function(){
+    if(eventId.startsWith("[TURN TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[STORY TITLE]")){
+        loadTitle(eventId);
+    }else{
+        loadEvent();
+    }
+}
 
+loadEventId();
+
+window.addEventListener('popstate', (event) => {
+    index=-1;
+    $("#left-arrow").children().removeClass("invisible")
+    eventId = event.state;
+    console.log(eventId)
+    $("#player-bottom-right").empty();
+    $("#player-bottom").empty()
+    $("#player-bottom-left").empty();
+    $("#gamemaster-bottom").empty();
+    loadEventId();
+})
