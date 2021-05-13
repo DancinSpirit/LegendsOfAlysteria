@@ -21,10 +21,8 @@
 <body>
     <section id="story">
         <section id="tabs">
-            <%if(user.gamemaster){%>
-                <button class="tab" id="player-tab">Player View</button>
-                <button class="tab unselected" id="gamemaster-tab">Gamemaster View</button> 
-            <%}%>
+                <button class="tab <%if(!user.gamemaster){%>invisible-2<%}%>" id="player-tab">Player View</button>
+                <button class="tab unselected <%if(!user.gamemaster){%>invisible-2<%}%>" id="gamemaster-tab">Gamemaster View</button> 
         </section>
         <section class="textbox" id="player-box">
             <section class="bottom" id="player-bottom">

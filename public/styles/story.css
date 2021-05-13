@@ -109,6 +109,10 @@ form {
   display: none;
 }
 
+.invisible-2{
+  visibility: hidden;
+}
+
 .other{
   text-shadow: 1px 1px 5px #7965a7, 5px 5px 1px#2b0c6e;
   color: black;
