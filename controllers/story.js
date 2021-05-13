@@ -21,7 +21,14 @@ router.get("/:eventId", async function(req, res){
     const event = await db.Event.findById(req.params.eventId);
     res.send(event)
 })
-
+/* Delete Story */
+router.delete("/:eventId/delete/:index/", async function(req,res){
+    let event = await db.Event.findById(req.params.eventId);
+    array = event.text;
+    console.log(array.splice(req.params.index, 1));
+    await db.Event.findByIdAndUpdate(req.params.eventId, {text: array});
+    res.send("Deleted");
+})
 /* Add Story */
 router.post("/:eventId/:form", async function(req,res){
     let sentText = req.params.form.replace(/PERCENT-SIGN/g, '%');
@@ -40,13 +47,5 @@ router.post("/:eventId/:index/:form", async function(req,res){
     res.send(sentText);
 })
 
-/* Delete Story */
-router.post("/:eventId/delete/:index/", async function(req,res){
-    let event = await db.Event.findById(req.params.eventId);
-    array = event.text;
-    array.splice(req.params.index, 1);
-    await db.Event.findByIdAndUpdate(req.params.eventId, {story: array});
-    res.send("Deleted");
-})
 
 module.exports = router;

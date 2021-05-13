@@ -64,8 +64,8 @@ socket.on('delete', function (sentIndex) {
                 })
             else {
                 $.ajax({
-                    method: "POST",
-                    url: `/${eventId}/delete/${newIndex}`,
+                    method: "DELETE",
+                    url: `/story/${eventId}/delete/${newIndex}`,
                     success: function (res) {
                         socket.emit('delete', newIndex);
                     }
@@ -122,8 +122,8 @@ const appendGamemasterText = function (text) {
             })
         else {
             $.ajax({
-                method: "POST",
-                url: `/${eventId}/delete/${sentIndex}`,
+                method: "DELETE",
+                url: `/story/${eventId}/delete/${sentIndex}`,
                 success: function (res) {
                     socket.emit('delete', sentIndex);
                 }
@@ -204,16 +204,16 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[EMPTYONE]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy' style="transition:500ms"></div>`);
         $(".big-boy").height(($("#player-box").height()/2) - $(".eventType").height() - $(".title").height() - $(".subtitle").height())
         nextLine();
         return "";
     }
     if(text.startsWith("[EMPTYTWO]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy empty-two' style="transition:500ms"></div>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy' style="transition:500ms"></div>`);
         $(".big-boy").height(($("#player-box").height()/2) - $(".eventType").height() - $(".title").height() - $(".subtitle").height())
-        eventText.splice(0,4);
-        index = index - 4;
+        eventText.splice(0,5);
+        index = index - 5;
         nextLine();
         return "";
     }
@@ -232,7 +232,7 @@ const specialCommand = function (text) {
     }
     if(text.startsWith("[START]")){
         appendGamemasterText(text);
-        $(".empty-two").css("height", "0px")
+        $(".big-boy").css("height", "0px")
         setTimeout(function(){
             nextLine();
         },500)
