@@ -45,10 +45,10 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 res.send(`[STORY TITLE]${story.type}`);
             }else{
                 for(let x=0; x<season[req.params.phase].length; x++){
-                    if(season[req.params.phase][x]==event._id){
+                    if(`${season[req.params.phase][x]}`==event._id){
                         if(x!=0){
                             newEvent = season[req.params.phase][x-1];
-                            break;
+                            res.send(newEvent);
                         }
                     }
                 }
@@ -65,11 +65,12 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 newEvent = season.worldPhase[0];
                 res.send(newEvent);
             }else{
+                console.log(season);
                 for(let x=0; x<season[req.params.phase].length; x++){
-                    if(season[req.params.phase][x]==event._id){
+                    if(`${season[req.params.phase][x]}`==event._id){
                         if(season[req.params.phase].length-1 != x){
                             newEvent = season[req.params.phase][x+1];
-                            break;
+                            res.send(newEvent);
                         }
                     }
                 }

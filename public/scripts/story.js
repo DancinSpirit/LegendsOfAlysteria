@@ -62,6 +62,7 @@ const loadNewPage = function(res){
     $(".textbox").scrollTop(0);
     $("#player-bottom-right").empty();
     $("#player-bottom-left").empty();
+    phase = window.location.pathname.split("/")[5] + "Phase"
 }
 
 const loadEvent = function(){
@@ -76,6 +77,9 @@ const loadEvent = function(){
             eventText.push(`[TITLE]${res.title}`);
             if(res.type==="Alysteria Prologue"){
                 eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
+            }
+            if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
+                eventText.push("[SUBTITLE]Setting Information")
             }
             eventText.push("[EMPTYTWO]");
             eventText.push(...res.text);
