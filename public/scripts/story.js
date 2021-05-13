@@ -7,6 +7,7 @@ let images = story.images;
 
 /* Load New Page */
 $("#left-arrow").on("click", function(){
+    $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("#player-bottom-right").attr("id","player-bottom-left")
     $("#player-bottom").attr("id","player-bottom-right");
@@ -24,6 +25,7 @@ $("#left-arrow").on("click", function(){
 /* Load New Page */
 $("#right-arrow").on("click", function(){
     $("#player-bottom-left").empty();
+    $("#player-bottom-right").empty();
     $("#player-bottom-left").attr("id","player-bottom-right")
     $("#player-bottom").attr("id","player-bottom-left");
     $("#player-bottom-right").attr("id","player-bottom");
@@ -57,6 +59,9 @@ const loadNewPage = function(res){
         })
         loadEvent();
     }
+    $(".textbox").scrollTop(0);
+    $("#player-bottom-right").empty();
+    $("#player-bottom-left").empty();
 }
 
 const loadEvent = function(){
