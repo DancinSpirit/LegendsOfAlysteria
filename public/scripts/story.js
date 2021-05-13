@@ -2,6 +2,7 @@ const socket = io();
 let listenerAdded = false;
 let index = -1;
 let song;
+let soundEffect;
 let eventText = [];
 let images = story.images;
 
@@ -80,6 +81,9 @@ const loadEvent = function(){
             }
             if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
                 eventText.push("[SUBTITLE]Setting Information")
+            }
+            if(res.type==="Arland Prologue"){
+                eventText.push("[SUBTITLE]Arland Prologue - Part 1")
             }
             eventText.push("[EMPTYTWO]");
             eventText.push(...res.text);
@@ -217,19 +221,49 @@ const appendGamemasterText = function (text) {
 }
 
 const specialCommand = function (text) {
+    if(text.startsWith("[SOUND EFFECT]")){
+        soundEffect = document.getElementById(text.replace('[SOUND EFFECT]',''));
+        if(soundEffect){
+            $(soundEffect).removeAttr("loop");
+            soundEffect.volume = 1;
+            soundEffect.play();
+        }
+        else{
+            console.log("INVALID AUDIO FILE")
+        }
+        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext invisible'>${text}</p>`);
+        appendGamemasterText(text);
+        nextLine();
+        return "";
+    }
     if (text.startsWith("[MUSIC]")) {
         if(song){
-            song.pause();
+            $(song).animate({volume: 0}, 300);
+            setTimeout(function(){
+                song.pause();
+            },300)
         }
         song = document.getElementById(text.replace('[MUSIC]', ""));
         if(song){
-        song.volume = 0.2;
-        song.play();
+            setTimeout(function(){
+                song.volume = 0.2;
+                song.play();
+            },300)
         }else{
             console.log("Not a valid audio file!")
         }
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext invisible'>${text}</p>`);
         appendGamemasterText(text);
+        nextLine();
+        return "";
+    }
+    if(text.startsWith("[MUSIC STOP]")){
+        if(song){
+            $(song).animate({volume: 0}, 300);
+            setTimeout(function(){
+                song.pause();
+            },300)
+        }
         nextLine();
         return "";
     }
