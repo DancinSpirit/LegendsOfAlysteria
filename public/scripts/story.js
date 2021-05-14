@@ -76,7 +76,10 @@ const loadNewPage = function(res){
     $("#player-bottom-left").empty();
     console.log("WHY?????")
     setTimeout(function(){
+        if(phase="world")
         phase = window.location.pathname.split("/")[5] + "Phase";
+        else
+        phase = window.location.pathname.split("/")[5];
         console.log(phase);
     },250)
 }
