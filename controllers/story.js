@@ -18,8 +18,13 @@ router.get("/:storyCollection/:year/:season/:phaseType/:eventType", async functi
 /* Story Page */
 router.get("/:storyCollection/:year/:season/:phaseType", async function(req, res){
     const story = await db.Story.findOne({type: req.params.storyCollection});
+    if(req.params.phaseType=="world"){
     const season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season}).populate(`${req.params.phaseType}Phase`);
     res.render("story", {story: story, eventId: `[TURN TITLE]${season.turn}|${season.season}|${season.year}`, phase:`${req.params.phaseType}Phase`}) 
+    }else{
+    const season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season})
+    res.render("story", {story: story, eventId: `[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}`, phase: req.params.phaseType})
+    }
 })
 /* Story Page */
 router.get("/:storyCollection", async function(req, res){
@@ -43,6 +48,19 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
         if(req.params.direction=="left"){
             if(req.params.eventId.startsWith("[TURN TITLE]")){
                 res.send(`[STORY TITLE]${story.type}`);
+            }else if(req.params.eventId.startsWith("[AREA TITLE]")){
+                season = await db.Season.findOne({year:req.params.eventId.split("]")[1].split("|")[1],season:req.params.eventId.split("]")[1].split("|")[2]})
+                for(let x=0; x<season.duchyPhase.length; x++){
+                    if(season.duchyPhase[x].name == req.params.eventId.replace("[AREA TITLE]","").split("|")[0]){
+                        if(x!=0){
+                            newEvent = season.duchyPhase[x-1];
+                            res.send(newEvent);
+                        }else{
+                            newEvent = season.worldPhase[season.worldPhase.length-1];
+                            res.send(newEvent);
+                        }
+                    }
+                }
             }else{
                 for(let x=0; x<season[req.params.phase].length; x++){
                     if(`${season[req.params.phase][x]}`==event._id){
@@ -66,6 +84,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 res.send(newEvent);
             }else{
                 console.log(season);
+                console.log("PHASE:"+ req.params.phase)
                 for(let x=0; x<season[req.params.phase].length; x++){
                     if(`${season[req.params.phase][x]}`==event._id){
                         if(season[req.params.phase].length-1 != x){
@@ -76,7 +95,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 }
                 if(!newEvent){
                     if(req.params.phase=="worldPhase"){
-                        res.send(`[TURN TITLE]${season.turn}|${season.season}|${season.year}`);
+                        res.send(`[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}`);
                     }
                 }
             }

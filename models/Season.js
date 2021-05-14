@@ -7,8 +7,7 @@ const seasonSchema = new mongoose.Schema(
     season: {type: String},
     story: {type: mongoose.Schema.Types.ObjectId, ref: "Story"},
     worldPhase: [{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
-    kingdomPhase: [{type: mongoose.Schema.Types.ObjectId, ref: "Event"}],
-    rulerPhases: [[{type: mongoose.Schema.Types.ObjectId, ref: "Event"}]],
+    duchyPhase: [{name: {type: String}, rulerPhases: [{name: {type: String}, events:[{type: mongoose.Schema.Types.ObjectId, ref: "Event"}]}]}],
 
   },
   {timestamps: true}

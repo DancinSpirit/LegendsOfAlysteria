@@ -10,6 +10,10 @@ let images = story.images;
 $("#left-arrow").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
+    $("body").css("pointer-events","none");
+    setTimeout(function(){
+        $("body").css("pointer-events","auto");
+    },500)
     $("#player-bottom-right").attr("id","player-bottom-left")
     $("#player-bottom").attr("id","player-bottom-right");
     $("#player-bottom-left").attr("id","player-bottom");
@@ -27,6 +31,10 @@ $("#left-arrow").on("click", function(){
 $("#right-arrow").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
+    $("body").css("pointer-events","none");
+    setTimeout(function(){
+        $("body").css("pointer-events","auto");
+    },500)
     $("#player-bottom-left").attr("id","player-bottom-right")
     $("#player-bottom").attr("id","player-bottom-left");
     $("#player-bottom-right").attr("id","player-bottom");
@@ -50,6 +58,9 @@ const loadNewPage = function(res){
     }else if(res.startsWith("[STORY TITLE]")){
         window.history.pushState(res,"",`/story/${story.type}`)
         loadTitle(res);
+    }else if(res.startsWith("[AREA TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[1]}/${res.split("|")[2]}/${res.split("|")[0].replace("[AREA TITLE]","")}`)
+        loadTitle(res);
     }else{
         $.ajax({
             method: "GET",
@@ -63,7 +74,11 @@ const loadNewPage = function(res){
     $(".textbox").scrollTop(0);
     $("#player-bottom-right").empty();
     $("#player-bottom-left").empty();
-    phase = window.location.pathname.split("/")[5] + "Phase"
+    console.log("WHY?????")
+    setTimeout(function(){
+        phase = window.location.pathname.split("/")[5] + "Phase";
+        console.log(phase);
+    },250)
 }
 
 const loadEvent = function(){
@@ -241,17 +256,17 @@ const specialCommand = function (text) {
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
                 song.pause();
-            },300)
+            },320)
         }
-        song = document.getElementById(text.replace('[MUSIC]', ""));
-        if(song){
-            setTimeout(function(){
-                song.volume = 0.2;
-                song.play();
-            },300)
-        }else{
-            console.log("Not a valid audio file!")
-        }
+        setTimeout(function(){
+            song = document.getElementById(text.replace('[MUSIC]', ""));
+            if(song){
+                    song.volume = 0.2;
+                    song.play();
+            }else{
+                console.log("Not a valid audio file!")
+            }
+        },340)
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext invisible'>${text}</p>`);
         appendGamemasterText(text);
         nextLine();
@@ -376,6 +391,10 @@ const specialCommand = function (text) {
         $(".big-boy").height(($("#player-box").height()/2) - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height())
         return "";
     }
+    if(text.startsWith("[AREA TITLE]")){
+        console.log("WORKS");
+        return "";
+    }
 }
 
 const addText = function () {
@@ -476,6 +495,8 @@ const loadEventId = function(){
     if(eventId.startsWith("[TURN TITLE]")){
         loadTitle(eventId);
     }else if(eventId.startsWith("[STORY TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[AREA TITLE]")){
         loadTitle(eventId);
     }else{
         loadEvent();
