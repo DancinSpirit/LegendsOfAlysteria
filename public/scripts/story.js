@@ -5,9 +5,11 @@ let song;
 let soundEffect;
 let eventText = [];
 let images = story.images;
+$("#cutaway-image").fadeOut()
+$("#cutaway-subtitle").fadeOut();
 
 /* Load New Page */
-$("#left-arrow").on("click", function(){
+$("#left-arrow-box").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
@@ -28,7 +30,7 @@ $("#left-arrow").on("click", function(){
     })
 })
 /* Load New Page */
-$("#right-arrow").on("click", function(){
+$("#right-arrow-box").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
@@ -264,7 +266,7 @@ const specialCommand = function (text) {
         setTimeout(function(){
             song = document.getElementById(text.replace('[MUSIC]', ""));
             if(song){
-                    song.volume = 0.2;
+                    song.volume = 0.1;
                     song.play();
             }else{
                 console.log("Not a valid audio file!")
@@ -293,7 +295,7 @@ const specialCommand = function (text) {
                 break;
             }
         }
-        $("body").css("background-image", `url('${url}')`);
+        loadImage(url);
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext invisible'>${text}</p>`);
         appendGamemasterText(text);
         nextLine();
@@ -358,8 +360,12 @@ const specialCommand = function (text) {
                 url = images[x].url;
                 break;
             }
+            if (images[x].name === text.replace('[STARTING IMAGE][TOP]', "")) {
+                url = "[TOP]" + images[x].url;
+                break;
+            }
         }
-        $("body").css("background-image", `url('${url}')`);
+        loadImage(url);
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext invisible'>${text}</p>`);
         appendGamemasterText(text);
         return "";
@@ -398,6 +404,42 @@ const specialCommand = function (text) {
         console.log("WORKS");
         return "";
     }
+    if(text.startsWith("[CUTAWAY IMAGE]")){
+        appendGamemasterText(text);
+        $("#cutaway-subtitle").css("display","block")
+        $("#cutaway-image").css("background-image", `url(${text.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
+        $("#cutaway-image").css("background-repeat", `no-repeat`)
+        $("#cutaway-image").css("background-size", `contain`)
+        $("#cutaway-image").css("background-position", `center`)
+        $("#cutaway-image").fadeIn();
+        $("#cutaway-subtitle").html(text.split("|")[1])
+        $("#cutaway-subtitle").fadeIn();
+        $("#cutaway-image-container").css("display","flex");
+        $("#cutaway-image-container").on("click", function(){
+            nextLine();
+        })
+        return "";
+    }
+    if(text.startsWith("[RETURN FROM IMAGE]")){
+        appendGamemasterText(text);
+        $("#cutaway-image").fadeOut();
+        $("#cutaway-subtitle").fadeOut();
+        setTimeout(function(){
+            $("#cutaway-image-container").css("display","none");
+            $("#cutaway-subtitle").css("display","none");
+        },500)
+        return "";
+    }
+}
+
+const loadImage = function(url){
+    if(url.startsWith("[TOP]")){
+        $("body").css("background-position", "top");
+        url = url.replace("[TOP]","");
+    }else{
+        $("body").css("background-position", "center center");
+    }
+    $("body").css("background-image", `url('${url}')`);
 }
 
 const addText = function () {

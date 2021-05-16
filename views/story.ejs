@@ -22,10 +22,10 @@
 
 <body>
     <section id="left-arrow">
-        <section class="arrow-box"><i class="fas fa-chevron-left"></i></section>
+        <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
     </section>
     <section id="right-arrow">
-        <section class="arrow-box"><i class="fas fa-chevron-right"></i></section>
+        <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
     </section>
     <section id="story">
         <section id="tabs">
@@ -45,6 +45,14 @@
             </section>
         </section>
     </section>  
+    <section id="cutaway-image-container">
+        <section id="cutaway-image">
+
+        </section>
+    </section>
+    <section id="cutaway-subtitle">
+
+    </section>
     <%for(let x=0; x<story.songs.length; x++){%>
     <audio id='<%=story.songs[x].name%>' loop>
         <source src='<%=story.songs[x].url%>'>
