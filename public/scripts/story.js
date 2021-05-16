@@ -13,9 +13,6 @@ $("#left-arrow-box").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
-    setTimeout(function(){
-        $("body").css("pointer-events","auto");
-    },500)
     $("#player-bottom-right").attr("id","player-bottom-left")
     $("#player-bottom").attr("id","player-bottom-right");
     $("#player-bottom-left").attr("id","player-bottom");
@@ -34,14 +31,12 @@ $("#right-arrow-box").on("click", function(){
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
-    setTimeout(function(){
-        $("body").css("pointer-events","auto");
-    },500)
     $("#player-bottom-left").attr("id","player-bottom-right")
     $("#player-bottom").attr("id","player-bottom-left");
     $("#player-bottom-right").attr("id","player-bottom");
     $("#gamemaster-bottom").empty();
     index=-1;
+    console.log("URL: " + `/story/navigate/${story._id}/${eventId}/${phase}/right/getId`)
     $.ajax({
         method: "GET",
         url: `/story/navigate/${story._id}/${eventId}/${phase}/right/getId`,
@@ -76,14 +71,13 @@ const loadNewPage = function(res){
     $(".textbox").scrollTop(0);
     $("#player-bottom-right").empty();
     $("#player-bottom-left").empty();
-    console.log("WHY?????")
     setTimeout(function(){
+        phase = window.location.pathname.split("/")[5];
         if(phase="world")
         phase = window.location.pathname.split("/")[5] + "Phase";
-        else
-        phase = window.location.pathname.split("/")[5];
+        $("body").css("pointer-events","auto");
         console.log(phase);
-    },250)
+    },500)
 }
 
 const loadEvent = function(){
@@ -114,6 +108,9 @@ const loadEvent = function(){
 const loadTitle = function(res){
     if(res.startsWith("[STORY")){
         $("#left-arrow").children().addClass("invisible")
+    }
+    if(res.startsWith("[AREA")){
+        eventId = eventId.replace(eventId.split("|")[3],"");
     }
     $("#player-bottom").empty();
     eventText = [];
@@ -386,7 +383,7 @@ const specialCommand = function (text) {
         $("#player-bottom").append(`<p class='boxtext turn-title'>Turn ${text.replace("[TURN TITLE]","").split("|")[0]}</p>`);
         $("#player-bottom").append(`<p class='boxtext turn-subtitle'>${text.replace("[TURN TITLE]","").split("|")[1].charAt(0).toUpperCase() + text.replace("[TURN TITLE","").split("|")[1].slice(1)} of Year ${text.replace("[TURN TITLE","").split("|")[2]}</p>`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
-        $(".big-boy").height(($("#player-box").height()/2)  - $(".turn-title").height() - $(".turn-subtitle").height())
+        $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - 40)/2)
         return "";
     }
     if(text.startsWith("[STORY TITLE]")){
@@ -397,11 +394,30 @@ const specialCommand = function (text) {
         $("#player-bottom").append(`<p class='boxtext story-title'>Legends of Alysteria</p>`);
         $("#player-bottom").append(`<p class='boxtext story-subtitle'>The ${text.replace("[STORY TITLE]","")} Collection</p>`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
-        $(".big-boy").height(($("#player-box").height()/2) - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height())
+        $(".big-boy").height(($("#player-box").height() - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height() -60)/2)
         return "";
     }
     if(text.startsWith("[AREA TITLE]")){
-        console.log("WORKS");
+        $("body").css("background-image", `url(https://i.pinimg.com/originals/ae/7f/fd/ae7ffdcecade2dec146719999f6486d6.jpg)`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<section id="title-image"></section>`);
+        $("#title-image").css("background-image", `url(${text.split("|")[3]})`)
+        $("#title-image").css("background-repeat", `no-repeat`)
+        $("#title-image").css("background-size", `contain`)
+        $("#title-image").css("background-position", `center`)
+        $("#player-bottom").append(`<p class='boxtext turn-title'>${text.replace("[AREA TITLE]","").split("|")[0]}</p>`);
+        $("#player-bottom").append(`<p class='boxtext turn-subtitle'>${text.split("|")[2].charAt(0).toUpperCase() + text.split("|")[2].slice(1)} of Year ${text.split("|")[1]}</p>`);
+        $("#player-bottom").append(`<p class='boxtext turn-players'></p>`);
+        $(".turn-players").append('<div id="turn-players-title">Players</div>');
+        $(".turn-players").append('<div id="turn-players-list"></div>');
+        for(let x=0; x<text.split("|")[4].split("+").length; x++){
+            $("#turn-players-list").append(`<span class="turn-player">${text.split("|")[4].split("+")[x]}</span>`)
+        }
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        console.log($("#turn-players-title").height())
+        console.log($("#turn-players-list").height())
+        console.log($(".turn-players").height());
+        $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - $("#title-image").height() - $(".turn-players").height() - 100 - $("#turn-players-list").height())/2)
         return "";
     }
     if(text.startsWith("[CUTAWAY IMAGE]")){

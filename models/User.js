@@ -7,10 +7,14 @@ const userSchema = new mongoose.Schema(
     firstName: {type: String},
     lastName: {type: String},
     gamemaster: {type: Boolean},
-    player: {type: mongoose.Schema.Types.ObjectId, ref: "Player"},
+    playerChararcters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
   },
   {timestamps: true}
 )
+
+userSchema.methods.fullName = function fullname(){
+  return this.firstName + " " + this.lastName;
+}
 
 const User = mongoose.model("User", userSchema);
 
