@@ -394,7 +394,7 @@ const specialCommand = function (text) {
     }
     /* TURN TITLE */
     if(text.startsWith("[TURN TITLE]")){
-        $("body").css("background-image", `url(https://i.pinimg.com/originals/ae/7f/fd/ae7ffdcecade2dec146719999f6486d6.jpg)`);
+        $("body").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext turn-title'>Turn ${text.replace("[TURN TITLE]","").split("|")[0]}</p>`);
@@ -415,7 +415,7 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[AREA TITLE]")){
-        $("body").css("background-image", `url(https://i.pinimg.com/originals/ae/7f/fd/ae7ffdcecade2dec146719999f6486d6.jpg)`);
+        $("body").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $("#player-bottom").append(`<section id="title-image"></section>`);
         $("#title-image").css("background-image", `url(${text.split("|")[3]})`)
