@@ -6,7 +6,9 @@ const s3 = require("../s3.js");
 /* Story Page */
 router.get("/:storyCollection/:year/:season/:phaseType/:eventType", async function(req, res){
     const story = await db.Story.findOne({type: req.params.storyCollection});
-    const season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season}).populate(`${req.params.phaseType}Phase`);
+    let season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season})
+    if(req.params.phaseType=="world"){
+    season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season}).populate(`${req.params.phaseType}Phase`);
     let foundEvent;
     for(let event of season[`${req.params.phaseType}Phase`]){
         if(event.type==req.params.eventType){
@@ -14,6 +16,10 @@ router.get("/:storyCollection/:year/:season/:phaseType/:eventType", async functi
         }
     }
     res.render("story", {story: story, eventId: foundEvent._id, phase:`${req.params.phaseType}Phase`}) 
+    }else{
+        foundEvent = await db.Event.findOne({type: req.params.eventType,season: season._id})
+    }
+    res.render("story", {story: story, eventId: foundEvent._id, phase:`${req.params.phaseType}`}) 
 })
 /* Story Page */
 router.get("/:storyCollection/:year/:season/:phaseType", async function(req, res){
@@ -25,15 +31,43 @@ router.get("/:storyCollection/:year/:season/:phaseType", async function(req, res
     const season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season})
     let playerCharacter;
     let playerString;
+    let characterString;
     for(let x=0; x<season.duchyPhase[0].rulerPhases.length; x++){
-        playerCharacter = await db.Player.findById(season.duchyPhase[0].rulerPhases[x].playerCharacter).populate("user");
-        if(playerString)
-        playerString += "+" + playerCharacter.user.fullName();
-        else
-        playerString = playerCharacter.user.fullName();
+        playerCharacter = await db.Player.findById(season.duchyPhase[0].rulerPhases[x].playerCharacter).populate("user").populate("character");
+        characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+        if(playerString){
+            playerString += "+" + playerCharacter.user.fullName();
+            characterString += "+" + characterInfo.fullName();
+        }
+        else{
+            playerString = playerCharacter.user.fullName();
+            characterString = characterInfo.fullName();
+        }
     }
-    res.render("story", {story: story, eventId: `[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}|${season.duchyPhase[0].image}|${playerString}`, phase: req.params.phaseType})
+    res.render("story", {story: story, eventId: `[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}|${season.duchyPhase[0].image}|${playerString}|${characterString}`, phase: req.params.phaseType})
     }
+})
+/* Story Page */
+router.get("/:storyCollection/:year/:season/:duchyPhase/:character/title", async function(req, res){
+    const story = await db.Story.findOne({type: req.params.storyCollection});
+    const season = await db.Season.findOne({story: story, year: req.params.year, season: req.params.season})
+    let duchyPhase;
+    let playerCharacter
+    for(let x=0; x<season.duchyPhase.length; x++){
+        if(season.duchyPhase[x].name==req.params.duchyPhase){
+            duchyPhase = season.duchyPhase[x]
+        }
+    }
+    for(let x=0; x<duchyPhase.rulerPhases.length; x++){
+        playerCharacter = await db.Player.findById(duchyPhase.rulerPhases[x].playerCharacter);
+        character = await db.Character.findById(playerCharacter.character).populate("currentInfo");
+        user = await db.User.findById(playerCharacter.user);
+        if(character.currentInfo.firstName == req.params.character){
+            res.render("story",{story: story, eventId: `[CHARACTER TITLE]${character.currentInfo.fullName()}|${user.fullName()}|${req.params.duchyPhase}|${season.year}|${season.season}`, phase: character.currentInfo.firstName})
+            break;
+        }
+    }
+
 })
 /* Story Page */
 router.get("/:storyCollection", async function(req, res){
@@ -47,7 +81,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
     let season;
     let playerCharacter;
     let playerString;
-    console.log(req.params.eventId)
+    let characterString;
     if(req.params.eventId.startsWith("[STORY TITLE]")){
         res.send(`[TURN TITLE]${story.seasons[0].turn}|${story.seasons[0].season}|${story.seasons[0].year}`)
     }else{
@@ -61,6 +95,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 res.send(`[STORY TITLE]${story.type}`);
             }else if(req.params.eventId.startsWith("[AREA TITLE]")){
                 season = await db.Season.findOne({year:req.params.eventId.split("|")[1],season:req.params.eventId.split("]")[1].split("|")[2]})
+                console.log(season);
                 for(let x=0; x<season.duchyPhase.length; x++){
                     if(season.duchyPhase[x].name == req.params.eventId.replace("[AREA TITLE]","").split("|")[0]){
                         if(x!=0){
@@ -69,6 +104,35 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                         }else{
                             newEvent = season.worldPhase[season.worldPhase.length-1];
                             res.send(newEvent);
+                        }
+                    }
+                }
+            }else if(req.params.eventId.startsWith("[CHARACTER TITLE]")){
+                season = await db.Season.findOne({year:req.params.eventId.split("|")[3],season:req.params.eventId.split("|")[4]})
+                for(let x=0; x<season.duchyPhase.length; x++){
+                    if(season.duchyPhase[x].name == req.params.eventId.split("|")[2]){
+                        for(let y=0; y<season.duchyPhase[x].rulerPhases.length; y++){
+                            playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y].playerCharacter)
+                            character = await db.Character.findById(playerCharacter.character).populate("currentInfo");
+                            if(character.currentInfo.firstName == req.params.phase){
+                                if(y!=0){
+                                    //NOT IMPLEMENTED YET
+                                }else{
+                                    for(let z=0; z<season.duchyPhase[0].rulerPhases.length; z++){
+                                        playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[z].playerCharacter).populate("user").populate("character");
+                                        characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+                                        if(playerString){
+                                            playerString += "+" + playerCharacter.user.fullName();
+                                            characterString += "+" + characterInfo.fullName();
+                                        }
+                                        else{
+                                            playerString = playerCharacter.user.fullName();
+                                            characterString = characterInfo.fullName();
+                                        }
+                                    }
+                                    res.send(`[AREA TITLE]${season.duchyPhase[x].name}|${season.year}|${season.season}|${season.duchyPhase[x].image}|${playerString}|${characterString}`);
+                                }
+                            }
                         }
                     }
                 }
@@ -93,9 +157,27 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 season = await db.Season.findOne({year:req.params.eventId.split("]")[1].split("|")[2],season:req.params.eventId.split("]")[1].split("|")[1]})
                 newEvent = season.worldPhase[0];
                 res.send(newEvent);
+            }else if(req.params.eventId.startsWith("[AREA TITLE]")){
+                season = await db.Season.findOne({year: req.params.eventId.split("|")[1], season: req.params.eventId.split("|")[2]})
+                user = await db.User.findOne({firstName: req.params.eventId.split("|")[4].split("+")[0].split(" ")[0], lastName: req.params.eventId.split("|")[4].split("+")[0].split(" ")[1]})
+                //I need to know the turn here so I can access the currect info type
+                characterInfo = await db.CharacterInfo.findOne({firstName:req.params.eventId.split("|")[5].split("+")[0].split(" ")[0], lastName: req.params.eventId.split("|")[5].split("+")[0].replace(req.params.eventId.split("|")[5].split("+")[0].split(" ")[0]+" ","")})
+                res.send(`[CHARACTER TITLE]${characterInfo.fullName()}|${user.fullName()}|${req.params.phase}|${season.year}|${season.season}`)
+            }else if(req.params.eventId.startsWith("[CHARACTER TITLE]")){
+                season = await db.Season.findOne({year:req.params.eventId.split("|")[3],season: req.params.eventId.split("|")[4]})
+                for(let x=0; x<season.duchyPhase.length; x++){
+                    if(season.duchyPhase[x].name == req.params.eventId.split("|")[2]){
+                        for(let y=0; y<season.duchyPhase[x].rulerPhases.length; y++){
+                            playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y].playerCharacter)
+                            character = await db.Character.findById(playerCharacter.character).populate("currentInfo");
+                            if(character.currentInfo.firstName == req.params.phase){
+                                newEvent = season.duchyPhase[x].rulerPhases[y].events[0];
+                                res.send(newEvent);
+                            }
+                        }
+                    }
+                }
             }else{
-                console.log(season);
-                console.log("PHASE:"+ req.params.phase)
                 for(let x=0; x<season[req.params.phase].length; x++){
                     if(`${season[req.params.phase][x]}`==event._id){
                         if(season[req.params.phase].length-1 != x){
@@ -107,19 +189,25 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                 if(!newEvent){
                     if(req.params.phase=="worldPhase"){
                         for(let x=0; x<season.duchyPhase[0].rulerPhases.length; x++){
-                            playerCharacter = await db.Player.findById(season.duchyPhase[0].rulerPhases[x].playerCharacter).populate("user");
-                            if(playerString)
-                            playerString += "+" + playerCharacter.user.fullName();
-                            else
-                            playerString = playerCharacter.user.fullName();
+                            playerCharacter = await db.Player.findById(season.duchyPhase[0].rulerPhases[x].playerCharacter).populate("user").populate("character");
+                            characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+                            if(playerString){
+                                playerString += "+" + playerCharacter.user.fullName();
+                                characterString += "+" + characterInfo.fullName();
+                            }
+                            else{
+                                playerString = playerCharacter.user.fullName();
+                                characterString = characterInfo.fullName();
+                            }
                         }
-                        res.send(`[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}|${season.duchyPhase[0].image}|${playerString}`);
+                        res.send(`[AREA TITLE]${season.duchyPhase[0].name}|${season.year}|${season.season}|${season.duchyPhase[0].image}|${playerString}|${characterString}`);
                     }
                 }
             }
         }
     }
 })
+
 /* Story Content */
 router.get("/getEvent/:eventId", async function(req, res){
     const event = await db.Event.findById(req.params.eventId).populate("season");

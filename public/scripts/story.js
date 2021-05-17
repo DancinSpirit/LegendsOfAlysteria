@@ -46,9 +46,9 @@ $("#right-arrow-box").on("click", function(){
     })
 })
 const loadNewPage = function(res){
+    console.log(res);
     $("#left-arrow").children().removeClass("invisible")
     eventId = res;
-    console.log(res);
     if(res.startsWith("[TURN TITLE]")){
         window.history.pushState(res,"",`/story/${story.type}/${res.replace("[TURN TITLE]").split("|")[2]}/${res.replace("[Turn Title]").split("|")[1]}/world`)
         loadTitle(res);
@@ -57,6 +57,9 @@ const loadNewPage = function(res){
         loadTitle(res);
     }else if(res.startsWith("[AREA TITLE]")){
         window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[1]}/${res.split("|")[2]}/${res.split("|")[0].replace("[AREA TITLE]","")}`)
+        loadTitle(res);
+    }else if(res.startsWith("[CHARACTER TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[3]}/${res.split("|")[4]}/${res.split("|")[2]}/${res.split("]")[1].split(" ")[0]}/title`)
         loadTitle(res);
     }else{
         $.ajax({
@@ -73,8 +76,12 @@ const loadNewPage = function(res){
     $("#player-bottom-left").empty();
     setTimeout(function(){
         phase = window.location.pathname.split("/")[5];
-        if(phase="world")
+        if(window.location.pathname.split("/")[7] == "title"){
+            phase = window.location.pathname.split("/")[6];
+        }
+        if(phase=="world"){
         phase = window.location.pathname.split("/")[5] + "Phase";
+        }
         $("body").css("pointer-events","auto");
         console.log(phase);
     },500)
@@ -93,12 +100,15 @@ const loadEvent = function(){
             if(res.type==="Alysteria Prologue"){
                 eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
             }
-            if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
+            else if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
                 eventText.push("[SUBTITLE]Setting Information")
             }
-            if(res.type==="Arland Prologue"){
+            else if(res.type==="Arland Prologue"){
                 eventText.push("[SUBTITLE]Arland Prologue - Part 1")
+            }else{
+                eventText.push(`[SUBTITLE]${res.location}, ${res.season.season.charAt(0).toUpperCase() + res.season.season.replace(res.season.season.charAt(0),"")} of Year ${res.season.year}`)
             }
+            
             eventText.push("[EMPTYTWO]");
             eventText.push(...res.text);
             nextLine();
@@ -132,7 +142,6 @@ socket.on('delete', function (sentIndex) {
     $(`#boxtext-${sentIndex}`).remove();
     eventText.splice(sentIndex, 1);
     let childIndex = -1;
-    console.log("Length: " + $("#player-bottom").children().length)
     $("#player-bottom").children().each(function () {
         childIndex++;
         $(this).attr("id", `boxtext-${childIndex}`);
@@ -411,12 +420,9 @@ const specialCommand = function (text) {
         $(".turn-players").append('<div id="turn-players-title">Players</div>');
         $(".turn-players").append('<div id="turn-players-list"></div>');
         for(let x=0; x<text.split("|")[4].split("+").length; x++){
-            $("#turn-players-list").append(`<span class="turn-player">${text.split("|")[4].split("+")[x]}</span>`)
+            $("#turn-players-list").append(`<div><div class="turn-player">${text.split("|")[4].split("+")[x]}</div><div class="turn-player" id="character-name">${text.split("|")[5].split("+")[x]}</div></div>`)
         }
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
-        console.log($("#turn-players-title").height())
-        console.log($("#turn-players-list").height())
-        console.log($(".turn-players").height());
         $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - $("#title-image").height() - $(".turn-players").height() - 100 - $("#turn-players-list").height())/2)
         return "";
     }
@@ -446,6 +452,18 @@ const specialCommand = function (text) {
         },500)
         return "";
     }
+    if(text.startsWith("[CHARACTER TITLE]")){
+        $("body").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height()/2))
+        $("#player-bottom").append(`<p class='boxtext story-supertitle'>Legends of Alysteria</p>`);
+        $("#player-bottom").append(`<p class='boxtext story-title'>${text.replace("[CHARACTER TITLE]","").split("|")[0]}</p>`);
+        $("#player-bottom").append(`<p class='boxtext story-subtitle'>Player: ${text.split("|")[1]}</p>`);
+        $("#player-bottom").append(`<p class='boxtext story-subsubtitle'>${text.split("|")[2]}</p>`);
+        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $(".big-boy").height(($("#player-box").height() - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height() - $(".story-subsubtitle").height() -80)/2)
+        return "";
+    }
 }
 
 const loadImage = function(url){
@@ -469,6 +487,7 @@ const addText = function () {
         }
         return '';
     } else if (index < eventText.length) {
+        console.log(eventText[index])
         if (!eventText[index].startsWith("[")) {
             return eventText[index];
         } else {
@@ -558,6 +577,8 @@ const loadEventId = function(){
     }else if(eventId.startsWith("[STORY TITLE]")){
         loadTitle(eventId);
     }else if(eventId.startsWith("[AREA TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[CHARACTER TITLE]")){
         loadTitle(eventId);
     }else{
         loadEvent();
