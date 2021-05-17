@@ -82,6 +82,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
     let playerCharacter;
     let playerString;
     let characterString;
+    let characterInfo;
     if(req.params.eventId.startsWith("[STORY TITLE]")){
         res.send(`[TURN TITLE]${story.seasons[0].turn}|${story.seasons[0].season}|${story.seasons[0].year}`)
     }else{
@@ -137,6 +138,31 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                     }
                 }
             }else{
+                if(req.params.phase!="worldPhase"){
+                    for(let x=0; x<season.duchyPhase.length; x++){
+                        for(let y=0; y<season.duchyPhase[x].rulerPhases.length; y++){
+                            playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y].playerCharacter).populate("character");
+                            characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+                            user = await db.User.findById(playerCharacter.user);
+                            if(characterInfo.firstName == req.params.phase){
+                                for(let z=0; z<season.duchyPhase[x].rulerPhases[y].events.length; z++){
+                                    if(season.duchyPhase[x].rulerPhases[y].events[z] == req.params.eventId){
+                                        if(z!=0){
+                                            newEvent = season.duchyPhase[x].rulerPhases[y].events[z-1];
+                                            res.send(newEvent);
+                                        }else{
+                                            if(y!=0){
+                                                //LOAD EARLIER CHARACTER
+                                            }else{
+                                                res.send(`[CHARACTER TITLE]${characterInfo.fullName()}|${user.fullName()}|${season.duchyPhase[x].name}|${season.year}|${season.season}`)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else
                 for(let x=0; x<season[req.params.phase].length; x++){
                     if(`${season[req.params.phase][x]}`==event._id){
                         if(x!=0){
@@ -178,6 +204,26 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                     }
                 }
             }else{
+                if(req.params.phase!="worldPhase"){
+                    for(let x=0; x<season.duchyPhase.length; x++){
+                        for(let y=0; y<season.duchyPhase[x].rulerPhases.length; y++){
+                            playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y].playerCharacter).populate("character");
+                            characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+                            if(characterInfo.firstName == req.params.phase){
+                                for(let z=0; z<season.duchyPhase[x].rulerPhases[y].events.length; z++){
+                                    if(season.duchyPhase[x].rulerPhases[y].events[z] == req.params.eventId){
+                                        if(z!=season.duchyPhase[x].rulerPhases[y].events.length-1){
+                                            newEvent = season.duchyPhase[x].rulerPhases[y].events[z+1];
+                                            res.send(newEvent);
+                                        }else{
+                                            //Load Next Character if it exists
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else
                 for(let x=0; x<season[req.params.phase].length; x++){
                     if(`${season[req.params.phase][x]}`==event._id){
                         if(season[req.params.phase].length-1 != x){
