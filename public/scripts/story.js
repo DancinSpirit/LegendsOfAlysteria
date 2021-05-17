@@ -10,6 +10,9 @@ $("#cutaway-subtitle").fadeOut();
 
 /* Load New Page */
 $("#left-arrow-box").on("click", function(){
+    if(song){
+        song.pause();
+    }
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
@@ -28,6 +31,9 @@ $("#left-arrow-box").on("click", function(){
 })
 /* Load New Page */
 $("#right-arrow-box").on("click", function(){
+    if(song){
+        song.pause();
+    }
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
