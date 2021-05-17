@@ -106,6 +106,10 @@ router.get("/:id/component", async function(req,res){
     const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees combatStyles", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties weaponStyle fightingStyles", populate:{path:"info knowledgeTree advantageOver weakAgainst", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
     res.render(`components/${character(req.session.currentUser.gamemaster)}`, {character: foundCharacter});
 })
+router.get("/:id/component/view", async function(req,res){
+    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees combatStyles", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties weaponStyle fightingStyles", populate:{path:"info knowledgeTree advantageOver weakAgainst", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
+    res.render(`components/${character(false)}`, {character: foundCharacter});
+})
 
 /* Load Character Style Component */
 router.get("/:id/style", async function(req,res){
@@ -117,6 +121,10 @@ router.get("/:id/style", async function(req,res){
 router.get("/:id/component/basic-sheet", async function(req,res){
     const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees combatStyles", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties weaponStyle fightingStyles", populate:{path:"info knowledgeTree advantageOver weakAgainst", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
     res.render(`components/${character(req.session.currentUser.gamemaster)}/basic-sheet`, {character: foundCharacter});
+})
+router.get("/:id/component/basic-sheet/view", async function(req,res){
+    const foundCharacter = await db.Character.findById(req.params.id).populate({path:"currentInfo",populate:{path:"stats traits.0 traits.1 traits.2 traits.3 traits.4 knowledgeTrees combatStyles", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties weaponStyle fightingStyles", populate:{path:"info knowledgeTree advantageOver weakAgainst", populate:{path:"generalKnowledge specializedKnowledge highlySpecializedKnowledge skills specialties", populate:{path:"info"}}}}}});
+    res.render(`components/${character(false)}/basic-sheet`, {character: foundCharacter});
 })
 
 /* Load Combat Sheet Component */

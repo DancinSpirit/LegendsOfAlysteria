@@ -45,6 +45,7 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .bottom {
@@ -301,11 +302,40 @@ form {
   font-size: 30px;
 }
 
-#character-name{
+#character-name-title{
   font-family: "Philosopher", sans-serif;
   font-size: 20px;
 }
 
+#duchy{
+  display: flex;
+  height: calc(var(--vh, 1vh)*60);
+  width: 90vw;
+  padding: 20px;
+}
+
+#duchy-text{
+  text-align: center;
+  width: 50%;
+}
+
+.duchy-info-p{
+  padding-bottom: 10px;
+}
+
+.duchy-descript-p{
+  text-align: left;
+}
+
+#duchy-symbol{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#duchy-image{
+  height: 100%;
+  width: 50%;
+}
 
 /* FONT CLASSES */
 .oswald{

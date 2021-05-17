@@ -18,6 +18,8 @@ router.get("/:storyCollection/:year/:season/:phaseType/:eventType", async functi
     res.render("story", {story: story, eventId: foundEvent._id, phase:`${req.params.phaseType}Phase`}) 
     }else{
         foundEvent = await db.Event.findOne({type: req.params.eventType,season: season._id})
+        console.log(req.params.eventType + " " + season._id)
+        console.log(foundEvent)
     }
     res.render("story", {story: story, eventId: foundEvent._id, phase:`${req.params.phaseType}`}) 
 })

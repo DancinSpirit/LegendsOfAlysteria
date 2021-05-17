@@ -7,6 +7,125 @@ let eventText = [];
 let images = story.images;
 $("#cutaway-image").fadeOut()
 $("#cutaway-subtitle").fadeOut();
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+window.addEventListener('popstate', (event) => {
+    index=-1;
+    $("#left-arrow").children().removeClass("invisible")
+    eventId = event.state;
+    console.log(eventId)
+    $("#player-bottom-right").empty();
+    $("#player-bottom").empty()
+    $("#player-bottom-left").empty();
+    $("#gamemaster-bottom").empty();
+    loadEventId();
+})
+
+const loadNewPage = function(res){
+    $(".textbox").css("background-color","rgba(0, 0, 0, 0.7)");
+    $(".textbox").css("color","white");
+    console.log(res);
+    $("#left-arrow").children().removeClass("invisible")
+    eventId = res;
+    if(res.startsWith("[TURN TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.replace("[TURN TITLE]").split("|")[2]}/${res.replace("[Turn Title]").split("|")[1]}/world`)
+        loadTitle(res);
+    }else if(res.startsWith("[STORY TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}`)
+        loadTitle(res);
+    }else if(res.startsWith("[AREA TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[1]}/${res.split("|")[2]}/${res.split("|")[0].replace("[AREA TITLE]","")}`)
+        loadTitle(res);
+    }else if(res.startsWith("[CHARACTER TITLE]")){
+        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[3]}/${res.split("|")[4]}/${res.split("|")[2]}/${res.split("]")[1].split(" ")[0]}/title`)
+        loadTitle(res);
+    }else{
+        $.ajax({
+            method: "GET",
+            url: `/story/getEvent/${eventId}`,
+            success: function(res){
+                if(res.phase)
+                window.history.pushState(res._id,"",`/story/${story.type}/${res.season.year}/${res.season.season}/${res.phase}/${res.type}`)
+                else
+                window.history.pushState(res._id,"",`/story/${story.type}/${res.season.year}/${res.season.season}/${phase}/${res.type}`)
+            }
+        })
+        loadEvent();
+    }
+    $(".textbox").scrollTop(0);
+    $("#player-bottom-right").empty();
+    $("#player-bottom-left").empty();
+    setTimeout(function(){
+        phase = window.location.pathname.split("/")[5];
+        if(window.location.pathname.split("/")[7] == "title"){
+            phase = window.location.pathname.split("/")[6];
+        }
+        if(phase=="world"){
+        phase = window.location.pathname.split("/")[5] + "Phase";
+        }
+        $("body").css("pointer-events","auto");
+        console.log(phase);
+    },500)
+}
+
+const loadEventId = function(){
+    if(eventId.startsWith("[TURN TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[STORY TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[AREA TITLE]")){
+        loadTitle(eventId);
+    }else if(eventId.startsWith("[CHARACTER TITLE]")){
+        loadTitle(eventId);
+    }else{
+        loadEvent();
+    }
+}
+
+const loadEvent = function(){
+    $.ajax({
+        method: "GET",
+        url: `/story/getEvent/${eventId}`,
+        success: function(res){
+            $("#player-bottom").empty();
+            eventText = [];
+            eventText.push("[EMPTYONE]")
+            eventText.push(`[TYPE] ~ ${res.type} ~ `)
+            eventText.push(`[TITLE]${res.title}`);
+            if(res.type==="Alysteria Prologue"){
+                eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
+            }
+            else if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
+                eventText.push("[SUBTITLE]Setting Information")
+            }
+            else if(res.type==="Arland Prologue"){
+                eventText.push("[SUBTITLE]Arland Prologue - Part 1")
+            }else if(res.type==="Zachary Duchy Introduction"){
+                eventText.push("[SUBTITLE]Zachary Stormchaser - Setting Information")
+            }else{
+                eventText.push(`[SUBTITLE]${res.location}, ${res.season.season.charAt(0).toUpperCase() + res.season.season.replace(res.season.season.charAt(0),"")} of Year ${res.season.year}`)
+            }
+            
+            eventText.push("[EMPTYTWO]");
+            eventText.push(...res.text);
+            nextLine();
+        }
+    })
+}
+
+const loadTitle = function(res){
+    if(res.startsWith("[STORY")){
+        $("#left-arrow").children().addClass("invisible")
+    }
+    if(res.startsWith("[AREA")){
+        eventId = eventId.replace(eventId.split("|")[3],"");
+    }
+    $("#player-bottom").empty();
+    eventText = [];
+    eventText.push(res)
+    nextLine();
+}
 
 /* Load New Page */
 $("#left-arrow-box").on("click", function(){
@@ -51,90 +170,6 @@ $("#right-arrow-box").on("click", function(){
         }
     })
 })
-const loadNewPage = function(res){
-    console.log(res);
-    $("#left-arrow").children().removeClass("invisible")
-    eventId = res;
-    if(res.startsWith("[TURN TITLE]")){
-        window.history.pushState(res,"",`/story/${story.type}/${res.replace("[TURN TITLE]").split("|")[2]}/${res.replace("[Turn Title]").split("|")[1]}/world`)
-        loadTitle(res);
-    }else if(res.startsWith("[STORY TITLE]")){
-        window.history.pushState(res,"",`/story/${story.type}`)
-        loadTitle(res);
-    }else if(res.startsWith("[AREA TITLE]")){
-        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[1]}/${res.split("|")[2]}/${res.split("|")[0].replace("[AREA TITLE]","")}`)
-        loadTitle(res);
-    }else if(res.startsWith("[CHARACTER TITLE]")){
-        window.history.pushState(res,"",`/story/${story.type}/${res.split("|")[3]}/${res.split("|")[4]}/${res.split("|")[2]}/${res.split("]")[1].split(" ")[0]}/title`)
-        loadTitle(res);
-    }else{
-        $.ajax({
-            method: "GET",
-            url: `/story/getEvent/${eventId}`,
-            success: function(res){
-                window.history.pushState(res._id,"",`/story/${story.type}/${res.season.year}/${res.season.season}/${res.phase}/${res.type}`)
-            }
-        })
-        loadEvent();
-    }
-    $(".textbox").scrollTop(0);
-    $("#player-bottom-right").empty();
-    $("#player-bottom-left").empty();
-    setTimeout(function(){
-        phase = window.location.pathname.split("/")[5];
-        if(window.location.pathname.split("/")[7] == "title"){
-            phase = window.location.pathname.split("/")[6];
-        }
-        if(phase=="world"){
-        phase = window.location.pathname.split("/")[5] + "Phase";
-        }
-        $("body").css("pointer-events","auto");
-        console.log(phase);
-    },500)
-}
-
-const loadEvent = function(){
-    $.ajax({
-        method: "GET",
-        url: `/story/getEvent/${eventId}`,
-        success: function(res){
-            $("#player-bottom").empty();
-            eventText = [];
-            eventText.push("[EMPTYONE]")
-            eventText.push(`[TYPE] ~ ${res.type} ~ `)
-            eventText.push(`[TITLE]${res.title}`);
-            if(res.type==="Alysteria Prologue"){
-                eventText.push("[SUBTITLE]Alysteria Prologue - Part 1")
-            }
-            else if(res.type==="Continent Introduction"||res.type==="Kingdom Introduction"){
-                eventText.push("[SUBTITLE]Setting Information")
-            }
-            else if(res.type==="Arland Prologue"){
-                eventText.push("[SUBTITLE]Arland Prologue - Part 1")
-            }else if(res.type==="Zachary Duchy Introduction"){
-                eventText.push("[SUBTITLE]Zachary Stormchaser - Setting Information")
-            }else{
-                eventText.push(`[SUBTITLE]${res.location}, ${res.season.season.charAt(0).toUpperCase() + res.season.season.replace(res.season.season.charAt(0),"")} of Year ${res.season.year}`)
-            }
-            
-            eventText.push("[EMPTYTWO]");
-            eventText.push(...res.text);
-            nextLine();
-        }
-    })
-}
-const loadTitle = function(res){
-    if(res.startsWith("[STORY")){
-        $("#left-arrow").children().addClass("invisible")
-    }
-    if(res.startsWith("[AREA")){
-        eventId = eventId.replace(eventId.split("|")[3],"");
-    }
-    $("#player-bottom").empty();
-    eventText = [];
-    eventText.push(res)
-    nextLine();
-}
 
 /* Socket Recievers */
 socket.on('nextLine', function (text) {
@@ -251,7 +286,6 @@ const appendGamemasterText = function (text) {
     $(`#edit-form-${index}`).on("click", function (event) {
         event.stopPropagation();
     })
-
 }
 
 const specialCommand = function (text) {
@@ -428,7 +462,7 @@ const specialCommand = function (text) {
         $(".turn-players").append('<div id="turn-players-title">Players</div>');
         $(".turn-players").append('<div id="turn-players-list"></div>');
         for(let x=0; x<text.split("|")[4].split("+").length; x++){
-            $("#turn-players-list").append(`<div><div class="turn-player">${text.split("|")[4].split("+")[x]}</div><div class="turn-player" id="character-name">${text.split("|")[5].split("+")[x]}</div></div>`)
+            $("#turn-players-list").append(`<div><div class="turn-player">${text.split("|")[4].split("+")[x]}</div><div class="turn-player" id="character-name-title">${text.split("|")[5].split("+")[x]}</div></div>`)
         }
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - $("#title-image").height() - $(".turn-players").height() - 100 - $("#turn-players-list").height())/2)
@@ -472,7 +506,91 @@ const specialCommand = function (text) {
         $(".big-boy").height(($("#player-box").height() - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height() - $(".story-subsubtitle").height() -80)/2)
         return "";
     }
+    if(text.startsWith("[DUCHY]")){
+        $("#player-bottom").append(`<section id="duchy"><section id = "duchy-text"><div id="duchy-symbol"></div></section><section id = "duchy-image"></section></section>`)
+        let url;
+        for (let x = 0; x < images.length; x++) {
+            if (images[x].name === text.replace("[DUCHY]","").split("|")[0]) {
+                url = images[x].url;
+                break;
+            }
+        }
+        $("#duchy-image").css("background-image", `url(${url})`)
+        $("#duchy-image").css("background-repeat", `no-repeat`)
+        $("#duchy-image").css("background-size", `contain`)
+        $("#duchy-image").css("background-position", `center`)
+        for (let x = 0; x < images.length; x++) {
+            if (images[x].name === (text.replace("[DUCHY]","").split("|")[0]+" Symbol")) {
+                url = images[x].url;
+                break;
+            }
+        }
+        $("#duchy-symbol").css("background-image", `url(${url})`)
+        $("#duchy-symbol").css("background-repeat", `no-repeat`)
+        $("#duchy-symbol").css("background-size", `contain`)
+        $("#duchy-symbol").css("background-position", `center`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Ruler:</strong> ${text.split("]")[1].split("|")[1]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Official Stance:</strong> ${text.split("]")[1].split("|")[2]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Diplomatic Relations:</strong> ${text.split("]")[1].split("|")[3]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Information Level:</strong> ${text.split("]")[1].split("|")[4]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-descript-p"><strong>Description:</strong> ${text.split("]")[1].split("|")[5]}</p>`)
+        $("#duchy-symbol").height($("#player-box").height() - $("#duchy-text").height())
+        return "";
+    }
+    if(text.startsWith("[CHARACTER]")){
+        loadCharacterAndCss(text);
+        return "";
+    }
 }
+
+const loadCharacterAndCss = async function(text){
+    await loadCharacter(text);
+    await loadCharacterComponent(text);
+    await loadCharacterBasicSheet(text);
+    $(".textbox").css("background-color",$(".character-box-content").css("background-color"));
+}
+
+const loadCharacter = function(text){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/character/${text.replace("[CHARACTER]","")}/style`,
+            success: function(res){
+                $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                resolve();
+            }
+        })
+    })
+}
+const loadCharacterComponent = function(text){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/character/${text.replace("[CHARACTER]","")}/component/view`,
+            success: function(res){
+                $("#player-bottom").append('<section id="character-page"></section>')
+                $("#character-page").css("transform","translateY(0%)")
+                $(".textbox").css("color","black");
+                $("#character-page").html(res);
+                resolve();
+            }
+        })
+    })
+}
+const loadCharacterBasicSheet = function(text){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/character/${text.replace("[CHARACTER]","")}/component/basic-sheet/view`,
+            success: function(res){
+                $("#character-sheet").html(res);
+                $("#basic-character-sheet-button").removeClass("character-nav-button-unselected");
+                resolve();
+            }
+        })
+    })
+}
+
 
 const loadImage = function(url){
     if(url.startsWith("[TOP]")){
@@ -577,37 +695,6 @@ $("#player-tab").on("click", function () {
     $("#user-input").css("display","none");
 })
 
+
 window.history.replaceState(eventId,"");
-
-const loadEventId = function(){
-    if(eventId.startsWith("[TURN TITLE]")){
-        loadTitle(eventId);
-    }else if(eventId.startsWith("[STORY TITLE]")){
-        loadTitle(eventId);
-    }else if(eventId.startsWith("[AREA TITLE]")){
-        loadTitle(eventId);
-    }else if(eventId.startsWith("[CHARACTER TITLE]")){
-        loadTitle(eventId);
-    }else{
-        loadEvent();
-    }
-}
-
 loadEventId();
-
-window.addEventListener('popstate', (event) => {
-    index=-1;
-    $("#left-arrow").children().removeClass("invisible")
-    eventId = event.state;
-    console.log(eventId)
-    $("#player-bottom-right").empty();
-    $("#player-bottom").empty()
-    $("#player-bottom-left").empty();
-    $("#gamemaster-bottom").empty();
-    loadEventId();
-})
-
-/* Mobile Stuff */
-let vh = window.innerHeight * 0.01;
-// Then we set the value in the --vh custom property to the root of the document
-document.documentElement.style.setProperty('--vh', `${vh}px`);

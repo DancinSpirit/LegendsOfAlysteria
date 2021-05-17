@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     firstName: {type: String},
     lastName: {type: String},
     gamemaster: {type: Boolean},
-    playerChararcters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
+    playerCharacters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
   },
   {timestamps: true}
 )

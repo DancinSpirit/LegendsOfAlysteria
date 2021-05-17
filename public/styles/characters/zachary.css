@@ -93,6 +93,7 @@ body {
   flex-direction: row;
   border: solid 1px;
   flex-grow: 1;
+  background-color: #e6b8af;
 }
 .basic-info-row-space {
   width: 10px;
