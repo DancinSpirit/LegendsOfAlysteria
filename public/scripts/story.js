@@ -132,6 +132,7 @@ const loadTitle = function(res){
 /* Load New Page */
 $("#left-arrow-box").on("click", function(){
     if(song){
+        song.currentTime = 0;
         song.pause();
     }
     $("#player-bottom-left").empty();
@@ -154,6 +155,7 @@ $("#left-arrow-box").on("click", function(){
 $("#right-arrow-box").on("click", function(){
     if(song){
         song.pause();
+        song.currentTime = 0;
     }
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
@@ -311,6 +313,7 @@ const specialCommand = function (text) {
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
                 song.pause();
+                song.currentTime = 0;
             },320)
         }
         setTimeout(function(){
@@ -332,6 +335,7 @@ const specialCommand = function (text) {
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
                 song.pause();
+                song.currentTime = 0;
             },300)
         }
         nextLine();
@@ -541,6 +545,11 @@ const specialCommand = function (text) {
     }
     if(text.startsWith("[CHARACTER]")){
         loadCharacterAndCss(text);
+        return "";
+    }
+    if(text.startsWith("[PHILOSOPHER]")){
+        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext philosopher'>${text.replace("[PHILOSOPHER]","")}</p>`);
+        appendGamemasterText(text);
         return "";
     }
 }
