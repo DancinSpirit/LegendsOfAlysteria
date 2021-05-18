@@ -544,9 +544,11 @@ const specialCommand = function (text) {
 }
 
 const loadCharacterAndCss = async function(text){
-    await loadCharacter(text);
-    await loadCharacterComponent(text);
-    await loadCharacterBasicSheet(text);
+    await loadCharacter(text.split("|")[0]);
+    await loadCharacterComponent(text.split("|")[0]);
+    await loadCharacterBasicSheet(text.split("|")[0]);
+    if(text.split("|")[1] == "stat-sheet")
+    $("#advanced-stat-sheet-button").removeClass("invisible");
     $(".textbox").css("background-color",$(".character-box-content").css("background-color"));
 }
 
