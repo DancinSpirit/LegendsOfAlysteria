@@ -18,6 +18,7 @@ html{
 
 body {
   min-height: calc(var(--vh, 1vh) * 100);
+  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
