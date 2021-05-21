@@ -10,16 +10,25 @@
 }
 
 body {
+  min-height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
+#background{
   background-image: url('https://www.mandlpaints.com/wp-content/uploads/2018/09/Lead-Gray-600x600.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  min-height: calc(var(--vh, 1vh) * 100);
-  overflow: hidden;
   transition: background-image 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  font-family: Arial, sans-serif;
+  z-index: -1;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+  position: absolute;
+  top:0;
+  left:0;
 }
 
 #tabs {

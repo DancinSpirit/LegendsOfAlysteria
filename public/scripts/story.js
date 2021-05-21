@@ -474,7 +474,7 @@ const specialCommand = function (text) {
     }
     /* TURN TITLE */
     if(text.startsWith("[TURN TITLE]")){
-        $("body").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
+        $("#background").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext turn-title'>Turn ${text.replace("[TURN TITLE]","").split("|")[0]}</p>`);
@@ -484,7 +484,7 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[STORY TITLE]")){
-        $("body").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
+        $("#background").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext story-supertitle'>Not! Conquering High Fantasy</p>`);
@@ -495,7 +495,7 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[AREA TITLE]")){
-        $("body").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
+        $("#background").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $("#player-bottom").append(`<section id="title-image"></section>`);
         $("#title-image").css("background-image", `url(${text.split("|")[3]})`)
@@ -567,7 +567,7 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[CHARACTER TITLE]")){
-        $("body").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
+        $("#background").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
         $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext story-supertitle'>Legends of Alysteria</p>`);
@@ -617,6 +617,9 @@ const specialCommand = function (text) {
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext philosopher'>${text.replace("[PHILOSOPHER]","")}</p>`);
         appendGamemasterText(text);
         return "";
+    }
+    if(text.startsWith("[PLAYER ACTION]")){
+        $("")
     }
 }
 
@@ -673,12 +676,12 @@ const loadCharacterBasicSheet = function(text){
 
 const loadImage = function(url){
     if(url.startsWith("[TOP]")){
-        $("body").css("background-position", "top");
+        $("#background").css("background-position", "top");
         url = url.replace("[TOP]","");
     }else{
-        $("body").css("background-position", "center center");
+        $("#background").css("background-position", "center center");
     }
-    $("body").css("background-image", `url('${url}')`);
+    $("#background").css("background-image", `url('${url}')`);
 }
 
 const addText = function () {
