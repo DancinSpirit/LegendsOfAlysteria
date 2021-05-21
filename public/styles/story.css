@@ -25,15 +25,16 @@ body {
   transition: background-image 0.2s ease-in-out;
   z-index: -1;
   height: calc(var(--vh, 1vh) * 100);
-  width: 100vw;
+  width: calc(var(--vw, 1vw) * 100);
   position: absolute;
   top:0;
   left:0;
+  overflow: hidden;
 }
 
 #tabs {
   margin-top: calc((var(--vh, 1vh)*10) - 26px);
-  margin-left: 5vw;
+  margin-left: calc(var(--vw, 1vw) * 5);
   padding: 0;
   font-size: 0;
 }
@@ -50,7 +51,7 @@ body {
   margin: auto;
   color: white;
   height: calc(var(--vh, 1vh)*80);
-  width: 90vw;
+  width: calc(var(--vw, 1vw) * 90);
   background-color: rgba(0, 0, 0, 0.7);
   position: relative;
   overflow-y: auto;
@@ -100,8 +101,8 @@ form {
   position: absolute;
   bottom: calc(var(--vh, 1vh)*9);
   height: calc(var(--vh, 1vh)*1);
-  margin-left: 5vw;
-  width: 90vw;
+  margin-left: calc(var(--vw, 1vw) * 5);
+  width: calc(var(--vw, 1vw) * 90);
   word-wrap: normal;
 }
 
@@ -216,7 +217,7 @@ form {
   height: 100%;
   display: flex;
   align-items: center;
-  width: 5vw;
+  width: calc(var(--vw, 1vw) * 5);
 }
 
 #top-arrow{
@@ -232,8 +233,8 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10vw;
-  padding: 1.5vw;
+  width: calc(var(--vw, 1vw) * 10);
+  padding: calc(var(--vw, 1vw) * 1.5);
   cursor: pointer;
 }
 
@@ -263,8 +264,8 @@ form {
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   height: calc(var(--vh, 1vh)*80);
-  margin-left: 5vw;
-  width: 90vw;
+  margin-left: calc(var(--vw, 1vw) * 5);
+  width: calc(var(--vw, 1vw) * 90);
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -283,7 +284,7 @@ form {
 #cutaway-image-container{
   position: absolute;
   height: calc(var(--vh, 1vh)*100);
-  width: 100vw;
+  width: calc(var(--vw, 1vw) * 100);
   top:0;
   left:0;
   display: none;
@@ -295,7 +296,7 @@ form {
 #cutaway-image{
   position: absolute;
   height: calc(var(--vh, 1vh)*90);
-  width: 80vw;
+  width: calc(var(--vw, 1vw) * 80);
 }
 #cutaway-subtitle{
   align-self: center;
@@ -310,7 +311,7 @@ form {
 }
 
 #title-image{
-  width: 90vw;
+  width: calc(var(--vw, 1vw) * 90);
   height: calc(var(--vh, 1vh)*40);
 }
 
@@ -330,7 +331,7 @@ form {
 }
 #turn-players-list{
   display: flex;
-  width: 90vw;
+  width: calc(var(--vw, 1vw) * 90);
   justify-content: space-around;
   height: calc(var(--vh, 1vh)*3);
   align-items: center;
@@ -352,7 +353,7 @@ form {
 #duchy{
   display: flex;
   height: calc(var(--vh, 1vh)*60);
-  width: 90vw;
+  width: calc(var(--vw, 1vw) * 90);
   padding: 20px;
 }
 
