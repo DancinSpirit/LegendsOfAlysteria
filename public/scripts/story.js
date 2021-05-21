@@ -109,6 +109,10 @@ const loadEvent = function(){
             }else if(res.type==="Zachary Duchy Introduction"){
                 eventText.push("[SUBTITLE]Zachary Stormchaser - Setting Information")
             }else if(res.type.includes("Zachary Prologue")){
+                if(res.type.includes("IV")){
+                    eventText.push(`[SUBTITLE]${res.location}, Fall, 2 Years Ago`) 
+                }
+                else
                 eventText.push(`[SUBTITLE]${res.location}, Summer, 2 Years Ago`)
             }else{
                 eventText.push(`[SUBTITLE]${res.location}, ${res.season.season.charAt(0).toUpperCase() + res.season.season.replace(res.season.season.charAt(0),"")} of Year ${res.season.year}`)
