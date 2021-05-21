@@ -368,6 +368,7 @@ const specialCommand = function (text) {
             if(song){
                     song.loop = repeat;
                     song.volume = 0.1;
+                    
                     song.play();
             }else{
                 console.log("Not a valid audio file!")
