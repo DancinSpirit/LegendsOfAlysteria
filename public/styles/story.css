@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+html{
+  overflow: hidden;
+}
+
 body {
   min-height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
