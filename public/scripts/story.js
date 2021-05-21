@@ -140,6 +140,7 @@ $("#left-arrow-box").on("click", function(){
         song.currentTime = 0;
         song.pause();
     }
+    $("#cutaway-image-collection").empty();
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
@@ -162,6 +163,7 @@ $("#right-arrow-box").on("click", function(){
         song.pause();
         song.currentTime = 0;
     }
+    $("#cutaway-image-collection").empty();
     $("#player-bottom-left").empty();
     $("#player-bottom-right").empty();
     $("body").css("pointer-events","none");
@@ -179,6 +181,31 @@ $("#right-arrow-box").on("click", function(){
         }
     })
 })
+
+const closeImages = function(){
+    $(".textbox").css("transform","translateY(0)")
+    $("#cutaway-image-collection").css("transform","translateY(0)");
+    $("#top-arrow-box").css("transform","translateY(0)");
+    $(".fa-chevron-down").addClass("fa-chevron-up");
+    $(".fa-chevron-up").removeClass("fa-chevron-down");
+    $("#top-arrow-box").off("click");
+    $("#top-arrow-box").on("click",openImages);
+}
+
+const openImages = function(){
+    $(".textbox").css("transition","500ms");
+    $("#cutaway-image-collection").css("transition","500ms");
+    $("#top-arrow-box").css("transition","500ms");
+    $(".textbox").css("transform","translateY(-90vh)")
+    $("#cutaway-image-collection").css("transform","translateY(-90vh)");
+    $("#top-arrow-box").css("transform","translateY(-90vh)");
+    $(".fa-chevron-up").addClass("fa-chevron-down");
+    $(".fa-chevron-down").removeClass("fa-chevron-up");
+    $("#top-arrow-box").off("click");
+    $("#top-arrow-box").on("click",closeImages);
+}
+
+$("#top-arrow-box").on("click", openImages);
 
 /* Socket Recievers */
 socket.on('nextLine', function (text) {
@@ -314,6 +341,13 @@ const specialCommand = function (text) {
         return "";
     }
     if (text.startsWith("[MUSIC]")) {
+        let repeat;
+        if(text.replace("[MUSIC]","").startsWith("[NO REPEAT]")){
+            repeat = false;
+            text = text.replace("[NO REPEAT]","");
+        }else{
+            repeat = true;
+        }
         if(song){
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
@@ -324,6 +358,7 @@ const specialCommand = function (text) {
         setTimeout(function(){
             song = document.getElementById(text.replace('[MUSIC]', ""));
             if(song){
+                    song.loop = repeat;
                     song.volume = 0.1;
                     song.play();
             }else{
@@ -483,6 +518,32 @@ const specialCommand = function (text) {
         appendGamemasterText(text);
         $("#cutaway-subtitle").css("display","block")
         $("#cutaway-image").css("background-image", `url(${text.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
+        $("#cutaway-image-collection").append(`<section class="cutaway-image-container"><div id="${text.split("|")[1].replace(/<strong>/g,"").replace(/<\/strong>/g,"")}" class='cutaway-image'></div><div class="cutaway-image-subtitle">${text.split("|")[1]}</div></section>`)
+        textId = document.getElementById(text.split("|")[1].replace(/<strong>/g,"").replace(/<\/strong>/g,""));
+        $(textId).css("background-image", `url(${text.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
+        $(textId).css("background-repeat", `no-repeat`)
+        $(textId).css("background-size", `contain`)
+        $(textId).css("background-position", `center`)
+        $(textId).on("click", function(){
+            $("#cutaway-subtitle").css("display","block")
+            $("#cutaway-image").css("background-image", `url(${text.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
+            $("#cutaway-image").css("background-repeat", `no-repeat`)
+            $("#cutaway-image").css("background-size", `contain`)
+            $("#cutaway-image").css("background-position", `center`)
+            $("#cutaway-image").fadeIn();
+            $("#cutaway-subtitle").html(text.split("|")[1])
+            $("#cutaway-subtitle").fadeIn();
+            $("#cutaway-image-container").css("display","flex");
+            $("#cutaway-image-container").off("click")
+            $("#cutaway-image-container").on("click", function(){
+                $("#cutaway-image").fadeOut();
+                $("#cutaway-subtitle").fadeOut();
+                setTimeout(function(){
+                    $("#cutaway-image-container").css("display","none");
+                    $("#cutaway-subtitle").css("display","none");
+                },500)
+            })
+        })
         $("#cutaway-image").css("background-repeat", `no-repeat`)
         $("#cutaway-image").css("background-size", `contain`)
         $("#cutaway-image").css("background-position", `center`)
