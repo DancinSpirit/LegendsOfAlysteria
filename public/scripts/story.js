@@ -142,11 +142,19 @@ const loadTitle = function(res){
     nextLine();
 }
 
+const stopAudio = function(song){
+    song.currentTime = 0;
+        song.pause();
+    let originalSrc = song.src;
+    console.log("ORIGINAL: " + originalSrc)
+    song.src = "";
+    song.src = originalSrc;
+}
+
 /* Load New Page */
 $("#left-arrow-box").on("click", function(){
     if(song){
-        song.currentTime = 0;
-        song.pause();
+        stopAudio(song);
     }
     $("#cutaway-image-collection").empty();
     $("#player-bottom-left").empty();
@@ -168,8 +176,7 @@ $("#left-arrow-box").on("click", function(){
 /* Load New Page */
 $("#right-arrow-box").on("click", function(){
     if(song){
-        song.pause();
-        song.currentTime = 0;
+        stopAudio(song);
     }
     $("#cutaway-image-collection").empty();
     $("#player-bottom-left").empty();
@@ -359,8 +366,7 @@ const specialCommand = function (text) {
         if(song){
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
-                song.pause();
-                song.currentTime = 0;
+                stopAudio(song);
             },320)
         }
         setTimeout(function(){
@@ -383,8 +389,7 @@ const specialCommand = function (text) {
         if(song){
             $(song).animate({volume: 0}, 300);
             setTimeout(function(){
-                song.pause();
-                song.currentTime = 0;
+                stopAudio(song);
             },300)
         }
         nextLine();
