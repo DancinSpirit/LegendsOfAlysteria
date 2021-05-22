@@ -219,6 +219,14 @@ form {
   width: 5vw;
 }
 
+#left-arrow{
+  transform: translateY(-10vh);
+}
+
+#right-arrow{
+  transform: translateY(-90vh);
+}
+
 #top-arrow{
   display: flex;
   justify-content: center;

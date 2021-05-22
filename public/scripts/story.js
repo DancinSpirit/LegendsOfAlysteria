@@ -8,6 +8,14 @@ let images = story.images;
 $("#cutaway-image").fadeOut()
 $("#cutaway-subtitle").fadeOut();
 
+if( /Android|webOS|iPhone|iPad|Mac|Macintosh|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/mobileStory.css`))
+}else{
+    $('body').removeAttr("id")
+    $('body').append("<section id='background'></section>");
+    $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/story.css`)) 
+}
+
 window.addEventListener('popstate', (event) => {
     index=-1;
     $("#left-arrow").children().removeClass("invisible")
