@@ -59,11 +59,15 @@
 
         </section>
     </section>
+    <section id="choice-container">
+        <section id="choice">
+
+        </section>
+    </section>
     <section id="cutaway-subtitle">
     </section>
     <%for(let x=0; x<story.songs.length; x++){%>
-    <audio id='<%=story.songs[x].name%>' loop>
-        <source src='/audio/<%=story.songs[x].name%>.mp3'>
+    <audio id='<%=story.songs[x].name%>' loop src='/audio/<%=story.songs[x].name%>.mp3'>
     </audio>
     <%}%>
 </body>

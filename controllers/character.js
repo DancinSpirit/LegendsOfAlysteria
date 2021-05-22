@@ -3,6 +3,16 @@ const router = express.Router();
 const db = require("../models");
 const s3 = require("../s3.js");
 
+/* Trait Get */
+router.get("/trait/:id", async function(req,res){
+    const trait = await db.Trait.findById(req.params.id);
+    res.send(trait);
+})
+
+
+
+
+
 /* Characters Index */
 router.get("/", async function(req, res){
     res.render("main",{state: "characters"})

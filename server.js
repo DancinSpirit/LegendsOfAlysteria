@@ -38,6 +38,17 @@ app.use(async function(req,res,next){
     }else{
     app.locals.user = {};
     app.locals.user.gamemaster = false;
+    if(req.url!="/login"&&req.url!="/register"){
+        if(req.url=="/styles/main.css"){
+
+        }else if(req.url=="/login/component"){
+
+        }else if(req.url=="/register/component"){
+        
+        }else{
+            res.redirect("/login");
+        }
+    }
     }
     next();
 }) 

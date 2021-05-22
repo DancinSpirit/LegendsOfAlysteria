@@ -5,6 +5,8 @@ let song;
 let soundEffect;
 let eventText = [];
 let images = story.images;
+let ctrlButton = true;
+let enterButton = true;
 $("#cutaway-image").fadeOut()
 $("#cutaway-subtitle").fadeOut();
 
@@ -190,9 +192,8 @@ const loadTitle = function(res){
 
 const stopAudio = function(song){
     song.currentTime = 0;
-        song.pause();
+    song.pause();
     let originalSrc = song.src;
-    console.log("ORIGINAL: " + originalSrc)
     song.src = "";
     song.src = originalSrc;
 }
@@ -244,6 +245,11 @@ $("#right-arrow-box").on("click", function(){
 })
 
 const closeImages = function(){
+    setTimeout(function(){
+        $(".textbox").css("transition","0ms");
+        $("#cutaway-image-collection").css("transition","0ms");
+        $("#top-arrow-box").css("transition","0ms");
+    },500)
     $(".textbox").css("transform","translateY(0)")
     $("#cutaway-image-collection").css("transform","translateY(0)");
     $("#top-arrow-box").css("transform","translateY(0)");
@@ -679,7 +685,63 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[PLAYER ACTION]")){
-        $("")
+        $("#choice").empty();
+        $("#choice").css("color","white");
+        $("#choice-container").css("border-color","white");
+        ctrlButton = false;
+        enterButton = false;
+        let numberOfOptions = parseInt(text.split("|")[2]);
+        $("#choice").append(`<p class='choice-title'>${text.split("|")[1]}</p>`)
+        for(let x=0; x<numberOfOptions; x++){
+            if(text.split("|")[x+3].startsWith("[CHOSEN]")){
+                $("#choice").append(`<p class='choice-option chosen-option'>${text.split("|")[x+3].replace("[CHOSEN]","")}</p>`)
+                $(".chosen-option").on("click",function(){
+                    $("#choice-container").css("display","none");
+                    ctrlButton = true;
+                    enterButton = true;
+                })
+            }
+            else
+            $("#choice").append(`<p class='choice-option unchosen-option'>${text.split("|")[x+3]}</p>`)
+        }
+        $("#choice-container").css("display","flex");
+        return "";
+    }
+    if(text.startsWith("[DISCOVERY]")){
+        if(text.replace("[DISCOVERY]","").startsWith("[TRAIT]")){
+            $("#choice").empty();
+            $("#choice").css("color","black");
+            ctrlButton = false;
+            enterButton = false;
+            $.ajax({
+                method: "GET",
+                url: `/character/${text.split("|")[1]}/style`,
+                success: function(res){
+                    $("#appended-style").remove();
+                    $("head").append($("<link id='appended-style' rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                }
+            })
+            $.ajax({
+                method: "GET",
+                url: `/character/trait/${text.replace("[DISCOVERY][TRAIT]","").split("|")[0]}`,
+                success: function(trait){
+                    if(trait.type===5){
+                        $("#choice").append(`<section class="meta-trait"><section class="trait-type character-big-title character-box-section knowledge-grid-title">New Battle Ability Discovered!</section></section>`)
+                    }
+                    $(".meta-trait").append(`<section class="meta-trait-content"><section class="trait-name character-box-title character-box-section">${trait.name}</section></section>`)
+                    $(".meta-trait-content").append(`<section class="trait-description character-box-content character-box-section">${trait.description}</section>`)
+                    $(".meta-trait-content").append(`<section class="trait-effect character-box-content character-box-section"><strong>Effect: </strong>${trait.effect}</section>`)
+                    $("#choice").append(`<p class='continue-button'>Continue</p>`)
+                    $(".continue-button").on("click",function(){
+                        $("#choice-container").css("display","none");
+                        ctrlButton = true;
+                        enterButton = true;
+                    })
+                }
+            })
+        }
+        $("#choice-container").css("display","flex");
+        return "";
     }
 }
 
@@ -698,7 +760,8 @@ const loadCharacter = function(text){
             method: "GET",
             url: `/character/${text.replace("[CHARACTER]","")}/style`,
             success: function(res){
-                $("head").append($("<link rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
+                $("#appended-style").remove();
+                $("head").append($("<link id='appended-style' rel='stylesheet' type='text/css' />").attr('href',`/styles/characters/${res}.css`))
                 resolve();
             }
         })
@@ -810,12 +873,14 @@ $(".textbox").on("click", nextLine);
 
 $("body").on("keydown", function (e) {
     if (e.keyCode == 17) {
+        if(enterButton)
         nextLine();
     }
 })
 
 $("body").on("keypress", function (e) {
     if (e.keyCode == 13) {
+        if(ctrlButton)
         nextLine();
     }
 })
