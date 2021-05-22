@@ -7,17 +7,6 @@ let eventText = [];
 let images = story.images;
 $("#cutaway-image").fadeOut()
 $("#cutaway-subtitle").fadeOut();
-let vh = window.innerHeight * 0.01;
-let vw = window.innerWidth * 0.01;
-document.documentElement.style.setProperty('--vh', `${vh}px`);
-document.documentElement.style.setProperty('--vw', `${vw}px`);
-window.addEventListener('resize', () => {
-    // We execute the same script as before
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-    let vw = window.innerWidth * 0.01;
-    document.documentElement.style.setProperty('--vw', `${vw}px`);
-  });
 
 window.addEventListener('popstate', (event) => {
     index=-1;
