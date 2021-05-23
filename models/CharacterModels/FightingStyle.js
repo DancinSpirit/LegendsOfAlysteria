@@ -4,6 +4,7 @@ const fightingStyleSchema = new mongoose.Schema(
         name: {type: String},
         advantageOver: {type: mongoose.Schema.Types.ObjectId, ref: "FightingStyle"},
         weakAgainst: {type: mongoose.Schema.Types.ObjectId, ref: "FightingStyle"},
+        reroll: {type: mongoose.Schema.Types.ObjectId, ref: "Reroll"},
         effect: {type: String},
     },
     {timestamps: true}

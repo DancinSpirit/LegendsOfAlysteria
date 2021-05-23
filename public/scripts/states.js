@@ -12,6 +12,9 @@ const reset = function(){
         if(state === "editCharacterBasic"){
             $("#edit-basic-character-sheet-button").addClass("character-nav-button-unselected");
         }
+        if(state === "editCharacterCombat"){
+            $("#edit-combat-character-sheet-button").addClass("character-nav-button-unselected");
+        }
         if(state === "login"){
             $("#login").css("transform", "translate(-100%, -40px)")
         }
@@ -186,9 +189,9 @@ const character = function(){
             url: `${window.location.href}/component/basic-sheet`,
             success: function(res){
                 $("#character-sheet").html(res);
+                $("#basic-character-sheet-button").removeClass("character-nav-button-unselected");
             }
         })
-        $("#basic-character-sheet-button").removeClass("character-nav-button-unselected");
     }
     const characterCombat = function(){
         previousRequest = $.ajax({
@@ -196,9 +199,9 @@ const character = function(){
             url: `${window.location.href}/component/combat-sheet`,
             success: function(res){
                 $("#character-sheet").html(res);
+                $("#combat-character-sheet-button").removeClass("character-nav-button-unselected");
             }
         })
-        $("#combat-character-sheet-button").removeClass("character-nav-button-unselected");
     }
 
 /* EDIT CHARACTER STATES */

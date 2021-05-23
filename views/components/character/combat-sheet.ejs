@@ -36,37 +36,99 @@
                 Fighting Styles
             </section>
             <section class = "combat-style-box-content">
-                <section class = "combat-style-box-half">
-                    <%if(character.currentInfo.combatStyles[x].fightingStyles.length){%>
-                            <section class = "character-box-title character-box-section">
-                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].name%>
+                <%if(character.currentInfo.combatStyles[x].fightingStyles.length){%>
+                    <section class = "combat-style-box-half border-right">
+                        <section class = "character-box-title character-box-section fighting-style-name">
+                            <%=character.currentInfo.combatStyles[x].fightingStyles[0].name%>
+                        </section>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                Advantage Over:
                             </section>
-                            <section class = "combat-stlyle-content-row">
-                                <section class = "character-box-title character-box-section combat-row-half">
-                                    Advantage Over:
-                                </section>
-                                <section class = "character-box-content character-box-section combat-row-half">
-                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].advantageOver.name%>
-                                </section>
-                            </section>
-                    <%}else if(character.currentInfo.combatStyles[x].fightingStyles.length===2){%>
-                        <section class = "combat-style-box-half">
-                            <section class = "character-box-title character-box-section">
-                                Rank:
-                            </section>
-                            <section class = "character-box-content character-box-section">
-                                <%=character.currentInfo.combatStyles[x].weaponStyle.info.rankString()%>
+                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].advantageOver.name%>
                             </section>
                         </section>
-                        <section class = "combat-style-box-half">
-                            <section class = "character-box-title character-box-section">
-                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].name%>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                Weak Against:
                             </section>
-                            <section class = "character-box-content character-box-section">
-                                <%=character.currentInfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[0].weakAgainst.name%>
                             </section>
                         </section>
-                    <%}%>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content character-box-section ">
+                                <strong>Effect: </strong><%=character.currentInfo.combatStyles[x].fightingStyles[0].effect%>
+                            </section>
+                        </section>
+                    </section>
+                <%}%>
+                <%if(character.currentInfo.combatStyles[x].fightingStyles.length===2){%>
+                    <section class = "combat-style-box-half">
+                        <section class = "character-box-title character-box-section fighting-style-name">
+                            <%=character.currentInfo.combatStyles[x].fightingStyles[1].name%>
+                        </section>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                Advantage Over:
+                            </section>
+                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[1].advantageOver.name%>
+                            </section>
+                        </section>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                Weak Against:
+                            </section>
+                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half">
+                                <%=character.currentInfo.combatStyles[x].fightingStyles[1].weakAgainst.name%>
+                            </section>
+                        </section>
+                        <section class = "combat-style-content-row">
+                            <section class = "character-box-content character-box-section ">
+                                <strong>Effect: </strong><%=character.currentInfo.combatStyles[x].fightingStyles[1].effect%>
+                            </section>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+            <section class = "combat-style-content-row reroll-section">
+                <section class = "combat-style-box-half character-box-content character-box-section border-right">
+                    <strong>Reroll: </strong>
+                    <%if(character.currentInfo.combatStyles[x].rerolls.length){%>
+                        <%for(let y=0; y<character.currentInfo.combatStyles[x].rerolls.length; y++){%>
+                            <%if(character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name==character.currentInfo.combatStyles[x].rerolls[y].reroll.name){%>
+                                <%if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>1){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].reroll.amount%>
+                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>0){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name%>
+                                <%}else{%>
+                                    None
+                                <%}%>
+                            <%}%>
+                        <%}%> 
+                    <%}else{%>
+                        None
+                    <%}%>                          
+                </section>
+                <section class = "combat-style-box-half character-box-content character-box-section">
+                    <strong>Reroll: </strong>
+                    <%if(character.currentInfo.combatStyles[x].rerolls.length){%>
+                        <%for(let y=0; y<character.currentInfo.combatStyles[x].rerolls.length; y++){%>
+                            <%if(character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name==character.currentInfo.combatStyles[x].rerolls[y].reroll.name){%>
+                                <%if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>1){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].reroll.amount%>
+                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>0){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name%>
+                                <%}else{%>
+                                    None
+                                <%}%>
+                            <%}%>
+                        <%}%> 
+                    <%}else{%>
+                        None
+                    <%}%>                    
                 </section>
             </section>
         </section>
