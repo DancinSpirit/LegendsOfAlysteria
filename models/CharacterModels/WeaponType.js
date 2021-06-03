@@ -12,6 +12,6 @@ const weaponTypeSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-const WeaponType = mongoose.model("WeaponStyle", weaponTypeSchema);
+const WeaponType = mongoose.model("WeaponType", weaponTypeSchema);
 
 module.exports = WeaponType;

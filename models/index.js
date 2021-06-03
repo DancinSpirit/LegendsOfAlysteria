@@ -48,4 +48,16 @@ module.exports = {
     Story: require("./Story"),
     Season: require("./Season"),
     Event: require("./Event"),
+    /* Gameplay Models */
+    County: require("./County"),
+    Duchy: require("./Duchy"),
+    /* Army Models */
+    Army: require("./ArmyModels/Army"),
+    Battalion: require("./ArmyModels/Battalion"),
+    Organization: require("./ArmyModels/Organization"),
+    Brigade: require("./ArmyModels/Brigade"),
+    Company: require("./ArmyModels/Company"),
+    Platoon: require("./ArmyModels/Platoon"),
+    Squad: require("./ArmyModels/Squad"),
+    Team: require("./ArmyModels/Team"),
 };

@@ -2,7 +2,6 @@ const express = require("express");
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const MongoStore = require('connect-mongo');
-const db = require("./models");
 
 const ctrl = require("./controllers");
 
@@ -73,35 +72,3 @@ io.on('connection', (socket) => {
 http.listen(PORT, function(){
     console.log(`Live at http://localhost:${PORT}/`);
 })
-
-const countLines = async function(){
-    const events = await db.Event.find({});
-    let lineCount = 0;
-    for(let x=0; x<events.length; x++){
-        for(let y=0; y<events[x].text.length; y++){
-            lineCount++;
-        }
-    }
-    return lineCount;
-}
-const countWords = async function(){
-    const events = await db.Event.find({});
-    let wordCount = 0;
-    let lineWords = [];
-    for(let x=0; x<events.length; x++){
-        for(let y=0; y<events[x].text.length; y++){
-            lineWords = events[x].text[y].split(" ");
-            for(let z=0; z<lineWords.length; z++){
-                wordCount++;
-            }
-        }
-    }
-    return wordCount;
-}
-
-const returnCounts = async function(){
-console.log("Lines: " + await countLines());
-console.log("Words: " + await countWords());
-}
-
-returnCounts();

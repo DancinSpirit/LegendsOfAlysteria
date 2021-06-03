@@ -75,6 +75,7 @@ body {
 #character-image {
   max-height: 100%;
   border: solid 1px;
+  background-color: #ffffff;
 }
 #basic-info-content {
   flex-grow: 1;
@@ -268,8 +269,10 @@ body {
   border: solid 1px;
 }
 .combat-style {
-  padding: 10px;
+  margin: 10px;
   width: 100%;
+  overflow-y: auto;
+  background-color: #646262;
 }
 .combat-style-column {
   width: 50%;
@@ -311,6 +314,11 @@ body {
   text-align: center;
   border-bottom: solid 1px;
 }
+.weapon-type-name {
+  text-align: center;
+  border-bottom: solid 1px;
+  width: 100%;
+}
 .fighting-advantage {
   border-bottom: dotted 1px;
   border-right: dotted 1px;
@@ -326,6 +334,12 @@ body {
   border-left: solid 1px;
   border-bottom: solid 1px;
   border-right: solid 1px;
+}
+.soft-border-right {
+  border-right: dotted 1px;
+}
+.soft-border-bottom {
+  border-bottom: dotted 1px;
 }
 /* Tester */
 #css-load-tester {

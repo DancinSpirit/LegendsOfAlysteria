@@ -52,7 +52,7 @@ const reset = function(){
 const login = function(){
     $.ajax({
         method: "GET",
-        url: "login/component",
+        url: "/login/component",
         success: function(res){
             $("#login").html(res);
             $("#login").css("transform", "translate(0%,-40px)")
@@ -82,7 +82,7 @@ const login = function(){
 const register = function(){
     $.ajax({
         method: "GET",
-        url: "register/component",
+        url: "/register/component",
         success: function(res){
             $("#register").html(res);
             $("#register").css("transform", "translate(0%,-40px)")

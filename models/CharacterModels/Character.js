@@ -3,6 +3,7 @@ const characterSchema = new mongoose.Schema(
     {
         currentInfo: {type: mongoose.Schema.Types.ObjectId, ref: "CharacterInfo"},
         infoFromTurn: [{type: mongoose.Schema.Types.ObjectId, ref: "CharacterInfo"}],
+        type: {type: String}
     },
     {timestamps: true}
 )

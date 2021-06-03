@@ -85,6 +85,7 @@ background: darken(@darker,25%);
             #character-image {
             max-height: 100%;
             border: solid 1px;
+            background-color: @light;
             }
     
         #basic-info-content {
@@ -294,8 +295,10 @@ background: darken(@darker,25%);
 }
 
 .combat-style{
-    padding: 10px;
+    margin: 10px;
     width: 100%;
+    overflow-y: auto;
+    background-color: darken(@background,15%);
 }
 
 .combat-style-column{
@@ -347,6 +350,11 @@ background: darken(@darker,25%);
     text-align: center;
     border-bottom: solid 1px;
 }
+.weapon-type-name{
+    text-align: center;
+    border-bottom: solid 1px;
+    width:100%;
+}
 
 .fighting-advantage{
     border-bottom:dotted 1px;
@@ -366,6 +374,13 @@ background: darken(@darker,25%);
     border-left: solid 1px;
     border-bottom: solid 1px;
     border-right: solid 1px;
+}
+
+.soft-border-right{
+    border-right: dotted 1px;
+}
+.soft-border-bottom{
+    border-bottom: dotted 1px;
 }
 
 /* Tester */

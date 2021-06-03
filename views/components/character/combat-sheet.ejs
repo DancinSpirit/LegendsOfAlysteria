@@ -10,7 +10,7 @@
             </section>
             <section class = "combat-style-box-content">
                 <section class = "combat-style-box-half">
-                    <section class = "combat-style-content-row">
+                    <section class = "combat-style-content-row border-right">
                         <section class = "character-box-title character-box-section combat-row-half">
                             Modifier:
                         </section>
@@ -99,9 +99,9 @@
                     <%if(character.currentInfo.combatStyles[x].rerolls.length){%>
                         <%for(let y=0; y<character.currentInfo.combatStyles[x].rerolls.length; y++){%>
                             <%if(character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name==character.currentInfo.combatStyles[x].rerolls[y].reroll.name){%>
-                                <%if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>1){%>
-                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].reroll.amount%>
-                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>0){%>
+                                <%if(character.currentInfo.combatStyles[x].rerolls[y].amount>1){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].amount%>
+                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].amount>0){%>
                                     <%=character.currentInfo.combatStyles[x].fightingStyles[0].reroll.name%>
                                 <%}else{%>
                                     None
@@ -117,9 +117,9 @@
                     <%if(character.currentInfo.combatStyles[x].rerolls.length){%>
                         <%for(let y=0; y<character.currentInfo.combatStyles[x].rerolls.length; y++){%>
                             <%if(character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name==character.currentInfo.combatStyles[x].rerolls[y].reroll.name){%>
-                                <%if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>1){%>
-                                    <%=character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].reroll.amount%>
-                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].reroll.amount>0){%>
+                                <%if(character.currentInfo.combatStyles[x].rerolls[y].amount>1){%>
+                                    <%=character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name%> x<%=character.currentInfo.combatStyles[x].rerolls[y].amount%>
+                                <%}else if(character.currentInfo.combatStyles[x].rerolls[y].amount>0){%>
                                     <%=character.currentInfo.combatStyles[x].fightingStyles[1].reroll.name%>
                                 <%}else{%>
                                     None
@@ -128,8 +128,80 @@
                         <%}%> 
                     <%}else{%>
                         None
-                    <%}%>                    
+                    <%}%>                
                 </section>
+            </section>
+        </section>
+        <section class = "combat-style-box">
+            <section class = "character-big-title character-box-section">
+                Weapon Types
+            </section>
+            <section class = "combat-style-box-content">
+                <%for(let y=0; y<2; y++){%>
+                <section class = "combat-style-box-half">
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%>">
+                        <section class = "character-box-title character-box-section weapon-type-name">
+                            <%=character.currentInfo.combatStyles[x].weaponTypes[y].name%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%> soft-border-bottom">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            Attack: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half ">
+                            <%=character.currentInfo.combatStyles[x].weaponTypes[y].attack%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%> soft-border-bottom">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            Defense: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%=character.currentInfo.combatStyles[x].weaponTypes[y].defense%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%> soft-border-bottom">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            AP: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%=character.currentInfo.combatStyles[x].weaponTypes[y].armorPenetration%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%> soft-border-bottom">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            DD: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%=character.currentInfo.combatStyles[x].weaponTypes[y].directDamage%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%> soft-border-bottom">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            Passive Ability: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%if(character.currentInfo.combatStyles[x].weaponTypes[y].passiveAbility){%>
+                                <%=character.currentInfo.combatStyles[x].weaponTypes[y].passiveAbility.name%>
+                            <%}else{%>
+                                None 
+                            <%}%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row <%if(y==0){%>border-right<%}%>">
+                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                            Special Ability: 
+                        </section>
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            <%if(character.currentInfo.combatStyles[x].weaponTypes[y].passiveAbility){%>
+                                <%=character.currentInfo.combatStyles[x].weaponTypes[y].specialAbility.name%>
+                            <%}else{%>
+                                None 
+                            <%}%>
+                        </section>
+                    </section>
+                </section>
+                <%}%>
             </section>
         </section>
     </section>

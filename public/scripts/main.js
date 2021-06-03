@@ -4,11 +4,12 @@ let superStateChange = false;
 const load = async function(newState){
     console.log(newState);
     /* SuperState Checks */ 
-    if(!newState.includes("haracter")||newState ==="characters"){   
+    if(!newState.includes("character")||newState ==="characters"){   
         console.log("superstate" + superState)
         if(superState ==="character" || superState ==="editCharacter")
             superStateChange = true;
     }
+    $("body").css("pointer-events","none");
     await reset();
     if(newState === "character" ){
         superState = "character"
@@ -42,6 +43,7 @@ const load = async function(newState){
         characters();
     }
     state = newState;
+    $("body").css("pointer-events","auto");
 }
 
 /*State Management*/

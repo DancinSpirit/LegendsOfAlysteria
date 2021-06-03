@@ -748,9 +748,31 @@ const specialCommand = function (text) {
 const loadCharacterAndCss = async function(text){
     await loadCharacter(text.split("|")[0]);
     await loadCharacterComponent(text.split("|")[0]);
-    await loadCharacterBasicSheet(text.split("|")[0]);
-    if(text.split("|")[1] == "stat-sheet")
-    $("#advanced-stat-sheet-button").removeClass("invisible");
+    $("#character-sheet").height($("#player-box").height()-($(".big-boy").height()*2)-$(".title").height()-$(".eventType").height()-$(".subtitle").height()-75)
+    $("#basic-character-sheet-button").on("click", function(){
+        loadCharacterBasicSheet(text.split("|")[0]);
+    })
+    if(text.split("|")[2] == "stat-sheet")
+        $("#advanced-stat-sheet-button").removeClass("invisible");
+        $("#advanced-stat-sheet-button").on("click", function(){
+            loadAdvancedStatSheet(text.split("|")[0]);
+        })
+    if(text.split("|")[3] == "combat-sheet"){
+        $("#combat-character-sheet-button").removeClass("invisible");
+        $("#combat-character-sheet-button").on("click", function(){
+            loadCombatCharacterSheet(text.split("|")[0]);
+        })
+    }
+    if(text.split("|")[1] == "basic-sheet"){
+        await loadCharacterBasicSheet(text.split("|")[0]);
+    }
+    if(text.split("|")[1] == "stat-sheet"){
+        await loadAdvancedStatSheet(text.split("|")[0]);
+    }
+    if(text.split("|")[1] == "combat-sheet"){
+        await loadCombatCharacterSheet(text.split("|")[0]);
+    }
+    
     $(".textbox").css("background-color",$(".character-box-content").css("background-color"));
 }
 
@@ -789,7 +811,36 @@ const loadCharacterBasicSheet = function(text){
             url: `/character/${text.replace("[CHARACTER]","")}/component/basic-sheet/view`,
             success: function(res){
                 $("#character-sheet").html(res);
+                $(".character-nav-button").addClass("character-nav-button-unselected");
                 $("#basic-character-sheet-button").removeClass("character-nav-button-unselected");
+                resolve();
+            }
+        })
+    })
+}
+const loadAdvancedStatSheet = function(text){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/character/${text.replace("[CHARACTER]","")}/component/stat-sheet/view`,
+            success: function(res){
+                $("#character-sheet").html(res);
+                $(".character-nav-button").addClass("character-nav-button-unselected");
+                $("#advanced-stat-sheet-button").removeClass("character-nav-button-unselected");
+                resolve();
+            }
+        })
+    })
+}
+const loadCombatCharacterSheet = function(text){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/character/${text.replace("[CHARACTER]","")}/component/combat-sheet/view`,
+            success: function(res){
+                $("#character-sheet").html(res);
+                $(".character-nav-button").addClass("character-nav-button-unselected");
+                $("#combat-character-sheet-button").removeClass("character-nav-button-unselected");
                 resolve();
             }
         })
