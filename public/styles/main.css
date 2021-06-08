@@ -31,6 +31,9 @@
   color: #ba6b17;
   display: none;
 }
+.fa-spinner {
+  font-size: 50px;
+}
 * {
   margin: 0;
   padding: 0;

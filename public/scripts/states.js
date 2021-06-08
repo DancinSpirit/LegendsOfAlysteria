@@ -258,9 +258,9 @@ const editCharacter = function(){
 const loadCharacter = function(res){
     $("#character-page").html(res);
     $("#character-page").css("transform","translateY(-20px)")
-    $("#character-sheet").html('<div class="loading" >Loading&#8230;</div>');
+    $("#character-sheet").html('<div class="loading" > <i class="fas fa-spinner fa-spin"></i></div>');
     $(".character-nav-button-unselected").on("click", ()=>{
-        $("#character-sheet").html('<div class="loading">Loading&#8230;</div>');
+        $("#character-sheet").html('<div class="loading"> <i class="fas fa-spinner fa-spin"></i></div>');
     })
     $("#basic-character-sheet-button").on("click", ()=>{
         load("characterBasic");

@@ -7,6 +7,8 @@ let eventText = [];
 let images = story.images;
 let ctrlButton = true;
 let enterButton = true;
+let titleLoaded = false;
+
 $("#cutaway-image").fadeOut()
 $("#cutaway-subtitle").fadeOut();
 
@@ -80,6 +82,7 @@ window.addEventListener('popstate', (event) => {
 })
 
 const loadNewPage = function(res){
+    titleLoaded = false;
     $(".textbox").css("background-color","rgba(0, 0, 0, 0.7)");
     $(".textbox").css("color","white");
     console.log(res);
@@ -187,7 +190,8 @@ const loadTitle = function(res){
     $("#player-bottom").empty();
     eventText = [];
     eventText.push(res)
-    nextLine();
+    setTimeout(nextLine,100);
+
 }
 
 const stopAudio = function(song){
@@ -391,7 +395,7 @@ const appendGamemasterText = function (text) {
     })
 }
 
-const specialCommand = function (text) {
+const specialCommand = async function (text) {
     if(text.startsWith("[SOUND EFFECT]")){
         soundEffect = document.getElementById(text.replace('[SOUND EFFECT]',''));
         if(soundEffect){
@@ -465,36 +469,63 @@ const specialCommand = function (text) {
         appendGamemasterText(text);
         if(text.startsWith("[OTHER]")){
             text = text.replace("[OTHER]","");
-            $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext other'>${text}</p>`);
+            $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext other'></p>`);
+            $(`#boxtext-${index}`).css("visibility","hidden");
+            $(`#boxtext-${index}`).text(text);
+            $(`#boxtext-${index}`).height($(`#boxtext-${index}`).height());
+            if(index<eventText.length-1)
+            $("#player-bottom").append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
+            $(".textbox").scrollTop($(".textbox").prop("scrollHeight"));
+            $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
+            $(`#boxtext-${index}`).text("");
+            $(`#boxtext-${index}`).css("visibility","visible");
+            await typeWriter("", 0, 4,text,index,`#boxtext-${index}`, 20);
+            $("#click-signifier").css("visibility", "visible");
+            $(`#boxtext-${index}`).height("auto");
         }else{
             text = text.replace("[]","");
-            text1 = text.split("[OTHER]")[0];
+            text1 = text.split("[OTHER]")[0] + " ";
             text2 = text.split("[OTHER]")[1];
             text3 = text.split("[OTHER]")[2];
-            $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext'>${text1}<span class='other'>${text2}</span>${text3}</p>`);
+            $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext'><span id="boxtext-${index}-1"></span><span class='other' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+            $(`#boxtext-${index}`).css("visibility","hidden");
+            $(`#boxtext-${index}-1`).text(text);
+            $(`#boxtext-${index}`).height($(`#boxtext-${index}`).height());
+            if(index<eventText.length-1)
+            $("#player-bottom").append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
+            $(".textbox").scrollTop($(".textbox").prop("scrollHeight"));
+            $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
+            $(`#boxtext-${index}-1`).text("");
+            $(`#boxtext-${index}`).css("visibility","visible");
+            console.log($(`#boxtext-${index}`))
+            await typeWriter("", 0, 4,text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, 4,text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, 4,text3,index,`#boxtext-${index}-3`, 1);
+            $("#click-signifier").css("visibility", "visible");
+            $(`#boxtext-${index}`).height("auto");
         }
         return "";
     }
     if(text.startsWith("[TYPE]")){
         text = text.replace("[TYPE]","");
-        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext eventType'>${text}</p>`);
+        $("#player-bottom").append(`<p class='boxtext eventType'>${text}</p>`);
         nextLine();
         return "";
     }
     if(text.startsWith("[TITLE]")){
         text = text.replace("[TITLE]","");
-        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext title'>${text}</p>`);
+        $("#player-bottom").append(`<p class='boxtext title'>${text}</p>`);
         nextLine();
         return "";
     }
     if(text.startsWith("[SUBTITLE]")){
         text = text.replace("[SUBTITLE]","");
-        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext subtitle'>${text}</p>`);
+        $("#player-bottom").append(`<p class='boxtext subtitle'>${text}</p>`);
         nextLine();
         return "";
     }
     if(text.startsWith("[EMPTYONE]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         setTimeout(function(){
             $(`#boxtext-${index}`).css("transition","500ms");
         },500)
@@ -503,9 +534,9 @@ const specialCommand = function (text) {
         return "";
     }
     if(text.startsWith("[EMPTYTWO]")){
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div id="click-signifier-big" class='boxtext big-boy'><i class="fas fa-scroll fa-blink"></i></div>`);
         setTimeout(function(){
-            $(`#boxtext-${index}`).css("transition","500ms");
+            $(`#click-signifier-big`).css("transition","500ms");
         },500)
         $(".big-boy").height(($("#player-box").height()/2) - $(".eventType").height() - $(".title").height() - $(".subtitle").height())
         eventText.splice(0,5);
@@ -533,6 +564,8 @@ const specialCommand = function (text) {
     if(text.startsWith("[START]")){
         appendGamemasterText(text);
         $(".big-boy").css("height", "0px")
+        $("#click-signifier-big").empty();
+        $("#click-signifier-big").removeAttr("id","click-signifier-big");
         setTimeout(function(){
             nextLine();
         },500)
@@ -541,28 +574,28 @@ const specialCommand = function (text) {
     /* TURN TITLE */
     if(text.startsWith("[TURN TITLE]")){
         $("#background").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext turn-title'>Turn ${text.replace("[TURN TITLE]","").split("|")[0]}</p>`);
         $("#player-bottom").append(`<p class='boxtext turn-subtitle'>${text.replace("[TURN TITLE]","").split("|")[1].charAt(0).toUpperCase() + text.replace("[TURN TITLE","").split("|")[1].slice(1)} of Year ${text.replace("[TURN TITLE","").split("|")[2]}</p>`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - 40)/2)
         return "";
     }
     if(text.startsWith("[STORY TITLE]")){
         $("#background").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext story-supertitle'>Not! Conquering High Fantasy</p>`);
         $("#player-bottom").append(`<p class='boxtext story-title'>Legends of Alysteria</p>`);
         $("#player-bottom").append(`<p class='boxtext story-subtitle'>The ${text.replace("[STORY TITLE]","")} Collection</p>`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height() - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height() -60)/2)
         return "";
     }
     if(text.startsWith("[AREA TITLE]")){
         $("#background").css("background-image", `url(https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg)`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $("#player-bottom").append(`<section id="title-image"></section>`);
         $("#title-image").css("background-image", `url(${text.split("|")[3]})`)
         $("#title-image").css("background-repeat", `no-repeat`)
@@ -576,7 +609,7 @@ const specialCommand = function (text) {
         for(let x=0; x<text.split("|")[4].split("+").length; x++){
             $("#turn-players-list").append(`<div><div class="turn-player">${text.split("|")[4].split("+")[x]}</div><div class="turn-player" id="character-name-title">${text.split("|")[5].split("+")[x]}</div></div>`)
         }
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></i></div>`);
         $(".big-boy").height(($("#player-box").height()  - $(".turn-title").height() - $(".turn-subtitle").height() - $("#title-image").height() - $(".turn-players").height() - 100 - $("#turn-players-list").height())/2)
         return "";
     }
@@ -634,13 +667,13 @@ const specialCommand = function (text) {
     }
     if(text.startsWith("[CHARACTER TITLE]")){
         $("#background").css("background-image", `url(https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg)`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height()/2))
         $("#player-bottom").append(`<p class='boxtext story-supertitle'>Legends of Alysteria</p>`);
         $("#player-bottom").append(`<p class='boxtext story-title'>${text.replace("[CHARACTER TITLE]","").split("|")[0]}</p>`);
         $("#player-bottom").append(`<p class='boxtext story-subtitle'>Player: ${text.split("|")[1]}</p>`);
         $("#player-bottom").append(`<p class='boxtext story-subsubtitle'>${text.split("|")[2]}</p>`);
-        $("#player-bottom").append(`<div id="boxtext-${index}" class='boxtext big-boy'></div>`);
+        $("#player-bottom").append(`<div class='boxtext big-boy'></div>`);
         $(".big-boy").height(($("#player-box").height() - $(".story-supertitle").height() - $(".story-title").height() - $(".story-subtitle").height() - $(".story-subsubtitle").height() -80)/2)
         return "";
     }
@@ -692,9 +725,10 @@ const specialCommand = function (text) {
         enterButton = false;
         let numberOfOptions = parseInt(text.split("|")[2]);
         $("#choice").append(`<p class='choice-title'>${text.split("|")[1]}</p>`)
+        $("#choice").append(`<p class='choice-description'>${text.split("|")[0].replace("[PLAYER ACTION]","")}</p>`)
         for(let x=0; x<numberOfOptions; x++){
             if(text.split("|")[x+3].startsWith("[CHOSEN]")){
-                $("#choice").append(`<p class='choice-option chosen-option'>${text.split("|")[x+3].replace("[CHOSEN]","")}</p>`)
+                $("#choice").append(`<div class='choice-option chosen-option'>${text.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
                 $(".chosen-option").on("click",function(){
                     $("#choice-container").css("display","none");
                     ctrlButton = true;
@@ -702,7 +736,7 @@ const specialCommand = function (text) {
                 })
             }
             else
-            $("#choice").append(`<p class='choice-option unchosen-option'>${text.split("|")[x+3]}</p>`)
+            $("#choice").append(`<div class='choice-option unchosen-option'>${text.split("|")[x+3]}</div>`)
         }
         $("#choice-container").css("display","flex");
         return "";
@@ -879,14 +913,64 @@ const addText = function () {
     return '';
 }
 
-const nextLine = function () {
+const typeWriter = async function(returnString, i, speed, txt, sentIndex, id, speedMod, otherText) {
+    return new Promise((resolve) =>{
+        if (i < txt.length) {
+        returnString += txt.charAt(i);
+        for(let x=2; x<=speedMod; x++){
+            if(i+x-1<txt.length)
+            returnString += txt.charAt(i+x-1);
+            else
+            i=txt.length;
+        }
+        $(id).text(returnString) 
+        if(i!=txt.length)
+        i+=speedMod;
+        }
+        if(i==txt.length){
+        resolve();
+        }else{
+            let timeout = setTimeout(function(){typeWriter(returnString, i, speed, txt, sentIndex, id, speedMod, otherText).then(resolve)}, speed)
+            if(index==sentIndex+1){
+                if(otherText){
+                    if(otherText.text2){
+                        $(otherText.text2.id).text(otherText.text2.text);
+                    }
+                    if(otherText.text3){
+                        $(otherText.text3.id).text(otherText.text3.text);
+                    }
+                }
+                $(id).text(txt) 
+                $(id).height("auto");
+                clearTimeout(timeout);
+            }
+        }
+    })
+}
+
+const nextLine = async function () {
+    $("#click-signifier").remove();
     console.log(index);
     let returnedText = "";
     if (index !== eventText.length) {
         returnedText = addText();
+        returnedText = $("#htmlConverter").html(returnedText).text();
     }
     if (returnedText !== "") {
-        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext'>${returnedText}</p>`);
+        $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext'></p>`);
+        $(`#boxtext-${index}`).css("visibility","hidden");
+        $(`#boxtext-${index}`).text(returnedText);
+        $(`#boxtext-${index}`).height($(`#boxtext-${index}`).height());
+        if(index<eventText.length-1)
+        $("#player-bottom").append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
+        $(".textbox").scrollTop($(".textbox").prop("scrollHeight"));
+        $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
+        $(`#boxtext-${index}`).text("");
+        $(`#boxtext-${index}`).css("visibility","visible");
+        console.log(returnedText.length);
+        await typeWriter("", 0, 4,returnedText,index, `#boxtext-${index}`, 1);
+        $("#click-signifier").css("visibility", "visible");
+        $(`#boxtext-${index}`).height("auto");
         appendGamemasterText(returnedText);
     }
 
@@ -916,8 +1000,13 @@ const nextLine = function () {
             listenerAdded = true;
         }
     }
-    $(".textbox").scrollTop($(".textbox").prop("scrollHeight"));
-    $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
+    if(index<eventText.length)
+        $(".textbox").scrollTop($(".textbox").prop("scrollHeight"));
+        $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
+    if(index>2&!titleLoaded){
+        titleLoaded = true;
+    }
+
 }
 
 $(".textbox").on("click", nextLine);

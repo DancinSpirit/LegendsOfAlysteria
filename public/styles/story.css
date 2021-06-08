@@ -240,13 +240,14 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 10vw;
+  width: 5vw;
   padding: 1.5vw;
   cursor: pointer;
 }
 
 #top-arrow-box{
   height: 2vh;
+  width: 10vw;
 }
 
 .fa-chevron-left, .fa-chevron-right, .fa-chevron-up, .fa-chevron-down{
@@ -315,6 +316,11 @@ form {
   text-align: center;
   font-size: 40px;
   padding-bottom: 10px;
+}
+
+.choice-description{
+  padding-bottom: 10px;
+  font-size: 17px;
 }
 
 .choice-option{
@@ -431,6 +437,21 @@ form {
   width: 50%;
 }
 
+#click-signifier-big{
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+#click-signifier{
+  padding-left: 21px;
+  padding-bottom: 20px;
+  visibility: hidden;
+}
+#htmlConverter{
+  display: none;
+}
+
 /* FONT CLASSES */
 .oswald{
   font-family: 'Oswald', sans-serif;
@@ -443,4 +464,19 @@ form {
 .philosopher{
   font-family: 'Philosopher', sans-serif;
   text-align: center;
+}
+
+@keyframes fa-blink {
+  0% { transform: translateY(0px) }
+  25% { transform: translateY(2px) }
+  50% { transform: translateY(0px) }
+  75% { transform: translateY(-2px) }
+  100% { transform: translateY(0px)}
+}
+.fa-blink {
+-webkit-animation: fa-blink 1.5s linear infinite;
+-moz-animation: fa-blink 1.5s linear infinite;
+-ms-animation: fa-blink 1.5s linear infinite;
+-o-animation: fa-blink 1.5s linear infinite;
+animation: fa-blink 1.5s linear infinite;
 }
