@@ -54,8 +54,8 @@ const eventEventEmitter = db.Event.watch()
 eventEventEmitter.on('change', async function(change) {
     if(change.operationType == "insert"){
          const season = await db.Season.findById("609aee0619e88c0079176f56");
-         season.duchyPhase[0].rulerPhases[0].events.push(change.fullDocument._id);
-         season.save();
+         season.duchyPhase[0].rulerPhases[1].events.push(change.fullDocument._id);
+         const updatedSeason = await db.Season.findByIdAndUpdate("609aee0619e88c0079176f56",{duchyPhase: season.duchyPhase});
     }
     const channel = bot.channels.cache.get('848982458224607294');
     let message = await channel.messages.fetch('848984339088670720');
@@ -527,7 +527,7 @@ const highpot = function(roll){
     return dieNum;
 }
 
-const developCombatStyle = function(unit, seasonNum, modifier){
+const developCombatStyle = async function(unit, seasonNum, modifier){
     let prodigyCheck = false;
     if(Math.floor(Math.random()*10000)==0){
         prodigyCheck = true;
@@ -562,7 +562,7 @@ const developCombatStyle = function(unit, seasonNum, modifier){
     weaponStyleKnowledge.save();
     weaponStyleSkillKnowledge.knowledgeTree = weaponTree;
     weaponStyleSkillKnowledge.save();
-    const combatStyle = await db.CombatStyle.create({name: "Combat Style", character: unit})
+    const combatStyle = await db.CombatStyle.create({name: "Combat Style", character: unit, weaponStyle: weaponStyleSkillKnowledge})
 
 }
 
@@ -570,5 +570,3 @@ const getUnit = async function(){
     const recruitedUnit = await recruitUnit(-1,"high");
     console.log(recruitedUnit);
 }
-
-getUnit();

@@ -119,7 +119,9 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                             character = await db.Character.findById(playerCharacter.character).populate("currentInfo");
                             if(character.currentInfo.firstName == req.params.phase){
                                 if(y!=0){
-                                    //NOT IMPLEMENTED YET
+                                    playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y-1].playerCharacter)
+                                    character = await db.Character.findById(playerCharacter.character).populate("currentInfo");
+                                    res.send(`[GO BACK]${character.currentInfo.firstName}|` + season.duchyPhase[x].rulerPhases[y-1].events[season.duchyPhase[x].rulerPhases[y-1].events.length-1]);
                                 }else{
                                     for(let z=0; z<season.duchyPhase[0].rulerPhases.length; z++){
                                         playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[z].playerCharacter).populate("user").populate("character");
@@ -153,11 +155,7 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                                             newEvent = season.duchyPhase[x].rulerPhases[y].events[z-1];
                                             res.send(newEvent);
                                         }else{
-                                            if(y!=0){
-                                                //LOAD EARLIER CHARACTER
-                                            }else{
-                                                res.send(`[CHARACTER TITLE]${characterInfo.fullName()}|${user.fullName()}|${season.duchyPhase[x].name}|${season.year}|${season.season}`)
-                                            }
+                                            res.send(`[CHARACTER TITLE]${characterInfo.fullName()}|${user.fullName()}|${season.duchyPhase[x].name}|${season.year}|${season.season}`)
                                         }
                                     }
                                 }
@@ -218,7 +216,11 @@ router.get("/navigate/:storyId/:eventId/:phase/:direction/getId", async function
                                             newEvent = season.duchyPhase[x].rulerPhases[y].events[z+1];
                                             res.send(newEvent);
                                         }else{
-                                            //Load Next Character if it exists
+                                            playerCharacter = await db.Player.findById(season.duchyPhase[x].rulerPhases[y+1].playerCharacter).populate("character");
+                                            console.log(playerCharacter);
+                                            characterInfo = await db.CharacterInfo.findById(playerCharacter.character.currentInfo);
+                                            user = await db.User.findById(playerCharacter.user);
+                                            res.send(`[CHARACTER TITLE]${characterInfo.fullName()}|${user.fullName()}|${season.duchyPhase[x].name}|${season.year}|${season.season}`)
                                         }
                                     }
                                 }

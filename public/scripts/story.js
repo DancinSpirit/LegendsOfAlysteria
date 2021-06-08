@@ -82,6 +82,10 @@ window.addEventListener('popstate', (event) => {
 })
 
 const loadNewPage = function(res){
+    if(res.startsWith("[GO BACK]")){
+        phase = res.split("]")[1].split("|")[0];
+        res = res.split("|")[1];
+    }
     titleLoaded = false;
     $(".textbox").css("background-color","rgba(0, 0, 0, 0.7)");
     $(".textbox").css("color","white");
