@@ -5,7 +5,7 @@ class Modifier{
     }
 }
 
-class Dice{
+module.exports = class Dice{
     constructor(){
         this.critFails = 0;
         this.trueCritFails = 0;
@@ -14,6 +14,7 @@ class Dice{
         this.modList = [];
         this.critModList = [];      
         this.nextLine = "";
+        this.rollString = "";
     }
 
     addModifier(modifier){
@@ -53,7 +54,13 @@ class Dice{
     }
 
     natRoll(){
+        if(!this.artificial)
         return Math.floor(Math.random()*100) + 1;
+        else{
+            let roll = this.rollSet[0];
+            this.rollSet.splice(0,1);
+            return roll;
+        }
     }
 
     reroll(){
@@ -63,6 +70,7 @@ class Dice{
 
     printLine(){
         console.log(this.nextLine);
+        this.rollString += `<p>${this.nextLine}</p>`;
         this.nextLine = "";
     }
 
@@ -136,11 +144,24 @@ class Dice{
     }
 
     roll(){
+        this.artificial = false;
         this.naturalRoll = this.natRoll();
         let roll = this.rollCalc();
-        let finalResult = this.critCalc(roll);
+        this.finalResult = this.critCalc(roll);
         this.reset();
-        return finalResult;
+        return this.finalResult;
+    }
+
+    artificialRoll(rollSet){
+        this.artificial = true;
+        this.rollSet = rollSet;
+        console.log(rollSet);
+        this.naturalRoll = this.rollSet[0]
+        this.rollSet.splice(0,1);
+        let roll = this.rollCalc();
+        this.finalResult = this.critCalc(roll);
+        this.reset();
+        return this.finalResult;
     }
 
     reset(){
@@ -157,5 +178,3 @@ class Dice{
         this.modList = [];
     }
 }
-
-module.exports = new Dice();

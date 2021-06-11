@@ -15,10 +15,15 @@
     <!-- SOCKET.IO -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js" integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ==" crossorigin="anonymous"></script>
     <!-- SCRIPTS -->
+    <script src="/scripts/dice.js"></script>
     <script src="/scripts/story.js" defer></script>
+    <script src="/scripts/battler.js" defer></script>
 </head>
 
 <body id="background">
+    <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
+    <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
+    <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
     <section id="top-section">
         <section id="tabs">
             <button class="tab <%if(!user.gamemaster){%>invisible-2<%}%>" id="player-tab">Player View</button>
@@ -27,7 +32,6 @@
     </section>
     <section id="main-story-section">
         <section id="left-arrow">
-            <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
         </section>
         <section id="story">
             <section class="textbox" id="player-box">
@@ -44,11 +48,9 @@
             </section>
         </section>  
         <section id="right-arrow">
-            <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
         </section>
     </section>
     <section id="top-arrow">
-        <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
     </section>
     <section id="cutaway-image-collection" class="invisible">
 

@@ -1,6 +1,7 @@
 const db = require("./models");
 const bot = require("./bot");
-const dice = require("./dieRoller");
+const Dice = require("./dieRoller");
+const dice = new Dice();
 const { findById } = require("./models/User");
 
 const countLines = async function(){

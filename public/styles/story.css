@@ -57,6 +57,96 @@ body {
   overflow-x: hidden;
 }
 
+#battler{
+  height: 0vh;
+  width: 90vw;
+  background-color: rgba(0, 0, 0, 0.7);
+  margin-left: 5vw;
+  display:flex;
+  color: white;
+}
+
+.character{
+  border: solid white 2px;
+  width: 30vw;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+.abilities-container, .character-stats{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: space-evenly;
+}
+
+#abilities-container-1-1-2, #abilities-container-1-2-2,#abilities-container-2-1-2, #abilities-container-2-2-2{
+  border-left: solid white 1px;
+}
+.ability-section{
+  display: flex;
+  justify-content: center;
+}
+.ability{
+  padding-right:10px;
+}
+
+.character-name{
+  font-family:'Philosopher';
+  font-size: 18px;
+  border-bottom: solid 2px white;
+}
+
+.character-row{
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#character-row-1-2, #character-row-2-2{
+  border-top: solid 1px white;
+}
+
+.round{
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+}
+
+#battle-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 2px white;
+  height: 10%;
+  border-bottom: solid 2px white;
+}
+.character-image{
+  height: 60%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.character-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: calc(40% - 40px);
+  overflow-y: auto;
+}
+
+#battle-results{
+  border-bottom: solid white 2px;
+  border-top: solid white 2px;
+  width: 30vw;
+
+}
+
 .bottom {
   height: 100%;
   position: absolute;
@@ -204,18 +294,16 @@ form {
 }
 
 #left-arrow{
-  position: absolute;
+  position: fixed;
   left: 0;
 }
 #right-arrow{
-  position: absolute;
+  position: fixed;
   right: 0;
 }
 
 #left-arrow, #right-arrow{
   height: 100%;
-  display: flex;
-  align-items: center;
   width: 5vw;
 }
 
@@ -234,8 +322,17 @@ form {
   height: 10vh;
 }
 
+#left-arrow-box,#right-arrow-box{
+  margin-top: 45vh;
+  z-index: 1;
+}
+#right-arrow-box{
+  right: 0;
+}
+
 .arrow-box{
   background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
   height: 10vh;
   display: flex;
   align-items: center;
@@ -243,11 +340,14 @@ form {
   width: 5vw;
   padding: 1.5vw;
   cursor: pointer;
+  transition: none;
 }
 
 #top-arrow-box{
   height: 2vh;
   width: 10vw;
+  bottom: 0;
+  margin-left:45vw;
 }
 
 .fa-chevron-left, .fa-chevron-right, .fa-chevron-up, .fa-chevron-down{

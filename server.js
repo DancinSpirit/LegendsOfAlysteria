@@ -54,6 +54,7 @@ app.use(async function(req,res,next){
 
 app.use("/character", ctrl.character);
 app.use("/story", ctrl.story);
+app.use("/combatant", ctrl.combatant)
 app.use("/", ctrl.auth)
 
 io.on('connection', (socket) => {

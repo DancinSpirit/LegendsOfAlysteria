@@ -40,6 +40,8 @@ module.exports = {
     EquipmentType: require("./CharacterModels/EquipmentType"),
     Armor: require("./CharacterModels/EquipmentTypes/Armor"),
     Weapon: require("./CharacterModels/EquipmentTypes/Weapon"),
+    ActiveAbility: require("./CharacterModels/ActiveAbility"),
+    PassiveAbility: require("./CharacterModels/PassiveAbility"),
     /* User Model */
     User: require("./User"),
     /* Player Model */
@@ -60,4 +62,5 @@ module.exports = {
     Platoon: require("./ArmyModels/Platoon"),
     Squad: require("./ArmyModels/Squad"),
     Team: require("./ArmyModels/Team"),
+    Combatant: require("./Combatant")
 };

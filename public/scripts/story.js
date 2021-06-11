@@ -173,6 +173,8 @@ const loadEvent = function(){
                 }
                 else
                 eventText.push(`[SUBTITLE]${res.location}, Summer, 2 Years Ago`)
+            }else if(res.type=="Malcador Introduction"){
+                eventText.push(`[SUBTITLE]${res.location}, Two Hundred Years Ago`)
             }else{
                 eventText.push(`[SUBTITLE]${res.location}, ${res.season.season.charAt(0).toUpperCase() + res.season.season.replace(res.season.season.charAt(0),"")} of Year ${res.season.year}`)
             }
@@ -781,6 +783,222 @@ const specialCommand = async function (text) {
         $("#choice-container").css("display","flex");
         return "";
     }
+    if(text.startsWith("[BATTLE]")){
+        $("#player-box").css("margin-bottom", "55vh");
+        $(".textbox").css("transition", "1000ms");
+        $(".textbox").css("border-bottom","solid white 2px")
+        $(".textbox").css("border-right","solid white 2px")
+        $(".textbox").css("border-left","solid white 2px");
+        //make promise ajax to load battle
+        battle = new Battle(text.split("|")[1],text.split("|")[2]);
+        await loadPlayerBox(battle);
+        $("#character-image-1").css("background-image",`url(${battle.character1.avatar})`)
+        $("#character-image-2").css("background-image",`url(${battle.character2.avatar})`)
+        $("#battle-title").text(text.split("|")[0].split("]")[1])
+        $("#character-row-1-1").append('<section class = "abilities-container" id = "abilities-container-1-1-2"><section class = "character-subtitle" id = "character-activeAbilities-1">Active Abilities</section><section id = "character-activeAbility-section-1"class="ability-section"></section></section>')
+        let count = 1;
+        for(let x=0; x<battle.character1.activeAbilities.length; x++){
+            if(x>0)
+                if(battle.character1.activeAbilities[x].name==battle.character1.activeAbilities[x-1].name){
+                    count++;
+                    $(`#character-1-activeAbility-${x-count+1}`).text(`${battle.character1.activeAbilities[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-activeAbility-section-1").append(`<section id="character-1-activeAbility-${x}" class="ability">${battle.character1.activeAbilities[x].name}</section>`)
+                }
+            else
+            $("#character-activeAbility-section-1").append(`<section id="character-1-activeAbility-${x}" class="ability">${battle.character1.activeAbilities[x].name}</section>`)    
+        }
+        $("#character-row-1-2").append('<section class = "abilities-container" id = "abilities-container-1-2-1"><section class = "character-subtitle" id = "character-passiveAbilities-1">Passive Abilities</section><section id = "character-passiveAbility-section-1" class="ability-section"></section></section>')
+        count = 1;
+        for(let x=0; x<battle.character1.passiveAbilities.length; x++){
+            if(x>0)
+                if(battle.character1.passiveAbilities[x].name==battle.character1.passiveAbilities[x-1].name){
+                count++;
+                    $(`#character-1-passiveAbility-${x-count+1}`).text(`${battle.character1.passiveAbilities[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-passiveAbility-section-1").append(`<section id="character-1-passiveAbility-${x}" class="ability">${battle.character1.passiveAbilities[x].name}</section>`)
+                }
+            else
+            $("#character-passiveAbility-section-1").append(`<section id="character-1-passiveAbility-${x}" class="ability">${battle.character1.passiveAbilities[x].name}</section>`)    
+        }
+        count = 1;
+        $("#character-row-1-2").append('<section class = "abilities-container" id = "abilities-container-1-2-2"><section class = "character-subtitle" id = "character-rerolls-1">Rerolls</section><section id = "character-rerolls-section-1"class="ability-section"></section></section>')
+        for(let x=0; x<battle.character1.rerolls.length; x++){
+            if(x>0)
+                if(battle.character1.rerolls[x].name==battle.character1.rerolls[x-1].name){
+                    count++;
+                    $(`#character-1-reroll-${x-count+1}`).text(`${battle.character1.rerolls[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-rerolls-section-1").append(`<section id="character-1-reroll-${x}" class="ability">${battle.character1.rerolls[x].name}</section>`)
+                }
+            else
+            $("#character-rerolls-section-1").append(`<section id="character-1-reroll-${x}" class="ability">${battle.character1.rerolls[x].name}</section>`)    
+        }
+        $("#character-row-2-1").append('<section class = "abilities-container" id = "abilities-container-2-1-2"><section class = "character-subtitle" id = "character-activeAbilities-2">Active Abilities</section><section id = "character-activeAbility-section-2"class="ability-section"></section></section>')
+        count = 1;
+        for(let x=0; x<battle.character2.activeAbilities.length; x++){
+            if(x>0)
+                if(battle.character2.activeAbilities[x].name==battle.character2.activeAbilities[x-1].name){
+                    count++;
+                    $(`#character-2-activeAbility-${x-count+1}`).text(`${battle.character2.activeAbilities[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-activeAbility-section-2").append(`<section id="character-2-activeAbility-${x}" class="ability">${battle.character2.activeAbilities[x].name}</section>`)
+                }
+            else
+            $("#character-activeAbility-section-2").append(`<section id="character-2-activeAbility-${x}" class="ability">${battle.character2.activeAbilities[x].name}</section>`)    
+        }
+        $("#character-row-2-2").append('<section class = "abilities-container" id = "abilities-container-2-2-1"><section class = "character-subtitle" id = "character-passiveAbilities-2">Passive Abilities</section><section id = "character-passiveAbility-section-2" class="ability-section"></section></section>')
+        count = 1;
+        for(let x=0; x<battle.character2.passiveAbilities.length; x++){
+            if(x>0)
+                if(battle.character2.passiveAbilities[x].name==battle.character2.passiveAbilities[x-1].name){
+                count++;
+                    $(`#character-2-passiveAbility-${x-count+1}`).text(`${battle.character2.passiveAbilities[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-passiveAbility-section-2").append(`<section id="character-2-passiveAbility-${x}" class="ability">${battle.character2.passiveAbilities[x].name}</section>`)
+                }
+            else
+            $("#character-passiveAbility-section-2").append(`<section id="character-2-passiveAbility-${x}" class="ability">${battle.character2.passiveAbilities[x].name}</section>`)    
+        }
+        $("#character-row-2-2").append('<section class = "abilities-container" id = "abilities-container-2-2-2"><section class = "character-subtitle" id = "character-rerolls-2">Rerolls</section><section id = "character-rerolls-section-2"class="ability-section"></section></section>')
+        count = 1;
+        for(let x=0; x<battle.character2.rerolls.length; x++){
+            if(x>0)
+                if(battle.character2.rerolls[x].name==battle.character2.rerolls[x-1].name){
+                    count++;
+                    $(`#character-2-reroll-${x-count+1}`).text(`${battle.character2.rerolls[x].name} x${count}`)
+                }else{
+                    count = 1;
+                    $("#character-rerolls-section-2").append(`<section id="character-2-reroll-${x}" class="ability">${battle.character2.rerolls[x].name}</section>`)
+                }
+            else
+            $("#character-rerolls-section-2").append(`<section id="character-2-reroll-${x}" class="ability">${battle.character2.rerolls[x].name}</section>`)    
+        }
+        $("#battle-results").on("click",nextLine);
+        return "";
+    }
+    if(text.startsWith("[BATTLE ROUND]")){
+        $("#battle-results").append(`<section class="round">Round ${text.split("]")[1]}</section>`)
+    }
+    if(text.startsWith("[BATTLE PHASE]")){
+        for(let w=2; w<text.split("[").length; w++){
+            let subPhase = text.split("[")[w];
+            console.log("SUBPHASE" + subPhase)
+            let character;
+            if(battle.character1.name == subPhase.split("|")[0]){
+                character = battle.character1
+                opponent = battle.character2
+            }else{
+                character = battle.character2
+                opponent = battle.character1
+            }
+            for(let x=1; x<subPhase.split("|").length; x++){
+                let subSubPhase = subPhase.split("|")[x];
+                await loadCombatantFunction(character,subSubPhase);
+                if(subSubPhase.split(">")[0]=="defend"){
+                    for(let y=0; y<character.activeAbilities.length; y++){
+                        if(character.activeAbilities[y].name=="Counter"){
+                            let characterRoll = await returnRoll(character)
+                            let opponentRoll = await returnRoll(opponent);
+                            console.log(characterRoll)
+                            console.log(opponentRoll);
+                            let difference = parseInt(characterRoll) - parseInt(opponentRoll);
+                            console.log("DIFFERENCE:" + difference)
+                            if(difference>0){
+                                for(let z=0; z<character.modifiers.length; z++){
+                                    if(character.modifiers[z].name == "Counter"){
+                                        character.modifiers.splice(z,1);
+                                        break;
+                                    }
+                                }
+                                character.modifiers.push({name: "Counter", value: difference})
+                                console.log(character.modifiers);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return "";
+    }
+}
+
+const returnRoll = async function(character){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/combatant/${character._id}/returnRoll`,
+            success: (res) =>{
+                resolve(res);
+            }
+        })
+    })
+}
+
+const loadCombatantFunction = async function(character,subSubPhase){
+    return new Promise((resolve) =>{
+        $.ajax({
+            method: "GET",
+            url: `/combatant/${character._id}/${subSubPhase.split(">")[0]}/${subSubPhase.split(">")[1]}`,
+            success: (res) =>{
+                console.log("BAT RESULTS" + res);
+                $("#battle-results").append(`<section class="phase">${res}</section>`);
+                resolve();
+            }
+        })
+    })
+}
+
+const loadPlayerBox = async function(battle){
+    return new Promise((resolve) =>{
+        $("#player-box").before(`<section id='battler'>
+                                    <section class='character' id='character-1'>
+                                        <section class="character-image" id='character-image-1'></section>
+                                        <section class="character-name" id="character-name-2">${battle.character1.name}</section>
+                                        <section id="character-info-1" class="character-info">
+                                            <section class = "character-row" id = "character-row-1-1">
+                                                <section class = "character-stats" id = "character-stats-1">
+                                                    <section class = "character-health" id = 'character-health-1'>Health: ${battle.character1.health}/${battle.character1.maxHealth}</section>
+                                                    <section class = "character-stamina" id = 'character-stamina-1'>Stamina: ${battle.character1.stamina}/${battle.character1.maxStamina}</section>
+                                                </section>
+                                            </section>
+                                            <section class = "character-row" id = "character-row-1-2">
+                                            </section>
+                                        </section>
+                                    </section>
+                                    <section id='battle-results'>
+                                        <section id = "battle-title"></section>
+                                    </section>
+                                    <section id="character-2" class='character'>
+                                        <section class='character-image' id='character-image-2'></section>
+                                        <section class = "character-name" id = 'character-name-2'>${battle.character2.name}</section>
+                                        <section class = "character-info" id = "character-info-2">
+                                            <section class = "character-row" id = "character-row-2-1">
+                                                <section class = "character-stats" id = "character-stats-2">
+                                                    <section class = "character-health" id = 'character-health-2'>Health: ${battle.character2.health}/${battle.character2.maxHealth}</section>
+                                                    <section class="character-stamina" id = 'character-stamina-2'>Stamina: ${battle.character2.stamina}/${battle.character2.maxStamina}</section>
+                                                </section>
+                                            </section>
+                                            <section class = "character-row" id = "character-row-2-2">
+                                            </section>
+                                        </section>
+                                    </section>
+                                </section>`)
+                                        
+        setTimeout(function(){
+            $(".textbox").css("height","25vh");
+            $("#battler").css("transition", "1000ms"),
+            $("#battler").css("height","55vh")
+            $("#player-box").css("margin-bottom", "0");
+            resolve();
+        },10);
+    })
 }
 
 const loadCharacterAndCss = async function(text){
@@ -920,14 +1138,15 @@ const addText = function () {
 const typeWriter = async function(returnString, i, speed, txt, sentIndex, id, speedMod, otherText) {
     return new Promise((resolve) =>{
         if (i < txt.length) {
-        returnString += txt.charAt(i);
+            returnChar = txt.charAt(i);
+            returnString += returnChar;
         for(let x=2; x<=speedMod; x++){
             if(i+x-1<txt.length)
             returnString += txt.charAt(i+x-1);
             else
             i=txt.length;
         }
-        $(id).text(returnString) 
+        $(id).html(returnString) 
         if(i!=txt.length)
         i+=speedMod;
         }
@@ -944,7 +1163,7 @@ const typeWriter = async function(returnString, i, speed, txt, sentIndex, id, sp
                         $(otherText.text3.id).text(otherText.text3.text);
                     }
                 }
-                $(id).text(txt) 
+                $(id).html(txt) 
                 $(id).height("auto");
                 clearTimeout(timeout);
             }
@@ -958,7 +1177,7 @@ const nextLine = async function () {
     let returnedText = "";
     if (index !== eventText.length) {
         returnedText = addText();
-        returnedText = $("#htmlConverter").html(returnedText).text();
+        returnedText = $("#htmlConverter").html(returnedText).html();
     }
     if (returnedText !== "") {
         $("#player-bottom").append(`<p id="boxtext-${index}" class='boxtext'></p>`);
@@ -971,7 +1190,6 @@ const nextLine = async function () {
         $("#gamemaster-box").scrollTop($("#gamemaster-box").prop("scrollHeight"));
         $(`#boxtext-${index}`).text("");
         $(`#boxtext-${index}`).css("visibility","visible");
-        console.log(returnedText.length);
         await typeWriter("", 0, 4,returnedText,index, `#boxtext-${index}`, 1);
         $("#click-signifier").css("visibility", "visible");
         $(`#boxtext-${index}`).height("auto");
