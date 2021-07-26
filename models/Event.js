@@ -1,17 +1,15 @@
 const mongoose = require("mongoose");
 
-const eventSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
-    title: {type: String},
-    type: {type: String},
-    season: {type: mongoose.Schema.Types.ObjectId, ref: "Season"},
-    phase: {type: String},
-    location: {type: String},
+    type: {type: String}, //Title Top
+    title: {type: String}, //Main Title
+    subtitle: {type: String}, //Title Bottom
     text: [{type: String}]
   },
   {timestamps: true}
 )
 
-const Event = mongoose.model("Event", eventSchema);
+const Model = mongoose.model("Event", schema);
 
-module.exports = Event;
+module.exports = Model;

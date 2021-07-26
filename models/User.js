@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true},
     password: { type: String, required: true},
@@ -12,10 +12,10 @@ const userSchema = new mongoose.Schema(
   {timestamps: true}
 )
 
-userSchema.methods.fullName = function fullname(){
+schema.methods.fullName = function fullname(){
   return this.firstName + " " + this.lastName;
 }
 
-const User = mongoose.model("User", userSchema);
+const Model = mongoose.model("User", schema);
 
-module.exports = User;
+module.exports = Model;

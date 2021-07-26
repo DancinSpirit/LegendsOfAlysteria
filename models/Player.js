@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 
-const playerSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
-    character: {type: mongoose.Schema.Types.ObjectId, ref: "Character"},
-    user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    story: {type: mongoose.Schema.Types.ObjectId, ref: "Story"},
+    user: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+    character: [{type: mongoose.Schema.Types.ObjectId, ref: "Character"}],
   },
   {timestamps: true}
 )
 
-const Player = mongoose.model("Player", playerSchema);
+const Model = mongoose.model("Player", schema);
 
-module.exports = Player;
+module.exports = Model;

@@ -1,0 +1,36 @@
+<div id = "event">
+    <p class="boxtext big-boy big-boy-region-title"></p>
+    <div id="title-box-region-title">
+        <section class="boxtext title-image" id="title-image" style="background-image: url(<%=years[currentYear].seasons[currentSeason].regionPhases[region].emblem%>)"></section>
+        <p class="boxtext turn-title"><%=years[currentYear].seasons[currentSeason].regionPhases[region].name%></p>
+        <p class="boxtext turn-subtitle">
+            <%if(currentSeason=="0"){%>
+                Winter
+            <%}%>
+            <%if(currentSeason=="1"){%>
+                Spring
+            <%}%>
+            <%if(currentSeason=="2"){%>
+                Summer
+            <%}%>
+            <%if(currentSeason=="3"){%>
+                Fall
+            <%}%>
+            of Year <%=currentYear%></p>
+        <%if(years[currentYear].seasons[currentSeason].regionPhases[region].players.length){%>
+            <p class="boxtext turn-players">
+                <div id="turn-players-title">Players</div>
+                <div id="turn-players-list">
+                    <%for(let y=0; y<years[currentYear].seasons[currentSeason].regionPhases[region].players.length; y++){%>
+                        <div>
+                            <div class="turn-player"><%=years[currentYear].seasons[currentSeason].regionPhases[region].players[y].name%></div>
+                            <div class="turn-player" id="character-name-title"><%=years[currentYear].seasons[currentSeason].regionPhases[region].players[y].character%></div>
+                        </div>
+                    <%}%>
+                </div>
+            </p>
+        <%}%>
+    </div>
+    <p class="boxtext big-boy big-boy-region-title"></p>
+</div> 
+<background>https://aozora.s3.us-east-2.amazonaws.com/1621228479216-Book.jpg</background>

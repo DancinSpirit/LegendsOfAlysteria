@@ -1,15 +1,30 @@
 const mongoose = require("mongoose");
 
-const storySchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
-    type: {type: String},
-    seasons: [{type: mongoose.Schema.Types.ObjectId, ref: "Season"}],
-    songs: [{url: {type: String}, name: {type: String}}],
-    images: [{url: {type: String}, name: {type: String}}],
+    currentTurn: {type: String},
+    currentYear: {type: String},
+    currentSeason: {type: String},
+    name: {type: String},
+    years: [{
+      seasons: [{
+        name: {type: String},
+        regionPhases: [{
+            name: {type: String},
+            emblem: {type: String},
+            players: [{name: {type: String}, character: {type: String}}],
+            rulerPhases: [{
+              name: {type: String},
+              player: {type: String},
+              events: [{type: mongoose.Schema.Types.ObjectId, ref: "Event"}]
+            }],
+        }]
+      }]
+    }]
   },
   {timestamps: true}
 )
 
-const Story = mongoose.model("Story", storySchema);
+const Model = mongoose.model("Story", schema);
 
-module.exports = Story;
+module.exports = Model;
