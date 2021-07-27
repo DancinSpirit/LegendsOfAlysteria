@@ -4,8 +4,7 @@
   "description": "Quicker Server Set Up for Personal Use",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "xdg-open http://localhost:7474 && nodemon && node start.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maiki Moseley",
   "license": "ISC",
