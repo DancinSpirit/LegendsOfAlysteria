@@ -23,12 +23,15 @@ const load = async function(url, data){
 }
 
 const loadState = async function(x, animation){
-    console.log("Before: " + states[x]);
+    if(states[x].includes("event")){
+        deactivateAll();
+    }
+    if(states[x].includes("title")){
+        deactivateAll();
+    }
     if(states[x].includes("%3E")){
         states[x] = states[x].replace(/%3E/g, ">")
     }
-    console.log("After: " + states[x])
-    console.log(x);
     $(`style-${x}`).remove();
     $("head").append($(`<link id='style-${x}' rel='stylesheet' type='text/css'/>`).attr('href',`/styles/${states[x]}.css`))
     let component;
@@ -69,6 +72,12 @@ const loadState = async function(x, animation){
                 await eval(`left(${x-1}, component)`)
             }
         }
+    }
+    if(states[x].includes("event")){
+        activateEventClick();
+    }
+    if(states[x].includes("title")){
+        activateTitleClick();
     }
 }
 
@@ -127,11 +136,13 @@ const activateButtons = function(){
         if(states.includes("main-title")){
             let turnTitle = `turn-title>currentTurn=0>currentYear=0>currentSeason=3`
             states = ["story",turnTitle]
+            data = [data[0],data[0]]
             window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
         }
         else if(states[1].includes("turn-title")){
             let regionTitle = `region-title>currentYear=0>currentSeason=3>region=0`;
             states = ["story", regionTitle]
+            data = [data[0],data[0]]
             window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],regionTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
         }
         else if(states[1].includes("region-title")){
@@ -140,6 +151,7 @@ const activateButtons = function(){
             let regionPhase = states[states.length-1].split(">")[3].split("=")[1];
             let playerTitle = `player-title>currentYear=${year}>currentSeason=${season}>region=${regionPhase}>phase=0`;
             states = ["story", playerTitle];
+            data = [data[0],data[0]]
             window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], playerTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
         }
         else if(states[1].includes("player-title")){
@@ -152,6 +164,43 @@ const activateButtons = function(){
             data = [data[0],{name: "Event", id: event}]
             window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
         }
+        else if(states[1].includes("event")){
+            let event;
+            for(let x=0; x<years.length; x++){
+                for(let y=0; y<years[x].seasons.length; y++){
+                    for(let z=0; z<years[x].seasons[y].regionPhases.length; z++){
+                        for(let a=0; a<years[x].seasons[y].regionPhases[z].rulerPhases.length; a++){
+                            for(let b=0; b<years[x].seasons[y].regionPhases[z].rulerPhases[a].events.length; b++){
+                                if(years[x].seasons[y].regionPhases[z].rulerPhases[a].events[b]==eventId){
+                                    if(b<years[x].seasons[y].regionPhases[z].rulerPhases[a].events.length-1){
+                                        states = ["story", "event"];
+                                        event = years[x].seasons[y].regionPhases[z].rulerPhases[a].events[b+1];
+                                        console.log("Event: " + event);
+                                        data = [data[0],{name: "Event", id: event}]
+                                        window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
+                                    }else{
+                                        if(a<years[x].seasons[y].regionPhases[z].rulerPhases.length-1){
+                                            let playerTitle = `player-title>currentYear=${x}>currentSeason=${y}>region=${z}>phase=${a+1}`;
+                                            states = ["story", playerTitle];
+                                            data = [data[0],data[0]]
+                                            window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], playerTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                        }else{
+                                            if(z<years[x].seasons[y].regionPhases.length-1){
+                                                let regionTitle = `region-title>currentYear=${x}>currentSeason=${y}>region=${z+1}`
+                                                states = ["story", regionTitle];
+                                                data = [data[0],data[0]]
+                                                window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], regionTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                            }
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         await loadState(1,"left");
         activateButtons();
     })
@@ -159,14 +208,20 @@ const activateButtons = function(){
         deactivateButtons();
         if(states.includes("turn-title>currentTurn=0>currentYear=0>currentSeason=3")){
             states = ["story","main-title"]
-            window.history.pushState({states:states,data:data}, "Main Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"main-title"))
+            data = [data[0],data[0]]
+            window.history.pushState({states:states,data:data}, "Main Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"main-title"+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
         }
         else if(states[states.length-1].includes("region-title")){
             let year = states[states.length-1].split(">")[1].split("=")[1];
             let season = states[states.length-1].split(">")[2].split("=")[1];
             let regionPhase = states[states.length-1].split(">")[3].split("=")[1];
             if(parseInt(regionPhase)){
-                //load final event of previous region phase
+                states = ["story", "event"];
+                let event = years[year].seasons[season].regionPhases[regionPhase-1].rulerPhases[years[year].seasons[season].regionPhases[regionPhase-1].rulerPhases.length-1].events[years[year].seasons[season].regionPhases[regionPhase-1].rulerPhases[years[year].seasons[season].regionPhases[regionPhase-1].rulerPhases.length-1].events.length-1];
+                console.log("Event: " + event);
+                data = [data[0],{name: "Event", id: event}]
+                window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
+                                    
             }else{
                 let turn;
                 if(year==0&&season==3){
@@ -176,17 +231,59 @@ const activateButtons = function(){
                 }
                 let turnTitle = `turn-title>currentTurn=${turn}>currentYear=${year}>currentSeason=${season}`
                 states = ["story",turnTitle]
-                window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle))
+                data = [data[0],data[0]]
+                window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
             }
         }
         else if(states[states.length-1].includes("player-title")){
             let year = states[states.length-1].split(">")[1].split("=")[1];
             let season = states[states.length-1].split(">")[2].split("=")[1];
             let regionPhase = states[states.length-1].split(">")[3].split("=")[1];
-            let regionTitle = `region-title>currentYear=${year}>currentSeason=${season}>region=${regionPhase}`
-            states = ["story",regionTitle];
-            window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],regionTitle))
-
+            let rulerPhase = states[states.length-1].split(">")[4].split("=")[1];
+            if(rulerPhase==0){
+                let regionTitle = `region-title>currentYear=${year}>currentSeason=${season}>region=${regionPhase}`
+                states = ["story",regionTitle];
+                data = [data[0],data[0]]
+                window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],regionTitle+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`)) 
+            }else{
+                states = ["story", "event"];
+                let event = years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase-1].events[years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase-1].events.length-1];
+                console.log("Event: " + event);
+                data = [data[0],{name: "Event", id: event}]
+                window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
+            }
+        }
+        else if(states[1].includes("event")){
+            let event;
+            for(let x=0; x<years.length; x++){
+                for(let y=0; y<years[x].seasons.length; y++){
+                    for(let z=0; z<years[x].seasons[y].regionPhases.length; z++){
+                        for(let a=0; a<years[x].seasons[y].regionPhases[z].rulerPhases.length; a++){
+                            for(let b=0; b<years[x].seasons[y].regionPhases[z].rulerPhases[a].events.length; b++){
+                                if(years[x].seasons[y].regionPhases[z].rulerPhases[a].events[b]==eventId){
+                                    if(b!=0){
+                                        states = ["story", "event"];
+                                        event = years[x].seasons[y].regionPhases[z].rulerPhases[a].events[b-1];
+                                        console.log("Event: " + event);
+                                        data = [data[0],{name: "Event", id: event}]
+                                        window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
+                                    }else{
+                                        let year = x;
+                                        let season = y;
+                                        let regionPhase = z;
+                                        let rulerPhase = a;
+                                        let playerTitle = `player-title>currentYear=${year}>currentSeason=${season}>region=${regionPhase}>phase=${rulerPhase}`;
+                                        states = ["story", playerTitle];
+                                        data = [data[0],data[0]];
+                                        console.log(window.location.href.split("/"));
+                                        window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], playerTitle+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         await loadState(1,"right");
         console.log("Test: " + states)

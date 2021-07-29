@@ -3,8 +3,10 @@ const left = async function(index, component){
         console.log(states[index+1].split(">")[0])
         $(`#sub-${states[index]}`).attr("id","old-sub-state");
         $(`#sub-${states[index]}-container`).append(`<section id="sub-${states[index]}"></section>`)
+        $(`.big-boy-${states[index+1].split(">")[0]}`).removeClass(`big-boy-${states[index+1].split(">")[0]}`);
         $(`#sub-${states[index]}`).html(component);
         $(`.big-boy-${states[index+1].split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${states[index+1].split(">")[0]}`).height()))/2);
+        $("#big-boy-2").remove();
         $(`#sub-${states[index]}-container`).css("transition","1000ms");
         $(`#sub-${states[index]}-container`).css("transform","translateX(-50%)")
         setTimeout(function(){
@@ -20,8 +22,10 @@ const right = async function(index, component){
         console.log(states[index+1].split(">")[0])
         $(`#sub-${states[index]}`).attr("id","old-sub-state");
         $(`#sub-${states[index]}-container`).prepend(`<section id="sub-${states[index]}"></section>`)
+        $(`.big-boy-${states[index+1].split(">")[0]}`).removeClass(`big-boy-${states[index+1].split(">")[0]}`);
         $(`#sub-${states[index]}`).html(component);
         $(`.big-boy-${states[index+1].split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${states[index+1].split(">")[0]}`).height()))/2);
+        $("#big-boy-2").remove();
         $(`#sub-${states[index]}-container`).css("transform","translateX(-50%)");
         setTimeout(function(){
             $(`#sub-${states[index]}-container`).css("transition","1000ms");

@@ -1,4 +1,6 @@
 let years; //set up for story variable
+let text;
+let eventId;
 
 /* Auth Check */
 if(!user){

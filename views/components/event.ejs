@@ -1,13 +1,15 @@
-<div id = "event">
+<div id = "event-<%=id%>">
     <p class="boxtext big-boy big-boy-event"></p>
     <div id="title-box-event">
         <p class="boxtext eventType">~ <%=type%> ~</p>
         <p class="boxtext title"><%=title%></p>
         <p class="boxtext subtitle"><%=subtitle%></p>
+        <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
     </div>
-    <p class="boxtext big-boy big-boy-event"></p>
+    <p id="big-boy-2" class="boxtext big-boy big-boy-event"></p>
 </div> 
-<animation>left</animation>
 <script>
-    let event = JSON.parse(`<%-JSON.stringify(text)%>`); 
+    eventId = JSON.parse(`<%-JSON.stringify(id)%>`); 
+    text = JSON.parse(`<%-JSON.stringify(text)%>`); 
+    loadBackground(`/images/<%=background%>.jpg`);
 </script>
