@@ -39,26 +39,26 @@ const loadEvent = async function(){
     }
 }
 
-const loadText = async function(text){
+const loadText = async function(sentText){
     $("#click-signifier").remove();
-    if(text.startsWith("[BACKGROUND IMAGE]")){
+    if(sentText.startsWith("[BACKGROUND IMAGE]")){
         textLine = false;
-        await loadBackground(text.split("[BACKGROUND IMAGE]")[1]);
+        await loadBackground(sentText.split("[BACKGROUND IMAGE]")[1]);
         loadEvent();
-    }else if(text.startsWith("[MUSIC]")){
+    }else if(sentText.startsWith("[MUSIC]")){
         textLine = false;
-        await loadMusic(text.split("[MUSIC]")[1]);
+        await loadMusic(sentText.split("[MUSIC]")[1]);
         loadEvent();
-    }else if(text.includes("[OTHER]")){
-        if(text.startsWith("[OTHER]")){
-            text = text.replace("[OTHER]","");
+    }else if(sentText.includes("[OTHER]")){
+        if(sentText.startsWith("[OTHER]")){
+            sentText = sentText.replace("[OTHER]","");
             $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext other'></p>`);
-            await typeWriter("", 0, 4,text,index,`#boxtext-${index}`, 20);
+            await typeWriter("", 0, 4,sentText,index,`#boxtext-${index}`, 20);
         }else{
-            text = text.replace("[]","");
-            text1 = text.split("[OTHER]")[0] + " ";
-            text2 = text.split("[OTHER]")[1];
-            text3 = text.split("[OTHER]")[2];
+            sentText = sentText.replace("[]","");
+            text1 = sentText.split("[OTHER]")[0] + " ";
+            text2 = sentText.split("[OTHER]")[1];
+            text3 = sentText.split("[OTHER]")[2];
             $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext'><span id="boxtext-${index}-1"></span><span class='other' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
             console.log($(`#boxtext-${index}`))
             await typeWriter("", 0, 4,text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
@@ -67,8 +67,10 @@ const loadText = async function(text){
         }
     }else{
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class="boxtext"></p>`);
-        await typeWriter("", 0, 4, text, index, `#boxtext-${index}`, 1)
-        if(index!=text.length-1){
+        await typeWriter("", 0, 4, sentText, index, `#boxtext-${index}`, 1)
+        if(index<text.length-1){
+            console.log(index)
+            console.log(text.length)
             $(`#event-${eventId}`).append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
             $("#click-signifier").css("justify-content","left")
             $("#click-signifier").css("padding-left","25px");
@@ -99,18 +101,22 @@ const loadMusic = async function(url){
                 stopAudio(oldSong);
             },320)
         }
-        setTimeout(function(){
-            if(!document.getElementById(url)){
-                $("#story").append(`<audio id="${url}" loop src="/sounds/${url}.mp3"></audio>`);
-            }
-            song = document.getElementById(url);
-            console.log(song);
-            if(song.paused){
-                song.volume = 0.1;
-                song.play();
-            }
+        if(url.includes("none")){
             resolve();
-        },340)
+        }else{
+            setTimeout(function(){
+                if(!document.getElementById(url)){
+                    $("#story").append(`<audio id="${url}" loop src="/sounds/${url}.mp3"></audio>`);
+                }
+                song = document.getElementById(url);
+                console.log(song);
+                if(song.paused){
+                    song.volume = 0.1;
+                    song.play();
+                }
+                resolve();
+            },340)
+        }
     })
 }
 
