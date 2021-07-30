@@ -2,6 +2,9 @@ let years; //set up for story variable
 let text;
 let eventId;
 
+let settings = false;
+let images = false;
+
 /* Auth Check */
 if(!user){
     if(states != ["main", "register"]){

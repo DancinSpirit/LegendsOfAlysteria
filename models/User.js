@@ -8,6 +8,10 @@ const schema = new mongoose.Schema(
     lastName: {type: String},
     gamemaster: {type: Boolean},
     playerCharacters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
+    settings: {
+      textSpeed: {type: Number},
+      pageSpeed: {type: Number}
+    }
   },
   {timestamps: true}
 )

@@ -79,6 +79,17 @@ const loadState = async function(x, animation){
     if(states[x].includes("title")){
         activateTitleClick();
     }
+    if(states[1].includes("main-title")){
+        $("#left-arrow-box").addClass("invisible");
+    }else{
+        $("#left-arrow-box").removeClass("invisible");
+    }
+    //The Below Was Removed Because Intentions Were Changed
+/*     if(states[1].includes("title")){
+        $("#top-arrow-box").addClass("invisible");
+    }else{
+        $("#top-arrow-box").removeClass("invisible");
+    } */
 }
 
 
@@ -100,6 +111,8 @@ const deactivateButtons = function(){
     $("#advanced-stat-sheet-button").off("click")
     $("#right-arrow-box").off("click");
     $("#left-arrow-box").off("click");
+    $("#settings-button").off("click");
+    $("#top-arrow-box").off("click");
 }
 
 const activateButtons = function(){
@@ -129,6 +142,92 @@ const activateButtons = function(){
         window.history.pushState({states:states,data:data}, "Character Info - Advanced Stats", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"advanced-stat-sheet"))
         deactivateButtons();
         await loadState(2);
+        activateButtons();
+    })
+    $("#settings-button").on("click", async function(){
+        deactivateButtons();
+        if(!settings){
+            $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#cutaway-image-collection").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-arrow-box").children('i').removeClass("fa-chevron-down");
+            $("#top-arrow-box").children('i').addClass("fa-chevron-up");
+            $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-arrow-box").css("transform","translateY(0)");
+            $("#cutaway-image-collection").css("transform","translateY(100%)");
+            $("#top-section").css("transform","translateY(100vh)");
+            $("#main-story-section").css("transform","translateY(100vh)");
+            $("#settings").css("transform","translateY(0%)");
+            setTimeout(function(){
+                $("#top-section").css("transition","0ms");
+                $("#main-story-section").css("transition","0ms");
+                $("#settings").css("transition","0ms");
+            },1100)
+            settings = true;
+            images = false;
+        }else{
+            $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-section").css("transform","translateY(0)");
+            $("#main-story-section").css("transform","translateY(0)");
+            $("#settings").css("transform","translateY(-120%)");
+            $("#cutaway-image-collection").css("transform","translateY(0)");
+            setTimeout(function(){
+                $("#top-section").css("transition","0ms");
+                $("#main-story-section").css("transition","0ms");
+                $("#settings").css("transition","0ms");
+            },1100) 
+            settings = false;
+        }
+        activateButtons();
+    })
+    $("#top-arrow-box").on("click", function(){
+        deactivateButtons();
+        if(!images){
+            $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#cutaway-image-collection").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-arrow-box").children('i').removeClass("fa-chevron-up");
+            $("#top-arrow-box").children('i').addClass("fa-chevron-down");
+            $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-section").css("transform","translateY(-100vh)");
+            $("#top-arrow-box").css("transform","translateY(-90vh)");
+            $("#main-story-section").css("transform","translateY(-100vh)");
+            $("#cutaway-image-collection").css("transform","translateY(-90vh)");
+            $("#settings").css("transform","translateY(-200%)");
+            setTimeout(function(){
+                $("#top-section").css("transition","0ms");
+                $("#top-arrow-box").css("transition","0ms");
+                $("#main-story-section").css("transition","0ms");
+                $("#cutaway-image-collection").css("transition","0ms");
+                $("#settings").css("transition","0ms");
+            },1100)
+            images = true;
+            settings = false;
+        }else{
+            $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#cutaway-image-collection").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-arrow-box").children('i').removeClass("fa-chevron-down");
+            $("#top-arrow-box").children('i').addClass("fa-chevron-up");
+            $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-section").css("transform","translateY(0)");
+            $("#top-arrow-box").css("transform","translateY(0)");
+            $("#main-story-section").css("transform","translateY(0)");
+            $("#cutaway-image-collection").css("transform","translateY(0)");
+            $("#settings").css("transform","translateY(-120%)");
+            setTimeout(function(){
+                $("#top-section").css("transition","0ms");
+                $("#top-arrow-box").css("transition","0ms");
+                $("#main-story-section").css("transition","0ms");
+                $("#cutaway-image-collection").css("transition","0ms");
+                $("#settings").css("transition","0ms");
+            },1100)
+            images = false;
+        }
         activateButtons();
     })
     $("#right-arrow-box").on("click", async function(){

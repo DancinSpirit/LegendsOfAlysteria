@@ -7,14 +7,14 @@ const left = async function(index, component){
         $(`#sub-${states[index]}`).html(component);
         $(`.big-boy-${states[index+1].split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${states[index+1].split(">")[0]}`).height()))/2);
         $("#big-boy-2").remove();
-        $(`#sub-${states[index]}-container`).css("transition","1000ms");
+        $(`#sub-${states[index]}-container`).css("transition",`${user.settings.pageSpeed}ms`);
         $(`#sub-${states[index]}-container`).css("transform","translateX(-50%)")
         setTimeout(function(){
             $(`#sub-${states[index]}-container`).css("transition","0ms");
             $("#old-sub-state").remove();
             $(`#sub-${states[index]}-container`).css("transform","translate(0%,0%)");
             resolve();
-        },1000)
+        },user.settings.pageSpeed)
     })
 }
 const right = async function(index, component){
@@ -28,14 +28,14 @@ const right = async function(index, component){
         $("#big-boy-2").remove();
         $(`#sub-${states[index]}-container`).css("transform","translateX(-50%)");
         setTimeout(function(){
-            $(`#sub-${states[index]}-container`).css("transition","1000ms");
+            $(`#sub-${states[index]}-container`).css("transition",`${user.settings.pageSpeed}ms`);
             $(`#sub-${states[index]}-container`).css("transform","translateX(0%)")
             setTimeout(function(){
                 $(`#sub-${states[index]}-container`).css("transition","0ms");
                 $("#old-sub-state").remove();
                 $(`#sub-${states[index]}-container`).css("transform","translate(0%,0%)");
                 resolve();
-            },1000)
+            },user.settings.pageSpeed)
         },10);
     })
 }
@@ -46,7 +46,7 @@ const up = async function(index, component){
         $(`#sub-${states[index]}-container`).append(`<section id="sub-${states[index]}"></section>`)
         $(`#sub-${states[index]}`).html(component);
         $(`.big-boy-${states[index+1].split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${states[index+1].split(">")[0]}`).height()))/2);
-        $(`#sub-${states[index]}-container`).css("transition","1000ms");
+        $(`#sub-${states[index]}-container`).css("transition",`${user.settings.pageSpeed}ms`);
         $(`#sub-${states[index]}-container`).css("transform","translateY(-50%)")
         setTimeout(function(){
             $(`#sub-${states[index]}-container`).css("transition","0ms");
@@ -54,7 +54,7 @@ const up = async function(index, component){
             $(`#sub-${states[index]}-container`).css("transform","translate(0%,0%)");
             $(`#sub-${states[index]}-container`).css("display","flex");
             resolve();
-        },1000)
+        },user.settings.pageSpeed)
     })
 }
 const down = async function(index, component){
@@ -66,7 +66,7 @@ const down = async function(index, component){
         $(`.big-boy-${states[index+1].split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${states[index+1].split(">")[0]}`).height()))/2);
         $(`#sub-${states[index]}-container`).css("transform","translateY(-50%)");
         setTimeout(function(){
-            $(`#sub-${states[index]}-container`).css("transition","1000ms");
+            $(`#sub-${states[index]}-container`).css("transition",`${user.settings.pageSpeed}ms`);
             $(`#sub-${states[index]}-container`).css("transform","translateY(0%)")
             setTimeout(function(){
                 $(`#sub-${states[index]}-container`).css("transition","0ms");
@@ -74,7 +74,7 @@ const down = async function(index, component){
                 $(`#sub-${states[index]}-container`).css("transform","translate(0%,0%)");
                 $(`#sub-${states[index]}-container`).css("display","flex");
                 resolve();
-            },1000)
+            },user.settings.pageSpeed)
         },10);
     })
 }

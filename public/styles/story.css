@@ -494,13 +494,32 @@
     z-index: 2;
     display: none;
   }
-  
+
+.slider{
+  width: 50vw;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  cursor: pointer; /* Cursor on hover */
+}
   #title-image{
     width: 90vw;
     height: 40vh;
     padding: 0;
   }
   
+  #settings{
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-120%);
+  }
+
   .turn-players{
     display: flex;
     justify-content: center;

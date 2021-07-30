@@ -26,11 +26,12 @@ app.use(session({
 }));
 
 /* Auth */
-app.use(function(req,res,next){
+app.use(async function(req,res,next){
     if(req.session.currentUser){
-    app.locals.user = req.session.currentUser;
+        req.session.currentUser = await db.User.findById(req.session.currentUser._id);
+        app.locals.user = req.session.currentUser;
     }else{
-    app.locals.user = false;
+        app.locals.user = false;
     }
     next();
 }) 
@@ -56,6 +57,13 @@ app.post("/component/:component", async function(req,res){
     }
     console.log("Model: " + model);
     res.render(url, model);
+})
+
+/* Model Updating */
+app.post("/update/:model/:id", async function(req,res){
+    let model = req.params.model.charAt(0).toUpperCase() + req.params.model.slice(1);
+    let foundModel = await eval(`db.${model}.findByIdAndUpdate('${req.params.id}',${JSON.stringify(req.body)})`);
+    res.send(foundModel);
 })
 
 /* Page Loading */
@@ -85,9 +93,9 @@ app.post("/login", async function(req, res){
     if(!match) return res.send({displayText: "Password Invalid"});
     req.session.currentUser = foundUser;
     if(foundUser.gamemaster)
-    return res.send("Welcome Gamemaster!");
+    return res.redirect("/main/home");
     else
-    return res.send("Login Successful!");
+    return res.redirect("/main/home");
 })
 
 /* Register */
@@ -100,10 +108,11 @@ app.post("/register", async function(req, res){
     req.body.avatar = "/images/avatar_placeholder.png";
     req.body.bio = "This user hasn't written a bio yet!";
     req.body.gamemaster = false;
+    req.body.settings = {pageSpeed: 1000, textSpeed: 50};
     const newUser = await db.User.create(req.body);
     console.log(newUser);
     req.session.currentUser = newUser;
-    return res.send("Registration Successful!");
+    return res.redirect("/main/home")
 })
 
 app.listen(PORT, function(){
