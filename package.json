@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "xdg-open http://localhost:7474 && nodemon && node start.js"
+    "dev": "xdg-open http://localhost:7474 && node extraFunctions.js && nodemon"
   },
   "author": "Maiki Moseley",
   "license": "ISC",

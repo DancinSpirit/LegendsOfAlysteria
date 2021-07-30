@@ -45,6 +45,14 @@ const loadText = async function(sentText){
         textLine = false;
         await loadBackground(sentText.split("[BACKGROUND IMAGE]")[1]);
         loadEvent();
+    }else if(sentText.startsWith("[PHILOSOPHER]")){
+        textLine = false;
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext philosopher'>${sentText.replace("[PHILOSOPHER]","")}</p>`);
+        loadClickSignifier();
+    }else if(sentText.startsWith("[SCENE TRANSITION]")){
+        textLine = false;
+        await loadBackground("/images/" + sentText.split("[SCENE TRANSITION]")[1]+".jpg");
+        loadEvent();
     }else if(sentText.startsWith("[MUSIC]")){
         textLine = false;
         await loadMusic(sentText.split("[MUSIC]")[1]);
@@ -57,6 +65,26 @@ const loadText = async function(sentText){
         textLine = false;
         playSound(sentText.split("[SOUND EFFECT]")[1]);
         loadEvent();
+    }else if(sentText.startsWith("[DUCHY]")){
+        console.log("HM?")
+        textLine = false;
+        $(`#event-${eventId}`).append(`<section id="duchy"><section id = "duchy-text"><div id="duchy-symbol"></div></section><section id = "duchy-image"></section></section>`)
+        let url = "/images/" + sentText.replace("[DUCHY]","").split("|")[0] + ".jpg"
+        $("#duchy-image").css("background-image", `url(${url})`)
+        $("#duchy-image").css("background-repeat", `no-repeat`)
+        $("#duchy-image").css("background-size", `contain`)
+        $("#duchy-image").css("background-position", `center`)
+        url = "/images/" + sentText.replace("[DUCHY]","").split("|")[0] + "Symbol.jpg"
+        $("#duchy-symbol").css("background-image", `url(${url})`)
+        $("#duchy-symbol").css("background-repeat", `no-repeat`)
+        $("#duchy-symbol").css("background-size", `contain`)
+        $("#duchy-symbol").css("background-position", `center`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Ruler:</strong> ${sentText.split("]")[1].split("|")[1]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Official Stance:</strong> ${sentText.split("]")[1].split("|")[2]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Diplomatic Relations:</strong> ${sentText.split("]")[1].split("|")[3]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-info-p"><strong>Information Level:</strong> ${sentText.split("]")[1].split("|")[4]}</p>`)
+        $("#duchy-text").append(`<p class="duchy-descript-p"><strong>Description:</strong> ${sentText.split("]")[1].split("|")[5]}</p>`)
+        $("#duchy-symbol").height($("#player-box").height() - $("#duchy-text").height())
     }else if(sentText.startsWith("[CUTAWAY IMAGE]")){
         textLine = false;
         $("#cutaway-subtitle").css("display","block")
@@ -97,6 +125,28 @@ const loadText = async function(sentText){
         $("#cutaway-image-container").on("click", function(){
             loadEvent();
         })
+    }else if(sentText.startsWith("[PLAYER ACTION]")){
+        $("#choice").empty();
+        $("#choice").css("color","white");
+        $("#choice-container").css("border-color","white");
+        ctrlButton = false;
+        enterButton = false;
+        let numberOfOptions = parseInt(sentText.split("|")[2]);
+        $("#choice").append(`<p class='choice-title'>${sentText.split("|")[1]}</p>`)
+        $("#choice").append(`<p class='choice-description'>${sentText.split("|")[0].replace("[PLAYER ACTION]","")}</p>`)
+        for(let x=0; x<numberOfOptions; x++){
+            if(sentText.split("|")[x+3].startsWith("[CHOSEN]")){
+                $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
+                $(".chosen-option").on("click",function(){
+                    $("#choice-container").css("display","none");
+                    ctrlButton = true;
+                    enterButton = true;
+                })
+            }
+            else
+            $("#choice").append(`<div class='choice-option unchosen-option'>${sentText.split("|")[x+3]}</div>`)
+        }
+        $("#choice-container").css("display","flex");
     }else if(sentText.startsWith("[RETURN FROM IMAGE]")){
         $("#cutaway-image").fadeOut();
         $("#cutaway-subtitle").fadeOut();
@@ -104,6 +154,7 @@ const loadText = async function(sentText){
             $("#cutaway-image-container").css("display","none");
             $("#cutaway-subtitle").css("display","none");
         },500)
+        loadClickSignifier();
     }else if(sentText.includes("[OTHER]")){
         if(sentText.startsWith("[OTHER]")){
             sentText = sentText.replace("[OTHER]","");
@@ -164,6 +215,11 @@ const playSound = function(url){
 }
 
 const loadMusic = async function(url){
+    let repeat = true;
+    if(url.startsWith("[NO REPEAT]")){
+        url = url.split("[NO REPEAT]")[1];
+        repeat = false;
+    }
     return new Promise((resolve) =>{
         if(song&&(song!=document.getElementById(url))){
             let oldSong = song;
@@ -177,7 +233,10 @@ const loadMusic = async function(url){
         }else{
             setTimeout(function(){
                 if(!document.getElementById(url)){
+                    if(repeat)
                     $("#story").append(`<audio id="${url}" loop src="/sounds/${url}.mp3"></audio>`);
+                    else
+                    $("#story").append(`<audio id="${url}" src="/sounds/${url}.mp3"></audio>`);
                 }
                 song = document.getElementById(url);
                 console.log(song);
@@ -256,32 +315,3 @@ $("body").on("keypress", function (e) {
             loadEvent();
     }
 })
-
-const closeImages = function(){
-    setTimeout(function(){
-        $(".textbox").css("transition","0ms");
-        $("#cutaway-image-collection").css("transition","0ms");
-        $("#top-arrow-box").css("transition","0ms");
-    },500)
-    $(".textbox").css("transform","translateY(0)")
-    $("#cutaway-image-collection").css("transform","translateY(0)");
-    $("#top-arrow-box").css("transform","translateY(0)");
-    $(".fa-chevron-down").addClass("fa-chevron-up");
-    $(".fa-chevron-up").removeClass("fa-chevron-down");
-    $("#top-arrow-box").off("click");
-    $("#top-arrow-box").on("click",openImages);
-}
-
-const openImages = function(){
-    $(".textbox").css("transition","500ms");
-    $("#cutaway-image-collection").css("transition","500ms");
-    $("#top-arrow-box").css("transition","500ms");
-    $(".textbox").css("transform","translateY(-90vh)")
-    $("#cutaway-image-collection").css("transform","translateY(-90vh)");
-    $("#top-arrow-box").css("transform","translateY(-90vh)");
-    $(".fa-chevron-up").addClass("fa-chevron-down");
-    $(".fa-chevron-down").removeClass("fa-chevron-up");
-    $("#top-arrow-box").off("click");
-    $("#top-arrow-box").on("click",closeImages);
-}
-
