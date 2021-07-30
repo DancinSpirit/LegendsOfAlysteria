@@ -38,7 +38,7 @@ app.use(async function(req,res,next){
 
 /* Home Page Loading */
 app.get("/", function(req,res){
-    res.render('base',{states: ["main"],data: [{}]});
+    res.render('base',{states: ["main","home"],data: [{}]});
 })
 
 /* Component Loading */

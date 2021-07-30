@@ -11,6 +11,7 @@ if(!user){
         states = ["main","login"];
         window.history.pushState({states:states,data:data}, "Login Page", "/main/login");
     }
+    user = {settings: {pageSpeed: 1000}}
 }
 
 loadStates();
