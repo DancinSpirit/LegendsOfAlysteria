@@ -10,7 +10,9 @@ const schema = new mongoose.Schema(
     playerCharacters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
     settings: {
       textSpeed: {type: Number},
-      pageSpeed: {type: Number}
+      pageSpeed: {type: Number},
+      musicVolume: {type: Number},
+      soundVolume: {type: Number}
     }
   },
   {timestamps: true}

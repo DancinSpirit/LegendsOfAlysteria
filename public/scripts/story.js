@@ -3,11 +3,13 @@ let click = true;
 let song = false;
 let ctrlButton = true;
 let enterButton = true;
+let continueEvent = true;
 
 const activateEventClick = function(){
     $("#player-box").on("click", async function(){
         click = true;
-        await loadEvent();
+        if(continueEvent)
+            await loadEvent();
     })
 }
 const deactivateEventClick = function(){
@@ -210,11 +212,12 @@ const playSound = function(url){
     }
     let sound = document.getElementById(url);
     console.log(sound);
-    sound.volume = 0.1;
+    sound.volume = user.settings.soundVolume;
     sound.play();
 }
 
 const loadMusic = async function(url){
+    continueEvent = false;
     let repeat = true;
     if(url.startsWith("[NO REPEAT]")){
         url = url.split("[NO REPEAT]")[1];
@@ -226,9 +229,10 @@ const loadMusic = async function(url){
             $(oldSong).animate({volume: 0}, 300);
             setTimeout(function(){
                 stopAudio(oldSong);
-            },320)
+            },300)
         }
         if(url.includes("none")){
+            continueEvent = true;
             resolve();
         }else{
             setTimeout(function(){
@@ -240,12 +244,21 @@ const loadMusic = async function(url){
                 }
                 song = document.getElementById(url);
                 console.log(song);
-                if(song.paused){
-                    song.volume = 0.1;
-                    song.play();
+                song.volume = user.settings.musicVolume;
+                let played = song.play();
+                if(played !== undefined){
+                    played.then(_ =>{
+                        continueEvent = true;
+                        resolve();
+                    }).catch(error =>{
+                        $('body').on("click", function(){
+                            song.play();
+                        })
+                        continueEvent = true;
+                        resolve();
+                    })
                 }
-                resolve();
-            },340)
+            },300)
         }
     })
 }
@@ -305,13 +318,15 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
 $("body").on("keydown", function (e) {
     if (e.keyCode == 17) {
         if(enterButton)
-            loadEvent();
+            if(continueEvent)
+                loadEvent();
     }
 })
 
 $("body").on("keypress", function (e) {
     if (e.keyCode == 13) {
         if(ctrlButton)
-            loadEvent();
+            if(continueEvent)
+                loadEvent();
     }
 })

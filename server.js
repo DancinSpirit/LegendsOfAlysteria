@@ -108,7 +108,7 @@ app.post("/register", async function(req, res){
     req.body.avatar = "/images/avatar_placeholder.png";
     req.body.bio = "This user hasn't written a bio yet!";
     req.body.gamemaster = false;
-    req.body.settings = {pageSpeed: 1000, textSpeed: 50};
+    req.body.settings = {pageSpeed: 1000, textSpeed: 50, musicVolume: .1, soundVolume: .1};
     const newUser = await db.User.create(req.body);
     console.log(newUser);
     req.session.currentUser = newUser;

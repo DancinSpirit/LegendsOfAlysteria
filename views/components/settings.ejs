@@ -6,13 +6,25 @@
         </form>
     </div>
     <div>
-
-    </div>
-    <div>
         Page Transition Speed:
         <form class="slider-form" id="pageSpeed">
             <input type="range" min="0" max="20" value="<%=20-(user.settings.pageSpeed/100)%>" class="slider" id="pageSpeed-slider">
         </form>
+    </div>
+    <div>
+        Music Volume
+        <form class="slider-form" id="musicVolume">
+            <input type="range" min="0" max="50" value="<%=(user.settings.musicVolume*100)%>" class="slider" id="musicVolume-slider">
+        </form>
+    </div>
+    <div>
+        Sound Volume
+        <form class="slider-form" id="soundVolume">
+            <input type="range" min="0" max="50" value="<%=(user.settings.soundVolume*100)%>" class="slider" id="soundVolume-slider">
+        </form>
+    </div>
+    <div id="testSound">
+        Test Sound Effect <i class="fas fa-music"></i>
     </div>
 </section>
 <script>
@@ -37,5 +49,33 @@
             success: (res)=>{
             }
         }) 
+    })
+    $("#musicVolume-slider").on("change", function(){
+        console.log($(this).val()/100)
+        user.settings.musicVolume = $(this).val()/100;
+        $.ajax({
+            method: "POST",
+            url: `/update/user/${user._id}`,
+            data: user,
+            success: (res)=>{
+            }
+        }) 
+        if(song){
+            song.volume = user.settings.musicVolume;
+        }
+    })
+    $("#soundVolume-slider").on("change", function(){
+        console.log($(this).val()/100)
+        user.settings.soundVolume = $(this).val()/100;
+        $.ajax({
+            method: "POST",
+            url: `/update/user/${user._id}`,
+            data: user,
+            success: (res)=>{
+            }
+        }) 
+    })
+    $("#testSound").on("click", function(){
+        playSound("Test Sound")
     })
 </script>
