@@ -1,0 +1,6 @@
+<animation>up</animation>
+<section id="story-selection">
+    <%for(let x=0; x<user.stories.length; x++){%>
+        <component>story-choice|Story|<%=user.stories[x]%></component>
+    <%}%>
+</section>

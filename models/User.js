@@ -13,7 +13,8 @@ const schema = new mongoose.Schema(
       pageSpeed: {type: Number},
       musicVolume: {type: Number},
       soundVolume: {type: Number}
-    }
+    },
+    stories: [{type: mongoose.Schema.Types.ObjectId, ref: "Story"}]
   },
   {timestamps: true}
 )

@@ -12,3 +12,14 @@ html{
 animation, component{
     display: none;
 }
+
+.clickable{
+    cursor:pointer;
+}
+
+.slide-button{
+    font-size: 10px;
+  }
+  #subnav{
+    height: 25px;
+  }

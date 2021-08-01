@@ -26,6 +26,9 @@
     <div id="testSound">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
+    <div id="return-home">
+        Return to Home Page
+    </div>
 </section>
 <script>
     $("#textSpeed-slider").on("change", function(){
@@ -77,5 +80,8 @@
     })
     $("#testSound").on("click", function(){
         playSound("Test Sound")
+    })
+    $("#return-home").on("click",function(){
+        window.location.href = "/main/home"
     })
 </script>
