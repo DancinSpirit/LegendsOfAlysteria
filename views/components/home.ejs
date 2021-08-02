@@ -1,13 +1,42 @@
-<div>
-    Welcome <%=user.firstName%> <%=user.lastName%>!
-</div>
-<p id="read-story" class="clickable">Read Story</p>
+<section id="home">
+    <div id="main-title">
+        <p class="boxtext story-supertitle">Not! Conquering High Fantasy</p>
+        <p class="boxtext story-title">Legends of Alysteria</p>
+        <p class="boxtext story-subtitle">A game of Legends, Lords, and Luck</p>
+    </div>
+    <div class="user-name">
+        Logged In As: <%=user.fullName()%>
+    </div>
+    <div id="continue-button" class="home-select">
+        Continue Game
+    </div>
+    <div class="home-select">
+        Character Select
+    </div>
+    <div class="home-select" id="home-settings-button">
+        Settings
+    </div>
+    <div class="home-select">
+        Exit Game
+    </div>
+</section>
+<animation>right</animation>
 <script>
-    $("#read-story").on("click",function(){
-        states = ["story","main-title"]
-        data = [{name: "Story",id:"60fc38755a0fefba9f554f3e"},{name: "Story",id:"60fc38755a0fefba9f554f3e"}];
-        loadStates();
-        window.history.pushState({states:states,data:data}, "Main Title", `/story|story=60fc38755a0fefba9f554f3e/main-title|story=60fc38755a0fefba9f554f3e`)
+    $("#home-settings-button").on("click",async function(){
+        if(states[1] != ["settings"]){
+            states = ["main","settings"]
+            window.history.pushState({states:states,data:data}, "Settings", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`settings`))
+            deactivateButtons();
+            await loadState(1);
+            activateButtons();
+        }
+    })
+    $("#continue-button").on("click", async function(){
+        //THIS SHOULD ALSO LOGIN THE CHARACTER!!
+        states = ["story","event"]
+        data = [{name: "Story",id: `${user.currentEvent.story}`},{name: "Event",id:`${user.currentEvent.event}`}]
+        window.history.pushState({states:states,data:data}, "Event", `/story|story=${user.currentEvent.story}/event|event=${user.currentEvent.event}`);
+        deactivateButtons();
+        await loadStates();
     })
 </script>
-<animation>right</animation>

@@ -101,9 +101,9 @@ app.post("/login", async function(req, res){
     if(!match) return res.send({displayText: "Password Invalid"});
     req.session.currentUser = foundUser;
     if(foundUser.gamemaster)
-    return res.redirect("/main/home");
+    return res.redirect("/");
     else
-    return res.redirect("/main/home");
+    return res.redirect("/");
 })
 
 /* Register */
@@ -120,7 +120,14 @@ app.post("/register", async function(req, res){
     const newUser = await db.User.create(req.body);
     console.log(newUser);
     req.session.currentUser = newUser;
-    return res.redirect("/main/home")
+    return res.redirect("/")
+})
+
+/* Logout */
+app.post("/logout", async function(req,res){
+    req.session.currentUser = false;
+    req.session.currentPlayer = false;
+    return res.redirect("/main/login")
 })
 
 app.listen(PORT, function(){

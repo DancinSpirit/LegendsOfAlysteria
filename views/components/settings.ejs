@@ -1,29 +1,29 @@
 <section id="settings" class="textbox">
-    <div>
+    <div class="setting">
         Text Speed: 
         <form class="slider-form" id="textSpeed">
             <input type="range" min="1" max="99" value="<%=100-user.settings.textSpeed%>" class="slider" id="textSpeed-slider">
         </form>
     </div>
-    <div>
+    <div class="setting">
         Page Transition Speed:
         <form class="slider-form" id="pageSpeed">
             <input type="range" min="0" max="20" value="<%=20-(user.settings.pageSpeed/100)%>" class="slider" id="pageSpeed-slider">
         </form>
     </div>
-    <div>
+    <div class="setting">
         Music Volume
         <form class="slider-form" id="musicVolume">
             <input type="range" min="0" max="50" value="<%=(user.settings.musicVolume*100)%>" class="slider" id="musicVolume-slider">
         </form>
     </div>
-    <div>
+    <div class="setting">
         Sound Volume
         <form class="slider-form" id="soundVolume">
             <input type="range" min="0" max="50" value="<%=(user.settings.soundVolume*100)%>" class="slider" id="soundVolume-slider">
         </form>
     </div>
-    <div id="testSound" class = "clickable menu-item">
+    <div id="testSound" class = "clickable menu-item setting">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
 </section>
@@ -31,7 +31,7 @@
     if(typeof story != "undefined"){
         $("#settings").addClass("external");
         $("#settings").addClass("invisible");
-        $("#settings").append(`<div id="return-home" class="clickable menu-item">
+        $("#settings").append(`<div id="return-home" class="clickable menu-item setting">
             Return to Home Page
         </div>`)
     }

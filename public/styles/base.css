@@ -44,3 +44,8 @@ animation, component{
 .invisible{
     display: none;
 }
+
+.setting{
+    font-family: 'Jura';
+    font-style: italic;
+}
