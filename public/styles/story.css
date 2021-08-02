@@ -1,25 +1,34 @@
-@font-face {
-    font-family: 'Corsiva';
-    src: url(/fonts/Corsiva.ttf);
-  }
-  
+ 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
-  body {
+  #sub-base-container-container{
+    height: 100%;
+    width: 100%;
     overflow: hidden;
+  }
+  #sub-base-container{
+    height: 200%;
+    width: 200%;
     display: flex;
-    flex-direction: column;
-    font-family: Arial, sans-serif;
+  }
+  #sub-base, #old-sub-state{
+  height: 50%;
+  width: 50%;
+  }
+
+  body{
+    height: 100%;
+    width: 100%;
   }
 
   #settings-button{
     position: fixed;
     top:0px;
-    right:0px;
+    left: calc(100vw - 50px);
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 10px;
@@ -321,26 +330,13 @@
     font-style: italic;
   }
   
-  #left-arrow{
-    position: fixed;
-    left: 0;
+  #main-story-section{
+    display: flex;
   }
-  #right-arrow{
-    position: fixed;
-    right: 0;
-  }
-  
+
   #left-arrow, #right-arrow{
     height: 100%;
     width: 5vw;
-  }
-  
-  #left-arrow{
-    transform: translateY(-10vh);
-  }
-  
-  #right-arrow{
-    transform: translateY(-90vh);
   }
   
   #top-arrow{
@@ -351,16 +347,12 @@
   }
   
   #left-arrow-box,#right-arrow-box{
-    margin-top: 45vh;
+    margin-top: 35vh;
     z-index: 1;
-  }
-  #right-arrow-box{
-    right: 0;
   }
   
   .arrow-box{
     background-color: rgba(0, 0, 0, 0.6);
-    position: absolute;
     height: 10vh;
     display: flex;
     align-items: center;
@@ -375,7 +367,6 @@
     height: 2vh;
     width: 10vw;
     bottom: 0;
-    margin-left:45vw;
   }
   
   .fa-chevron-left, .fa-chevron-right, .fa-chevron-up, .fa-chevron-down{
@@ -510,14 +501,14 @@
   }
   
   #settings{
+    display: none;
     position: fixed;
-    top: 10%;
-    left: 5%;
-    display: flex;
+    top: 5%;
+    left: 2.5%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transform: translateY(-120%);
+    transform: translateY(-120vh);
   }
 
   .turn-players{
@@ -624,7 +615,17 @@
 #sub-story, #old-sub-state{
   height: 50%;
   width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial';
 }
+
+.event-box{
+  height: 100%;
+  width: 100%;
+}
+
   /* FONT CLASSES */
   .oswald{
     font-family: 'Oswald', sans-serif;

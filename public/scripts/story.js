@@ -196,19 +196,19 @@ const loadClickSignifier = function(){
 const loadBackground = async function(url){
     return new Promise((resolve) =>{
         if(url.includes("[TOP]")){
-            $("#background").css("background-position", "top");
+            $('body').css("background-position", "top");
             url = url.replace("[TOP]","");
         }else{
-            $("#background").css("background-position", "center center");
+            $('body').css("background-position", "center center");
         }
-        $("#background").css("background-image", `url('${url}')`);
+        $('body').css("background-image", `url('${url}')`);
         resolve();
     })
 }
 
 const playSound = function(url){
     if(!document.getElementById(url)){
-        $("#story").append(`<audio id="${url}" src="/sounds/${url}.mp3"></audio>`);
+        $("body").append(`<audio id="${url}" src="/sounds/${url}.mp3"></audio>`);
     }
     let sound = document.getElementById(url);
     console.log(sound);

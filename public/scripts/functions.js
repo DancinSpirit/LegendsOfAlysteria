@@ -43,8 +43,56 @@ const loadState = async function(x, animation){
         component = await load(`/component/${states[x]}`);
     }
     if(component.includes("<background>")){
-        $("#background").css("background-image",`url("${component.split("<background>")[1].split("</background>")[0]}"`);
+        $("body").css("background-image",`url("${component.split("<background>")[1].split("</background>")[0]}"`);
     }
+    component = await componentCheck(component);
+    let stateOne;
+    let stateTwo;
+    if(x==0){
+        console.log(states[x])
+        stateOne = "base"
+        stateTwo = states[x];
+    }else{
+        stateOne = states[x-1];
+        stateTwo = states[x];
+    }
+    if(component.includes("<animation>")){
+        await eval(`${component.split("<animation>")[1].split("</animation")[0]}(stateOne,stateTwo, component)`)
+    }else{
+        if(animation){
+            await eval(`${animation}(stateOne,stateTwo, component)`)
+        }else{
+            console.log(states[x])
+            await left(stateOne,stateTwo, component);
+        }
+    }
+    if(states[x].includes("event")){
+        activateEventClick();
+    }
+    if(states[x].includes("title")){
+        activateTitleClick();
+    }
+    if(states.length==2)
+        if(states[1].includes("main-title")){
+            $("#left-arrow-box").addClass("invisible");
+        }else{
+            $("#left-arrow-box").removeClass("invisible");
+        }
+    //The Below Was Removed Because Intentions Were Changed
+/*     if(states[1].includes("title")){
+        $("#top-arrow-box").addClass("invisible");
+    }else{
+        $("#top-arrow-box").removeClass("invisible");
+    } */
+    if(states[0] != "main")
+    $("link[href='/styles/main.css']").remove();
+    if(states[0] != "start")
+    $("link[href='/styles/start.css']").remove();
+    $("#settings").css("display","flex");
+}
+
+const componentCheck = async function(component){
+    console.log("HELLO?!")
     if(component.includes("<component>")){
         let components = [];
         for(let y=1; y<component.split("<component>").length; y++){
@@ -56,42 +104,14 @@ const loadState = async function(x, animation){
             console.log(data);
             let newComponent = await load(`/component/${components[y].split("|")[0]}`,data); 
             console.log(newComponent);
+            newComponent = await componentCheck(newComponent);
             console.log()
             component = component.replace("<component>" + components[y] + "</component>", newComponent);
         }
     }
-    if(x==0){
-        $('body').html(component);
-    }else{
-        if(component.includes("<animation>")){
-            await eval(`${component.split("<animation>")[1].split("</animation")[0]}(${x-1}, component)`)
-        }else{
-            if(animation){
-                await eval(`${animation}(${x-1}, component)`)
-            }else{
-                await eval(`left(${x-1}, component)`)
-            }
-        }
-    }
-    if(states[x].includes("event")){
-        activateEventClick();
-    }
-    if(states[x].includes("title")){
-        activateTitleClick();
-    }
-    if(states[1].includes("main-title")){
-        $("#left-arrow-box").addClass("invisible");
-    }else{
-        $("#left-arrow-box").removeClass("invisible");
-    }
-    //The Below Was Removed Because Intentions Were Changed
-/*     if(states[1].includes("title")){
-        $("#top-arrow-box").addClass("invisible");
-    }else{
-        $("#top-arrow-box").removeClass("invisible");
-    } */
+    console.log("CHeck" + component)
+    return component;
 }
-
 
 
 const loadStates = async function(){
@@ -155,6 +175,17 @@ const activateButtons = function(){
             await loadState(1);
             activateButtons();
         }
+    })
+    $("#account-info").on("click", async function(){
+        $("#account-options").css("display","block");
+        $("#account-info").css("background-color","var(--darker)")
+        $("#account-info").off("click");
+        $("#account-info").on("click",async function(){
+            $("#account-options").css("display","none");
+            $("#account-info").css("background-color","var(--dark)")
+            deactivateButtons();
+            activateButtons();
+        })
     })
     $("#basic-character-sheet-button").on("click", async function(){
         if(states[2] != ["basic-sheet"]){

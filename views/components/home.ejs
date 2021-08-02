@@ -1,4 +1,13 @@
 <div>
     Welcome <%=user.firstName%> <%=user.lastName%>!
 </div>
-<a href="/story%7Cstory=60fc38755a0fefba9f554f3e/main-title%7Cstory=60fc38755a0fefba9f554f3e">Read Story</a>
+<p id="read-story" class="clickable">Read Story</p>
+<script>
+    $("#read-story").on("click",function(){
+        states = ["story","main-title"]
+        data = [{name: "Story",id:"60fc38755a0fefba9f554f3e"},{name: "Story",id:"60fc38755a0fefba9f554f3e"}];
+        loadStates();
+        window.history.pushState({states:states,data:data}, "Main Title", `/story|story=60fc38755a0fefba9f554f3e/main-title|story=60fc38755a0fefba9f554f3e`)
+    })
+</script>
+<animation>right</animation>

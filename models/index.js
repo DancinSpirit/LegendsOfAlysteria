@@ -26,5 +26,9 @@ module.exports = {
     Character: require("./Character"),
     Characterinfo: require("./Characterinfo"),
     Event: require("./Event"),
-    Story: require("./Story")
+    Story: require("./Story"),
+    Player: require("./Player"),
+    Game: require("./Game"),
+    Duchy: require("./Duchy"),
+    County: require("./County")
 }

@@ -2,8 +2,38 @@
     <section id = "nav-title" class="clickable">
         Legends of Alysteria
     </section>
-    <section id = "nav-buttons">
-        <button class = "nav-button" id="login-button">Log In</button>
-        <button class = "nav-button" id="register-button">Register</button>
-    </section>
+    <%if(user){%>
+        <section id = "account-info" class="clickable">
+            <%=user.fullName()%>
+        </section>
+        <section id = "account-options">
+            <%for(let x=0; x<user.playerCharacters.length; x++){%>
+                <component>player-character-button|Player|<%=user.playerCharacters[x]%></component>
+            <%}%>
+            <section id = "main-settings-button" class = "account-option clickable">
+                Settings
+            </section>
+            <section id = "logout-button" class = "account-option clickable">
+                Logout
+            </section>
+        </section>
+    <%}else{%>
+        <section id = "nav-buttons">
+            <button class = "nav-button" id="login-button">Log In</button>
+            <button class = "nav-button" id="register-button">Register</button>
+        </section>
+    <%}%>
 </nav>
+<script>
+    $("#main-settings-button").on("click",async function(){
+        if(states[1] != ["settings"]){
+            states = ["main","settings"]
+            window.history.pushState({states:states,data:data}, "Settings", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`settings`))
+            deactivateButtons();
+            $("#account-options").css("display","none");
+            $("#account-info").css("background-color","var(--dark)")
+            await loadState(1);
+            activateButtons();
+        }
+    })
+</script>

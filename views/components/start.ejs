@@ -1,0 +1,15 @@
+<div id="title-box-main-title">
+    <p class="boxtext story-supertitle">Not! Conquering High Fantasy</p>
+    <p class="boxtext story-title">Legends of Alysteria</p>
+    <p class="boxtext story-subtitle">A game of Legends, Lords, and Luck</p>
+    <p class="boxtext click-to-start blink">Click to Start!</p>
+</div>
+<script>
+    $("body").on("click", function(){
+        states = ["main","home"]
+        loadStates();
+        window.history.pushState({states:states,data:data}, "Home Page", "/main/home");
+        $("body").off("click");
+    })
+</script>
+<animation>down</animation>

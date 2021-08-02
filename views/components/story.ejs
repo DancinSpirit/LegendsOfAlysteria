@@ -1,8 +1,8 @@
-<div id = "story">
-    <div id="background">
-        <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
-        <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
-        <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
+    <div id = "story">
+        <component>settings</component>
+        <div id="settings-button">
+            <i class="fas fa-cog"></i>
+        </div>
         <section id="top-section">
             <section id="tabs">
                 <button class="tab <%if(!user.gamemaster){%>invisible-2<%}%>" id="player-tab">Player View</button>
@@ -11,6 +11,7 @@
         </section>
         <section id="main-story-section">
             <section id="left-arrow">
+                <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
             </section>
             <section>
                 <section class="textbox" id="player-box">
@@ -30,14 +31,18 @@
                 </section>
             </section>  
             <section id="right-arrow">
+                <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
             </section>
         </section>
         <section id="top-arrow">
+            <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
         </section>
         <section id="cutaway-image-collection" class="invisible">
     
         </section>
-    
+
+
+
         <section id="cutaway-image-container">
             <section id="cutaway-image">
     
@@ -52,12 +57,8 @@
         </section>
         <section id="htmlConverter">
         </section>
-        <component>settings</component>
-    </body>
-</div>
-<div id="settings-button">
-    <i class="fas fa-cog"></i>
-</div>
+    </div>
 <script>
     years = JSON.parse(`<%-JSON.stringify(years)%>`); 
 </script>
+<animation>right</animation>

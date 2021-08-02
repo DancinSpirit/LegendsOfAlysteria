@@ -1,13 +1,45 @@
+:root{ 
+  --light: #a5a5a5;
+  --dark: #818181;
+  --darker: #727272;
+  --highlight: #5f5b50;
+  --background: #2e2b28;
+}
+
+#sub-base-container-container{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+#sub-base-container{
+  height: 200%;
+  width: 200%;
+  display: flex;
+}
+#sub-base, #old-sub-state{
+height: 50%;
+width: 50%;
+}
+
+#sub-base{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 body{
-    background-color: orange;
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
+  background: url('https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
+
 
 /* NavBar */
 nav{
-    background-color: darkgoldenrod;
+    background-color: var(--background);
     width: 100%;
     height: 50px;
     z-index: 1;
@@ -19,9 +51,43 @@ nav{
     justify-content: center;
     align-items: center;
     margin-left: 10px;
-    font-family: 'Dancing Script', cursive;
-    font-size: 25px;
+    font-family: 'Corsiva';
+    font-size: 30px;
     font-weight: bold;
+    color: white;
+}
+
+#account-info{
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-family: 'Philosopher';
+  background-color: var(--dark);
+  width: 175px;
+}
+#account-info:hover{
+  background-color: var(--dark);
+}
+
+#account-options{
+  display: none;
+  position: fixed;
+  top: 50px;
+  left: calc(50% - 175px);
+  width: 175px;
+  background-color: var(--dark);
+  z-index: 1;
+}
+
+.account-option{
+  border: solid 1px var(--background);
+  padding: 10px;
+  font-family: 'Philosopher';
+}
+.account-option:hover{
+  background-color: var(--darker);
 }
 
 #nav-buttons{
@@ -58,7 +124,7 @@ nav{
 
 /* Forms */
 .form {
-    background-color: #e69138;
+    background-color: var(--background);
     padding: 10px;
     border: solid 1px;
     box-shadow: 0px 0px 5px #f9cb9c;
@@ -68,24 +134,24 @@ nav{
   }
   .form-input {
     color: black;
-    border-color: #f9cb9c;
+    border-color: var(--dark);
     border-radius: 4px;
   }
   .form-input:focus {
-    outline-color: #f6b26b;
+    outline-color: var(--darker);
     color: #53bde0;
   }
   .submit-button {
-    background-color: #f9cb9c;
+    background-color: var(--dark);
     border: none;
     border-radius: 4px;
-    box-shadow: 0px 0px 10px #fae3ca;
+    box-shadow: 0px 0px 10px var(--light);
     color: black;
     padding: 3px;
     margin-top: 10px;
   }
   .form-title {
-    text-shadow: 0px 0px 10px #fae3ca;
+    text-shadow: 0px 0px 10px var(--light);
   }
   .center-form {
     text-align: center;
@@ -100,4 +166,27 @@ nav{
     align-items: center;
     height: 100%;
     width: 100%;
+  }
+
+  .nav-button{
+    background-color: var(--light);
+
+  }
+
+  #settings{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slider{
+    width: 50vw;
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+  .slider::-webkit-slider-thumb {
+    cursor: pointer; /* Cursor on hover */
   }

@@ -7,6 +7,6 @@ const schema = new mongoose.Schema(
   {timestamps: true}
 )
 
-const Model = mongoose.model("Duchy", schema);
+const Model = mongoose.model("County", schema);
 
 module.exports = Model;

@@ -23,12 +23,14 @@
             <input type="range" min="0" max="50" value="<%=(user.settings.soundVolume*100)%>" class="slider" id="soundVolume-slider">
         </form>
     </div>
-    <div id="testSound">
+    <div id="testSound" class = "clickable menu-item">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
-    <div id="return-home">
-        Return to Home Page
-    </div>
+    <%if(typeof variable !== 'undefined'){%>
+        <div id="return-home" class="clickable menu-item">
+            Return to Home Page
+        </div>
+    <%}%>
 </section>
 <script>
     $("#textSpeed-slider").on("change", function(){

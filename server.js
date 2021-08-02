@@ -29,16 +29,24 @@ app.use(session({
 app.use(async function(req,res,next){
     if(req.session.currentUser){
         req.session.currentUser = await db.User.findById(req.session.currentUser._id);
+        app.locals.game = await db.Game.findById('610705a3f252e8aec6989328')
+        console.log(app.locals.game)
         app.locals.user = req.session.currentUser;
     }else{
         app.locals.user = false;
+    }
+    if(req.session.currentPlayer){
+        req.session.currentPlayer = await db.Player.findById(req.session.currentPlayer._id);
+        app.locals.player = req.session.currentPlayer;
+    }else{
+        app.locals.player = false;
     }
     next();
 }) 
 
 /* Home Page Loading */
 app.get("/", function(req,res){
-    res.render('base',{states: ["main","home"],data: [{}]});
+    res.render('base',{states: ["start"],data: [{}]});
 })
 
 /* Component Loading */
