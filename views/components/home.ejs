@@ -16,7 +16,7 @@
     <div class="home-select" id="home-settings-button">
         Settings
     </div>
-    <div class="home-select">
+    <div id="exit" class="home-select">
         Exit Game
     </div>
 </section>
@@ -36,7 +36,26 @@
         states = ["story","event"]
         data = [{name: "Story",id: `${user.currentEvent.story}`},{name: "Event",id:`${user.currentEvent.event}`}]
         window.history.pushState({states:states,data:data}, "Event", `/story|story=${user.currentEvent.story}/event|event=${user.currentEvent.event}`);
-        deactivateButtons();
-        await loadStates();
+        loadStates();
     })
+    $("#exit").on("click",async function(){
+        window.location.href = "/"
+    })
+    if(song){
+        song.play();
+    }else{
+        if(!document.getElementById("Alysteria")){
+            $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
+        }
+        song = document.getElementById("Alysteria");
+        let played = song.play();
+                if(played !== undefined){
+                    played.then(_ =>{
+                    }).catch(error =>{
+                        $('body').on("click", function(){
+                            song.play();
+                        })
+                    })
+                }
+    }
 </script>
