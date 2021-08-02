@@ -1,7 +1,7 @@
 const left = async function(state, nextState, component){
     return new Promise((resolve)=>{
         console.log(nextState.split(">")[0])
-        $(`#sub-${state}`).attr("id","old-sub-state");
+        $(`#sub-${state}`).attr("id",`old-sub-${state}`);
         $(`#sub-${state}-container`).append(`<section id="sub-${state}"></section>`)
         $(`.big-boy-${nextState.split(">")[0]}`).removeClass(`big-boy-${nextState.split(">")[0]}`);
         $(`#sub-${state}`).html(component);
@@ -11,8 +11,11 @@ const left = async function(state, nextState, component){
         $(`#sub-${state}-container`).css("transform","translateX(-50%)")
         setTimeout(function(){
             $(`#sub-${state}-container`).css("transition","0ms");
-            $("#old-sub-state").remove();
+            $(`#old-sub-${state}`).remove();
             $(`#sub-${state}-container`).css("transform","translate(0%,0%)");
+            $(".external").removeClass("invisible");
+            $("#settings").css("visibility","visible");
+            $("#settings-button").css("visibility","visible");
             resolve();
         },user.settings.pageSpeed)
     })
@@ -20,7 +23,7 @@ const left = async function(state, nextState, component){
 const right = async function(state, nextState, component){
     return new Promise((resolve)=>{
         console.log(nextState.split(">")[0])
-        $(`#sub-${state}`).attr("id","old-sub-state");
+        $(`#sub-${state}`).attr("id",`old-sub-${state}`);
         $(`#sub-${state}-container`).prepend(`<section id="sub-${state}"></section>`)
         $(`.big-boy-${nextState.split(">")[0]}`).removeClass(`big-boy-${nextState.split(">")[0]}`);
         $(`#sub-${state}`).html(component);
@@ -32,8 +35,11 @@ const right = async function(state, nextState, component){
             $(`#sub-${state}-container`).css("transform","translateX(0%)")
             setTimeout(function(){
                 $(`#sub-${state}-container`).css("transition","0ms");
-                $("#old-sub-state").remove();
+                $(`#old-sub-${state}`).remove();
                 $(`#sub-${state}-container`).css("transform","translate(0%,0%)");
+                $(".external").removeClass("invisible");
+                $("#settings").css("visibility","visible");
+                $("#settings-button").css("visibility","visible");
                 resolve();
             },user.settings.pageSpeed)
         },10);
@@ -42,7 +48,7 @@ const right = async function(state, nextState, component){
 const up = async function(state, nextState, component){
     return new Promise((resolve)=>{
         $(`#sub-${state}-container`).css("display","block");
-        $(`#sub-${state}`).attr("id","old-sub-state");
+        $(`#sub-${state}`).attr("id",`old-sub-${state}`);
         $(`#sub-${state}-container`).append(`<section id="sub-${state}"></section>`)
         $(`#sub-${state}`).html(component);
         $(`.big-boy-${nextState.split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${nextState.split(">")[0]}`).height()))/2);
@@ -50,9 +56,12 @@ const up = async function(state, nextState, component){
         $(`#sub-${state}-container`).css("transform","translateY(-50%)")
         setTimeout(function(){
             $(`#sub-${state}-container`).css("transition","0ms");
-            $("#old-sub-state").remove();
+            $(`#old-sub-${state}`).remove();
             $(`#sub-${state}-container`).css("transform","translate(0%,0%)");
             $(`#sub-${state}-container`).css("display","flex");
+            $(".external").removeClass("invisible");
+            $("#settings").css("visibility","visible");
+            $("#settings-button").css("visibility","visible");
             resolve();
         },user.settings.pageSpeed)
     })
@@ -60,7 +69,7 @@ const up = async function(state, nextState, component){
 const down = async function(state, nextState, component){
     return new Promise((resolve)=>{
         $(`#sub-${state}-container`).css("display","block");
-        $(`#sub-${state}`).attr("id","old-sub-state");
+        $(`#sub-${state}`).attr("id",`old-sub-${state}`);
         $(`#sub-${state}-container`).prepend(`<section id="sub-${state}"></section>`)
         $(`#sub-${state}`).html(component);
         $(`.big-boy-${nextState.split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${nextState.split(">")[0]}`).height()))/2);
@@ -70,9 +79,12 @@ const down = async function(state, nextState, component){
             $(`#sub-${state}-container`).css("transform","translateY(0%)")
             setTimeout(function(){
                 $(`#sub-${state}-container`).css("transition","0ms");
-                $("#old-sub-state").remove();
+                $(`#old-sub-${state}`).remove();
                 $(`#sub-${state}-container`).css("transform","translate(0%,0%)");
                 $(`#sub-${state}-container`).css("display","flex");
+                $(".external").removeClass("invisible");
+                $("#settings").css("visibility","visible");
+                $("#settings-button").css("visibility","visible");
                 resolve();
             },user.settings.pageSpeed)
         },10);

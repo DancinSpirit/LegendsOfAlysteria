@@ -26,13 +26,15 @@
     <div id="testSound" class = "clickable menu-item">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
-    <%if(typeof variable !== 'undefined'){%>
-        <div id="return-home" class="clickable menu-item">
-            Return to Home Page
-        </div>
-    <%}%>
 </section>
 <script>
+    if(typeof story != "undefined"){
+        $("#settings").addClass("external");
+        $("#settings").addClass("invisible");
+        $("#settings").append(`<div id="return-home" class="clickable menu-item">
+            Return to Home Page
+        </div>`)
+    }
     $("#textSpeed-slider").on("change", function(){
         console.log((100 - $(this).val()))
         user.settings.textSpeed = (100 - $(this).val());
@@ -83,7 +85,16 @@
     $("#testSound").on("click", function(){
         playSound("Test Sound")
     })
-    $("#return-home").on("click",function(){
-        window.location.href = "/main/home"
+    $("#return-home").on("click",async function(){
+        states = ["main","home"];
+        window.history.pushState({states:states,data:data}, "Home Page", "/main/home");
+        $("#settings-button").click();
+        $("#settings-button").addClass("external");
+        $("#settings-button").addClass("invisible");
+        setTimeout(async function(){
+            deactivateButtons();
+            await loadStates();
+            activateButtons();
+        },user.settings.pageSpeed)
     })
 </script>

@@ -8,7 +8,7 @@
     width: 200%;
     display: flex;
 }
-#sub-base, #old-sub-state{
+#sub-base, #old-sub-base{
   height: 50%;
   width: 50%;
   display: flex;

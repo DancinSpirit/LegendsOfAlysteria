@@ -1,6 +1,6 @@
     <div id = "story">
         <component>settings</component>
-        <div id="settings-button">
+        <div class="invisible external" id="settings-button">
             <i class="fas fa-cog"></i>
         </div>
         <section id="top-section">
@@ -11,7 +11,7 @@
         </section>
         <section id="main-story-section">
             <section id="left-arrow">
-                <section class="arrow-box" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
+                <section class="arrow-box invisible" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
             </section>
             <section>
                 <section class="textbox" id="player-box">
@@ -37,7 +37,7 @@
         <section id="top-arrow">
             <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
         </section>
-        <section id="cutaway-image-collection" class="invisible">
+        <section id="cutaway-image-collection" class="invisible external">
     
         </section>
 
@@ -61,4 +61,4 @@
 <script>
     years = JSON.parse(`<%-JSON.stringify(years)%>`); 
 </script>
-<animation>right</animation>
+<animation>up</animation>

@@ -40,3 +40,7 @@ animation, component{
 .menu-item{
     padding-top: 10px;
 }
+
+.invisible{
+    display: none;
+}

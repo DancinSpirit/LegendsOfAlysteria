@@ -16,13 +16,23 @@ if(!user){
 
 loadStates();
 
-window.addEventListener('popstate',(event)=>{
-    console.log(event.state);
-    states = event.state.states;
-    data = event.state.data;
-    console.log(states)
-    console.log(event.state)
-    loadStates();
+window.addEventListener('popstate',async function(event){
+    $("#settings").css("visibility","hidden");
+    $("#settings-button").css("visibility","hidden");
+    console.log("EGHIEGHEOGHEIGHEIOGHIOGHEIGHEIOGHE")
+    deactivateButtons();
+    let load = false;
+    for(let x=0; x<event.state.states.length; x++){
+        if(load){
+            await loadState(x);
+        }else if(states[x]!=event.state.states[x]||data[x].id!=event.state.data[x].id){
+            states = event.state.states;
+            data = event.state.data;
+            await loadState(x);
+            load = true;
+        }
+    }
+    activateButtons();
 })
 
 $("html").on("keydown", function (e) {

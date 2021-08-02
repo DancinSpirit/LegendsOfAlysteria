@@ -88,7 +88,8 @@ const loadState = async function(x, animation){
     $("link[href='/styles/main.css']").remove();
     if(states[0] != "start")
     $("link[href='/styles/start.css']").remove();
-    $("#settings").css("display","flex");
+    if(states[0] != "story")
+    $("link[href='/styles/story.css']").remove();
 }
 
 const componentCheck = async function(component){
@@ -115,6 +116,7 @@ const componentCheck = async function(component){
 
 
 const loadStates = async function(){
+    $("#settings").css("visibility","hidden");
     console.log(states);
     deactivateButtons();
     for(let x=0; x<states.length; x++){

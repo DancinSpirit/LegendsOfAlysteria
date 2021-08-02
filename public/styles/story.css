@@ -15,7 +15,7 @@
     width: 200%;
     display: flex;
   }
-  #sub-base, #old-sub-state{
+  #sub-base, #old-sub-base{
   height: 50%;
   width: 50%;
   }
@@ -84,10 +84,10 @@
   #sub-story::-webkit-scrollbar{
     display: none;
   }
-  #old-sub-state::-webkit-scrollbar{
+  #old-sub-story::-webkit-scrollbar{
     display: none;
   }
-  #sub-story, #old-sub-state{
+  #sub-story, #old-sub-story{
     overflow-y: auto;
   }
 
@@ -501,7 +501,7 @@
   }
   
   #settings{
-    display: none;
+    display: flex;
     position: fixed;
     top: 5%;
     left: 2.5%;
@@ -509,6 +509,7 @@
     justify-content: center;
     align-items: center;
     transform: translateY(-120vh);
+    visibility: hidden;
   }
 
   .turn-players{
@@ -612,7 +613,7 @@
     width: 200%;
     display: flex;
 }
-#sub-story, #old-sub-state{
+#sub-story, #old-sub-story{
   height: 50%;
   width: 50%;
   display: flex;
