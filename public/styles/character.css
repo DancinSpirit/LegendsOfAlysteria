@@ -120,11 +120,12 @@ width: 50%;
   flex-grow: 1;
 }
 .character-box-title {
-  background-color: #f9cb9c;
+  background-color: var(--dark);
   font-weight: bold;
 }
 .character-box-content {
   background-color: #fae3ca;
+  background-color: var(--light);
 }
 .character-box-section {
   padding: 4px;
@@ -157,7 +158,7 @@ width: 50%;
   flex-grow: 1;
 }
 .character-big-title {
-  background-color: #f6b26b;
+  background-color: var(--darker);
   font-weight: bold;
   text-align: center;
   border: solid 1px;
@@ -183,9 +184,10 @@ width: 50%;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #fae3ca;
+  font-family: 'Arial'; 
 }
 .meta-trait-content {
+  font-family: 'Arial'; 
   border-bottom: solid 1px;
   border-left: solid 1px;
   border-right: solid 1px;

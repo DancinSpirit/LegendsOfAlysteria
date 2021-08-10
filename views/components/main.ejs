@@ -11,9 +11,14 @@
         </div>
     </div>  
 </div>
-<animation>down</animation>
 <script>
-    if(song){
-        song.play();
+    if(player){
+        document.documentElement.style.setProperty('--light', player.colors.light);
+        document.documentElement.style.setProperty('--dark', player.colors.dark);
+        document.documentElement.style.setProperty('--darker', player.colors.darker);
+        document.documentElement.style.setProperty('--highlight', player.colors.highlight);
+        document.documentElement.style.setProperty('--background', player.colors.background);
+        $("body").css("background-image",`url(/images/${player.background}.jpg)`)
     }
 </script>
+<animation>down</animation>

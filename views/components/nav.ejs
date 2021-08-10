@@ -36,6 +36,9 @@
             activateButtons();
         }
     })
+    $('.character-button').on("click",async function(){
+        playerLogin($(this).attr("id"))
+    })
     $("#logout-button").on("click",async function(){
         $.ajax({
             method: "POST",

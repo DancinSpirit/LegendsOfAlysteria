@@ -30,5 +30,6 @@ module.exports = {
     Player: require("./Player"),
     Game: require("./Game"),
     Duchy: require("./Duchy"),
-    County: require("./County")
+    County: require("./County"),
+    Trait: require("./Trait"),
 }

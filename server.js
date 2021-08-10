@@ -38,6 +38,7 @@ app.use(async function(req,res,next){
     if(req.session.currentPlayer){
         req.session.currentPlayer = await db.Player.findById(req.session.currentPlayer._id);
         app.locals.player = req.session.currentPlayer;
+        console.log(app.locals.player)
     }else{
         app.locals.player = false;
     }
@@ -49,8 +50,15 @@ app.get("/", function(req,res){
     res.render('base',{states: ["start"],data: [{}]});
 })
 
+/* Color Loading */
+app.get("/colors/:characterinfo", async function(req,res){
+    const colors = await db.Characterinfo.findById(req.params.characterinfo);
+    res.send(colors.colors);
+})
+
 /* Component Loading */
 app.post("/component/:component", async function(req,res){
+    console.log(req.body);
     let model = {};
     let url = `components/${req.params.component.toLowerCase()}`;
     if(req.body.model){
@@ -63,7 +71,8 @@ app.post("/component/:component", async function(req,res){
             model[req.params.component.split(">")[x].split("=")[0]] = req.params.component.split(">")[x].split("=")[1];
         }
     }
-    console.log("Model: " + model);
+    console.log("MODEL: ")
+    console.log(model);
     res.render(url, model);
 })
 
@@ -91,6 +100,13 @@ app.get("/*", function(req, res){
         }
     }
     res.render('base',{states: states, data: data});
+})
+
+app.post("/playerlogin", async function(req,res){
+    console.log(req.body.id);
+    const foundPlayer = await db.Player.findById(req.body.id);
+    req.session.currentPlayer = foundPlayer;
+    res.send(req.session.currentPlayer);
 })
 
 /* Login */
@@ -128,6 +144,11 @@ app.post("/logout", async function(req,res){
     req.session.currentUser = false;
     req.session.currentPlayer = false;
     return res.redirect("/main/login")
+})
+/* playerLogout */
+app.post("/playerlogout", async function(req,res){
+    req.session.currentPlayer = false;
+    return res.send(false);
 })
 
 app.listen(PORT, function(){

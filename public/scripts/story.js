@@ -175,6 +175,28 @@ const loadText = async function(sentText){
             await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
             loadClickSignifier();
         }
+    }else if(sentText.includes("[LOAD]")){
+        $("#choice").empty();
+        $("#choice").css("color","black");
+        ctrlButton = false;
+        enterButton = false;
+        const component = await load(`/component/${sentText.split("[LOAD]")[1].split("|")[0]}`,{model:{name:sentText.split("[LOAD]")[1].split("|")[1],id:sentText.split("[LOAD]")[1].split("|")[2]}});
+        const characterColors = await load(`/colors/${sentText.split("[LOAD]")[1].split("|")[3]}`);
+        console.log(characterColors);
+        document.documentElement.style.setProperty('--light', characterColors.light);
+        document.documentElement.style.setProperty('--dark', characterColors.dark);
+        document.documentElement.style.setProperty('--darker', characterColors.darker);
+        document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+        document.documentElement.style.setProperty('--background', characterColors.background);
+        console.log(component);
+        $("#choice").append(component);
+        $("#choice").append(`<p class='continue-button'>Continue</p>`);
+        $(".continue-button").on("click",function(){
+            $("#choice-container").css("display","none");
+            ctrlButton = true;
+            enterButton = true;
+        })
+        $("#choice-container").css("display","flex");
     }else{
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class="boxtext"></p>`);
         await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1)

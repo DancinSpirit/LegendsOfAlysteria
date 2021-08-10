@@ -1,0 +1,8 @@
+<div id="<%=name.replace(/ /g,"-")%>">
+    <%=name%>
+</div>
+<script>
+    $("#<%=name.replace(/ /g,"-")%>").on("click",async function(){
+        playerLogin('<%=id%>');
+    })
+</script>

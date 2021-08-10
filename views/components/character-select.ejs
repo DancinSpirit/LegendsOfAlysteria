@@ -1,0 +1,6 @@
+<section id="character-select">
+    <%for(let x=0; x<user.playerCharacters.length; x++){%>
+        <component>player-character|Player|<%=user.playerCharacters[x]%></component>
+    <%}%>
+</section>
+<animation>up</animation>

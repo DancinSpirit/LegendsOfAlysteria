@@ -56,14 +56,14 @@ const loadState = async function(x, animation){
         stateOne = states[x-1];
         stateTwo = states[x];
     }
-    if(component.includes("<animation>")){
-        await eval(`${component.split("<animation>")[1].split("</animation")[0]}(stateOne,stateTwo, component)`)
+    if(animation){
+        await eval(`${animation}(stateOne,stateTwo, component)`)
     }else{
-        if(animation){
-            await eval(`${animation}(stateOne,stateTwo, component)`)
+        if(component.includes("<animation>")){
+            await eval(`${component.split("<animation>")[1].split("</animation")[0]}(stateOne,stateTwo, component)`)
         }else{
-            console.log(states[x])
-            await left(stateOne,stateTwo, component);
+        console.log(states[x])
+        await left(stateOne,stateTwo, component);
         }
     }
     if(states[x].includes("event")){
@@ -136,7 +136,6 @@ const deactivateButtons = function(){
     $("#settings-button").off("click");
     $("#top-arrow-box").off("click");
     $("#nav-title").off("click");
-    $("#story-button").off("click");
 }
 
 const activateButtons = function(){
@@ -163,16 +162,6 @@ const activateButtons = function(){
             states = ["main","home"];
             data = [data[0],data[0]];
             window.history.pushState({states:states,data:data}, "Home Page", "/main/home");
-            deactivateButtons();
-            await loadState(1);
-            activateButtons();
-        }
-    })
-    $("#story-button").on("click", async function(){
-        if(states[1] != ["story-selection"]){
-            states = ["main","story-selection"];
-            data = [data[0],data[0]];
-            window.history.pushState({states:states,data:data}, "Story Select Page", "/main/story-selection");
             deactivateButtons();
             await loadState(1);
             activateButtons();
@@ -455,4 +444,39 @@ const activateButtons = function(){
             activateButtons();
         }
     })
+}
+
+const playerLogin = async function(id){
+    $.ajax({
+        method: "POST",
+        url: "/playerlogin",
+        data: {id: id},
+        success: async function(res){
+            player = res;
+            states = ["main","character-home"];
+            window.history.pushState({states:states,data:data}, "Character Home Page", `/main/character-home`)
+            if(!$("#subnav").length){
+                $("nav").after(await load("/component/subnav"),{});
+            }
+            await loadState(1,"down");
+        }
+    }) 
+}
+
+const playerLogout = function(){
+    $.ajax({
+        method: "POST",
+        url: "/playerlogout",
+        success: async function(res){
+            player = res;
+            $("#subnav").remove();
+            document.documentElement.style.setProperty('--light', `#a5a5a5`);
+            document.documentElement.style.setProperty('--dark', `#818181`);
+            document.documentElement.style.setProperty('--darker', `#727272`);
+            document.documentElement.style.setProperty('--highlight', `#5f5b50`);
+            document.documentElement.style.setProperty('--background', `#2e2b28`);
+            $("body").css("background-image",`url(/images/Ruins.jpg)`)
+            //deLoad Player nav bar
+        }
+    }) 
 }

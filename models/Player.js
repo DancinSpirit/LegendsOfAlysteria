@@ -4,8 +4,10 @@ const schema = new mongoose.Schema(
   {
     user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     character: {type: mongoose.Schema.Types.ObjectId, ref: "Character"},
-    stories: [{type: mongoose.Schema.Types.ObjectId, ref: "Story"}],
-    name: {type: String}
+    story: {type: mongoose.Schema.Types.ObjectId, ref: "Story"},
+    name: {type: String},
+    colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
+    background: {type: String}
   },
   {timestamps: true}
 )

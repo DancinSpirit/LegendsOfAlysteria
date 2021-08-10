@@ -10,7 +10,7 @@
     <div id="continue-button" class="home-select">
         Continue Game
     </div>
-    <div class="home-select">
+    <div class="home-select" id="character-select-button">
         Character Select
     </div>
     <div class="home-select" id="home-settings-button">
@@ -32,7 +32,6 @@
         }
     })
     $("#continue-button").on("click", async function(){
-        //THIS SHOULD ALSO LOGIN THE CHARACTER!!
         states = ["story","event"]
         data = [{name: "Story",id: `${user.currentEvent.story}`},{name: "Event",id:`${user.currentEvent.event}`}]
         window.history.pushState({states:states,data:data}, "Event", `/story|story=${user.currentEvent.story}/event|event=${user.currentEvent.event}`);
@@ -41,6 +40,13 @@
     $("#exit").on("click",async function(){
         window.location.href = "/"
     })
+    $("#character-select-button").on("click", async function(){
+        states = ["main", "character-select"];
+        window.history.pushState({states:states,data:data}, "Character Select Page", `/main/character-select`)
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+    })
     if(song){
         song.play();
     }else{
@@ -48,6 +54,7 @@
             $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
         }
         song = document.getElementById("Alysteria");
+        song.volume = user.settings.musicVolume;
         let played = song.play();
                 if(played !== undefined){
                     played.then(_ =>{

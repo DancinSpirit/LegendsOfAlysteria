@@ -1,16 +1,28 @@
 <section id="subnav">
     <section id="subnav-buttons" class="nav-buttons">
-        <button class="nav-button slide-button" id="characters-button">
+        <button class="slide-button clickable" id="characters-button">
             Characters
         </button>
-        <button class="nav-button slide-button" id="armies-button">
+        <button class="slide-button clickable" id="armies-button">
             Armies
         </button>
-        <button class="nav-button slide-button" id="battler-button">
+        <button class="slide-button clickable" id="battler-button">
             Battler
         </button>
-        <button class="nav-button slide-button" id="story-button">
+        <button class="slide-button clickable" id="story-button">
             Story
         </button>
     </section>
 </section>
+<script>
+    $("#story-button").on("click", async function(){
+        if(states[1] != ["chapter-select"]){
+            states = ["main","chapter-select"];
+            data = [data[0],{name:"Story",id: player.story}];
+            window.history.pushState({states:states,data:data}, "Chapter Select Page", `/main/chapter-select|Story=${player.story}`);
+            deactivateButtons();
+            await loadState(1);
+            activateButtons();
+        }
+    })
+</script>
