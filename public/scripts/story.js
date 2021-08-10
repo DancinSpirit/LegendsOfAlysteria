@@ -4,6 +4,7 @@ let song = false;
 let ctrlButton = true;
 let enterButton = true;
 let continueEvent = true;
+let screen = true;
 
 const activateEventClick = function(){
     $("#player-box").on("click", async function(){
@@ -350,5 +351,20 @@ $("body").on("keypress", function (e) {
         if(ctrlButton)
             if(continueEvent)
                 loadEvent();
+    }
+})
+
+window.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    if(screen){
+        $("#title-box-event").css("visibility","hidden");
+        $("#sub-base").css("visibility","hidden");
+        $("#settings-button").css("visibility","hidden");
+        screen = false;
+    }else{
+        $("#sub-base").css("visibility","visible");
+        $("#title-box-event").css("visibility","visible");
+        $("#settings-button").css("visibility","visible");
+        screen = true;
     }
 })
