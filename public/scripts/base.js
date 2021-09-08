@@ -29,9 +29,7 @@ window.history.replaceState({states:states,data:data}, "Starting Page", window.l
 /* Auth Check */
 if(!user){
     if(states[1] != "register"){
-        states = ["main","login"];
-        window.history.pushState({states:states,data:data}, "Login Page", "/main/login");
-        loadStates();
+        window.open("/main/login");
     }
     user = {settings: {pageSpeed: 1000}}
 }
