@@ -13,8 +13,7 @@ const schema = new mongoose.Schema(
       pageSpeed: {type: Number},
       musicVolume: {type: Number},
       soundVolume: {type: Number}
-    },
-    currentEvent: {story:{type: mongoose.Schema.Types.ObjectId, ref: "Story"}, event:{type: mongoose.Schema.Types.ObjectId, ref: "Event"}}
+    }
   },
   {timestamps: true}
 )

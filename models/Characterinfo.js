@@ -32,7 +32,7 @@ const schema = new mongoose.Schema(
       combatAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}],
     },
     knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledgetree"}],
-    combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "Combatstyle"}],
+    combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "Combatant"}],
     colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
 
   },

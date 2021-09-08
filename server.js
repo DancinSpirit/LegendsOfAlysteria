@@ -50,6 +50,11 @@ app.get("/", function(req,res){
     res.render('base',{states: ["start"],data: [{}]});
 })
 
+app.get("/data/:model/:id", async function(req,res){
+    const data = await eval(`db.${req.params.model.charAt(0).toUpperCase() + req.params.model.slice(1)}.findById('${req.params.id}')`)
+    res.send(data);
+})
+
 /* Color Loading */
 app.get("/colors/:characterinfo", async function(req,res){
     const colors = await db.Characterinfo.findById(req.params.characterinfo);

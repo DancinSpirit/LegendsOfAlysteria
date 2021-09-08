@@ -1,8 +1,10 @@
-<div id="<%=name.replace(/ /g,"-")%>">
-    <%=name%>
+<div id="<%=name.replace(/ /g,"-")%>" class="player-character-info clickable">
+    <img class="player-character-image" src="/avatars/<%=name%>.jpg">
+    <section class="player-character-name"><%=name%></section>
 </div>
 <script>
     $("#<%=name.replace(/ /g,"-")%>").on("click",async function(){
         playerLogin('<%=id%>');
     })
+    $("#<%=name.replace(/ /g,"-")%>").css("background-color", colors.background);
 </script>

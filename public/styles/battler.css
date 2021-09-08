@@ -1,0 +1,25 @@
+#battle-box{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+#grid-container{
+    overflow: hidden;
+}
+
+#grid-background{
+    position: relative;
+    z-index: -1;
+}
+
+.gridrow{
+    display: flex;
+    flex-direction: row;
+}
+
+.gridbox{
+    height: 30px;
+    width: 30px;
+    border: solid 1px;
+}

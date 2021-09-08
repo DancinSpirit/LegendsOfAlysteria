@@ -4,6 +4,7 @@ const left = async function(state, nextState, component){
         $(`#sub-${state}`).attr("id",`old-sub-${state}`);
         $(`#sub-${state}-container`).append(`<section id="sub-${state}"></section>`)
         $(`.big-boy-${nextState.split(">")[0]}`).removeClass(`big-boy-${nextState.split(">")[0]}`);
+        console.log(component);
         $(`#sub-${state}`).html(component);
         $(`.big-boy-${nextState.split(">")[0]}`).height(($(".bottom").height()-($(`#title-box-${nextState.split(">")[0]}`).height()))/2);
         $("#big-boy-2").remove();

@@ -158,21 +158,54 @@ const loadText = async function(sentText){
             $("#cutaway-subtitle").css("display","none");
         },500)
         loadClickSignifier();
+    }else if(sentText.startsWith("[RETURN FROM FADE]")){
+        textLine = false;
+        $("#sub-base").css("transition","100ms");
+        $("#sub-base").css("background-color","transparent");
+        loadEvent();
+    }else if(sentText.startsWith("[SLOW FADE TO BLACK]")){
+        textLine = false;
+        $("#sub-base").css("transition","25000ms");
+        $("#sub-base").css("background-color","black");
+        loadEvent();
     }else if(sentText.includes("[OTHER]")){
         if(sentText.startsWith("[OTHER]")){
             sentText = sentText.replace("[OTHER]","");
-            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext other'></p>`);
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext other' style="height: ${$(`#height-check-${index}`).height()+36}px"></p>`);
             await typeWriter("", 0, sentText,index,`#boxtext-${index}`, 20);
             loadClickSignifier();
         }else{
             sentText = sentText.replace("[]","");
             text1 = sentText.split("[OTHER]")[0] + " ";
+            console.log(text1);
             text2 = sentText.split("[OTHER]")[1];
             text3 = sentText.split("[OTHER]")[2];
-            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext'><span id="boxtext-${index}-1"></span><span class='other' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='other' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
             console.log($(`#boxtext-${index}`))
             await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
             await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
+            loadClickSignifier();
+        }
+    }else if(sentText.includes("[SHADOWS]")){
+        if(sentText.startsWith("[SHADOWS]")){
+            sentText = sentText.replace("[SHADOWS]","");
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).height()+36}px" class='boxtext shadows'></p>`);
+            await typeWriter("", 0, sentText,index,`#boxtext-${index}`, 1);
+            loadClickSignifier();
+        }else{
+            sentText = sentText.replace("[]","");
+            text1 = sentText.split("[SHADOWS]")[0] + " ";
+            text2 = sentText.split("[SHADOWS]")[1];
+            text3 = sentText.split("[SHADOWS]")[2];
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).height()+36}px" class='boxtext'><span id="boxtext-${index}-1"></span><span class='shadows' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+            console.log($(`#boxtext-${index}`))
+            await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 1, {text3:{id:`#boxtext-${index}-3`,text:text3}});
             await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
             loadClickSignifier();
         }
@@ -198,15 +231,32 @@ const loadText = async function(sentText){
             enterButton = true;
         })
         $("#choice-container").css("display","flex");
+    }else if(sentText.includes("[NEWLINE]")){
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext"></p>`);
+        for(let x=0; x<sentText.split("[NEWLINE]").length; x++){
+            $(`#height-check-${index}`).append(`<p id="height-check-${index}-${x}" class="boxtext nextline">${sentText.split("[NEWLINE]")[x]}</p>`);
+        }
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)}px"></p>`);
+        for(let x=0; x<sentText.split("[NEWLINE]").length; x++){
+            $(`#boxtext-${index}`).append(`<p id="boxtext-${index}-${x}" class="boxtext nextline"></p>`);
+            await typeWriter("", 0, sentText.split("[NEWLINE]")[x], index, `#boxtext-${index}-${x}`, 1);
+            if(x==sentText.split("[NEWLINE]").length-1){
+                $(`#boxtext-${index}-${x}`).removeClass("nextline");
+                loadClickSignifier();
+            }
+        }
     }else{
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class="boxtext"></p>`);
-        await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1)
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
+        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+        await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1) 
         loadClickSignifier();
     }
 }
 
 const loadClickSignifier = function(){
-    if(index<text.length-1){
+    if(index<text.length-1){ 
+        $(`#boxtext-${index}`).css("height",`${$(`#height-check-${index}`).outerHeight(true)}px`)  
         console.log(index)
         console.log(text.length)
         $(`#event-${eventId}`).append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
@@ -302,7 +352,6 @@ const deactivateAll = function(){
 }
 
 const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod, otherText) {
-    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
     return new Promise((resolve) =>{
         if (i < txt.length) {
             returnChar = txt.charAt(i);
@@ -318,7 +367,7 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
         i+=speedMod;
         }
         if(i==txt.length){
-        resolve();
+            resolve();
         }else{
             let timeout = setTimeout(function(){typeWriter(returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
             if(index!=sentIndex){
@@ -330,8 +379,8 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
                         $(otherText.text3.id).text(otherText.text3.text);
                     }
                 }
+                $(`#boxtext-${sentIndex}`).css("height",`${$(`#height-check-${sentIndex}`).outerHeight(true)}px`)  
                 $(id).html(txt) 
-                $(id).height("auto");
                 clearTimeout(timeout);
             }
         }
@@ -354,7 +403,7 @@ $("body").on("keypress", function (e) {
     }
 })
 
-window.addEventListener('contextmenu', function(e){
+/* window.addEventListener('contextmenu', function(e){
     e.preventDefault();
     if(screen){
         $("#title-box-event").css("visibility","hidden");
@@ -367,4 +416,4 @@ window.addEventListener('contextmenu', function(e){
         $("#settings-button").css("visibility","visible");
         screen = true;
     }
-})
+}) */

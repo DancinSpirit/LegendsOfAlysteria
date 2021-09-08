@@ -342,6 +342,19 @@ const activateButtons = function(){
                                                     states = ["story", regionTitle];
                                                     data = [data[0],data[0]]
                                                     window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], regionTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                                }else{
+                                                    if(y<years[x].seasons.length-1){
+                                                        //load the next season
+                                                    }else{
+                                                        if(x<years.length-1){
+                                                            //load the next year
+                                                        }else{
+                                                            states = ["story", "to-be-continued"];
+                                                            data = [data[0],data[0]];
+                                                            window.history.pushState({states:states,data:data}, "To Be Continued", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `to-be-continued|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                            
+                                                        }
+                                                    }
                                                 }
                                             }
                                             
@@ -439,6 +452,17 @@ const activateButtons = function(){
                     }
                 }
             }
+            else if(states[1].includes("to-be-continued")){
+                let seasons = years[years.length-1].seasons;
+                let regionPhases = seasons[seasons.length-1].regionPhases;
+                let rulerPhases = regionPhases[regionPhases.length-1].rulerPhases;
+                let events = rulerPhases[rulerPhases.length-1].events;
+                let event = events[events.length-1];
+                states = ["story", "event"];
+                data = [data[0],{name: "Event", id: event}]
+                window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
+                                        
+            }
             await loadState(1,"right");
             console.log("Test: " + states)
             activateButtons();
@@ -458,6 +482,12 @@ const playerLogin = async function(id){
             if(!$("#subnav").length){
                 $("nav").after(await load("/component/subnav"),{});
             }
+            document.documentElement.style.setProperty('--light', player.colors.light);
+            document.documentElement.style.setProperty('--dark', player.colors.dark);
+            document.documentElement.style.setProperty('--darker', player.colors.darker);
+            document.documentElement.style.setProperty('--highlight', player.colors.highlight);
+            document.documentElement.style.setProperty('--background', player.colors.background);
+            $("body").css("background-image",`url(/images/${player.background}.jpg)`)
             await loadState(1,"down");
         }
     }) 
@@ -479,4 +509,5 @@ const playerLogout = function(){
             //deLoad Player nav bar
         }
     }) 
+    player = false;
 }

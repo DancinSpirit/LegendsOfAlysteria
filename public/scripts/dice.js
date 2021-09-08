@@ -14,6 +14,9 @@ class Dice{
         this.modList = [];
         this.critModList = [];      
         this.nextLine = "";
+        this.rollString = "";
+        this.customRollList = [];
+        this.latestResult = 0;
     }
 
     addModifier(modifier){
@@ -57,12 +60,17 @@ class Dice{
     }
 
     reroll(){
-        this.naturalRoll = this.natRoll();
+        if(this.customRollList.length){
+            this.nautralRoll = customRollList.splice(0,1)[0];
+        }else{
+            this.naturalRoll = this.natRoll();
+        }
         return this.rollCalc();
     }
 
     printLine(){
         console.log(this.nextLine);
+        this.rollString += "<br>" + this.nextLine;
         this.nextLine = "";
     }
 
@@ -139,6 +147,17 @@ class Dice{
         this.naturalRoll = this.natRoll();
         let roll = this.rollCalc();
         let finalResult = this.critCalc(roll);
+        this.latestResult = finalResult;
+        let returnString = this.rollString;
+        this.reset();
+        return returnString.replace("<br>","");
+    }
+
+    customRoll(list){
+        this.customRollList = list;
+        this.nautralRoll = this.customRollList.splice(0,1)[0];
+        let roll = this.rollCalc();
+        let finalResult = this.critCalc(roll);
         this.reset();
         return finalResult;
     }
@@ -149,6 +168,7 @@ class Dice{
         this.trueCritFails = 0;
         this.critSuccesses = 0;
         this.trueCritSuccesses = 0;
+        this.rollString = "";
         this.critModList = [];    
     }
 

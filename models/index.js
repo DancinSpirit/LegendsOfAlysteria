@@ -32,4 +32,7 @@ module.exports = {
     Duchy: require("./Duchy"),
     County: require("./County"),
     Trait: require("./Trait"),
+    War: require("./War"),
+    Battle: require("./Battle"),
+    Combatant: require("./Combatant")
 }

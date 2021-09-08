@@ -1,0 +1,22 @@
+<div id="battle-box">
+        <section id="grid-container" style="height:<%=height*30%>px; width:<%=width*30%>px">
+            <section id="grid">
+                <%for(let x=0; x<height; x++){%>
+                    <div id = "gridrow-<%=x%>" class="gridrow" style="width:<%=width*30%>px">
+                    <%for(let y=0; y<width; y++){%>
+                        <div id="gridbox-<%=x%>-<%=y%>" class="gridbox">
+                            <div id = "background-layer-<%=x%>-<%=y%>">
+
+                            </div>
+                            <div id = "token-layer-<%=x%>-<%=y%>">
+
+                            </div>
+                        </div>
+                    <%}%>
+                    </div>
+                <%}%>
+            </section>
+            <img id="grid-background" src='/images/<%=map%>.jpg' style ="width:<%=width*30%>px; height:<%=height*30%>px; top: -<%=height*30%>px">
+        </section>
+</div>
+<animation>down</animation>

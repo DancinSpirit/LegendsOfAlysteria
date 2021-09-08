@@ -34,6 +34,10 @@
         $("#settings").append(`<div id="return-home" class="clickable menu-item setting">
             Return to Home Page
         </div>`)
+    }else{
+        $("#settings").append(`<div id="return-home-2" class="clickable menu-item setting">
+            Return
+        </div>`)  
     }
     $("#textSpeed-slider").on("change", function(){
         console.log((100 - $(this).val()))
@@ -96,5 +100,8 @@
             await loadStates();
             activateButtons();
         },user.settings.pageSpeed)
+    })
+    $("#return-home-2").on("click",async function(){
+        window.history.back();
     })
 </script>

@@ -1,11 +1,76 @@
+<section id="character-home">
+    <div id="main-title">
+        <p class="boxtext story-supertitle">Not! Conquering High Fantasy</p>
+        <p class="boxtext story-title">Legends of Alysteria</p>
+        <p class="boxtext story-subtitle">A game of Legends, Lords, and Luck</p>
+    </div>
+    <div class="user-name">
+        Playing As: <%=player.name%>
+    </div>
+    <div id="start-button" class="home-select">
+        Start Game
+    </div>
+    <%if(player.currentEvent){%>
+        <div id="continue-button" class="home-select">
+            Continue Game
+        </div>
+    <%}%>
+    <div class="home-select" id="home-settings-button">
+        Settings
+    </div>
+    <div id="exit" class="home-select">
+        Exit Game
+    </div>
+</section>
+<animation>right</animation>
 <script>
-    if(player){
-        document.documentElement.style.setProperty('--light', player.colors.light);
-        document.documentElement.style.setProperty('--dark', player.colors.dark);
-        document.documentElement.style.setProperty('--darker', player.colors.darker);
-        document.documentElement.style.setProperty('--highlight', player.colors.highlight);
-        document.documentElement.style.setProperty('--background', player.colors.background);
-        $("body").css("background-image",`url(/images/${player.background}.jpg)`)
+    $("#home-settings-button").on("click",async function(){
+        if(states[1] != ["settings"]){
+            states = ["main","settings"]
+            window.history.pushState({states:states,data:data}, "Settings", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`settings`))
+            deactivateButtons();
+            await loadState(1);
+            activateButtons();
+        }
+    })
+    $("#start-button").on("click", async function(){
+        states = ["story","main-title"]
+        data = [{name: "Story",id: `${player.story}`},{name: "Story",id: `${player.story}`}]
+        window.history.pushState({states:states,data:data}, "Event", `/story|story=${player.story}/main-title|story=${player.story}`);
+        loadStates();
+    })
+    $("#continue-button").on("click", async function(){
+        states = ["story","event"]
+        data = [{name: "Story",id: `${player.story}`},{name: "Event",id:`${player.currentEvent}`}]
+        window.history.pushState({states:states,data:data}, "Event", `/story|story=${player.story}/event|event=${player.currentEvent}`);
+        loadStates();
+    })
+    $("#exit").on("click",async function(){
+        window.location.href = "/"
+    })
+    $("#character-select-button").on("click", async function(){
+        states = ["main", "character-select"];
+        window.history.pushState({states:states,data:data}, "Character Select Page", `/main/character-select`)
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+    })
+    if(song){
+        song.play();
+    }else{
+        if(!document.getElementById("Alysteria")){
+            $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
+        }
+        song = document.getElementById("Alysteria");
+        song.volume = user.settings.musicVolume;
+        let played = song.play();
+                if(played !== undefined){
+                    played.then(_ =>{
+                    }).catch(error =>{
+                        $('body').on("click", function(){
+                            song.play();
+                        })
+                    })
+                }
     }
-
 </script>
