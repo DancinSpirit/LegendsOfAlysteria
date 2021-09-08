@@ -27,12 +27,17 @@ if(isMobile){
 window.history.replaceState({states:states,data:data}, "Starting Page", window.location.href);
 
 /* Auth Check */
-if(!user){
-    if(states[1] != "register"){
-        window.open("/main/login");
+const authCheck = function(){
+    if(!user){
+        if(states[1] != "register" && states[1] != "login"){
+            console.log("HM?")
+            window.location.replace("/main/login");
+        }
+        user = {settings: {pageSpeed: 1000}}
     }
-    user = {settings: {pageSpeed: 1000}}
 }
+
+authCheck();
 
 const playerCheck = function(){
     if(player){
@@ -52,6 +57,7 @@ const playerCheck = function(){
 playerCheck();
 
 $("html").on("click", function(){
+    authCheck();
     playerCheck();
 })
 
@@ -63,6 +69,7 @@ window.addEventListener('popstate',async function(event){
     deactivateButtons();
     let load = false;
     for(let x=0; x<event.state.states.length; x++){
+        authCheck();
         playerCheck();
         if(load){
             await loadState(x);
