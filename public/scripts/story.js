@@ -327,7 +327,7 @@ const loadMusic = async function(url){
         repeat = false;
     }
     return new Promise((resolve) =>{
-        if(song&&(song!=document.getElementById(url))){
+        if(song&&(song!=document.getElementById(url.replace(/\s+/g, '-')))){
             let oldSong = song;
             $(oldSong).animate({volume: 0}, 300);
             setTimeout(function(){
@@ -346,9 +346,9 @@ const loadMusic = async function(url){
                     else
                     $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
                 }else{
-                    if(!document.getElementById(url.replace(/\s+/g, '-')).paused)
-                    console.log($(`#${url.replace(/\s+/g, '-')}`).attr("src"))
-                    $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)
+                    if(document.getElementById(url.replace(/\s+/g, '-')).paused){
+                        $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)
+                    }
                 }
                 song = document.getElementById(url.replace(/\s+/g, '-'));
                 console.log(song);
