@@ -308,10 +308,12 @@ const loadBackground = async function(url){
 }
 
 const playSound = function(url){
-    if(!document.getElementById(url)){
-        $("body").append(`<audio id="${url}" src="/sounds/${url}.mp3"></audio>`);
+    if(!document.getElementById(url.replace(/\s+/g, '-'))){
+        $("body").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
+    }else{
+        $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)
     }
-    let sound = document.getElementById(url);
+    let sound = document.getElementById(url.replace(/\s+/g, '-'));
     console.log(sound);
     sound.volume = user.settings.soundVolume;
     sound.play();
