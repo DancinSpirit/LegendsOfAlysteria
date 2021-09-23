@@ -346,6 +346,7 @@ const loadMusic = async function(url){
                     else
                     $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
                 }else{
+                    if(!document.getElementById(url.replace(/\s+/g, '-')).paused)
                     console.log($(`#${url.replace(/\s+/g, '-')}`).attr("src"))
                     $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)
                 }
