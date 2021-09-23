@@ -35,10 +35,9 @@ const loadState = async function(x, animation){
     $(`style-${x}`).remove();
     $("head").append($(`<link id='style-${x}' rel='stylesheet' type='text/css'/>`).attr('href',`/styles/${states[x]}.css`))
     let component;
+    console.log(data[x]);
     if(!jQuery.isEmptyObject(data[x])){
-        console.log(data[x]);
-        console.log(data);
-        component = await load(`/component/${states[x]}`,{model: data[x]});    
+        component = await load(`/component/${states[x]}`,{model: data[x], player: player});    
     }else{
         component = await load(`/component/${states[x]}`);
     }
@@ -46,6 +45,7 @@ const loadState = async function(x, animation){
         $("body").css("background-image",`url("${component.split("<background>")[1].split("</background>")[0]}"`);
     }
     component = await componentCheck(component);
+    console.log(component);
     let stateOne;
     let stateTwo;
     if(x==0){
@@ -90,6 +90,13 @@ const loadState = async function(x, animation){
     $("link[href='/styles/start.css']").remove();
     if(states[0] != "story")
     $("link[href='/styles/story.css']").remove();
+    if(states[x]=="character"){
+        document.documentElement.style.setProperty('--light', characterColors.light);
+        document.documentElement.style.setProperty('--dark', characterColors.dark);
+        document.documentElement.style.setProperty('--darker', characterColors.darker);
+        document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+        document.documentElement.style.setProperty('--background', characterColors.background);
+    }
 }
 
 const componentCheck = async function(component){
@@ -129,7 +136,7 @@ const loadStates = async function(){
 const deactivateButtons = function(){
     $("#login-button").off("click")
     $("#register-button").off("click")
-    $("#basic-character-sheet-button").off("click")
+    $("#basic-sheet-button").off("click")
     $("#advanced-stat-sheet-button").off("click")
     $("#right-arrow-box").off("click");
     $("#left-arrow-box").off("click");
@@ -178,22 +185,42 @@ const activateButtons = function(){
             activateButtons();
         })
     })
-    $("#basic-character-sheet-button").on("click", async function(){
-        if(states[2] != ["basic-sheet"]){
-            states = ["main","character","basic-sheet"]
-            window.history.pushState({states:states,data:data}, "Character Info - Basic", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`basic-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
-            deactivateButtons();
-            await loadState(2);
-            activateButtons();
+    $("#basic-sheet-button").on("click", async function(){
+        if(states[1] == "character"){
+            if(states[2] != ["basic-sheet"]){
+                states = ["main","character","basic-sheet"]
+                window.history.pushState({states:states,data:data}, "Character Info - Basic", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`basic-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
+                deactivateButtons();
+                await loadState(2);
+                activateButtons();
+            }
+        }
+        if(states[2] == "character"){
+            if(states[3] != ["basic-sheet"]){
+                states = ["story","event","character","basic-sheet"]
+                deactivateButtons();
+                await loadState(3);
+                activateButtons();
+            }
         }
     })
     $("#advanced-stat-sheet-button").on("click", async function(){
-        if(states[2] != ["advanced-stat-sheet"]){
-            states = ["main","character","advanced-stat-sheet"]
-            window.history.pushState({states:states,data:data}, "Character Info - Advanced Stats", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`advanced-stat-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
-            deactivateButtons();
-            await loadState(2);
-            activateButtons();
+        if(states[1] == "character"){
+            if(states[2] != ["advanced-stat-sheet"]){
+                states = ["main","character","advanced-stat-sheet"]
+                window.history.pushState({states:states,data:data}, "Character Info - Advanced Stats", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`advanced-stat-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
+                deactivateButtons();
+                await loadState(2);
+                activateButtons();
+            }
+        }
+        if(states[2] == "character"){
+            if(states[3] != ["advanced-stat-sheet"]){
+                states = ["story","event","character","advanced-stat-sheet"]
+                deactivateButtons();
+                await loadState(3);
+                activateButtons();
+            }
         }
     })
     $("#settings-button").on("click", async function(){

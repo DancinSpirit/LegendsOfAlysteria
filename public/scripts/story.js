@@ -245,6 +245,34 @@ const loadText = async function(sentText){
                 loadClickSignifier();
             }
         }
+    }else if(sentText.includes("[CHARACTER]")){
+        $("#title-box-event").css("transition","500ms");
+        $("#title-box-event").css("transform", "translateY(-100%)");
+        setTimeout(function(){
+            $("#title-box-event").css("transition","0ms");
+            $("#title-box-event").css("transform", "translateY(0%)");
+        },500)
+        player = {};
+        player.name = sentText.split("|")[1];
+        player.background = "eventPlayer";
+        $("head").append($(`<link id="character-style" rel='stylesheet' type='text/css'/>`).attr('href',`/styles/character.css`))
+        characterInfo = await load("/component/character",{model:{name:"Characterinfo",id:sentText.split("|")[2]},basicTrue: sentText.split("|")[3],statTrue: sentText.split("|")[4],combatTrue: sentText.split("|")[5],spiritTrue: sentText.split("|")[6]})
+        $(`#event-${eventId}`).append(characterInfo);
+        document.documentElement.style.setProperty('--light', characterColors.light);
+        document.documentElement.style.setProperty('--dark', characterColors.dark);
+        document.documentElement.style.setProperty('--darker', characterColors.darker);
+        document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+        document.documentElement.style.setProperty('--background', characterColors.background);
+        states = ["story","event","character",sentText.split("|")[0].split("]")[1]];
+        data = [data[0],data[1],{name:"Characterinfo",id:sentText.split("|")[2]},{name:"Characterinfo",id:sentText.split("|")[2]}]
+        console.log("GEGEG " + sentText.split("|")[4])
+        if(sentText.split("|")[4] == "false"){
+            $("#advanced-stat-sheet-button").remove();
+        }
+        deactivateButtons();
+        loadState(3);
+        activateButtons();
+        loadEvent();
     }else{
         $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
@@ -309,13 +337,17 @@ const loadMusic = async function(url){
             resolve();
         }else{
             setTimeout(function(){
-                if(!document.getElementById(url)){
+                if(!document.getElementById(url.replace(/\s+/g, '-'))){
+                    $("audio").attr("src","");
                     if(repeat)
-                    $("#story").append(`<audio id="${url}" loop src="/sounds/${url}.mp3"></audio>`);
+                    $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" loop src="/sounds/${url}.mp3"></audio>`);
                     else
-                    $("#story").append(`<audio id="${url}" src="/sounds/${url}.mp3"></audio>`);
+                    $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
+                }else{
+                    console.log($(`#${url.replace(/\s+/g, '-')}`).attr("src"))
+                    $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)
                 }
-                song = document.getElementById(url);
+                song = document.getElementById(url.replace(/\s+/g, '-'));
                 console.log(song);
                 song.volume = user.settings.musicVolume;
                 let played = song.play();

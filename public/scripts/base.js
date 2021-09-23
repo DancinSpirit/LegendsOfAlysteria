@@ -7,6 +7,7 @@ let gridbox;
 let rounds;
 let players;
 let gridBoxes;
+let characterColors;
 
 let settings = false;
 let images = false;
@@ -41,7 +42,7 @@ authCheck();
 
 const playerCheck = function(){
     if(player){
-        if(states[1] != "character-home" && states[1] != "chapter-select" && states[1] != "characters" && states[1] != "character"  && states[1] != "settings"){
+        if(states[1] != "character-home" && states[1] != "chapter-select" && states[1] != "characters" && states[1] != "character"  && states[1] != "settings" && player.background != "eventPlayer"){
             playerLogout();
         }
     }else{

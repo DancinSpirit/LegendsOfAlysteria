@@ -91,21 +91,20 @@ const down = async function(state, nextState, component){
         },10);
     })
 }
-
-const basicSheet = async function(index, component){
+const basicSheet = async function(state, nextState, component){
     return new Promise((resolve)=>{
         $(".character-nav-button").addClass("character-nav-button-unselected");
-        $("#basic-character-sheet-button").removeClass("character-nav-button-unselected");
-        down(index, component);
+        $("#basic-sheet-button").removeClass("character-nav-button-unselected");
+        down(state, nextState, component);
         resolve();
     })
 }
 
-const advancedStatSheet = async function(index, component){
+const advancedStatSheet = async function(state, nextState, component){
     return new Promise((resolve)=>{
         $(".character-nav-button").addClass("character-nav-button-unselected");
         $("#advanced-stat-sheet-button").removeClass("character-nav-button-unselected");
-        down(index, component);
+        down(state, nextState, component);
         resolve();
     })    
 }

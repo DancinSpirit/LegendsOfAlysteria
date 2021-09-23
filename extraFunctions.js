@@ -80,5 +80,21 @@ const createBattle = async function(id, height, width){
     const updatedBattle = await db.Battle.findByIdAndUpdate(id,{gridBoxes: battle.gridBoxes});
 }
 
-createBattle('612c2f723a5b77bbf8f79f1e', 20, 30);
+const loadEvents = async function(startingStory, resultingStory, years, seasons, regions, rulers){
+    const story1 = await db.Story.findById(startingStory);
+    const story2 = await db.Story.findById(resultingStory);
+    for(let x=0; x<story1.years[years].seasons[seasons].regionPhases[regions].rulerPhases[rulers].events.length; x++){
+        story2.years[years].seasons[seasons].regionPhases[regions].rulerPhases[rulers].events.push(story1.years[years].seasons[seasons].regionPhases[regions].rulerPhases[rulers].events[x]);
+    }
+    story2.save();
+}
+const loadRegion = async function(startingStory, resultingStory, years, seasons, regions){
+    const story1 = await db.Story.findById(startingStory);
+    const story2 = await db.Story.findById(resultingStory);
+    story2.years[years].seasons[seasons].regionPhases.push(story1.years[years].seasons[seasons].regionPhases[regions]);
+    story2.save();
+}
+
+loadRegion("613914ffd4d10a12926304cd","61390a85d4d10a12926304cb",0,3, 1)
+
 

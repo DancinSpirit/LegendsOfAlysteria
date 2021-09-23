@@ -5,7 +5,8 @@ const schema = new mongoose.Schema(
     name: {type: String},
     description: {type: String},
     effect: {type: String},
-    type: {type: String}
+    type: {type: String},
+    statModifiers: [{type:Number}],
   },
   {timestamps: true}
 )

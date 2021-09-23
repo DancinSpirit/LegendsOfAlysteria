@@ -34,5 +34,9 @@ module.exports = {
     Trait: require("./Trait"),
     War: require("./War"),
     Battle: require("./Battle"),
-    Combatant: require("./Combatant")
+    Combatant: require("./Combatant"),
+    Knowledge: require("./Knowledge"),
+    Knowledgetree: require("./Knowledgetree"),
+    Trainable: require("./Trainable"),
+    Specialty: require("./Specialty")
 }

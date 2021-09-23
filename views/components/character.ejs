@@ -1,22 +1,27 @@
 <animation>down</animation>
-<section id="character-navbar">
-    <section id = "basic-character-sheet-button" class = "character-nav-button character-nav-button-unselected">
-        Basic Character Sheet
-    </section> 
-    <section id = "advanced-stat-sheet-button" class = "character-nav-button character-nav-button-unselected invisible">
-        Advanced Stat Sheet
-    </section> 
-    <section id = "combat-character-sheet-button" class = "character-nav-button character-nav-button-unselected invisible">
-        Combat Sheet
-    </section> 
-    <section class = "character-nav-button character-nav-button-unselected invisible">
-        Spiritual Sheet
-    </section> 
-</section>
-<div id="sub-character-container-container">
-    <div id="sub-character-container">
-        <section id="sub-character">
+<section id ="character">
+    <section id="character-navbar">
+        <section id = "basic-sheet-button" class = "character-nav-button character-nav-button-unselected">
+            Basic Character Sheet
+        </section> 
+        <section id = "advanced-stat-sheet-button" class = "character-nav-button character-nav-button-unselected">
+            Advanced Stat Sheet
+        </section> 
+        <section id = "combat-character-sheet-button" class = "character-nav-button character-nav-button-unselected invisible">
+            Combat Sheet
+        </section> 
+        <section class = "character-nav-button character-nav-button-unselected invisible">
+            Spiritual Sheet
+        </section> 
+    </section>
+    <div id="sub-character-container-container">
+        <div id="sub-character-container">
+            <section id="sub-character">
 
-        </section>
-    </div>
-</div>  
+            </section>
+        </div>
+    </div>  
+</section>
+<script>
+    characterColors = JSON.parse(`<%-JSON.stringify(colors)%>`)
+</script>

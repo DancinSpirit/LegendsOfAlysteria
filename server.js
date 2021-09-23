@@ -63,12 +63,14 @@ app.get("/colors/:characterinfo", async function(req,res){
 
 /* Component Loading */
 app.post("/component/:component", async function(req,res){
-    console.log(req.body);
     let model = {};
     let url = `components/${req.params.component.toLowerCase()}`;
     if(req.body.model){
-        console.log(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
-        model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
+        if(req.params.component.toLowerCase()=="basic-sheet"){
+            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate('traits.metaTrait traits.flavorTraits traits.specialTraits traits.personalityTraits traits.aptitudeTraits traits.combatAbilities').populate({path:'knowledgeTrees',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',populate:{path:'info knowledgeTree',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge',populate:{path: 'info'}}}}})`)
+        }else{
+            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
+        }
     }
     if(req.params.component.includes(">")){
         url = `components/${req.params.component.split(">")[0].toLowerCase()}`;
@@ -76,8 +78,14 @@ app.post("/component/:component", async function(req,res){
             model[req.params.component.split(">")[x].split("=")[0]] = req.params.component.split(">")[x].split("=")[1];
         }
     }
-    console.log("MODEL: ")
-    console.log(model);
+    if(req.body.player){
+        model.basicTrue = req.body.basicTrue;
+        model.statTrue = req.body.statTrue;
+        model.combatTrue = req.body.combatTrue;
+        model.spiritTrue = req.body.spiritTrue;
+        model.player = req.body.player;
+    }
+    console.log("Model" + model);
     res.render(url, model);
 })
 
