@@ -34,9 +34,14 @@ module.exports = {
     Trait: require("./Trait"),
     War: require("./War"),
     Battle: require("./Battle"),
-    Combatant: require("./Combatant"),
     Knowledge: require("./Knowledge"),
     Knowledgetree: require("./Knowledgetree"),
     Trainable: require("./Trainable"),
-    Specialty: require("./Specialty")
+    Specialty: require("./Specialty"),
+    Weapontype: require("./Weapontype"),
+    Passiveability: require("./Passiveability"),
+    Activeability: require("./Activeability"),
+    Combatstyle: require("./Combatstyle"),
+    Equipment: require("./Equipment"),
+    Fightingstyle: require("./Fightingstyle")
 }

@@ -109,5 +109,14 @@ const advancedStatSheet = async function(state, nextState, component){
     })    
 }
 
+const combatSheet = async function(state, nextState, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#combat-sheet-button").removeClass("character-nav-button-unselected");
+        down(state, nextState, component);
+        resolve();
+    }) 
+}
+
 
 

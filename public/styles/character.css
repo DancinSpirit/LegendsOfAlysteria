@@ -21,6 +21,8 @@ height: 50%;
 width: 50%;
 }
 
+
+
 #character{
   height: 100%;
   width: 100%;
@@ -303,16 +305,23 @@ width: 50%;
   background-color: var(--highlight);
 }
 .character-super-title {
-  background-color: #ecaa65;
+  background-color: var(--background);
   font-weight: bold;
   text-align: center;
   border: solid 1px;
 }
+.combat-sheet{
+  height: 100%;
+  width: 100%;
+  background-color: var(--background);
+  font-family: 'Arial';
+  padding: 10px;
+}
 .combat-style {
-  margin: 10px;
+  height: 100%;
   width: 100%;
   overflow-y: auto;
-  background-color: #ba6b17;
+  background-color: var(--highlight);
 }
 .combat-style-column {
   width: 50%;
@@ -330,7 +339,7 @@ width: 50%;
 }
 .combat-style-box-half {
   width: 50%;
-  background-color: #fae3ca;
+  background-color: var(--light);
 }
 .combat-row-half {
   width: 50%;

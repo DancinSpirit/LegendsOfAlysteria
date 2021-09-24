@@ -39,6 +39,7 @@ knowledgeSchema.methods.totalSkillModifier = function totalSkillModifier(){
 
 knowledgeSchema.methods.knowledgeTotal = function knowledgeTotal(knowledgeGroup){
     let total = 0;
+    console.log(knowledgeGroup);
     for(let x=0; x<knowledgeGroup.length; x++){
         total = total + (knowledgeGroup[x].info.modifier()/knowledgeGroup.length);
     }

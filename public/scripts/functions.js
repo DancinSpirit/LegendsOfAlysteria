@@ -138,11 +138,32 @@ const deactivateButtons = function(){
     $("#register-button").off("click")
     $("#basic-sheet-button").off("click")
     $("#advanced-stat-sheet-button").off("click")
+    $("#combat-sheet-button").off("click");
     $("#right-arrow-box").off("click");
     $("#left-arrow-box").off("click");
     $("#settings-button").off("click");
     $("#top-arrow-box").off("click");
     $("#nav-title").off("click");
+}
+
+const characterSheetButton = async function(type){
+    if(states[1] == "character"){
+        if(states[2] != [`${type}-sheet`]){
+            states = ["main","character",`${type}-sheet`]
+            window.history.pushState({states:states,data:data}, "Character Info", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`${type}-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
+            deactivateButtons();
+            await loadState(2);
+            activateButtons();
+        }
+    }
+    if(states[2] == "character"){
+        if(states[3] != [`${type}-sheet`]){
+            states = ["story","event","character",`${type}-sheet`]
+            deactivateButtons();
+            await loadState(3);
+            activateButtons();
+        }
+    }
 }
 
 const activateButtons = function(){
@@ -186,42 +207,13 @@ const activateButtons = function(){
         })
     })
     $("#basic-sheet-button").on("click", async function(){
-        if(states[1] == "character"){
-            if(states[2] != ["basic-sheet"]){
-                states = ["main","character","basic-sheet"]
-                window.history.pushState({states:states,data:data}, "Character Info - Basic", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`basic-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
-                deactivateButtons();
-                await loadState(2);
-                activateButtons();
-            }
-        }
-        if(states[2] == "character"){
-            if(states[3] != ["basic-sheet"]){
-                states = ["story","event","character","basic-sheet"]
-                deactivateButtons();
-                await loadState(3);
-                activateButtons();
-            }
-        }
+        characterSheetButton("basic");
+    })
+    $("#combat-sheet-button").on("click", async function(){
+        characterSheetButton("combat");
     })
     $("#advanced-stat-sheet-button").on("click", async function(){
-        if(states[1] == "character"){
-            if(states[2] != ["advanced-stat-sheet"]){
-                states = ["main","character","advanced-stat-sheet"]
-                window.history.pushState({states:states,data:data}, "Character Info - Advanced Stats", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`advanced-stat-sheet|characterinfo=${window.location.href.split("/")[window.location.href.split("/").length-1].split("=")[1]}`))
-                deactivateButtons();
-                await loadState(2);
-                activateButtons();
-            }
-        }
-        if(states[2] == "character"){
-            if(states[3] != ["advanced-stat-sheet"]){
-                states = ["story","event","character","advanced-stat-sheet"]
-                deactivateButtons();
-                await loadState(3);
-                activateButtons();
-            }
-        }
+        characterSheetButton("advanced-stat");
     })
     $("#settings-button").on("click", async function(){
         deactivateButtons();
