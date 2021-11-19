@@ -138,7 +138,10 @@ const deactivateButtons = function(){
     $("#register-button").off("click")
     $("#basic-sheet-button").off("click")
     $("#advanced-stat-sheet-button").off("click")
-    $("#combat-sheet-button").off("click");
+    $("#basic-combat-sheet-button").off("click");
+    $("#combat-styles-sheet-button").off("click");
+    $("#spirituality-sheet-button").off("click");
+    $("#hero-sheet-button").off("click");
     $("#right-arrow-box").off("click");
     $("#left-arrow-box").off("click");
     $("#settings-button").off("click");
@@ -209,11 +212,20 @@ const activateButtons = function(){
     $("#basic-sheet-button").on("click", async function(){
         characterSheetButton("basic");
     })
-    $("#combat-sheet-button").on("click", async function(){
-        characterSheetButton("combat");
+    $("#basic-combat-sheet-button").on("click", async function(){
+        characterSheetButton("basic-combat");
+    })
+    $("#combat-styles-sheet-button").on("click", async function(){
+        characterSheetButton("combat-styles");
     })
     $("#advanced-stat-sheet-button").on("click", async function(){
         characterSheetButton("advanced-stat");
+    })
+    $("#spiritual-sheet-button").on("click", async function(){
+        characterSheetButton("spiritual");
+    })
+    $("#hero-sheet-button").on("click", async function(){
+        characterSheetButton("hero");
     })
     $("#settings-button").on("click", async function(){
         deactivateButtons();
@@ -305,13 +317,13 @@ const activateButtons = function(){
         if(continueEvent){
             deactivateButtons();
             if(states.includes("main-title")){
-                let turnTitle = `turn-title>currentTurn=0>currentYear=0>currentSeason=3`
+                let turnTitle = `turn-title>currentTurn=-3>currentYear=0>currentSeason=0`
                 states = ["story",turnTitle]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
             }
             else if(states[1].includes("turn-title")){
-                let regionTitle = `region-title>currentYear=0>currentSeason=3>region=0`;
+                let regionTitle = `region-title>currentYear=0>currentSeason=0>region=0`;
                 states = ["story", regionTitle]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],regionTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
@@ -392,7 +404,7 @@ const activateButtons = function(){
     $("#left-arrow-box").on("click", async function(){
         if(continueEvent){
             deactivateButtons();
-            if(states.includes("turn-title>currentTurn=0>currentYear=0>currentSeason=3")){
+            if(states.includes("turn-title>currentTurn=-3>currentYear=0>currentSeason=0")){
                 states = ["story","main-title"]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Main Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"main-title"+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
@@ -410,8 +422,8 @@ const activateButtons = function(){
                                         
                 }else{
                     let turn;
-                    if(year==0&&season==3){
-                        turn = 0;
+                    if(year==0){
+                        turn = season-3;
                     }else{
                         turn = ((year-1)*4) + (season+1);
                     }

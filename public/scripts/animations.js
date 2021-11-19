@@ -109,10 +109,35 @@ const advancedStatSheet = async function(state, nextState, component){
     })    
 }
 
-const combatSheet = async function(state, nextState, component){
+const basicCombatSheet = async function(state, nextState, component){
     return new Promise((resolve)=>{
         $(".character-nav-button").addClass("character-nav-button-unselected");
-        $("#combat-sheet-button").removeClass("character-nav-button-unselected");
+        $("#basic-combat-sheet-button").removeClass("character-nav-button-unselected");
+        down(state, nextState, component);
+        resolve();
+    }) 
+}
+
+const combatStylesSheet = async function(state, nextState, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#combat-styles-sheet-button").removeClass("character-nav-button-unselected");
+        down(state, nextState, component);
+        resolve();
+    }) 
+}
+const spiritualSheet = async function(state, nextState, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#spiritual-sheet-button").removeClass("character-nav-button-unselected");
+        down(state, nextState, component);
+        resolve();
+    }) 
+}
+const heroSheet = async function(state, nextState, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#hero-sheet-button").removeClass("character-nav-button-unselected");
         down(state, nextState, component);
         resolve();
     }) 

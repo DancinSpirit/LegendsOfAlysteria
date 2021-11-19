@@ -110,7 +110,7 @@ width: 50%;
 }
 #character-image {
   border: solid 2px;
-  background-color: black;
+  background-color: var(--light);
   max-height: 100%;
   max-width: 100%;
 }
@@ -310,7 +310,7 @@ width: 50%;
   text-align: center;
   border: solid 1px;
 }
-.combat-sheet{
+.combat-sheet, .basic-combat{
   height: 100%;
   width: 100%;
   background-color: var(--background);
@@ -321,7 +321,7 @@ width: 50%;
   height: 100%;
   width: 100%;
   overflow-y: auto;
-  background-color: var(--highlight);
+  background-color: #b7b7b7;
 }
 .combat-style-column {
   width: 50%;

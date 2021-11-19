@@ -1,6 +1,9 @@
 <section id="subnav">
     <section id="subnav-buttons" class="nav-buttons">
         <button class="slide-button">This Bar Will Have Functionality In The Future!</button>
+        <%if(player.name == "Game Master"){%>
+            <button class="slide-button clickable" id="characters-button">Character List</button>
+        <%}%>
 <!--         <button class="slide-button clickable" id="characters-button">
             Characters
         </button>

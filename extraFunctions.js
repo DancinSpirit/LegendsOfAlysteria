@@ -94,7 +94,20 @@ const loadRegion = async function(startingStory, resultingStory, years, seasons,
     story2.years[years].seasons[seasons].regionPhases.push(story1.years[years].seasons[seasons].regionPhases[regions]);
     story2.save();
 }
+const transferCharacterInfo = async function(startingCharacter, resultingCharacter, field){
+    const character1 = await db.Characterinfo.findById(startingCharacter);
+    const character2 = await eval(`db.Characterinfo.findByIdAndUpdate(resultingCharacter, {${field}: character1.${field}})`);
+    
+}
 
-loadRegion("613914ffd4d10a12926304cd","61390a85d4d10a12926304cb",0,3, 1)
+const transferNewInfo = async function(){
+    const story = await db.Story.findById("613914ffd4d10a12926304cd");
+    story.years[0].seasons[0].regionPhases.push(story.years[0].seasons[3].regionPhases[0]);
+    story.years[0].seasons[0].regionPhases.push(story.years[0].seasons[3].regionPhases[1]);
+    story.years[0].seasons[3].regionPhases.splice(1,1);
+    story.save();
+}
+
+transferNewInfo();
 
 

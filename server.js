@@ -68,8 +68,8 @@ app.post("/component/:component", async function(req,res){
     if(req.body.model){
         if(req.params.component.toLowerCase()=="basic-sheet"){
             model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate('traits.metaTrait traits.flavorTraits traits.specialTraits traits.personalityTraits traits.aptitudeTraits traits.combatAbilities').populate({path:'knowledgeTrees',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',populate:{path:'info knowledgeTree',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge',populate:{path: 'info'}}}}})`)
-        }else if(req.params.component.toLowerCase()=="combat-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles',populate: {path:'fightingStyles weaponStyle',populate:{path: 'advantageOver weakAgainst info knowledgeTree', populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
+        }else if(req.params.component.toLowerCase()=="combat-styles-sheet"){
+            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles',populate: {path:'weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'advantageOver weakAgainst info knowledgeTree', populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
             console.log("TEST: " + model.combatStyles)
         }else{
             model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)

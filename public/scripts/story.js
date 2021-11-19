@@ -52,6 +52,10 @@ const loadText = async function(sentText){
         textLine = false;
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext philosopher'>${sentText.replace("[PHILOSOPHER]","")}</p>`);
         loadClickSignifier();
+    }else if(sentText.startsWith("[INDIE FLOWER]")){
+        textLine = false;
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext indie-flower'>${sentText.replace("[INDIE FLOWER]","")}</p>`);
+        loadClickSignifier();
     }else if(sentText.startsWith("[SCENE TRANSITION]")){
         textLine = false;
         await loadBackground("/images/" + sentText.split("[SCENE TRANSITION]")[1]+".jpg");
@@ -265,14 +269,31 @@ const loadText = async function(sentText){
         document.documentElement.style.setProperty('--background', characterColors.background);
         states = ["story","event","character",sentText.split("|")[0].split("]")[1]];
         data = [data[0],data[1],{name:"Characterinfo",id:sentText.split("|")[2]},{name:"Characterinfo",id:sentText.split("|")[2]}]
-        console.log("GEGEG " + sentText.split("|")[4])
         if(sentText.split("|")[4] == "false"){
             $("#advanced-stat-sheet-button").remove();
+        }
+        if(sentText.split("|")[5]=="true"){
+            $("#combat-styles-sheet-button").removeClass("invisible");
+            $("#basic-combat-sheet-button").removeClass("invisible");
+        }
+        if(sentText.split("|")[6]=="true"){
+            $("#spiritual-sheet-button").removeClass("invisible");
+        }
+        if(sentText.split("|")[7]=="true"){
+            $("#hero-sheet-button").removeClass("invisible");
         }
         deactivateButtons();
         loadState(3);
         activateButtons();
         loadEvent();
+    }else if(sentText.startsWith("[CORSIVA]")){
+        sentText = sentText.replace("[CORSIVA]","");
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext corsiva">${sentText}</p>`);
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
+        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+        $(`#boxtext-${index}`).addClass("corsiva");
+        await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1) 
+        loadClickSignifier();    
     }else{
         $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
@@ -291,6 +312,7 @@ const loadClickSignifier = function(){
         $("#click-signifier").css("justify-content","left")
         $("#click-signifier").css("padding-left","25px");
         $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+        $(".boxtext").css("height","auto")
     }
 }
 

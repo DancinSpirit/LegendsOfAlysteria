@@ -37,7 +37,8 @@ const schema = new mongoose.Schema(
     colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
     informationLevels: [{player: {type: String}, level: {type: Number}, description: {type: String}, age:{type: String}}],
     combatSheet : {type: Boolean, default: false},
-    spiritSheet: {type: Boolean, default: false}
+    spiritSheet: {type: Boolean, default: false},
+    heroSheet: {type: Boolean, default: false}
   },
   {timestamps: true}
 )
@@ -102,6 +103,7 @@ schema.methods.returnDescription = function returnDescription(player){
 
 schema.methods.informationLevel = function informationLevel(player){
   console.log(player)
+  console.log(this.informationLevels)
   if(player=="Observer"||player=="Game Master"){
     return 6;
   }else{

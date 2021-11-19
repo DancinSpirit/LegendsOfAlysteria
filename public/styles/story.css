@@ -421,6 +421,7 @@
   }
   .cutaway-image-subtitle{
     margin-top: 10px;
+    font-family: 'Arial';
   }
   
   #cutaway-image-container, #choice-container{
@@ -508,6 +509,7 @@
     font-size: 20px;
     z-index: 2;
     display: none;
+    font-family: 'Arial';
   }
 
 .slider{
@@ -669,6 +671,15 @@
   .philosopher{
     font-family: 'Philosopher', sans-serif;
     text-align: center;
+  }
+  .corsiva{
+    font-family: 'Corsiva';
+    font-size:22px;
+  }
+  .indie-flower{
+    font-family: 'Indie Flower';
+    text-align: center;
+    font-size: 20px;
   }
   .center{
     text-align: center;
