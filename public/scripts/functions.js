@@ -317,13 +317,28 @@ const activateButtons = function(){
         if(continueEvent){
             deactivateButtons();
             if(states.includes("main-title")){
+                if(data[0].id == "613914ffd4d10a12926304cd"){
+                    states = ["story","disclaimer"]
+                    data = [data[0],data[0]]
+                    window.history.pushState({states:states,data:data}, "Disclaimer", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"disclaimer" + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))    
+                
+                }else{
+                    let turnTitle = `turn-title>currentTurn=-3>currentYear=0>currentSeason=0`
+                    states = ["story",turnTitle]
+                    data = [data[0],data[0]]
+                    window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))    
+                }
+            }
+            else if(states[1].includes("disclaimer")){
                 let turnTitle = `turn-title>currentTurn=-3>currentYear=0>currentSeason=0`
                 states = ["story",turnTitle]
                 data = [data[0],data[0]]
-                window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
-            }
+                window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))    
+                }
             else if(states[1].includes("turn-title")){
-                let regionTitle = `region-title>currentYear=0>currentSeason=0>region=0`;
+                let year = states[states.length-1].split(">")[2].split("=")[1];
+                let season = states[states.length-1].split(">")[3].split("=")[1];
+                let regionTitle = `region-title>currentYear=${year}>currentSeason=${season}>region=0`;
                 states = ["story", regionTitle]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],regionTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))
@@ -372,10 +387,20 @@ const activateButtons = function(){
                                                     let regionTitle = `region-title>currentYear=${x}>currentSeason=${y}>region=${z+1}`
                                                     states = ["story", regionTitle];
                                                     data = [data[0],data[0]]
-                                                    window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], regionTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+                                                    window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], regionTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
                                                 }else{
                                                     if(y<years[x].seasons.length-1){
-                                                        //load the next season
+                                                        y++;
+                                                        let turnNum = 0;
+                                                        if(x<1){
+                                                            turnNum = y-3;
+                                                        }else{
+                                                            turnNum = (x*4)+y-2;
+                                                        }
+                                                        let turnTitle = `turn-title>currentTurn=${turnNum}>currentYear=${x}>currentSeason=${y}`
+                                                        states = ["story", turnTitle]
+                                                        data = [data[0],data[0]]
+                                                        window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], turnTitle + `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
                                                     }else{
                                                         if(x<years.length-1){
                                                             //load the next year
@@ -404,10 +429,32 @@ const activateButtons = function(){
     $("#left-arrow-box").on("click", async function(){
         if(continueEvent){
             deactivateButtons();
-            if(states.includes("turn-title>currentTurn=-3>currentYear=0>currentSeason=0")){
+            if(states.includes("turn-title>currentTurn=0>currentYear=0>currentSeason=3")||states.includes("disclaimer")){
                 states = ["story","main-title"]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Main Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"main-title"+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+            }
+            else if(states.includes("turn-title>currentTurn=-3>currentYear=0>currentSeason=0")){
+                states = ["story","disclaimer"]
+                data = [data[0],data[0]]
+                window.history.pushState({states:states,data:data}, "Disclaimer", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"disclaimer"+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
+            }
+            else if(states[states.length-1].includes("turn-title")){
+                console.log("TEST?????")
+                let year = states[states.length-1].split(">")[2].split("=")[1];
+                let season = states[states.length-1].split(">")[3].split("=")[1];
+                states = ["story","event"];
+                let event;
+                if(season>0){
+                    let rulerPhase = years[year].seasons[season-1].regionPhases[years[year].seasons[season-1].regionPhases.length-1].rulerPhases[years[year].seasons[season-1].regionPhases[years[year].seasons[season-1].regionPhases.length-1].rulerPhases.length-1]
+                    event = rulerPhase.events[rulerPhase.events.length-1];
+                }else{
+                    let rulerPhase = years[year-1].seasons[3].regionPhases[years[year].seasons[season-1].regionPhases.length-1].rulerPhases[years[year].seasons[season-1].regionPhases[years[year].seasons[season-1].regionPhases.length-1].rulerPhases.length-1]
+                    event = rulerPhase.events[rulerPhase.events.length-1];
+                }
+                console.log("Event: " + event);
+                data = [data[0],{name: "Event", id: event}]
+                window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
             }
             else if(states[states.length-1].includes("region-title")){
                 let year = states[states.length-1].split(">")[1].split("=")[1];

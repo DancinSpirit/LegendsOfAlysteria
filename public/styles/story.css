@@ -292,6 +292,11 @@
     font-size: 20px;
     padding-bottom: 20px;
   }
+  .story-disclaimer{
+    padding: 20px;
+    text-align: center;
+    font-family: 'Philosopher';
+  }
 
   #player-title, #turn-title, #main-title{
     width: 100%;
