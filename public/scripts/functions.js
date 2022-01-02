@@ -397,6 +397,7 @@ const activateButtons = function(){
                                                         }else{
                                                             turnNum = (x*4)+y-2;
                                                         }
+                                                        console.log("???")
                                                         let turnTitle = `turn-title>currentTurn=${turnNum}>currentYear=${x}>currentSeason=${y}`
                                                         states = ["story", turnTitle]
                                                         data = [data[0],data[0]]
@@ -429,7 +430,7 @@ const activateButtons = function(){
     $("#left-arrow-box").on("click", async function(){
         if(continueEvent){
             deactivateButtons();
-            if(states.includes("turn-title>currentTurn=0>currentYear=0>currentSeason=3")||states.includes("disclaimer")){
+            if(states.includes("disclaimer")){
                 states = ["story","main-title"]
                 data = [data[0],data[0]]
                 window.history.pushState({states:states,data:data}, "Main Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],"main-title"+ `|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))
