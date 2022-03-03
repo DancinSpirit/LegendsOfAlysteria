@@ -9,10 +9,10 @@ const knowledgeSchema = new mongoose.Schema(
     {timestamps: true}
 )
 
-knowledgeSchema.methods.totalModifier = function totalModifier(){
+knowledgeSchema.methods.totalModifier = function totalModifier(wellRead){
     let total = this.info.modifier();
     if(this.type>0){
-        total = total + this.knowledgeTotal(this.knowledgeTree.generalKnowledge);
+        total = total + this.knowledgeTotal(this.knowledgeTree.generalKnowledge, wellRead);
     }
     if(this.type>1){
         total = total + this.knowledgeTotal(this.knowledgeTree.specializedKnowledge);
@@ -23,10 +23,10 @@ knowledgeSchema.methods.totalModifier = function totalModifier(){
     return total;
 }
 
-knowledgeSchema.methods.totalSkillModifier = function totalSkillModifier(){
+knowledgeSchema.methods.totalSkillModifier = function totalSkillModifier(wellRead){
     let total = this.info.skillModifier();
     if(this.type>0){
-        total = total + this.knowledgeTotal(this.knowledgeTree.generalKnowledge);
+        total = total + this.knowledgeTotal(this.knowledgeTree.generalKnowledge, wellRead);
     }
     if(this.type>1){
         total = total + this.knowledgeTotal(this.knowledgeTree.specializedKnowledge);
@@ -37,11 +37,11 @@ knowledgeSchema.methods.totalSkillModifier = function totalSkillModifier(){
     return total;
 }
 
-knowledgeSchema.methods.knowledgeTotal = function knowledgeTotal(knowledgeGroup){
+knowledgeSchema.methods.knowledgeTotal = function knowledgeTotal(knowledgeGroup, rankUp){
     let total = 0;
     console.log(knowledgeGroup);
     for(let x=0; x<knowledgeGroup.length; x++){
-        total = total + (knowledgeGroup[x].info.modifier()/knowledgeGroup.length);
+        total = total + (knowledgeGroup[x].info.modifier(rankUp)/knowledgeGroup.length);
     }
     return total;
 }

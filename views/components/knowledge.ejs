@@ -1,4 +1,4 @@
-<section class = "knowledge-box">
+<section class = <%if(traits.metaTrait.length){%>"knowledge-box"<%}else{%>"knowledge-box-no-meta"<%}%>>
     <section class = "character-big-title character-box-section knowledge-grid-title border-left-thick border-top-thick border-right-thick border-bottom-thick">
         Knowledge and Skills
     </section>
@@ -20,11 +20,22 @@
                 Specialties
             </section>
         </section>
-        <%console.log(knowledgeTrees)%>
+        <%let rankUp = 0;%>
+        <%let wellRead = 0;%>
+        <%for(let z=0; z<traits.aptitudeTraits.length; z++){%>
+            <%if(traits.aptitudeTraits[z].name=="Well Read"){%>
+                <%wellRead = 1;%>
+            <%}%>
+        <%}%>
         <%for(let x=0; x<knowledgeTrees.length; x++){%>
             <section class = "knowledge-column">
                 <section class = "knowledge-column-general">
                     <%for(let y=0; y<knowledgeTrees[x].generalKnowledge.length; y++){%>
+                        <%for(let z=0; z<traits.aptitudeTraits.length; z++){%>
+                            <%if(traits.aptitudeTraits[z].name=="Well Read"){%>
+                                <%rankUp++;%>
+                            <%}%>
+                        <%}%>
                         <section class = "knowledge-content">
                             <section class = "character-box-title character-box-section knowledge-content-box">
                                 <%=knowledgeTrees[x].generalKnowledge[y].name%>
@@ -35,15 +46,20 @@
                                 </section>
                             <%}%>  
                             <section class = "character-box-content character-box-section knowledge-content-box">
-                                Rank: <%=knowledgeTrees[x].generalKnowledge[y].info.rankString()%>
+                                Rank: <%=knowledgeTrees[x].generalKnowledge[y].info.rankString(rankUp)%>
                             </section>
                             <section class = "character-box-content character-box-section knowledge-content-box">
                                 Training Points: <%=knowledgeTrees[x].generalKnowledge[y].info.trainingPoints%>
                             </section>
                             <section class = "character-box-content character-box-section highlight knowledge-content-box">
-                                Modifier: <%=knowledgeTrees[x].generalKnowledge[y].info.modifier()%>
+                                Modifier: <%=knowledgeTrees[x].generalKnowledge[y].info.modString(rankUp)%>
                             </section>
                         </section>
+                        <%for(let z=0; z<traits.aptitudeTraits.length; z++){%>
+                            <%if(traits.aptitudeTraits[z].name=="Well Read"){%>
+                                <%rankUp--;%>
+                            <%}%>
+                        <%}%>
                     <%}%>
                 </section>
                 <section class = "knowledge-column-box">
@@ -64,10 +80,10 @@
                                 Training Points: <%=knowledgeTrees[x].specializedKnowledge[y].info.trainingPoints%>
                             </section>
                             <section class = "character-box-content character-box-section knowledge-content-box">
-                                Modifier: <%=knowledgeTrees[x].specializedKnowledge[y].info.modifier()%>
+                                Modifier: <%=knowledgeTrees[x].specializedKnowledge[y].info.modString()%>
                             </section>
                             <section class = "character-box-content character-box-section highlight knowledge-content-box">
-                                Total Modifier: <%=knowledgeTrees[x].specializedKnowledge[y].totalModifier()%>
+                                Total Modifier: <%=knowledgeTrees[x].specializedKnowledge[y].totalModifier(wellRead)%>
                             </section>
                         </section>
                     <%}%>
@@ -90,10 +106,10 @@
                                 Training Points: <%=knowledgeTrees[x].highlySpecializedKnowledge[y].info.trainingPoints%>
                             </section>
                             <section class = "character-box-content character-box-section knowledge-content-box">
-                                Modifier: <%=knowledgeTrees[x].highlySpecializedKnowledge[y].info.modifier()%>
+                                Modifier: <%=knowledgeTrees[x].highlySpecializedKnowledge[y].info.modString()%>
                             </section>
                             <section class = "character-box-content character-box-section highlight knowledge-content-box">
-                                Total Modifier: <%=knowledgeTrees[x].highlySpecializedKnowledge[y].totalModifier()%>
+                                Total Modifier: <%=knowledgeTrees[x].highlySpecializedKnowledge[y].totalModifier(wellRead)%>
                             </section>
                         </section>
                     <%}%>
@@ -116,7 +132,7 @@
                                 Training Points: <%=knowledgeTrees[x].skills[y].info.trainingPoints%>
                             </section>
                             <section class = "character-box-content character-box-section knowledge-content-box">
-                                Modifier: <%=knowledgeTrees[x].skills[y].info.modifier()%>
+                                Modifier: <%=knowledgeTrees[x].skills[y].info.modString()%>
                             </section>
                             <%if(knowledgeTrees[x].skills[y].info.expertModifier()>0){%>
                             <section class = "character-box-content character-box-section knowledge-content-box">
@@ -139,7 +155,7 @@
                             </section>
                             <%}%>
                             <section class = "character-box-content character-box-section highlight knowledge-content-box">
-                                Total Modifier: <%=knowledgeTrees[x].skills[y].totalSkillModifier()%>
+                                Total Modifier: <%=knowledgeTrees[x].skills[y].totalSkillModifier(wellRead)%>
                             </section>
                         </section>
                     <%}%>

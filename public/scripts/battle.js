@@ -15,6 +15,7 @@ const loadCombatants = async function(){
         }) 
         combatants[x].dice = new Dice();
         combatants[x].active = false;
+        activateCombatantInfo(combatants[x]);
     }
 }
 loadCombatants();
@@ -127,7 +128,89 @@ const rollInitiative = async function(){
         loadBattleText(combatants[x].name);
     }
 }
-
+const letterConvert = function(number){
+    if(number==0){
+        return "A"
+    }
+    if(number==1){
+        return "B"
+    }
+    if(number==2){
+        return "C"
+    }
+    if(number==3){
+        return "D"
+    }
+    if(number==4){
+        return "E"
+    }
+    if(number==5){
+        return "F"
+    }
+    if(number==6){
+        return "G"
+    }
+    if(number==7){
+        return "H"
+    }
+    if(number==8){
+        return "I"
+    }
+    if(number==9){
+        return "J"
+    }
+    if(number==10){
+        return "K"
+    }
+    if(number==11){
+        return "L"
+    }
+    if(number==12){
+        return "M"
+    }
+    if(number==13){
+        return "N"
+    }
+    if(number==14){
+        return "O"
+    }
+    if(number==15){
+        return "P"
+    }
+    if(number==16){
+        return "Q"
+    }
+    if(number==17){
+        return "R"
+    }
+    if(number==18){
+        return "S"
+    }
+    if(number==19){
+        return "T"
+    }
+    if(number==20){
+        return "U"
+    }
+    if(number==21){
+        return "V"
+    }
+    if(number==22){
+        return "W"
+    }
+    if(number==23){
+        return "X"
+    }
+    if(number==24){
+        return "Y"
+    }
+    if(number==25){
+        return "Z"
+    }
+    else if(number<52&&number>25){
+        return "A" + letterConvert(number-25);
+    }
+}
 const moveableSpace = function(space, z, a, type){
     if(!(z<0||a<0||z>height-1||a>width-1)){
         gridBoxes[z][a].moveable = true;
@@ -138,9 +221,22 @@ const moveableSpace = function(space, z, a, type){
         if(type=="sprint")
         space.css("background-color","rgba(255, 25, 5, 0.5)")
         space.on("contextmenu", async function(event){
+            if(type=="run"){
+                activeUnit.stamina = activeUnit.stamina - 1;
+            }
+            if(type=="sprint"){
+                if(activeUnit.sprinting){
+                    activeUnit.sprintValue = activeUnit.sprintValue*2;
+                }else{
+                    activeUnit.sprinting = true;
+                }
+                activeUnit.stamina = activeUnit.stamina - activeUnit.sprintValue;
+            }
             event.preventDefault();
-            loadBattleText(`${activeUnit.name} moves to box-${z}-${a}!`)
+            loadBattleText(`${activeUnit.name} moves to ${letterConvert(z)}${a}!`)
+            //The below code is bad, needs to be changed
             $(this).html($(activeBox).html());
+            //Then need to change gridBoxes location directly
             $(activeBox).html(`
                 <div id = "background-layer-${z}-${a}">
                     <img class="token" src='/tokens/Empty.jpg'>
@@ -148,7 +244,7 @@ const moveableSpace = function(space, z, a, type){
                 <div id = "token-layer-${z}-${a}" class = "token-layer">
                     <img class="token upper-layer" src='/tokens/Empty.jpg'>
                 </div>`)
-            $(this).off("contextmenu");
+            deactivateMovableSpaces();
             $(activeBox).css("border","solid 1px black");
             activeBox = null;
             for(let x=0; x<gridBoxes.length; x++){
@@ -159,7 +255,49 @@ const moveableSpace = function(space, z, a, type){
                     }
                 }
             } 
+            activateCombatantInfo(activeUnit);
+            updateUnit(activeUnit);
         })
+    }
+}
+
+const updateUnit = function(unit){
+    for(let x=0; x<combatants.length; x++){
+        if(combatants[x].name == unit.name){
+            combatants[x] = unit;
+        }
+    }
+}
+
+const deactivateMovableSpaces = function(){
+    for(let z=0; z<gridBoxes.length; z++){
+        for(let a=0; a<gridBoxes[z].length; a++){
+            $(`#gridbox-${z}-${a}`).off("contextmenu");
+        }
+    }
+}
+
+const activateCombatantInfo = async function(combatant){
+    for(let z=0; z<gridBoxes.length; z++){
+        for(let a=0; a<gridBoxes[z].length; a++){
+            if(gridBoxes[z][a].token == combatant.name){
+                $(`#gridbox-${z}-${a}`).on("click", async function(){
+                    $("#unit-info").html(""); 
+                    $("#unit-info").css("transition",`${user.settings.pageSpeed}ms`)
+                    $("#unit-info").css("transform","translateY(-100%)")
+                    let component = await load(`/component/unit-info`,{model: {name:"Combatant",id:gridBoxes[z][a].unit}});
+                    $("#unit-info").html(component); 
+                    $("#unit-info").css("transform","translateY(0%)")
+                    setTimeout(function(){$("#unit-info").css("transition","0ms")},user.settings.pageSpeed)
+                    $("body").on("click", function(){
+                        $("#unit-info").css("transition",`${user.settings.pageSpeed}ms`)
+                        $("#unit-info").css("transform","translateY(-100%)")
+                        setTimeout(function(){$("#unit-info").css("transition","0ms")},user.settings.pageSpeed)
+                        $("body").off("click");
+                    })
+                })
+            }
+        }
     }
 }
 
@@ -170,14 +308,8 @@ const activateCombatant = function(combatant){
             if(gridBoxes[z][a].token == combatant.name){
                 $(`#gridbox-${z}-${a}`).css("border","solid white 1px")
                 $(`#gridbox-${z}-${a}`).on("click", async function(){
+                    $(`#gridbox-${z}-${a}`).off("click");
                     $(`#gridbox-${z}-${a}`).css("border","solid gold 1px")
-                    $("#unit-info").html(""); 
-                    $("#unit-info").css("transition",`${user.settings.pageSpeed}ms`)
-                    $("#unit-info").css("transform","translateY(-100%)")
-                    let component = await load(`/component/unit-info`,{model: {name:"Combatant",id:gridBoxes[z][a].unit}});
-                    $("#unit-info").html(component); 
-                    $("#unit-info").css("transform","translateY(0%)")
-                    setTimeout(function(){$("#unit-info").css("transition","0ms")},user.settings.pageSpeed)
                     activeBox = $(`#gridbox-${z}-${a}`);
                     activeUnit = combatant;
                     if(!combatant.engaged){
@@ -350,7 +482,7 @@ const declareActions = function(playerCombatants){
 
 const actionPhase = async function(){
     loadBattleText("Action Phase!");
-    for(let x=0; x<players.length; x++){
+    for(let x=0; x<combatants.length; x++){
         $("#battle-text").append($(`<p id="declare-actions" class='battle-text-line clickable'>${players[x].name}: Declare Actions</p>`))
         const declaredActions = await declareActions(players[x].combatants);
     }

@@ -41,6 +41,7 @@ module.exports = {
     Weapontype: require("./Weapontype"),
     Passiveability: require("./Passiveability"),
     Activeability: require("./Activeability"),
+    Combatant: require("./Combatant"),
     Combatstyle: require("./Combatstyle"),
     Equipment: require("./Equipment"),
     Fightingstyle: require("./Fightingstyle")

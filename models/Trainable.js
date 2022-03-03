@@ -36,7 +36,31 @@ trainableSchema.methods.rank = function rank(){
     } 
     return rankValue;
 }
-trainableSchema.methods.rankString = function rankString(){
+trainableSchema.methods.rankUp = function rankUp(rankValue){
+if(rankValue=="E"){
+    rankValue = "D";
+}
+else if(rankValue=="D"){
+    rankValue = "C";
+}
+else if(rankValue=="C"){
+    rankValue = "B";
+}
+else if(rankValue=="B"){
+    rankValue = "A";
+}
+else if(rankValue=="A"){
+    rankValue = "S";
+}
+else if(rankValue=="S"){
+    rankValue = "SS";
+}
+else if(rankValue=="SS"){
+    rankValue = "SSS";
+}
+return rankValue;
+}
+trainableSchema.methods.rankString = function rankString(rankUp){
     let rankValue = "N/A";
     if(this.trainingPoints>14){
         rankValue = "E";
@@ -62,40 +86,86 @@ trainableSchema.methods.rankString = function rankString(){
     if(this.trainingPoints>5069){
         rankValue = "SSS";
     } 
+    if(rankUp){
+        let originalValue = rankValue;
+        for(let x=0; x<rankUp; x++){
+            rankValue = this.rankUp(rankValue);
+        }
+        rankValue = originalValue + " (" + rankValue + ")";
+    }
     return rankValue;
 }
 
-trainableSchema.methods.modifier = function modifier(){
+trainableSchema.methods.modifier = function modifier(rankUp){
     var typeMod = 1;
     var rankMod = -5;
+    if(!rankUp){
+        rankUp=0;
+    }
     if(this.type>0){
         typeMod=2*this.type;
     }
-    if(this.rank()===1){ //E
+    if(this.rank()+rankUp===1){ //E
         rankMod = -2.5;
     }
-    if(this.rank()===2){ //D
+    if(this.rank()+rankUp===2){ //D
         rankMod = 0;
     }
-    if(this.rank()===3){ //C
+    if(this.rank()+rankUp===3){ //C
         rankMod = 2.5;
     }
-    if(this.rank()===4){ //B
+    if(this.rank()+rankUp===4){ //B
         rankMod = 6.25;
     }
-    if(this.rank()===5){ //A
+    if(this.rank()+rankUp===5){ //A
         rankMod = 10;
     }
-    if(this.rank()===6){ //S
+    if(this.rank()+rankUp===6){ //S
         rankMod = 15;
     }
-    if(this.rank()===7){ //SS
+    if(this.rank()+rankUp===7){ //SS
         rankMod = 17.5;
     }
-    if(this.rank()===8){ //SSS
+    if(this.rank()+rankUp===8){ //SSS
         rankMod = 20;
     }
     return Math.floor(rankMod*typeMod);
+}
+
+trainableSchema.methods.modString = function modString(rankUp){
+    var typeMod = 1;
+    var rankMod = -5;
+    if(rankUp){
+        const newMod = this.modifier(rankUp);
+        if(this.rank()===1){ //E
+            rankMod = -2.5;
+        }
+        if(this.rank()===2){ //D
+            rankMod = 0;
+        }
+        if(this.rank()===3){ //C
+            rankMod = 2.5;
+        }
+        if(this.rank()===4){ //B
+            rankMod = 6.25;
+        }
+        if(this.rank()===5){ //A
+            rankMod = 10;
+        }
+        if(this.rank()===6){ //S
+            rankMod = 15;
+        }
+        if(this.rank()===7){ //SS
+            rankMod = 17.5;
+        }
+        if(this.rank()===8){ //SSS
+            rankMod = 20;
+        }
+        const originalMod = Math.floor(rankMod*typeMod);
+        return originalMod + " (" + newMod + ")";
+    }else{
+        return this.modifier(rankUp);
+    }
 }
 
 /* Skill Only Methods */

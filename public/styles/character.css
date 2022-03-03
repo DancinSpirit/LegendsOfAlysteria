@@ -215,6 +215,13 @@ width: 50%;
   display: flex;
   flex-direction: column;
 }
+
+.knowledge-box-no-meta{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .knowledge-box {
   height: 85%;
   width: 100%;
