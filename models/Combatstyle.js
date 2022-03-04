@@ -8,8 +8,8 @@ const schema = new mongoose.Schema(
     weaponTypes: [{type: mongoose.Schema.Types.ObjectId, ref: "Weapontype"}],
     rerolls: [{amount: {type: Number}, reroll: {name: {type: String}}}],
     weapons: [{type: mongoose.Schema.Types.ObjectId, ref: "Equipment"}],
-    armor: [{type: mongoose.Schema.Types.ObjectId, ref: "Equipment"}],
-    character: {type: mongoose.Schema.Types.ObjectId, ref: "CharacterInfo"},
+    armor: {type: mongoose.Schema.Types.ObjectId, ref: "Equipment"},
+    character: {type: mongoose.Schema.Types.ObjectId, ref: "Characterinfo"},
   },
   {timestamps: true}
 )
@@ -71,6 +71,85 @@ schema.methods.weaponsAP = function weaponsAP(){
 
 schema.methods.armorPenetration = function armorPenetration(){
   return this.weaponTypeAP() + this.weaponsAP();
+}
+
+schema.methods.meleeArmor = function meleeArmor(){
+  return this.armor.meleeArmor;
+}
+
+schema.methods.rangedArmor = function rangedArmor(){
+  return this.armor.rangedArmor;
+}
+
+schema.methods.armorDurability = function armorDurability(){
+  return this.armor.durability;
+}
+
+schema.methods.weaponWeight = function weaponWeight(){
+  let total = 0;
+  for(let x=0; x<this.weapons.length; x++){
+    total +=this.weapons[x].weight;
+  }
+  return total;
+}
+
+schema.methods.armorWeight = function armorWeight(){
+  return this.armor.weight;
+}
+
+schema.methods.weightValue = function weightValue(){
+  return this.weaponWeight() + this.armorWeight();
+}
+
+schema.methods.weightClass = function weightClass(){
+  if(this.weightValue()<0){
+    return "Impossibly Heavy"
+  }
+  if(this.weightValue()==0){
+    return "Incredibly Light"
+  }
+  if(this.weightValue()>62){
+    return "Impossibly Heavy"
+  }
+  if(this.weightValue()>30){
+    return "Very Heavy"
+  }
+  if(this.weightValue()>14){
+    return "Heavy"
+  }
+  if(this.weightValue()>6){
+    return "Medium"
+  }
+  if(this.weightValue()>2){
+    return "Light"
+  }
+  if(this.weightValue()>0){
+    return "Very Light"
+  }
+}
+
+schema.methods.weightModifier = function weightModifier(){
+  if(this.weightClass()=="Impossibly Light"){
+    return 20
+  }
+  if(this.weightClass()=="Incredibly Light"){
+    return 10
+  }
+  if(this.weightClass()=="Very Light"){
+    return 5
+  }
+  if(this.weightClass()=="Light"){
+    return 0
+  }
+  if(this.weightClass()=="Medium"){
+    return -5
+  }
+  if(this.weightClass()=="Heavy"){
+    return -10
+  }
+  if(this.weightclass()=="Very Heavy"){
+    return -20
+  }
 }
 
 const Model = mongoose.model("Combatstyle", schema);

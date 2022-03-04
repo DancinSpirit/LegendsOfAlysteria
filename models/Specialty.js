@@ -5,7 +5,8 @@ const specialtySchema = new mongoose.Schema(
         info: {type: mongoose.Schema.Types.ObjectId, ref: "Trainable"},
         knowledgeTree: {type: mongoose.Schema.Types.ObjectId, ref: "Knowledgetree"},
         effect: {type: String},
-        specialEffect: {type: Object}
+        specialEffect: {type: Object},
+        type: {type: String}
     },
     {timestamps: true}
 )

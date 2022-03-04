@@ -6,8 +6,9 @@ const schema = new mongoose.Schema(
     description: {type: String},
     effect: {type: String},
     type: {type: String},
-    //Meta: 0, Special: 1, Aptitude: 2, Personality: 3, Knowledge: 4
+    //Meta: 0, Special: 1, Aptitude: 2, Personality: 3, Flavor: 4 <NEED TO CHANGE TO WORDS
     statModifiers: [{type:Number}],
+    amount: {type:Number},
   },
   {timestamps: true}
 )
