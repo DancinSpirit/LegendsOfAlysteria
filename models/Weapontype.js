@@ -7,8 +7,8 @@ const schema = new mongoose.Schema(
     defense: {type: Number},
     armorPenetration: {type: Number},
     directDamage: {type: Number},
-    passiveAbility: {type: mongoose.Schema.Types.ObjectId, ref: "PassiveAbility"},
-    specialAbility: {type: mongoose.Schema.Types.ObjectId, ref: "ActiveAbility"},
+    passiveAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Passiveability"}],
+    specialAbility: {type: mongoose.Schema.Types.ObjectId, ref: "Activeability"},
   },
   {timestamps: true}
 )

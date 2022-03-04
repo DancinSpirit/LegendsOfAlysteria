@@ -72,6 +72,7 @@ width: 50%;
 }
 .character-nav-button-unselected {
   background-color: var(--dark);
+  color: black;
 }
 #character-sheet {
   display: flex;
@@ -311,10 +312,9 @@ width: 50%;
   background-color: var(--highlight);
 }
 .character-super-title {
-  background-color: var(--background);
+  background-color: var(--darker);
   font-weight: bold;
   text-align: center;
-  border: solid 1px;
 }
 .combat-sheet, .basic-combat{
   height: 100%;
@@ -329,19 +329,27 @@ width: 50%;
   overflow-y: auto;
   background-color: #b7b7b7;
 }
+.combat-style-columns{
+  display: flex;
+}
 .combat-style-column {
   width: 50%;
 }
-.combat-style-box {
+.combat-style-box-left{
   margin-bottom: 10px;
-  margin-right: 10px;
+  margin-right: 5px;
+}
+.combat-style-box-right{
+  margin-bottom: 10px;
+  margin-left: 5px;
 }
 .combat-style-box-content {
   display: flex;
   flex-direction: row;
-  border-bottom: solid 1px;
-  border-left: solid 1px;
-  border-right: solid 1px;
+}
+.row{
+  display: flex;
+  background-color: var(--dark);
 }
 .combat-style-box-half {
   width: 50%;
@@ -406,13 +414,11 @@ width: 50%;
 .border-top-thick{
   border-top: solid 2px;
 }
-.reroll-section {
-  border-left: solid 1px;
-  border-bottom: solid 1px;
-  border-right: solid 1px;
-}
 .soft-border-right {
   border-right: dotted 1px;
+}
+.soft-border-left {
+  border-left: dotted 1px;
 }
 .soft-border-bottom {
   border-bottom: dotted 1px;
