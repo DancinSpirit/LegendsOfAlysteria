@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const trainableSchema = new mongoose.Schema(
     {
         trainingPoints: {type: Number},
-        type: {type: Number},
+        type: {type: String},
         prodigy: {type: Boolean}
     },
     {timestamps: true}

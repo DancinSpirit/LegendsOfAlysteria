@@ -44,5 +44,6 @@ module.exports = {
     Combatant: require("./Combatant"),
     Combatstyle: require("./Combatstyle"),
     Equipment: require("./Equipment"),
-    Fightingstyle: require("./Fightingstyle")
+    Fightingstyle: require("./Fightingstyle"),
+    Spiritpower: require("./Spiritpower")
 }

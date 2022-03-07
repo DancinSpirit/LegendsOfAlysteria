@@ -29,6 +29,9 @@ const loadState = async function(x, animation){
     if(states[x].includes("title")){
         deactivateAll();
     }
+    if(states[x].includes("contents")){
+        deactivateAll();
+    }
     if(states[x].includes("%3E")){
         states[x] = states[x].replace(/%3E/g, ">")
     }
@@ -134,6 +137,8 @@ const loadStates = async function(){
 }
 
 const deactivateButtons = function(){
+    $("#contents-tab").off("click")
+    $("#story-tab").off("click")
     $("#login-button").off("click")
     $("#register-button").off("click")
     $("#basic-sheet-button").off("click")
@@ -147,6 +152,7 @@ const deactivateButtons = function(){
     $("#settings-button").off("click");
     $("#top-arrow-box").off("click");
     $("#nav-title").off("click");
+    $("#gamemaster-tab").off("click");
 }
 
 const characterSheetButton = async function(type){
@@ -170,6 +176,41 @@ const characterSheetButton = async function(type){
 }
 
 const activateButtons = function(){
+    //IF YOU ADD ANYTHING HERE MAKE SURE TO ADD IT TO THE DEACTIVATE FUNCTION AS WELL! 
+    $("#contents-tab").on("click", async function(){
+        $("#gamemaster-tab").addClass("unselected");
+        $("#contents-tab").removeClass("unselected");
+        $("#story-tab").addClass("unselected")
+        continueEvent = false;
+        states = ["story","contents"];
+        deactivateButtons();
+        await loadState(1,"down");
+        activateButtons();
+    })
+    $("#story-tab").on("click", async function(){
+        $("#gamemaster-tab").addClass("unselected");
+        $("#story-tab").removeClass("unselected");
+        $("#contents-tab").addClass("unselected")
+        continueEvent = true;
+        states = ["story",window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]];
+        deactivateButtons();
+        await loadState(1,"down");
+        activateButtons();
+    })
+    $("#gamemaster-tab").on("click", async function(){
+        $("#gamemaster-tab").removeClass("unselected");
+        $("#story-tab").addClass("unselected");
+        $("#contents-tab").addClass("unselected")
+        continueEvent = true;
+        if(window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]=="event"){
+            states = ["story","gamemaster"]
+        }else{
+            states = ["story",window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]];
+        }
+        deactivateButtons();
+        await loadState(1,"down");
+        activateButtons();
+    })
     $("#login-button").on("click", async function(){
         if(states[1] != ["login"]){
             states = ["main","login"]

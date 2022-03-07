@@ -34,6 +34,7 @@ const schema = new mongoose.Schema(
     },
     knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledgetree"}],
     combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "Combatstyle"}],
+    spiritPowers: [{type: mongoose.Schema.Types.ObjectId, ref: "Spiritpower"}],
     colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
     informationLevels: [{player: {type: String}, level: {type: Number}, description: {type: String}, age:{type: String}}],
     combatSheet : {type: Boolean, default: false},
