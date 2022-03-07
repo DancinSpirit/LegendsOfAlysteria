@@ -175,6 +175,7 @@ const characterSheetButton = async function(type){
     }
 }
 
+
 const activateButtons = function(){
     //IF YOU ADD ANYTHING HERE MAKE SURE TO ADD IT TO THE DEACTIVATE FUNCTION AS WELL! 
     $("#contents-tab").on("click", async function(){
@@ -182,22 +183,54 @@ const activateButtons = function(){
         $("#contents-tab").removeClass("unselected");
         $("#story-tab").addClass("unselected")
         continueEvent = false;
-        states = ["story","contents"];
+        contentsActive = true;
+        try{
+            states = ["story","contents", "year>year="+currentYear];
+        }catch(e){
+            states = ["story","contents", "year>year=0"];
+        }
         deactivateButtons();
         await loadState(1,"down");
+        await loadState(2, "up");
         activateButtons();
+        if($("#left-arrow-box").hasClass("invisible")){
+            $("#left-arrow-box").removeClass("invisible");
+            invisibleArrow = true;
+        }
+        $("#left-arrow-box").on("click", async function(){
+            if(states[2].split("year>year=")[1]>0){
+                states[2] = "year>year="+(states[2].split("year>year=")[1]-1);
+                await loadState(2, "left")
+            }
+        })
+        $("#right-arrow-box").on("click", async function(){
+            if(states[2].split("year>year=")[1]<years.length-1){
+                states[2] = "year>year="+(states[2].split("year>year=")[1]+1);
+                await loadState(2, "right")
+            }
+        })
     })
     $("#story-tab").on("click", async function(){
+        contentsActive = false;
+        if(invisibleArrow){
+            $("#left-arrow-box").addClass("invisible");
+        }
         $("#gamemaster-tab").addClass("unselected");
         $("#story-tab").removeClass("unselected");
         $("#contents-tab").addClass("unselected")
         continueEvent = true;
         states = ["story",window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]];
         deactivateButtons();
+        $("#right-arrow-box").off("click")
+        $("#left-arrow-box").off("click")
         await loadState(1,"down");
         activateButtons();
     })
     $("#gamemaster-tab").on("click", async function(){
+        contentsActive = false;
+        if(invisibleArrow){
+            $("#left-arrow-box").addClass("invisible");
+        }
         $("#gamemaster-tab").removeClass("unselected");
         $("#story-tab").addClass("unselected");
         $("#contents-tab").addClass("unselected")
@@ -208,6 +241,8 @@ const activateButtons = function(){
             states = ["story",window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]];
         }
         deactivateButtons();
+        $("#right-arrow-box").off("click")
+        $("#left-arrow-box").off("click")
         await loadState(1,"down");
         activateButtons();
     })
@@ -291,6 +326,20 @@ const activateButtons = function(){
             settings = true;
             images = false;
         }else{
+            if(contentsActive){
+                $("#left-arrow-box").on("click", async function(){
+                    if(states[2].split("year>year=")[1]>0){
+                        states[2] = "year>year="+(states[2].split("year>year=")[1]-1);
+                        await loadState(2, "left")
+                    }
+                })
+                $("#right-arrow-box").on("click", async function(){
+                    if(states[2].split("year>year=")[1]<years.length-1){
+                        states[2] = "year>year="+(states[2].split("year>year=")[1]+1);
+                        await loadState(2, "right")
+                    }
+                })
+            }
             $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
@@ -332,6 +381,20 @@ const activateButtons = function(){
             images = true;
             settings = false;
         }else{
+            if(contentsActive){
+                $("#left-arrow-box").on("click", async function(){
+                    if(states[2].split("year>year=")[1]>0){
+                        states[2] = "year>year="+(states[2].split("year>year=")[1]-1);
+                        await loadState(2, "left")
+                    }
+                })
+                $("#right-arrow-box").on("click", async function(){
+                    if(states[2].split("year>year=")[1]<years.length-1){
+                        states[2] = "year>year="+(states[2].split("year>year=")[1]+1);
+                        await loadState(2, "right")
+                    }
+                })
+            }
             $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#cutaway-image-collection").css("transition",`${user.settings.pageSpeed}ms`);

@@ -8,6 +8,8 @@ let rounds;
 let players;
 let gridBoxes;
 let characterColors;
+let invisibleArrow = false;
+let contentsActive = false;
 
 let settings = false;
 let images = false;
