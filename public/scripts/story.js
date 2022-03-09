@@ -458,6 +458,16 @@ $("body").on("keypress", function (e) {
             if(continueEvent)
                 loadEvent();
     }
+    console.log("1?")
+})
+
+$("body").on("keydown", function (e){
+    if(e.keyCode == 37){
+        $("#left-arrow-box").click();
+    }
+    if(e.keyCode == 39){
+        $("#right-arrow-box").click();
+    }
 })
 
 /* window.addEventListener('contextmenu', function(e){

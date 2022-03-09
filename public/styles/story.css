@@ -25,6 +25,78 @@
     width: 100%;
   }
 
+  #year{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    text-align: center;
+  }
+
+  #sub-contents{
+    width:100%;
+  }
+
+  #year-divider{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    border-right: solid white 3px;
+  }
+
+  .season{
+    display: flex;
+    flex-direction: column;
+    width:25%;
+  }
+
+  .event-content{
+    padding: 10px;
+  }
+
+  #year-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    font-family: "Philosopher";
+    font-size: 30px;
+  }
+
+  .season{
+    font-family: "Philosopher";
+    font-size: 26px;
+    padding-top: 10px;
+    border-top: white solid 4px;
+    border-left: white solid 4px;
+    background-color: #2e2b28;
+    border-bottom: white solid 4px;
+  }
+
+  #season-title{
+    padding-bottom:10px;
+    border-bottom: solid 2px;
+  }
+
+  .region-phase{
+    border-bottom: solid 2px white;
+    padding-top: 10px;
+    font-size: 22px;
+  }
+
+  .ruler-phase{
+    border-bottom: solid 1px white;
+    border-top: solid 1px white;
+    margin-top: 10px;
+    padding-top: 10px;
+    font-size: 18px;
+    padding-bottom: 10px;
+  }
+
+  .event-content{
+    font-size: 15px;
+    padding-bottom: 0px;
+  }
+
   #settings-button{
     position: fixed;
     top:0px;

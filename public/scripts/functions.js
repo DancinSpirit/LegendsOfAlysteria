@@ -186,8 +186,10 @@ const activateButtons = function(){
         contentsActive = true;
         try{
             states = ["story","contents", "year>year="+currentYear];
+            data.push(data[0])
         }catch(e){
             states = ["story","contents", "year>year=0"];
+            data.push(data[0])
         }
         deactivateButtons();
         await loadState(1,"down");
@@ -470,6 +472,7 @@ const activateButtons = function(){
                 let event;
                 for(let x=0; x<years.length; x++){
                     for(let y=0; y<years[x].seasons.length; y++){
+                        console.log(years[x].seasons[y].regionPhases.length);
                         for(let z=0; z<years[x].seasons[y].regionPhases.length; z++){
                             for(let a=0; a<years[x].seasons[y].regionPhases[z].rulerPhases.length; a++){
                                 for(let b=0; b<years[x].seasons[y].regionPhases[z].rulerPhases[a].events.length; b++){
@@ -693,4 +696,15 @@ const playerLogout = function(){
         }
     }) 
     player = false;
+}
+
+const returnEventTitle = async function(id){
+    const event = await load(`/data/event/${id}`);
+    const title = event.title;
+    $(`#event-content-${id}`).text(title);
+}
+
+const loadColors = async function(name){
+    colors = await load("/colors/name/"+name);
+    $("."+name).css("background-color",colors.background);
 }

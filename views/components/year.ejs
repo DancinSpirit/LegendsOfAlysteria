@@ -1,5 +1,38 @@
+<script>
+    let colors;
+</script>
 <div id = "year">
-    <div>Year <%=year%></div>
+    <section id="year-top">
+        <p>Year <%=year%></p>
+    </section>
+    <section id="year-divider">
+        <%for(let x=0; x<years[year].seasons.length; x++){%>
+            <section class="season">
+                <p id="season-title"><%=years[year].seasons[x].name%></p>
+                <%for(let y=0; y<years[year].seasons[x].regionPhases.length; y++){%>
+                    <section class="region-phase">
+                        <%=years[year].seasons[x].regionPhases[y].name%>
+                        <%for(let z=0; z<years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){%>
+                            <section class="ruler-phase <%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replace(' ','-')%>">
+                                <%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name%>
+                                <%for(let a=0; a<years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){%>
+                                    <section id="event-content-<%=years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>"class="event-content">
+                                        <script>
+                                            returnEventTitle('<%=years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>');
+                                        </script>
+                                    </section>
+                                <%}%>
+                            </section>
+                            <script>
+                                console.log("<%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name%>")
+                                loadColors("<%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replace(' ','-')%>")
+                            </script>
+                        <%}%>
+                    </section>
+                <%}%>
+            </section>
+        <%}%>
+    </section>
 </div> 
 <div class = "height-box">
 

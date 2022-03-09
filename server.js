@@ -30,7 +30,6 @@ app.use(async function(req,res,next){
     if(req.session.currentUser){
         req.session.currentUser = await db.User.findById(req.session.currentUser._id);
         app.locals.game = await db.Game.findById('610705a3f252e8aec6989328')
-        console.log(app.locals.game)
         app.locals.user = req.session.currentUser;
     }else{
         app.locals.user = false;
@@ -38,7 +37,6 @@ app.use(async function(req,res,next){
     if(req.session.currentPlayer){
         req.session.currentPlayer = await db.Player.findById(req.session.currentPlayer._id);
         app.locals.player = req.session.currentPlayer;
-        console.log(app.locals.player)
     }else{
         app.locals.player = false;
     }
@@ -53,6 +51,13 @@ app.get("/", function(req,res){
 app.get("/data/:model/:id", async function(req,res){
     const data = await eval(`db.${req.params.model.charAt(0).toUpperCase() + req.params.model.slice(1)}.findById('${req.params.id}')`)
     res.send(data);
+})
+
+app.get("/colors/name/:characterName", async function(req,res){
+    const firstName = req.params.characterName.split("-")[0];
+    const lastName = req.params.characterName.split("-")[1];
+    const colors = await db.Characterinfo.findOne({firstName: firstName, lastName: lastName});
+    res.send(colors.colors);
 })
 
 /* Color Loading */
