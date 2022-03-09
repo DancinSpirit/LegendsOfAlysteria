@@ -32,8 +32,19 @@
     text-align: center;
   }
 
-  #sub-contents{
-    width:100%;
+  #sub-contents-container-container{
+    height: 100%;
+    width: 90vw;
+    overflow: hidden;
+  }
+  #sub-contents-container{
+    height: 200%;
+    width: 200%;
+    display: flex;
+  }
+  #sub-contents, #old-sub-contents{
+  height: 50%;
+  width: 50%;
   }
 
   #year-divider{
@@ -65,36 +76,53 @@
   .season{
     font-family: "Philosopher";
     font-size: 26px;
-    padding-top: 10px;
     border-top: white solid 4px;
     border-left: white solid 4px;
-    background-color: #2e2b28;
     border-bottom: white solid 4px;
   }
 
-  #season-title{
-    padding-bottom:10px;
+  .season-title{
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-bottom: solid 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #2b2b2b;
+    cursor:pointer;
+  }
+
+  .region-title, .ruler-title, .event-content{
+    cursor: pointer;
   }
 
   .region-phase{
     border-bottom: solid 2px white;
     padding-top: 10px;
     font-size: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #a1a1a1;
+    color: black;
   }
 
   .ruler-phase{
+    color: white;
     border-bottom: solid 1px white;
     border-top: solid 1px white;
     margin-top: 10px;
     padding-top: 10px;
     font-size: 18px;
     padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
   }
 
   .event-content{
     font-size: 15px;
     padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   #settings-button{

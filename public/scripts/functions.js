@@ -153,6 +153,10 @@ const deactivateButtons = function(){
     $("#top-arrow-box").off("click");
     $("#nav-title").off("click");
     $("#gamemaster-tab").off("click");
+    $(".season-title").off("click");
+    $(".region-title").off("click");
+    $(".ruler-title").off("click");
+    $(".event-content").off("click");
 }
 
 const characterSheetButton = async function(type){
@@ -175,8 +179,55 @@ const characterSheetButton = async function(type){
     }
 }
 
+const storyReturn = function(){
+    contentsActive = false;
+    if(invisibleArrow){
+        $("#left-arrow-box").addClass("invisible");
+    }
+    $("#gamemaster-tab").addClass("unselected");
+    $("#story-tab").removeClass("unselected");
+    $("#contents-tab").addClass("unselected")
+    continueEvent = true;
+}
 
 const activateButtons = function(){
+    $(".season-title").on("click", async function(){
+        states = ["story",`turn-title>currentTurn=${$(this).attr("id").split("|")[0]}>currentYear=${$(this).attr("id").split("|")[1]}>currentSeason=${$(this).attr("id").split("|")[2]}`]
+        data = [data[0],data[0]]
+        window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`turn-title>currentTurn=${$(this).attr("id").split("|")[0]}>currentYear=${$(this).attr("id").split("|")[1]}>currentSeason=${$(this).attr("id").split("|")[2]}`+`%7Cstory=${data[0].id}`));
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+        storyReturn();
+    })
+    $(".region-title").on("click", async function(){
+        states = ["story",`region-title>currentYear=${$(this).attr("id").split("|")[0]}>currentSeason=${$(this).attr("id").split("|")[1]}>region=${$(this).attr("id").split("|")[2]}`]
+        data = [data[0],data[0]]
+        window.history.pushState({states:states,data:data}, "Region Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`region-title>currentYear=${$(this).attr("id").split("|")[0]}>currentSeason=${$(this).attr("id").split("|")[1]}>region=${$(this).attr("id").split("|")[2]}`+`%7Cstory=${data[0].id}`));
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+        storyReturn();
+    })
+    $(".ruler-title").on("click", async function(){
+        states = ["story",`player-title>currentYear=${$(this).attr("id").split("|")[0]}>currentSeason=${$(this).attr("id").split("|")[1]}>region=${$(this).attr("id").split("|")[2]}>phase=${$(this).attr("id").split("|")[3]}`]
+        data = [data[0],data[0]]
+        window.history.pushState({states:states,data:data}, "Player Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`player-title>currentYear=${$(this).attr("id").split("|")[0]}>currentSeason=${$(this).attr("id").split("|")[1]}>region=${$(this).attr("id").split("|")[2]}>phase=${$(this).attr("id").split("|")[3]}`+`%7Cstory=${data[0].id}`));
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+        storyReturn();
+    })
+    $(".event-content").on("click", async function(){
+        states = ["story", "event"];
+        data = [data[0], {name: "Event", id: $(this).attr("id").split("-")[2]}]
+        console.log(data)
+        window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`event|event=${$(this).attr("id").split("-")[2]}`));
+        deactivateButtons();
+        await loadState(1);
+        activateButtons();
+        storyReturn();
+    })
     //IF YOU ADD ANYTHING HERE MAKE SURE TO ADD IT TO THE DEACTIVATE FUNCTION AS WELL! 
     $("#contents-tab").on("click", async function(){
         $("#gamemaster-tab").addClass("unselected");
@@ -193,7 +244,7 @@ const activateButtons = function(){
         }
         deactivateButtons();
         await loadState(1,"down");
-        await loadState(2, "up");
+        await loadState(2, "right");
         activateButtons();
         if($("#left-arrow-box").hasClass("invisible")){
             $("#left-arrow-box").removeClass("invisible");
@@ -207,24 +258,15 @@ const activateButtons = function(){
         })
         $("#right-arrow-box").on("click", async function(){
             if(states[2].split("year>year=")[1]<years.length-1){
-                states[2] = "year>year="+(states[2].split("year>year=")[1]+1);
+                states[2] = "year>year="+(parseInt(states[2].split("year>year=")[1])+1);
                 await loadState(2, "right")
             }
         })
     })
     $("#story-tab").on("click", async function(){
-        contentsActive = false;
-        if(invisibleArrow){
-            $("#left-arrow-box").addClass("invisible");
-        }
-        $("#gamemaster-tab").addClass("unselected");
-        $("#story-tab").removeClass("unselected");
-        $("#contents-tab").addClass("unselected")
-        continueEvent = true;
+        storyReturn();
         states = ["story",window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[0]];
         deactivateButtons();
-        $("#right-arrow-box").off("click")
-        $("#left-arrow-box").off("click")
         await loadState(1,"down");
         activateButtons();
     })
@@ -439,7 +481,7 @@ const activateButtons = function(){
                 let turnTitle = `turn-title>currentTurn=-3>currentYear=0>currentSeason=0`
                 states = ["story",turnTitle]
                 data = [data[0],data[0]]
-                window.history.pushState({states:states,data:data}, "Turn Title", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`))    
+                window.history.pushState({states:states,data:data}, "Turn Title", on.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`)    
                 }
             else if(states[1].includes("turn-title")){
                 let year = states[states.length-1].split(">")[2].split("=")[1];
@@ -502,7 +544,7 @@ const activateButtons = function(){
                                                         if(x<1){
                                                             turnNum = y-3;
                                                         }else{
-                                                            turnNum = (x*4)+y-2;
+                                                            turnNum = (x*4)+y-3;
                                                         }
                                                         console.log("???")
                                                         let turnTitle = `turn-title>currentTurn=${turnNum}>currentYear=${x}>currentSeason=${y}`

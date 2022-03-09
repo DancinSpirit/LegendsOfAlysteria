@@ -1,6 +1,3 @@
-<script>
-    let colors;
-</script>
 <div id = "year">
     <section id="year-top">
         <p>Year <%=year%></p>
@@ -8,13 +5,19 @@
     <section id="year-divider">
         <%for(let x=0; x<years[year].seasons.length; x++){%>
             <section class="season">
-                <p id="season-title"><%=years[year].seasons[x].name%></p>
+                <%let turnNum = 0;%>
+                <%if(year<1){%>
+                    <%turnNum = x-3;%>
+                <%}else{%>
+                    <%turnNum = (year*4)+x-3;%>
+                <%}%>
+                <p id="<%=turnNum%>|<%=year%>|<%=x%>|season" class="season-title"><%=years[year].seasons[x].name%></p>
                 <%for(let y=0; y<years[year].seasons[x].regionPhases.length; y++){%>
                     <section class="region-phase">
-                        <%=years[year].seasons[x].regionPhases[y].name%>
+                        <p id="<%=year%>|<%=x%>|<%=y%>|region" class="region-title"><%=years[year].seasons[x].regionPhases[y].name%></p>
                         <%for(let z=0; z<years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){%>
                             <section class="ruler-phase <%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replace(' ','-')%>">
-                                <%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name%>
+                                <p id="<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%=years[year].seasons[x].regionPhases[y].rulerPhases[z].name%></p>
                                 <%for(let a=0; a<years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){%>
                                     <section id="event-content-<%=years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>"class="event-content">
                                         <script>

@@ -10,6 +10,7 @@ let gridBoxes;
 let characterColors;
 let invisibleArrow = false;
 let contentsActive = false;
+let colors;
 
 let settings = false;
 let images = false;
@@ -67,6 +68,8 @@ $("html").on("click", function(){
 loadStates();
 
 window.addEventListener('popstate',async function(event){
+    if(contentsActive)
+    storyReturn();
     $("#settings").css("visibility","hidden");
     $("#settings-button").css("visibility","hidden");
     deactivateButtons();
