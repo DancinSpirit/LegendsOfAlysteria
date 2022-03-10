@@ -237,10 +237,10 @@ const activateButtons = function(){
         contentsActive = true;
         try{
             states = ["story","contents", "year>year="+currentYear];
-            data.push(data[0])
+            data[2] = data[0]
         }catch(e){
             states = ["story","contents", "year>year=0"];
-            data.push(data[0])
+            data[2] = data[0]
         }
         deactivateButtons();
         await loadState(1,"down");
@@ -253,13 +253,13 @@ const activateButtons = function(){
         $("#left-arrow-box").on("click", async function(){
             if(states[2].split("year>year=")[1]>0){
                 states[2] = "year>year="+(states[2].split("year>year=")[1]-1);
-                await loadState(2, "left")
+                await loadState(2, "right")
             }
         })
         $("#right-arrow-box").on("click", async function(){
             if(states[2].split("year>year=")[1]<years.length-1){
                 states[2] = "year>year="+(parseInt(states[2].split("year>year=")[1])+1);
-                await loadState(2, "right")
+                await loadState(2, "left")
             }
         })
     })
@@ -481,7 +481,7 @@ const activateButtons = function(){
                 let turnTitle = `turn-title>currentTurn=-3>currentYear=0>currentSeason=0`
                 states = ["story",turnTitle]
                 data = [data[0],data[0]]
-                window.history.pushState({states:states,data:data}, "Turn Title", on.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`)    
+                window.history.pushState({states:states,data:data}, "Turn Title", window .location.href.split("/")[window.location.href.split("/").length-1],turnTitle + `|story=${window.location.href.split("/")[window.location.href.split("/").length-1].split("%7C")[1].split("=")[1]}`)    
                 }
             else if(states[1].includes("turn-title")){
                 let year = states[states.length-1].split(">")[2].split("=")[1];

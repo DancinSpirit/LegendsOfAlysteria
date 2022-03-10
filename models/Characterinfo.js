@@ -17,6 +17,7 @@ const schema = new mongoose.Schema(
     savings: {type: Number},
     salary: {type: Number},
     lifestyle: {type: Number},
+    race: {type: String},
     stats: [{
       name: {type: String},
       priorityStat: {type: Boolean},
@@ -33,16 +34,115 @@ const schema = new mongoose.Schema(
       combatAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}],
     },
     knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledgetree"}],
+    //combatStyles need to be ordered strongest first
     combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "Combatstyle"}],
     spiritPowers: [{type: mongoose.Schema.Types.ObjectId, ref: "Spiritpower"}],
     colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
     informationLevels: [{player: {type: String}, level: {type: Number}, description: {type: String}, age:{type: String}}],
     combatSheet : {type: Boolean, default: false},
     spiritSheet: {type: Boolean, default: false},
-    heroSheet: {type: Boolean, default: false}
+    heroSheet: {type: Boolean, default: false},
+    //trait variables are below
+    hardy: {type: Boolean, default: false}
   },
   {timestamps: true}
 )
+
+schema.methods.combatValue = function combatValue(){
+  let value = this.baseAthletics();
+  for(let x=0; x<this.combatStyles.length; x++){
+    console.log(this.combatStyles[x])
+    value += (this.combatStyles[x].weaponStyle.totalSkillModifier()/(x+1))
+  }
+  return value;
+}
+
+schema.methods.combatRank = function combatRank(){
+  let value = this.combatValue();
+  if(value<-9){
+    return "Useless"
+  }
+  if(value<1){
+    return "Almost Useless"
+  }
+  if(value<10){
+    return "Beginner"
+  }
+  if(value<20){
+    return "Rookie"
+  }
+  if(value<40){
+    return "Experienced"
+  }
+  if(value<70){
+    return "Skilled"
+  }
+  if(value<100){
+    return "Expert"
+  }
+  if(value<150){
+    return "Elite"
+  }
+  if(value<200){
+    return "Masterful"
+  }
+  if(value<300){
+    return "Legendary"
+  }
+  else{
+    return "Mythical"
+  }
+}
+
+schema.methods.baseHealth = function baseHealth(){
+  let health = 0;
+  if(this.race=="Human"){
+    health = 50;
+  }
+  let rank = this.combatRank();
+  if(rank=="Useless"){
+    health = health/2;
+  }
+  if(rank=="Almost Useless"){
+    health = health*.8;
+  }
+  if(rank=="Beginner"){
+    health = health*.9;
+  }
+  if(rank=="Rookie"){
+    health = health;
+  }
+  if(rank=="Experienced"){
+    health=health*1.1;
+  }
+  if(rank=="Skilled"){
+    health=health*1.2;
+  }
+  if(rank=="Expert"){
+    health=health*1.3;
+  }
+  if(rank=="Elite"){
+    health=health*1.5;
+  }
+  if(rank=="Masterful"){
+    health=health*2;
+  }
+  if(rank=="Legendary"){
+    health=health*3;
+  }
+  if(rank=="Mythical"){
+    health=health*5;
+  }
+  return parseInt(health);
+}
+
+schema.methods.health = function health(){
+  let health = this.baseHealth();
+  if(this.hardy){
+    health=health*1.1;
+  }
+  return parseInt(health);
+}
 
 schema.methods.longestStat = function longestStat(){
   diceLength = 0;
