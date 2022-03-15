@@ -54,8 +54,15 @@ app.get("/data/:model/:id", async function(req,res){
 })
 
 app.get("/colors/name/:characterName", async function(req,res){
-    const firstName = req.params.characterName.split("-")[0];
-    const lastName = req.params.characterName.split("-")[1];
+    characterName = req.params.characterName.replace(",","");
+    const firstName = characterName.split("-")[0];
+    console.log("-"+firstName+"-")
+    let lastName;
+    if(characterName.split("-").length>1)
+    lastName = characterName.replace(firstName+"-","").replaceAll("-"," ");
+    else
+     lastName = characterName.split("-")[1];
+    console.log("-"+lastName+"-")
     const colors = await db.Characterinfo.findOne({firstName: firstName, lastName: lastName});
     res.send(colors.colors);
 })
@@ -74,10 +81,10 @@ app.post("/component/:component", async function(req,res){
         if(req.params.component.toLowerCase()=="basic-sheet"){
             model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate('traits.metaTrait traits.flavorTraits traits.specialTraits traits.personalityTraits traits.aptitudeTraits traits.combatAbilities').populate({path:'knowledgeTrees',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',populate:{path:'info knowledgeTree',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge',populate:{path: 'info'}}}}})`)
         }else if(req.params.component.toLowerCase()=="combat-styles-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles',populate: {path:'character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
+            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles spiritPowers',populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
             console.log("TEST: " + model.combatStyles)
         }else if(req.params.component.toLowerCase()=="basic-combat-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles',populate: {path:'character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
+            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles spiritPowers',populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
         }else{
             model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
         }

@@ -747,6 +747,68 @@ const returnEventTitle = async function(id){
 }
 
 const loadColors = async function(name){
+    if(name.includes("Malcador")){
+        name.replace("Malcador","Malcador,")
+    }
+    console.log(name)
     colors = await load("/colors/name/"+name);
     $("."+name).css("background-color",colors.background);
+}
+
+const expandRegion = function(thisButton){
+    $(thisButton).children(".fa-arrow-left-rotate").removeClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").addClass("invisible");
+    $(".region-section").addClass("invisible");
+    $("#"+$(thisButton).attr("id")+"-region").removeClass("invisible");
+    $(".region-phase").css("flex-direction","row");
+    $(".ruler-phase").css("width", "calc(25% - 10px)");
+    $(".ruler-phase").css("margin-left", "5px");
+    $(".ruler-phase").css("margin-right", "5px");
+    $(".region-button").off("click");
+    $(".region-button").on("click", function(){
+        minimizeRegion(this)
+    })
+}
+
+const expandSeason = function(thisButton){
+    $(thisButton).children(".fa-arrow-left-rotate").removeClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").addClass("invisible");
+    $(".season").addClass("invisible");
+    $("#"+$(thisButton).attr("id")+"-season").removeClass("invisible");
+    $(".region-container").css("flex-direction","row");
+    $(".region-title").css("border-bottom","none");
+    $(".region-title").css("padding-bottom","0px");
+    $("#"+$(thisButton).attr("id")+"-season").css("width","100%");
+    $(".region-button").removeClass("invisible");
+    $(".expand-button").off("click");
+    $(".expand-button").on("click", function(){
+        minimizeSeason(this)
+    })
+}
+const minimizeSeason = function(thisButton){
+    $(".season").removeClass("invisible");
+    $(thisButton).children(".fa-arrow-left-rotate").addClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").removeClass("invisible");
+    $(".region-container").css("flex-direction","column");
+    $(".region-title").css("border-bottom","solid white 2px");
+    $(".region-title").css("padding-bottom","10px");
+    $("#"+$(thisButton).attr("id")+"-season").css("width","25%");
+    $(".region-button").addClass("invisible");
+    $(".expand-button").off("click");
+    $(".expand-button").on("click", function(){
+        expandSeason(this)
+    })
+}
+const minimizeRegion = function(thisButton){
+    $(".region-section").removeClass("invisible");
+    $(thisButton).children(".fa-arrow-left-rotate").addClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").removeClass("invisible");
+    $(".region-phase").css("flex-direction","column");
+    $(".ruler-phase").css("width", "auto");
+    $(".ruler-phase").css("margin-left", "0px");
+    $(".ruler-phase").css("margin-right", "0px");
+    $(".region-button").off("click");
+    $(".region-button").on("click", function(){
+        expandRegion(this)
+    })
 }

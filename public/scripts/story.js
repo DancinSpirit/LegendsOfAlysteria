@@ -216,6 +216,7 @@ const loadText = async function(sentText){
     }else if(sentText.includes("[LOAD]")){
         $("#choice").empty();
         $("#choice").css("color","black");
+        //[LOAD]EJS NAME|MODEL NAME|MODEL ID|CHARACTER ID (FOR COLORS)
         ctrlButton = false;
         enterButton = false;
         const component = await load(`/component/${sentText.split("[LOAD]")[1].split("|")[0]}`,{model:{name:sentText.split("[LOAD]")[1].split("|")[1],id:sentText.split("[LOAD]")[1].split("|")[2]}});
@@ -338,14 +339,21 @@ const playSound = function(url){
     let sound = document.getElementById(url.replace(/\s+/g, '-'));
     console.log(sound);
     sound.volume = user.settings.soundVolume;
-    sound.play();
+    return new Promise(res=>{
+        sound.play()
+        sound.onended = res
+    })
 }
 
 const loadMusic = async function(url){
     continueEvent = false;
+    song.onended = function(){};
     let repeat = true;
     if(url.startsWith("[NO REPEAT]")){
         url = url.split("[NO REPEAT]")[1];
+        repeat = false;
+    }
+    if(url.includes("Intro")){
         repeat = false;
     }
     return new Promise((resolve) =>{
@@ -375,6 +383,11 @@ const loadMusic = async function(url){
                 song = document.getElementById(url.replace(/\s+/g, '-'));
                 console.log(song);
                 song.volume = user.settings.musicVolume;
+                if($(song).attr("id").includes("Intro")){
+                    song.onended = function(){
+                        loadMusic($(song).attr("id").replace("-Intro","").replaceAll("-"," "))
+                    }
+                }
                 let played = song.play();
                 if(played !== undefined){
                     played.then(_ =>{
@@ -469,8 +482,8 @@ $("body").on("keydown", function (e){
         $("#right-arrow-box").click();
     }
 })
-
-/* window.addEventListener('contextmenu', function(e){
+if(!user.gamemaster){
+ window.addEventListener('contextmenu', function(e){
     e.preventDefault();
     if(screen){
         $("#title-box-event").css("visibility","hidden");
@@ -483,4 +496,5 @@ $("body").on("keydown", function (e){
         $("#settings-button").css("visibility","visible");
         screen = true;
     }
-}) */
+}) 
+}

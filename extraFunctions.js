@@ -91,7 +91,7 @@ const loadEvents = async function(startingStory, resultingStory, years, seasons,
 const loadRegion = async function(startingStory, resultingStory, years, seasons, regions){
     const story1 = await db.Story.findById(startingStory);
     const story2 = await db.Story.findById(resultingStory);
-    story2.years[years].seasons[seasons].regionPhases.push(story1.years[years].seasons[seasons].regionPhases[regions]);
+    story2.years[years].seasons[seasons].regionPhases[regions].rulerPhases = story1.years[years].seasons[seasons].regionPhases[regions].rulerPhases;
     story2.save();
 }
 const transferCharacterInfo = async function(startingCharacter, resultingCharacter, field){
@@ -108,6 +108,6 @@ const transferNewInfo = async function(){
     story.save();
 }
 
-transferNewInfo();
+loadRegion("60fc38755a0fefba9f554f3e","613914ffd4d10a12926304cd",0,3,1)
 
 

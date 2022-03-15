@@ -332,6 +332,7 @@ width: 50%;
   width: 100%;
   overflow-y: auto;
   background-color: #b7b7b7;
+  font-size:12px;
 }
 .combat-style-columns{
   display: flex;
@@ -450,6 +451,7 @@ width: 50%;
   font-size: 20px;
   font-family: 'Jura';
   background: var(--background);
+  font-size:14px;
 }
 
 #advanced-stats{
@@ -473,9 +475,10 @@ width: 50%;
   flex-direction: column;
   height: 100%;
   width: 30%;
+  background-color: var(--background);
 }
 
-#basic-stats{
+.basic-stats{
   display: flex;
   flex-direction: row;
 }
@@ -495,4 +498,5 @@ width: 50%;
   width:10%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }

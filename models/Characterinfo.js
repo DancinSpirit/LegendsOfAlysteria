@@ -42,16 +42,13 @@ const schema = new mongoose.Schema(
     combatSheet : {type: Boolean, default: false},
     spiritSheet: {type: Boolean, default: false},
     heroSheet: {type: Boolean, default: false},
-    //trait variables are below
-    hardy: {type: Boolean, default: false}
   },
   {timestamps: true}
 )
 
 schema.methods.combatValue = function combatValue(){
-  let value = this.baseAthletics();
+  let value = this.baseStat(0);
   for(let x=0; x<this.combatStyles.length; x++){
-    console.log(this.combatStyles[x])
     value += (this.combatStyles[x].weaponStyle.totalSkillModifier()/(x+1))
   }
   return value;
@@ -138,10 +135,34 @@ schema.methods.baseHealth = function baseHealth(){
 
 schema.methods.health = function health(){
   let health = this.baseHealth();
-  if(this.hardy){
+  let hardy = false;
+  for(let x=0; x<this.traits.specialTraits.length; x++){
+    if(this.traits.specialTraits[x].name=="Hardy"){
+      hardy = true;
+    }
+  }
+  if(hardy){
     health=health*1.1;
   }
   return parseInt(health);
+}
+
+schema.methods.baseStamina = function baseStamina(){
+  return this.combatValue();
+}
+
+schema.methods.stamina = function stamina(){
+  let staminaValue = this.baseStamina();
+  let fightingSpirit = false;
+  for(let x=0; x<this.spiritPowers.length; x++){
+    if(this.spiritPowers[x].name=="Fighting Spirit"){
+      fightingSpirit = this.spiritPowers[x];
+    }
+  }
+  if(fightingSpirit){
+    staminaValue = parseInt(staminaValue*fightingSpirit.FSstaminaMod());
+  }
+  return staminaValue;
 }
 
 schema.methods.longestStat = function longestStat(){

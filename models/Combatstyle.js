@@ -13,6 +13,46 @@ const schema = new mongoose.Schema(
   {timestamps: true}
 )
 
+schema.methods.attackMods = function attackMods(){
+  modValue = 0;
+  for(let x=0; x<this.character.traits.specialTraits.length; x++){
+    if(this.character.traits.specialTraits[x].name=="Brutish Strength"){
+      modValue += 5;
+    }
+  }
+  return modValue;
+}
+
+schema.methods.attack = function attack(){
+  let attackValue = this.weaponStyle.totalSkillModifier();
+  for(let x=0; x<this.character.traits.specialTraits.length; x++){
+    if(this.character.traits.specialTraits[x].name=="Brutish Strength"){
+      attackValue += 5;
+    }
+  }
+  return attackValue;
+}
+
+schema.methods.defenseMods = function defenseMods(){
+  modValue = 0;
+  for(let x=0; x<this.character.traits.specialTraits.length; x++){
+    if(this.character.traits.specialTraits[x].name=="Brutish Strength"){
+      modValue += 5;
+    }
+  }
+  return modValue;
+}
+
+schema.methods.defense = function defense(){
+  let defenseValue = this.weaponStyle.totalSkillModifier();
+  for(let x=0; x<this.character.traits.specialTraits.length; x++){
+    if(this.character.traits.specialTraits[x].name=="Brutish Strength"){
+      defenseValue += 5;
+    }
+  }
+  return defenseValue;
+}
+
 schema.methods.rerolls = function rerolls(){
   let rerollList = [];
   for(let x=0; x<this.fightingStyles.length; x++){
@@ -248,6 +288,54 @@ schema.methods.weightModifier = function weightModifier(){
   }
   if(this.weightclass()=="Very Heavy"){
     return -20
+  }
+}
+
+schema.methods.weightStamina = function weightStamina(){
+  if(this.weightClass()=="Impossibly Light"){
+    return .25
+  }
+  if(this.weightClass()=="Incredibly Light"){
+    return .5
+  }
+  if(this.weightClass()=="Very Light"){
+    return .75
+  }
+  if(this.weightClass()=="Light"){
+    return 1
+  }
+  if(this.weightClass()=="Medium"){
+    return 1.5
+  }
+  if(this.weightClass()=="Heavy"){
+    return 2
+  }
+  if(this.weightclass()=="Very Heavy"){
+    return 4
+  }
+}
+
+schema.methods.weightMovement = function weightMovement(){
+  if(this.weightClass()=="Impossibly Light"){
+    return 4
+  }
+  if(this.weightClass()=="Incredibly Light"){
+    return 2
+  }
+  if(this.weightClass()=="Very Light"){
+    return 1.5
+  }
+  if(this.weightClass()=="Light"){
+    return 1
+  }
+  if(this.weightClass()=="Medium"){
+    return .75
+  }
+  if(this.weightClass()=="Heavy"){
+    return .5
+  }
+  if(this.weightclass()=="Very Heavy"){
+    return .25
   }
 }
 

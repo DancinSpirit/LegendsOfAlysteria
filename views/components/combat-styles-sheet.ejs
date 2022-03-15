@@ -426,12 +426,20 @@
                                             <%=combatStyles[x].weaponStyle.totalSkillModifier()%>
                                         </section>
                                     </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Modifiers:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=combatStyles[x].attackMods()%>
+                                        </section>
+                                    </section>
                                     <section class = "combat-style-content-row highlight ">
                                         <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
                                             Total Attack:
                                         </section>
                                         <section class = "character-box-section combat-row-half border-bottom">
-                                            <%=combatStyles[x].weaponStyle.totalSkillModifier()%>
+                                            <%=combatStyles[x].attack()%>
                                         </section>
                                     </section>
                                     <section class = "border-left character-box-title character-box-section fighting-style-name">
@@ -445,12 +453,20 @@
                                             <%=combatStyles[x].weaponStyle.totalSkillModifier()%>
                                         </section>
                                     </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Modifiers:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=combatStyles[x].defenseMods()%>
+                                        </section>
+                                    </section>
                                     <section class = "combat-style-content-row highlight ">
                                         <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
                                             Total Defense:
                                         </section>
                                         <section class = "character-box-section combat-row-half border-bottom">
-                                            <%=combatStyles[x].weaponStyle.totalSkillModifier()%>
+                                            <%=combatStyles[x].defense()%>
                                         </section>
                                     </section>
                                     <section class = "border-left character-box-title character-box-section fighting-style-name">
@@ -574,12 +590,28 @@
                                             <%=combatStyles[x].weightClass()%>
                                         </section>
                                     </section>
-                                    <section class = "combat-style-content-row highlight border-bottom">
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
                                         <section class = "soft-border-right character-box-section combat-row-half">
-                                            Weight Modifier
+                                            Combat Modifier
                                         </section>
                                         <section class = "character-box-section combat-row-half border-right-thick">
                                             <%=combatStyles[x].weightModifier()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Stamina Modifier
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=combatStyles[x].weightStamina()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Movement Modifier
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=combatStyles[x].weightMovement()%>
                                         </section>
                                     </section>
                                     <section class = "character-box-title character-box-section fighting-style-name border-right-thick">
