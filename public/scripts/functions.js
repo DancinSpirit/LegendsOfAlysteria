@@ -70,9 +70,13 @@ const loadState = async function(x, animation){
         }
     }
     if(states[x].includes("event")){
+        $("#sub-base").css("transition","100ms");
+        $("#sub-base").css("background-color","transparent");
         activateEventClick();
     }
     if(states[x].includes("title")){
+        $("#sub-base").css("transition","100ms");
+        $("#sub-base").css("background-color","transparent");
         activateTitleClick();
     }
     if(states.length==2)
@@ -198,6 +202,7 @@ const activateButtons = function(){
         deactivateButtons();
         await loadState(1);
         activateButtons();
+        invisibleArrow = false;
         storyReturn();
     })
     $(".region-title").on("click", async function(){
@@ -207,6 +212,7 @@ const activateButtons = function(){
         deactivateButtons();
         await loadState(1);
         activateButtons();
+        invisibleArrow = false;
         storyReturn();
     })
     $(".ruler-title").on("click", async function(){
@@ -216,6 +222,7 @@ const activateButtons = function(){
         deactivateButtons();
         await loadState(1);
         activateButtons();
+        invisibleArrow = false;
         storyReturn();
     })
     $(".event-content").on("click", async function(){
@@ -226,6 +233,7 @@ const activateButtons = function(){
         deactivateButtons();
         await loadState(1);
         activateButtons();
+        invisibleArrow = false;
         storyReturn();
     })
     //IF YOU ADD ANYTHING HERE MAKE SURE TO ADD IT TO THE DEACTIVATE FUNCTION AS WELL! 

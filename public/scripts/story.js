@@ -180,6 +180,12 @@ const loadText = async function(sentText){
         $("#sub-base").css("transition","100ms");
         $("#sub-base").css("background-color","transparent");
         loadEvent();
+    }else if(sentText.startsWith("[FADE TO BLACK]")){
+        console.log("EHTGHKLEHGEGEGHEIGHEIOGHEIg")
+        textLine = false;
+        $("#sub-base").css("transition","5000ms");
+        $("#sub-base").css("background-color","black");
+        loadEvent();
     }else if(sentText.startsWith("[SLOW FADE TO BLACK]")){
         textLine = false;
         $("#sub-base").css("transition","25000ms");
