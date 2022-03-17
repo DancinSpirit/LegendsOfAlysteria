@@ -26,7 +26,7 @@ const countWords = async function(){
     return wordCount;
 }
 const approximatePercentage = async function(){
-    return (await countWords()/154311)*100 + "%";
+    return (await countWords()/(154311+11934))*100 + "%";
 }
 
 const returnCounts = async function(){
@@ -107,7 +107,5 @@ const transferNewInfo = async function(){
     story.years[0].seasons[3].regionPhases.splice(1,1);
     story.save();
 }
-
-loadRegion("60fc38755a0fefba9f554f3e","613914ffd4d10a12926304cd",0,3,1)
 
 

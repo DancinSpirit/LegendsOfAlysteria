@@ -72,6 +72,19 @@ const loadText = async function(sentText){
         textLine = false;
         playSound(sentText.split("[SOUND EFFECT]")[1]);
         loadEvent();
+    }else if(sentText.startsWith("[RECEDING]")){
+        sentText = sentText.replace("[RECEDING]","");
+            text1 = sentText.split("[RECEDE]")[0];
+            text2 = sentText.split("[RECEDE]")[1];
+            text3 = sentText.split("[RECEDE]")[2];
+            text4 = sentText.split("[RECEDE]")[3];
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='receded-1' id="boxtext-${index}-2"></span><span class='receded-2' id="boxtext-${index}-3"></span><span class='receded-3' id="boxtext-${index}-4"></span></p>`);
+        await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}}, true);
+        await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 1, {text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+        await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1, {text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+        await typeWriter("", 0, text4,index,`#boxtext-${index}-4`, 1);
+        loadClickSignifier();
     }else if(sentText.startsWith("[DUCHY]")){
         console.log("HM?")
         textLine = false;
@@ -421,7 +434,7 @@ const deactivateAll = function(){
     deactivateEventClick();
 }
 
-const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod, otherText) {
+const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod, otherText, receding) {
     return new Promise((resolve) =>{
         if (i < txt.length) {
             returnChar = txt.charAt(i);
@@ -447,6 +460,9 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
                     }
                     if(otherText.text3){
                         $(otherText.text3.id).text(otherText.text3.text);
+                    }
+                    if(otherText.text4){
+                        $(otherText.text4.id).text(otherText.text4.text);
                     }
                 }
                 $(`#boxtext-${sentIndex}`).css("height",`${$(`#height-check-${sentIndex}`).outerHeight(true)}px`)  

@@ -870,7 +870,17 @@
   animation: fa-blink 1.5s linear infinite;
   }
 
-    
+  
+  .receded-1{
+    font-size:15px;
+  }
+  .receded-2{
+    font-size:13px;
+  }
+  .receded-3{
+    font-size:11px;
+  }
+
   .big-boy{
     padding: 0;
   }
