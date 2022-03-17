@@ -1,7 +1,11 @@
 @font-face {
     font-family: 'Corsiva';
     src: url(/fonts/Corsiva.ttf);
-  }
+}
+@font-face{
+    font-family: 'Ork';
+    src: url(/fonts/Ork.ttf);
+}
 
 * {
     margin: 0;

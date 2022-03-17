@@ -870,6 +870,11 @@
   animation: fa-blink 1.5s linear infinite;
   }
 
+  .ork{
+    color: green;
+    font-size:25px;
+    font-family: "Ork";
+  }
   
   .receded-1{
     font-size:15px;

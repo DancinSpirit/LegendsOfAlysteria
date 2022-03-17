@@ -212,6 +212,27 @@ const loadText = async function(sentText){
             await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
             loadClickSignifier();
         }
+    }else if(sentText.includes("[ORK]")){
+        if(sentText.startsWith("[ORK]")){
+            sentText = sentText.replace("[ORK]","");
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext ork' style="height: ${$(`#height-check-${index}`).height()+36}px"></p>`);
+            await typeWriter("", 0, sentText,index,`#boxtext-${index}`, 20);
+            loadClickSignifier();
+        }else{
+            sentText = sentText.replace("[]","");
+            text1 = sentText.split("[ORK]")[0] + " ";
+            console.log(text1);
+            text2 = sentText.split("[ORK]")[1];
+            text3 = sentText.split("[ORK]")[2];
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='ork' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+            console.log($(`#boxtext-${index}`))
+            await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
+            loadClickSignifier();
+        }
     }else if(sentText.includes("[SHADOWS]")){
         if(sentText.startsWith("[SHADOWS]")){
             sentText = sentText.replace("[SHADOWS]","");
