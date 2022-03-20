@@ -695,11 +695,19 @@ const activateButtons = function(){
                 }
             }
             else if(states[1].includes("to-be-continued")){
+                try{
                 let seasons = years[years.length-1].seasons;
                 let regionPhases = seasons[seasons.length-1].regionPhases;
                 let rulerPhases = regionPhases[regionPhases.length-1].rulerPhases;
                 let events = rulerPhases[rulerPhases.length-1].events;
                 let event = events[events.length-1];
+                }catch(e){
+                let seasons = years[years.length-1].seasons;
+                let regionPhases = seasons[0].regionPhases;
+                let rulerPhases = regionPhases[regionPhases.length-1].rulerPhases;
+                let events = rulerPhases[rulerPhases.length-1].events;
+                let event = events[events.length-1];
+                }
                 states = ["story", "event"];
                 data = [data[0],{name: "Event", id: event}]
                 window.history.pushState({states:states,data:data}, "Event", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `event|event=${event}`))
