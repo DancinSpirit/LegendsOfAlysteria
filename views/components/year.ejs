@@ -41,6 +41,19 @@
                 </section>
             </section>
         <%}%>
+        <%for(let x=0; x<4-years[year].seasons.length; x++){%>
+            <section class="season fake">
+                <p class="season-title fake" style="padding-bottom: 10px; border-bottom: solid white 2px;">Yet To Be Written</p>
+                <section class="region-phase fake">
+                    <section class="ruler-phase fake" style="background-color: #2b2b2b;">
+                        <p class="ruler-title fake">Yet To Be Written</p>
+                            <section class="event-content fake">
+                                Yet To Be Written
+                            </section>
+                    </section>
+                </section>
+            </section>
+        <%}%>
     </section>
 </div> 
 <script>
@@ -50,6 +63,9 @@
         $(".region-button").on("click", function(){
         expandRegion(this)
     })
+    if(years[<%=year%>].seasons.length==1){
+        $(".expand-button").click();
+    }
 </script>
 <div class = "height-box">
 

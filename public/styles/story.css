@@ -54,12 +54,6 @@
     border-right: solid white 3px;
   }
 
-  .season{
-    display: flex;
-    flex-direction: column;
-    width:25%;
-  }
-
   .event-content{
     padding: 10px;
   }
@@ -74,6 +68,9 @@
   }
 
   .season{
+    display: flex;
+    flex-direction: column;
+    width:25%;
     font-family: "Philosopher";
     font-size: 26px;
     border-top: white solid 4px;
