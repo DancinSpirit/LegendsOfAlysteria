@@ -471,6 +471,7 @@ const activateButtons = function(){
     })
     $("#right-arrow-box").on("click", async function(){
         if(continueEvent){
+            try{
             deactivateButtons();
             if(states.includes("main-title")){
                 if(data[0].id == "613914ffd4d10a12926304cd"){
@@ -580,6 +581,11 @@ const activateButtons = function(){
                     }
                 }
             }
+        }catch(e){
+            states = ["story", "to-be-continued"];
+            data = [data[0],data[0]];
+            window.history.pushState({states:states,data:data}, "To Be Continued", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1], `to-be-continued|story=${window.location.href.split("/")[3].split("%7C")[1].split("=")[1]}`))                              
+        }
             await loadState(1,"left");
             activateButtons();
         }
