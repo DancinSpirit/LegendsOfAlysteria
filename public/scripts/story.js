@@ -539,7 +539,7 @@ $("body").on("keydown", function (e) {
 })
 
 $("body").on("keypress", function (e) {
-    if (e.keyCode == 13) {
+    if (e.keyCode == 13 || e.keyCode == 32) {
         if(ctrlButton)
             if(continueEvent)
                 loadEvent();
