@@ -74,10 +74,10 @@ const loadText = async function(sentText){
         loadEvent();
     }else if(sentText.startsWith("[ONOMATOPOEIA]")){
         playSound(sentText.split("[ONOMATOPOEIA]")[1]);
-        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText.remove("[ONOMATOPOEIA]")}</p>`);
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText.replace("[ONOMATOPOEIA]","")}</p>`);
         $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
         $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
-        await typeWriter("", 0, "<i>" + sentText.remove("[ONOMATOPOEIA]") + "</i>", index, `#boxtext-${index}`, 1) 
+        await typeWriter("", 0, "<i>" + sentText.replace("[ONOMATOPOEIA]","") + "</i>", index, `#boxtext-${index}`, 1) 
         loadClickSignifier();
     }else if(sentText.startsWith("[RECEDING]")){
         sentText = sentText.replace("[RECEDING]","");
