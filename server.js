@@ -88,6 +88,8 @@ app.post("/component/:component", async function(req,res){
         }else{
             model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
         }
+    }else if(req.body.data){
+        model = req.body.data;
     }
     if(req.params.component.includes(">")){
         url = `components/${req.params.component.split(">")[0].toLowerCase()}`;

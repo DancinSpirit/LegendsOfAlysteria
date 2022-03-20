@@ -72,6 +72,13 @@ const loadText = async function(sentText){
         textLine = false;
         playSound(sentText.split("[SOUND EFFECT]")[1]);
         loadEvent();
+    }else if(sentText.startsWith("[ONOMATOPOEIA]")){
+        playSound(sentText.split("[ONOMATOPOEIA]")[1]);
+        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText.remove("[ONOMATOPOEIA]")}</p>`);
+        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
+        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+        await typeWriter("", 0, "<i>" + sentText.remove("[ONOMATOPOEIA]") + "</i>", index, `#boxtext-${index}`, 1) 
+        loadClickSignifier();
     }else if(sentText.startsWith("[RECEDING]")){
         sentText = sentText.replace("[RECEDING]","");
             text1 = sentText.split("[RECEDE]")[0];
@@ -146,6 +153,7 @@ const loadText = async function(sentText){
             loadEvent();
         })
     }else if(sentText.startsWith("[PLAYER ACTION]")){
+        //[PLAYER ACTION]Description|Title|NUMofOPTIONS|{OPTIONS WITH CHOSEN OPTION HAVING [CHOSEN]}
         $("#choice").empty();
         $("#choice").css("color","white");
         $("#choice-container").css("border-color","white");
@@ -253,6 +261,28 @@ const loadText = async function(sentText){
             await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
             loadClickSignifier();
         }
+    }else if(sentText.startsWith("[REWARD]")){
+        $("#choice").empty();
+        $("#choice").css("color","black");
+        ctrlButton = false;
+        enterButton = false;
+        const component = await load(`/component/rewards`,{data:{name:sentText.split("[REWARD]")[1].split("|")[0],rewards:sentText.split("[REWARD]")[1].split("|")[1]}});
+        const characterColors = await load(`/colors/${sentText.split("[REWARD]")[1].split("|")[2]}`);
+        console.log(characterColors);
+        document.documentElement.style.setProperty('--light', characterColors.light);
+        document.documentElement.style.setProperty('--dark', characterColors.dark);
+        document.documentElement.style.setProperty('--darker', characterColors.darker);
+        document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+        document.documentElement.style.setProperty('--background', characterColors.background);
+        console.log(component);
+        $("#choice").append(component);
+        $("#choice").append(`<p class='continue-button'>Continue</p>`);
+        $(".continue-button").on("click",function(){
+            $("#choice-container").css("display","none");
+            ctrlButton = true;
+            enterButton = true;
+        })
+        $("#choice-container").css("display","flex");
     }else if(sentText.includes("[LOAD]")){
         $("#choice").empty();
         $("#choice").css("color","black");
