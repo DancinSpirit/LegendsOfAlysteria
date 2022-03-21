@@ -5,12 +5,20 @@ let ctrlButton = true;
 let enterButton = true;
 let continueEvent = true;
 let screen = true;
+let pageNum = 1;
+let typing = false;
+let typeInterrupt = false;
 
 const activateEventClick = function(){
     $("#player-box").on("click", async function(){
         click = true;
-        if(continueEvent)
-            await loadEvent();
+        if(typing){
+            typing = false;
+            typeInterrupt = true;
+        }else{
+            if(continueEvent)
+                await loadEvent();  
+        }
     })
 }
 const deactivateEventClick = function(){
@@ -19,9 +27,12 @@ const deactivateEventClick = function(){
 }
 
 const loadEvent = async function(){
+    typing = false;
+    typeInterrupt = false;
     if(index<text.length-1){
         index++;
         if(index==-1){
+            pageNum = 1;
             click = false;
             $(".big-boy").css("transition","1000ms");
             $("#title-box-event").css("transition","1000ms");
@@ -38,7 +49,6 @@ const loadEvent = async function(){
         }
     }else{
         index++;
-        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
     }
 }
 
@@ -49,13 +59,37 @@ const loadText = async function(sentText){
         await loadBackground(sentText.split("[BACKGROUND IMAGE]")[1]);
         loadEvent();
     }else if(sentText.startsWith("[PHILOSOPHER]")){
+        sentText = sentText.replace("[PHILOSOPHER]","");
         textLine = false;
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext philosopher'>${sentText.replace("[PHILOSOPHER]","")}</p>`);
-        loadClickSignifier();
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            newPage(eventId);
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+            $(`#boxtext-${index}`).addClass("philosopher")
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext philosopher'>${sentText.replace("[PHILOSOPHER]","")}</p>`);
+            loadClickSignifier($(`#event-${eventId}`));
+        }
     }else if(sentText.startsWith("[INDIE FLOWER]")){
+        sentText = sentText.replace("[INDIE FLOWER]","");
         textLine = false;
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext indie-flower'>${sentText.replace("[INDIE FLOWER]","")}</p>`);
-        loadClickSignifier();
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            pageCheck(eventId, index, sentText);
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+            $(`#boxtext-${index}`).addClass("indie-flower")
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext indie-flower'>${sentText}</p>`);
+            loadClickSignifier($(`#event-${eventId}`));
+        }
     }else if(sentText.startsWith("[SCENE TRANSITION]")){
         textLine = false;
         await loadBackground("/images/" + sentText.split("[SCENE TRANSITION]")[1]+".jpg");
@@ -74,24 +108,60 @@ const loadText = async function(sentText){
         loadEvent();
     }else if(sentText.startsWith("[ONOMATOPOEIA]")){
         playSound(sentText.split("[ONOMATOPOEIA]")[1]);
-        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText.replace("[ONOMATOPOEIA]","")}</p>`);
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
-        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
-        await typeWriter("", 0, "<i>" + sentText.replace("[ONOMATOPOEIA]","") + "</i>", index, `#boxtext-${index}`, 1) 
-        loadClickSignifier();
+        sentText = sentText.replace("[ONOMATOPOEIA]","");
+        sentText = "<i>" + sentText + "</i>";
+        textLine = false;
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            pageCheck(eventId, index, sentText);
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext'>${sentText}</p>`);
+            loadClickSignifier($(`#event-${eventId}`));
+        }
     }else if(sentText.startsWith("[RECEDING]")){
+        
         sentText = sentText.replace("[RECEDING]","");
             text1 = sentText.split("[RECEDE]")[0];
             text2 = sentText.split("[RECEDE]")[1];
             text3 = sentText.split("[RECEDE]")[2];
             text4 = sentText.split("[RECEDE]")[3];
-        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='receded-1' id="boxtext-${index}-2"></span><span class='receded-2' id="boxtext-${index}-3"></span><span class='receded-3' id="boxtext-${index}-4"></span></p>`);
-        await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}}, true);
-        await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 1, {text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}},true);
-        await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1, {text4:{id:`#boxtext-${index}-4`,text:text4}},true);
-        await typeWriter("", 0, text4,index,`#boxtext-${index}-4`, 1);
-        loadClickSignifier();
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            pageCheck(eventId, index, sentText);
+            console.log("HELLO?" + pageNum);
+            $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).height()+36}px" class='boxtext'><span id="boxtext-${index}-1"></span><span class='receded-1' id="boxtext-${index}-2"></span><span class='receded-2' id="boxtext-${index}-3"></span><span class='receded-3' id="boxtext-${index}-4"></span></p>`);
+            if(!user.settings.pageScroll)
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+            else
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}}, true);
+            await typeWriter(`#page-${pageNum}`,"", 0, text2,index,`#boxtext-${index}-2`, 1, {text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+            await typeWriter(`#page-${pageNum}`,"", 0, text3,index,`#boxtext-${index}-3`, 1, {text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+            await typeWriter(`#page-${pageNum}`,"", 0, text4,index,`#boxtext-${index}-4`, 1);
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            console.log()
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).height()+36}px" class='boxtext'><span id="boxtext-${index}-1"></span><span class='shadows' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+            if(!user.settings.pageScroll)
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+            else
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+            typing = true;
+            await typeWriter(`#event-${eventId}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}}, true);
+            await typeWriter(`#event-${eventId}`,"", 0, text2,index,`#boxtext-${index}-2`, 1, {text3:{id:`#boxtext-${index}-3`,text:text3},text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+            await typeWriter(`#event-${eventId}`,"", 0, text3,index,`#boxtext-${index}-3`, 1, {text4:{id:`#boxtext-${index}-4`,text:text4}},true);
+            await typeWriter(`#event-${eventId}`,"", 0, text4,index,`#boxtext-${index}-4`, 1);
+            typing = false;
+            loadClickSignifier($(`#event-${eventId}`));
+        }
     }else if(sentText.startsWith("[DUCHY]")){
         console.log("HM?")
         textLine = false;
@@ -332,7 +402,11 @@ const loadText = async function(sentText){
         player.background = "eventPlayer";
         $("head").append($(`<link id="character-style" rel='stylesheet' type='text/css'/>`).attr('href',`/styles/character.css`))
         characterInfo = await load("/component/character",{model:{name:"Characterinfo",id:sentText.split("|")[2]},basicTrue: sentText.split("|")[3],statTrue: sentText.split("|")[4],combatTrue: sentText.split("|")[5],spiritTrue: sentText.split("|")[6]})
-        $(`#event-${eventId}`).append(characterInfo);
+        if(user.settings.pageScroll){
+            $(`#page-${pageNum}`).append(characterInfo);
+        }else{
+            $(`#event-${eventId}`).append(characterInfo);
+        }
         document.documentElement.style.setProperty('--light', characterColors.light);
         document.documentElement.style.setProperty('--dark', characterColors.dark);
         document.documentElement.style.setProperty('--darker', characterColors.darker);
@@ -357,33 +431,87 @@ const loadText = async function(sentText){
         loadState(3);
         activateButtons();
         loadEvent();
+        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
     }else if(sentText.startsWith("[CORSIVA]")){
         sentText = sentText.replace("[CORSIVA]","");
-        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext corsiva">${sentText}</p>`);
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
-        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
-        $(`#boxtext-${index}`).addClass("corsiva");
-        await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1) 
-        loadClickSignifier();    
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            pageCheck(eventId, index, sentText);
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+            $(`#boxtext-${index}`).addClass("corsiva")
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext corsiva'>${sentText.replace("[PHILOSOPHER]","")}</p>`);
+            loadClickSignifier($(`#event-${eventId}`));
+        }  
     }else{
-        $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
-        $(`#event-${eventId}`).append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
-        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
-        await typeWriter("", 0, sentText, index, `#boxtext-${index}`, 1) 
-        loadClickSignifier();
+        if(user.settings.pageScroll){
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            pageCheck(eventId, index, sentText);
+            console.log("HELLO?" + pageNum);
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+            typing = true;
+            await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#page-${pageNum}`));
+        }else{
+            $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+            console.log()
+            createText($(`#event-${eventId}`),eventId,index,sentText);
+            typing = true;
+            await typeWriter(`#event-${eventId}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 
+            typing = false;
+            loadClickSignifier($(`#event-${eventId}`));
+        }
     }
 }
 
-const loadClickSignifier = function(){
+const pageCheck = function(eventId){
+    let pageHeight = 0;
+    for(let x=0; x<$(`#page-${pageNum}`).children().length; x++){
+        if($($(`#page-${pageNum}`).children()[x]).hasClass("big-boy")){
+
+        }else{
+            pageHeight = pageHeight+$($(`#page-${pageNum}`).children()[x]).height()+20;
+        }
+    }
+    pageHeight = pageHeight+$(`#height-check-${index}`).height()+20+36;
+    if(pageHeight>$("#player-box").height()){
+        newPage(eventId);
+    }
+}
+
+const newPage = function(eventId){
+    $(".big-boy").css("transition","0ms");
+    $("#title-box-event").css("transition","0ms");
+    $(`#page-${pageNum}`).css("height","auto");
+    pageNum++;
+    console.log(pageNum);
+    $(`#event-${eventId}`).append(`<section id="page-${pageNum}" class = 'page'></section>`)
+}
+
+const createText = function($appendBox, eventId,index,sentText){
+    $appendBox.append(`<p id="boxtext-${index}" style="height: ${$(`#height-check-${index}`).outerHeight(true)+36}px" class="boxtext"></p>`);
+    if(!user.settings.pageScroll)
+    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+    else
+    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+}
+
+const loadClickSignifier = function($appendBox){
     if(index<text.length-1){ 
-        $(`#boxtext-${index}`).css("height",`${$(`#height-check-${index}`).outerHeight(true)}px`)  
-        console.log(index)
-        console.log(text.length)
-        $(`#event-${eventId}`).append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
-        $("#click-signifier").css("justify-content","left")
-        $("#click-signifier").css("padding-left","25px");
-        $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
-        $(".boxtext").css("height","auto")
+            $(`#boxtext-${index}`).css("height",`${$(`#height-check-${index}`).outerHeight(true)}px`)  
+            $appendBox.append("<div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>")
+            $("#click-signifier").css("justify-content","left")
+            $("#click-signifier").css("padding-left","25px");
+            if(!user.settings.pageScroll)
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+            else
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+            $(".boxtext").css("height","auto")
     }
 }
 
@@ -491,7 +619,7 @@ const deactivateAll = function(){
     deactivateEventClick();
 }
 
-const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod, otherText, receding) {
+const typeWriter = async function(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText) {
     return new Promise((resolve) =>{
         if (i < txt.length) {
             returnChar = txt.charAt(i);
@@ -509,8 +637,8 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
         if(i==txt.length){
             resolve();
         }else{
-            let timeout = setTimeout(function(){typeWriter(returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
-            if(index!=sentIndex){
+            let timeout = setTimeout(function(){typeWriter(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
+            if(index!=sentIndex||typeInterrupt==true){
                 if(otherText){
                     if(otherText.text2){
                         $(otherText.text2.id).text(otherText.text2.text);
@@ -525,6 +653,8 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
                 $(`#boxtext-${sentIndex}`).css("height",`${$(`#height-check-${sentIndex}`).outerHeight(true)}px`)  
                 $(id).html(txt) 
                 clearTimeout(timeout);
+                typeInterrupt = false;
+                loadClickSignifier($(appendBox));
             }
         }
     })
@@ -533,16 +663,14 @@ const typeWriter = async function(returnString, i, txt, sentIndex, id, speedMod,
 $("body").on("keydown", function (e) {
     if (e.keyCode == 17) {
         if(enterButton)
-            if(continueEvent)
-                loadEvent();
+            $("#player-box").click()
     }
 })
 
 $("body").on("keypress", function (e) {
     if (e.keyCode == 13 || e.keyCode == 32) {
         if(ctrlButton)
-            if(continueEvent)
-                loadEvent();
+            $("#player-box").click();
     }
     console.log("1?")
 })

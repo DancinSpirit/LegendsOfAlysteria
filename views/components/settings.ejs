@@ -23,11 +23,20 @@
             <input type="range" min="0" max="50" value="<%=(user.settings.soundVolume*100)%>" class="slider" id="soundVolume-slider">
         </form>
     </div>
+    <div class="setting">
+        Use Page Scrolling?
+        <form class="checkbox-form" id="pageScroll">
+            <input type="checkbox" value="pageScroll" class="checkbox" id="pageScroll-checkbox")>
+        </form>
+    </div>
     <div id="testSound" class = "clickable menu-item setting">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
 </section>
 <script>
+    if(user.settings.pageScroll){
+        $("#pageScroll-checkbox").attr('checked', 'checked');
+    }
     if(typeof story != "undefined"){
         $("#settings").addClass("external");
         $("#settings").addClass("invisible");
@@ -85,6 +94,23 @@
             success: (res)=>{
             }
         }) 
+    })
+    $("#pageScroll-checkbox").on("change", async function(){
+        if(this.checked){
+            user.settings.pageScroll = true; 
+        }else{
+            user.settings.pageScroll = false;
+        }
+        $.ajax({
+            method: "POST",
+            url: `/update/user/${user._id}`,
+            data: user,
+            success: (res)=>{
+            }
+        })
+        $("#settings-button").on("click", function(){
+            loadState(1);
+        })
     })
     $("#testSound").on("click", function(){
         playSound("Test Sound")

@@ -815,6 +815,24 @@
   font-family: 'Arial';
 }
 
+.page{
+  height: 100%;
+}
+
+.setting{
+  padding: 10px;
+}
+
+.checkbox-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox{
+  margin-top: 5px;
+}
+
 .event-box{
   height: 100%;
   width: 100%;

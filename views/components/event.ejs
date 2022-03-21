@@ -1,17 +1,23 @@
 <div id = "event-<%=id%>" class="event-box">
-    <p class="boxtext big-boy big-boy-event"></p>
-    <div id="title-box-event">
-        <p class="boxtext eventType">~ <%=type%> ~</p>
-        <p class="boxtext title"><%=title%></p>
-        <%if(type=="Original CHF Event"){%>
-            <p class="boxtext nick-subtitle"><%=subtitle%></p>
-            <p class="boxtext nick"> - Written by Nick Nienberg - </p> 
-        <%}else{%>
-            <p class="boxtext subtitle"><%=subtitle%></p>
-        <%}%>
-        <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
-    </div>
-    <p id="big-boy-2" class="boxtext big-boy big-boy-event"></p>
+    <%if(user.settings.pageScroll){%>
+    <section id="page-1" class="page">
+    <%}%>
+        <p class="boxtext big-boy big-boy-event"></p>
+        <div id="title-box-event">
+            <p class="boxtext eventType">~ <%=type%> ~</p>
+            <p class="boxtext title"><%=title%></p>
+            <%if(type=="Original CHF Event"){%>
+                <p class="boxtext nick-subtitle"><%=subtitle%></p>
+                <p class="boxtext nick"> - Written by Nick Nienberg - </p> 
+            <%}else{%>
+                <p class="boxtext subtitle"><%=subtitle%></p>
+            <%}%>
+            <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
+        </div>
+        <p id="big-boy-2" class="boxtext big-boy big-boy-event"></p>
+    <%if(user.settings.pageScroll){%>
+    </section>
+    <%}%>
 </div> 
 <div id = "event-<%=id%>-height-box" class = "height-box">
 

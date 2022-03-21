@@ -12,7 +12,8 @@ const schema = new mongoose.Schema(
       textSpeed: {type: Number},
       pageSpeed: {type: Number},
       musicVolume: {type: Number},
-      soundVolume: {type: Number}
+      soundVolume: {type: Number},
+      pageScroll: {type: Boolean, default: true}
     }
   },
   {timestamps: true}
