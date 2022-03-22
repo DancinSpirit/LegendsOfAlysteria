@@ -381,6 +381,7 @@ const activateButtons = function(){
     $("#settings-button").on("click", async function(){
         deactivateButtons();
         if(!settings){
+            $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`)
             $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
@@ -388,7 +389,7 @@ const activateButtons = function(){
             $("#top-arrow-box").children('i').removeClass("fa-chevron-down");
             $("#top-arrow-box").children('i').addClass("fa-chevron-up");
             $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`);
-            $("#top-arrow-box").css("transform","translateY(0)");
+            $("#top-arrow-box").css("transform","translateY(100vh)");
             $("#cutaway-image-collection").css("transform","translateY(100%)");
             $("#top-section").css("transform","translateY(100vh)");
             $("#main-story-section").css("transform","translateY(100vh)");
@@ -397,6 +398,7 @@ const activateButtons = function(){
                 $("#top-section").css("transition","0ms");
                 $("#main-story-section").css("transition","0ms");
                 $("#settings").css("transition","0ms");
+                $("#top-arrow-box").css("transition",`0ms`);
             },1100)
             settings = true;
             images = false;
@@ -415,6 +417,8 @@ const activateButtons = function(){
                     }
                 })
             }
+            $("#top-arrow-box").css("transition",`${user.settings.pageSpeed}ms`);
+            $("#top-arrow-box").css("transform","translateY(0)");
             $("#top-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#main-story-section").css("transition",`${user.settings.pageSpeed}ms`);
             $("#settings").css("transition",`${user.settings.pageSpeed}ms`);
@@ -423,6 +427,7 @@ const activateButtons = function(){
             $("#settings").css("transform","translateY(-120%)");
             $("#cutaway-image-collection").css("transform","translateY(0)");
             setTimeout(function(){
+                $("#top-arrow-box").css("transition",`0ms`);
                 $("#top-section").css("transition","0ms");
                 $("#main-story-section").css("transition","0ms");
                 $("#settings").css("transition","0ms");
