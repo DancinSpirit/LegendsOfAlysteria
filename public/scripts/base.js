@@ -34,7 +34,6 @@ window.history.replaceState({states:states,data:data}, "Starting Page", window.l
 const authCheck = function(){
     if(!user){
         if(states[1] != "register" && states[1] != "login"){
-            console.log("HM?")
             window.location.replace("/main/login");
         }
         user = {settings: {pageSpeed: 1000}}

@@ -36,7 +36,13 @@ const loadState = async function(x, animation){
         states[x] = states[x].replace(/%3E/g, ">")
     }
     $(`style-${x}`).remove();
-    $("head").append($(`<link id='style-${x}' rel='stylesheet' type='text/css'/>`).attr('href',`/styles/${states[x]}.css`))
+    console.log(states[x]);
+    if(states[x].includes("battle>")){
+        $("head").append($(`<link id='style-${x}' rel='stylesheet' type='text/css'/>`).attr('href',`/styles/battle.css`))
+        states[x]=states[x].replace("%20"," ");
+    }else{
+        $("head").append($(`<link id='style-${x}' rel='stylesheet' type='text/css'/>`).attr('href',`/styles/${states[x]}.css`))
+    }
     let component;
     console.log(data[x]);
     if(!jQuery.isEmptyObject(data[x])){

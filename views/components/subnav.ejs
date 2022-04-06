@@ -3,6 +3,7 @@
         <button class="slide-button">This Bar Will Have Functionality In The Future!</button>
         <%if(player.name == "Game Master"){%>
             <button class="slide-button clickable" id="characters-button">Character List</button>
+            <button class="slide-button clickable" id="battle-button">Battler</button>
         <%}%>
 <!--         <button class="slide-button clickable" id="characters-button">
             Characters
@@ -28,5 +29,14 @@
             await loadState(1);
             activateButtons();
         }
+    })
+    $("#battle-button").on("click", async function(){
+            states = ["main","battle"];
+            data = [data[0],{name:"Battle",id: "612c2f723a5b77bbf8f79f1e"}];
+            window.history.pushState({states:states,data:data}, "Battler", `/main/battle>currentPlayer=${player.name}|Battle=${data[1].id}`);
+            deactivateButtons();
+            $("#sub-nav").css("display","none");
+            await loadState(1);
+            activateButtons();
     })
 </script>

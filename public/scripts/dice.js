@@ -17,6 +17,7 @@ class Dice{
         this.rollString = "";
         this.customRollList = [];
         this.latestResult = 0;
+        this.latestList = [];
     }
 
     addModifier(modifier){
@@ -56,12 +57,14 @@ class Dice{
     }
 
     natRoll(){
-        return Math.floor(Math.random()*100) + 1;
+        let roll = Math.floor(Math.random()*100) + 1;
+        this.latestList = [roll];
+        return roll;
     }
 
     reroll(){
         if(this.customRollList.length){
-            this.nautralRoll = customRollList.splice(0,1)[0];
+            this.naturalRoll = this.customRollList.splice(0,1)[0];
         }else{
             this.naturalRoll = this.natRoll();
         }
@@ -114,7 +117,11 @@ class Dice{
             this.nextLine += "1";
             this.printLine();
             this.nextLine = "Crit Fail " + this.critFails + ": ";
-            this.naturalRoll = this.natRoll();
+            if(this.customRollList.length){
+                this.naturalRoll = this.customRollList.splice(0,1)[0];
+            }else{
+                this.naturalRoll = this.natRoll();
+            }
         }
         if(this.naturalRoll==100){
             this.critSuccesses++;
@@ -123,7 +130,12 @@ class Dice{
             this.nextLine += "100";
             this.printLine();
             this.nextLine = "Crit Success " + this.critSuccesses + ": ";
-            this.naturalRoll = this.natRoll();
+            console.log(this.customRollList)
+            if(this.customRollList.length){
+                this.naturalRoll = this.customRollList.splice(0,1)[0];
+            }else{
+                this.naturalRoll = this.natRoll();
+            }
         }
     }
 
@@ -144,7 +156,20 @@ class Dice{
     }
 
     roll(){
+        this.latestList = [];
         this.naturalRoll = this.natRoll();
+        let roll = this.rollCalc();
+        let finalResult = this.critCalc(roll);
+        this.latestResult = finalResult;
+        let returnString = this.rollString;
+        this.reset();
+        return returnString.replace("<br>","");
+    }
+
+    customRollFull(list){
+        this.latestList = [];
+        this.customRollList = list;
+        this.naturalRoll = this.customRollList.splice(0,1)[0];
         let roll = this.rollCalc();
         let finalResult = this.critCalc(roll);
         this.latestResult = finalResult;
@@ -155,7 +180,7 @@ class Dice{
 
     customRoll(list){
         this.customRollList = list;
-        this.nautralRoll = this.customRollList.splice(0,1)[0];
+        this.naturalRoll = this.customRollList.splice(0,1)[0];
         let roll = this.rollCalc();
         let finalResult = this.critCalc(roll);
         this.reset();
