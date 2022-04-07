@@ -1,10 +1,31 @@
+const socket = io();
 let additionalModifiersCount = 0;
 let deletedModifiersCount = 0;
 let initiativeScores = [];
 let roundCount = 0;
-let declaredActions = [];
 let playerCombatantActionCount = 0;
 let playerCombatantTotal;
+let battleId = window.location.href.split("Battle=")[1];
+
+/* Socket Booleans */
+let waitingOnActions = false;
+
+/* Socket Recievers */
+socket.on('declareActionsUpdate', function (battle, round, actions) {
+    if(battle == battleId){
+        let actionsExist = false;
+        for(let x=0; x<actions.length; x++){
+            if(rounds[round].declaredActions[actions[x].index]){
+                actionsExist = true;
+            }
+            rounds[round].declaredActions[actions[x].index] = actions[x].action;
+        }
+        if(waitingOnActions &&!actionsExist){
+            $("#start-battle-button").css("display","none");
+            resolveActionPhase();
+        }
+    }
+})
 
 const loadCombatants = async function(){
     for(let x=0; x<combatants.length; x++){
@@ -34,26 +55,38 @@ $("#start-battle-button").on("click", async function(){
 })
 
 const rollInitiative = async function(){
-    let roll;
-    loadBattleText("Roll Initative!")
-    for(let x=0; x<combatants.length; x++){
-        loadBattleText("Roll Initiative for " + combatants[x].name + "!")
-        $("#battle-text").append($(`<p id="additional-modifiers-text" class='battle-text-line'>Additional Modifiers:</p>`))
-        let modifiers = await requestModifiers();
-        console.log(modifiers);
-        for(let y=0; y<modifiers.length; y++){
-            combatants[x].dice.addModifier(modifiers[y]);
+    if(currentPlayer=="Game Master"){
+        let roll;
+        let modifiersList = [];
+        let rollsList = [];
+        loadBattleText("Roll Initative!")
+        for(let x=0; x<combatants.length; x++){
+            loadBattleText("Roll Initiative for " + combatants[x].name + "!")
+            $("#battle-text").append($(`<p id="additional-modifiers-text" class='battle-text-line'>Additional Modifiers:</p>`))
+            let modifiers = await requestModifiers();
+            modifiersList.push(modifiers);
+            console.log(modifiers);
+            for(let y=0; y<modifiers.length; y++){
+                combatants[x].dice.addModifier(modifiers[y]);
+            }
+            console.log(combatants[x]);
+            roll = combatants[x].dice.roll()
+            loadBattleText(roll)
+            combatants[x].initiativeScore = combatants[x].dice.latestResult;
+            rollsList.push(combatnts[x].dice.latestList);
+            initiativeScores.push(combatants[x].initiativeScore)
         }
-        console.log(combatants[x]);
-        roll = combatants[x].dice.roll()
-        loadBattleText(roll)
-        combatants[x].initiativeScore = combatants[x].dice.latestResult;
-        initiativeScores.push(combatants[x].initiativeScore)
-    }
-    quickSort(initiativeScores,0,initiativeScores.length-1,combatants);
-    loadBattleText("Action Order:")
-    for(let x=0; x<combatants.length; x++){
-        loadBattleText(combatants[x].name);
+        socket.emit("updateInitiative",{modifers: modifiersList, rolls: rollsList})
+        quickSort(initiativeScores,0,initiativeScores.length-1,combatants);
+        loadBattleText("Action Order:")
+        for(let x=0; x<combatants.length; x++){
+            loadBattleText(combatants[x].name);
+        }
+    }else{
+        $("#start-battle-button").text("Waiting for Game Master...");
+        $("#start-battle-button").css("cursor","default");
+        $("#start-battle-button").css("display","flex");
+        waitingForInitiative = true;
     }
 }
 
@@ -95,9 +128,11 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
             storedMove.type = type;
             event.preventDefault();
             loadBattleText(`${activeUnit.name} will move to ${letterConvert(z)}${a}!`);
+            let indicies = [];
             for(let x=0; x<combatants.length; x++){
                 if(activeUnit.name == combatants[x].name){
-                    declaredActions[x] = {thisBox: this, activeBox: activeBox, activeUnit: activeUnit};
+                    declaredActions[x] = {thisBox: $(this).attr("id"), activeBox: activeBox.attr("id"), activeUnit: activeUnit};
+                    indicies.push(x);
                     playerCombatantActionCount++;
                     if(playerCombatantActionCount==playerCombatantTotal){
                         $("#start-battle-button").off("click");
@@ -107,6 +142,11 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
                             //deactivateAllCombatants();
                             $("#start-battle-button").css("display","none");
                             $("#declare-actions").remove();
+                            let recentlyDeclaredActions = [];
+                            for(let y=0; y<indicies.length; y++){
+                                recentlyDeclaredActions.push({index: indicies[y], action: declaredActions[indicies[y]]});
+                            }
+                            socket.emit("declareActionsUpdate",battleId, roundCount, recentlyDeclaredActions)
                             declaredActionsCheck();
                         })
                     }
@@ -119,8 +159,21 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
 }
 
 const declaredActionsCheck = function(){
-    //THIS IS WHERE YOU ACTIVATE THE BOOLEAN TO ACTIVATE SOCKET.IO FUNCTION TO ACTUALLY PROGRESS
-    //ALSO CHECK FOR ALREADY EXISTANT DECLARED ACTIONS
+    actionCount = 0;
+    for(let x=0; x<declaredActions.length; x++){
+        if(declaredActions[x]){
+            actionCount++;
+        }
+    }
+    if(actionCount==combatants.length){
+        resolveActionPhase();
+    }else{
+        $("#start-battle-button").text("Waiting For Other Players/Game Master...")
+        $("#start-battle-button").css("display","flex");
+        $("#start-battle-button").css("cursor","default")
+        waitingOnActions = true;
+    }
+
 }
 
 const updateUnit = function(unit){
@@ -344,20 +397,34 @@ const declareActions = function(playerCombatants){
 
 const declareActionPhase = async function(player){
     let playerNum;
+    let declaredActionsAlready = false;
     for(let x=0; x<players.length; x++){
         if(players[x].name == player){
             playerNum = x;
         }
     }
-    loadBattleText("Action Phase!");
-    for(let x=0; x<players[playerNum].combatants.length; x++){
-        $("#battle-text").append($(`<p id="declare-actions" class='battle-text-line clickable'>${players[playerNum].name}: Declare Actions</p>`))
-        await declareActions(players[playerNum].combatants);
+    for(let x=0; x<combatants.length; x++){
+        for(let y=0; y<players[playerNum].combatants.length; y++){
+            if(combatants[x].name==players[playerNum].combatants[y]){
+                if(declaredActions[x]){
+                    declaredActionsAlready = true;
+                }
+            }
+        }
+    }
+    if(!declaredActionsAlready){
+        loadBattleText("Action Phase!");
+        for(let x=0; x<players[playerNum].combatants.length; x++){
+            $("#battle-text").append($(`<p id="declare-actions" class='battle-text-line clickable'>${players[playerNum].name}: Declare Actions</p>`))
+            await declareActions(players[playerNum].combatants);
+        }  
+    }else{
+        declaredActionsCheck();
     }
 }
 
 const resolveActionPhase = async function(){
-    for(let x=0; x<declaredActions.length; x++){
+    /*     for(let x=0; x<declaredActions.length; x++){
         for(let y=0; y<declaredActions[x].length; y++){
             //The below code is bad, needs to be changed
             $(this).html($(activeBox).html());
@@ -375,7 +442,8 @@ const resolveActionPhase = async function(){
             activateCombatantInfo(activeUnit);
             updateUnit(activeUnit);
         }
-    }
+    } */
+    console.log("RESOLVED!");
 }
 
 const nextRound = function(){

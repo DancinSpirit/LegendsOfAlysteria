@@ -2,6 +2,8 @@ const express = require("express");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 const db = require("./models");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -182,6 +184,27 @@ app.post("/playerlogout", async function(req,res){
     return res.send(false);
 })
 
-app.listen(PORT, function(){
+io.on('connection', (socket) => {
+    socket.on('declareActionsUpdate', async function(battle, round, actions){
+        let battleDB = await db.Battle.findById(battle)
+        for(let x=0; x<actions.length; x++){
+            battleDB.rounds[round].declaredActions[actions[x].index] = actions[x].action;
+        }
+        battleDB.save();
+        battleDB.markModified('declaredActions');
+        console.log(battleDB);
+        io.emit('declareActionsUpdate', battle, round, actions);
+    })
+    socket.on('updateInitiative', async function(battle, init){
+        let battleDB = await db.Battle.findById(battle)
+        //battle.rounds[0] etc. stuff
+        battleDB.save();
+        battleDB.markModified('rounds');
+        io.emit('updateInitiative', battle, init);
+    })
+    console.log('User Connected!');
+});
+
+http.listen(PORT, function(){
     console.log(`Live at http://localhost:${PORT}/`);
 })
