@@ -300,16 +300,30 @@ const loadText = async function(sentText){
         }else{
             sentText = sentText.replace("[]","");
             text1 = sentText.split("[ORK]")[0] + " ";
-            console.log(text1);
             text2 = sentText.split("[ORK]")[1];
             text3 = sentText.split("[ORK]")[2];
+            if(user.settings.pageScroll){
+                $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+                pageCheck(eventId, index, sentText);
+                $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='ork' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+                $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+                typing = true;
+                await typeWriter(`#page-${pageNum}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+                await typeWriter(`#page-${pageNum}`,"", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+                await typeWriter(`#page-${pageNum}`,"", 0, text3,index,`#boxtext-${index}-3`, 1);
+                typing = false;
+                loadClickSignifier($(`#page-${pageNum}`));
+            }else{
             $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
             $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='ork' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
-            console.log($(`#boxtext-${index}`))
-            await typeWriter("", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
-            await typeWriter("", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
-            await typeWriter("", 0, text3,index,`#boxtext-${index}-3`, 1);
-            loadClickSignifier();
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+            typing = true;
+            await typeWriter(`#event-${eventId}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter(`#event-${eventId}`,"", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+            await typeWriter(`#event-${eventId}`,"", 0, text3,index,`#boxtext-${index}-3`, 1);
+            typing = false
+            loadClickSignifier($(`#event-${eventId}`));
+            }
         }
     }else if(sentText.includes("[SHADOWS]")){
         if(sentText.startsWith("[SHADOWS]")){
