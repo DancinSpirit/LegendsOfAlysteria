@@ -188,10 +188,16 @@ io.on('connection', (socket) => {
     socket.on('declareActionsUpdate', async function(battle, round, actions){
         let battleDB = await db.Battle.findById(battle)
         for(let x=0; x<actions.length; x++){
+            if(!battleDB.rounds[round]){
+                battleDB.rounds[round] = {};
+            }
+            if(!battleDB.rounds[round].declaredActions){
+                battleDB.rounds[round].declaredActions = []
+            }
             battleDB.rounds[round].declaredActions[actions[x].index] = actions[x].action;
         }
         battleDB.save();
-        battleDB.markModified('declaredActions');
+        battleDB.markModified('rounds');
         console.log(battleDB);
         io.emit('declareActionsUpdate', battle, round, actions);
     })
