@@ -15,9 +15,16 @@ socket.on('declareActionsUpdate', function (battle, round, actions) {
     if(battle == battleId){
         let actionsExist = false;
         for(let x=0; x<actions.length; x++){
+            if(!rounds[round]){
+                rounds[round] = {}
+            }
+            if(!rounds[round].declaredActions){
+                rounds[round].declaredActions = [];
+            }
             if(rounds[round].declaredActions[actions[x].index]){
                 actionsExist = true;
             }
+            console.log(actions);
             rounds[round].declaredActions[actions[x].index] = actions[x].action;
         }
         if(waitingOnActions &&!actionsExist){
@@ -131,7 +138,13 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
             let indicies = [];
             for(let x=0; x<combatants.length; x++){
                 if(activeUnit.name == combatants[x].name){
-                    declaredActions[x] = {thisBox: $(this).attr("id"), activeBox: activeBox.attr("id"), activeUnit: activeUnit};
+                    if(!rounds[roundCount]){
+                        rounds[roundCount] = {};
+                    }
+                    if(!rounds[roundCount].declaredActions){
+                        rounds[roundCount].declaredActions = [];
+                    }
+                    rounds[roundCount].declaredActions[x] = {thisBox: $(this).attr("id"), activeBox: activeBox.attr("id"), activeUnit: activeUnit};
                     indicies.push(x);
                     playerCombatantActionCount++;
                     if(playerCombatantActionCount==playerCombatantTotal){
@@ -144,7 +157,7 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
                             $("#declare-actions").remove();
                             let recentlyDeclaredActions = [];
                             for(let y=0; y<indicies.length; y++){
-                                recentlyDeclaredActions.push({index: indicies[y], action: declaredActions[indicies[y]]});
+                                recentlyDeclaredActions.push({index: indicies[y], action: rounds[roundCount].declaredActions[indicies[y]]});
                             }
                             socket.emit("declareActionsUpdate",battleId, roundCount, recentlyDeclaredActions)
                             declaredActionsCheck();
@@ -160,8 +173,8 @@ const moveableSpace = function(space, z, a, type, activeBox, activeUnit){
 
 const declaredActionsCheck = function(){
     actionCount = 0;
-    for(let x=0; x<declaredActions.length; x++){
-        if(declaredActions[x]){
+    for(let x=0; x<rounds[roundCount].declaredActions.length; x++){
+        if(rounds[roundCount].declaredActions[x]){
             actionCount++;
         }
     }
@@ -406,8 +419,10 @@ const declareActionPhase = async function(player){
     for(let x=0; x<combatants.length; x++){
         for(let y=0; y<players[playerNum].combatants.length; y++){
             if(combatants[x].name==players[playerNum].combatants[y]){
-                if(declaredActions[x]){
-                    declaredActionsAlready = true;
+                if(rounds[roundCount]){
+                    if(rounds[roundCount].declaredActions[x]){
+                        rounds[roundCount].declaredActionsAlready = true;
+                    }
                 }
             }
         }
@@ -449,21 +464,16 @@ const resolveActionPhase = async function(){
 const nextRound = function(){
     roundCount++;
     loadBattleText(`<strong>Round ${roundCount}</strong>`);
-    if(rounds[roundCount]){
-        if(rounds[roundCount].declareActionPhase.complete){
-            declaredActions = rounds[roundCount].declareActionPhase.actions;
-            automateDeclareActionPhase(rounds[roundCount].declareActionPhase);
-        }else{
-            declaredActions = rounds[roundCount].declareActionPhase.actions;
-            declareActionPhase(currentPlayer);
+    actionCount = 0;
+    for(let x=0; x<rounds[roundCount].declaredActions.length; x++){
+        if(rounds[roundCount].declaredActions[x]){
+            actionCount++;
         }
-        if(rounds[roundCount].resolveActionPhase.complete)
-        automateActionResolutionPhase(rounds[roundCount].resolveActionPhase)
-        else{
-            
-        }
+    }
+    if(actionCount!=combatants.length){
+    declareActionPhase(currentPlayer);
     }else{
-        declareActionPhase(currentPlayer);
+        resolveActionPhase();
     }
 //Do the above better but you get the idea
 }
