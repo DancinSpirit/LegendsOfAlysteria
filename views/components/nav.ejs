@@ -109,12 +109,15 @@
             $("#account-info").css("background-color","var(--dark)")
             $("#account-info").off("click");
             buttons.accountInfoClick();
-            
-            states = ["main","character-home"];
-            databaseObjects = [false, [{name: "Player",id: $(this).attr("id")}]];
-            customData = [false,false];
-            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, $(this).text(), "/main/character-home");
-            await loadState(1);
+            if(equalArrays(states,["main","character-home"])&&$(this).attr("id")==databaseObjects[1][0].id){
+
+            }else{
+                states = ["main","character-home"];
+                databaseObjects = [false, [{name: "Player",id: $(this).attr("id")}]];
+                customData = [false,false];
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, $(this).text(), "/main/character-home");
+                await loadState(1);
+            }
         })
     }
     buttons.navTitleClick();

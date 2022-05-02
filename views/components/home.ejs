@@ -18,6 +18,11 @@
     </div>
 </section>
 <script>
+    document.documentElement.style.setProperty('--light', "#a5a5a5");
+    document.documentElement.style.setProperty('--dark', "#818181");
+    document.documentElement.style.setProperty('--darker', "#727272");
+    document.documentElement.style.setProperty('--highlight', "#5f5b50");
+    document.documentElement.style.setProperty('--background', "#2e2b28");
     buttons.characterSelectClick = function(){
         $("#character-select-button").on("click", async function(){
             states = ["main","character-select"];

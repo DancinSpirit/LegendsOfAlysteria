@@ -242,7 +242,7 @@ function equalArrays(array1,array2){
         });
       }
       return false;
-    }
+}
 
 window.onunload = function(){
     setCookie('refreshed',true);

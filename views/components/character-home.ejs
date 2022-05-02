@@ -34,7 +34,7 @@
     buttons.startButtonClick = function(){
         $("#start-button").on("click", async function(){
             states = ["story", "main-title"];
-            databaseObjects = [[{name: "Story", id: "<%=player.story%>"}],[{name: "Story", id: "<%=player.story%>"}]];
+            databaseObjects = [[{name: "Story", id: "<%=player.story%>"},{name: "Player", id: "<%=player.id%>"}],[{name: "Story", id: "<%=player.story%>"},{name: "Player", id: "<%=player.id%>"}]];
             customData = [false,false];
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story - Main Title", "/story/main-title");
             await loadStates();

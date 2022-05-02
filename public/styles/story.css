@@ -693,18 +693,6 @@
     padding: 0;
     padding-top: .4vh;
   }
-  
-  #settings{
-    display: flex;
-    position: fixed;
-    top: 5%;
-    left: 2.5%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transform: translateY(-120vh);
-    visibility: hidden;
-  }
 
   .turn-players{
     display: flex;
