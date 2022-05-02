@@ -1,6 +1,18 @@
 <section id="character-select">
     <%for(let x=0; x<user.playerCharacters.length; x++){%>
-        <component>player-character|Player|<%=user.playerCharacters[x]%></component>
+        <div id="<%=user.playerCharacters[x].name.replace(/ /g,"-").replace(/"/g, "").replace(/'/g, "").replace(/\(|\)/g, "")%>" class="player-character-info clickable">
+            <img class="player-character-image" src="/avatars/<%=user.playerCharacters[x].name%>.jpg">
+            <section class="player-character-name"><%=user.playerCharacters[x].name%></section>
+        </div>
+        <script>
+            $("#<%=user.playerCharacters[x].name.replace(/ /g,"-").replace(/"/g, "").replace(/'/g, "").replace(/\(|\)/g, "")%>").on("click",async function(){
+                states = ["main","character-home"];
+                databaseObjects = [false, [{name: "Player",id: "<%=user.playerCharacters[x].id%>"}]];
+                customData = [false,false];
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "<%=user.playerCharacters[x].name%>", "/main/character-home");
+                await loadState(1);
+            })
+        </script>
     <%}%>
 </section>
 <animation>up</animation>

@@ -1,0 +1,66 @@
+#character-home{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    border: solid white;
+}
+
+.story-supertitle{
+    font-family: 'Philosopher', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 26px;
+    padding: 5px;
+}
+  
+.story-title{
+    font-family: 'Corsiva';
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    font-size: 80px;
+    padding: 0px;
+}
+  
+.story-subtitle{
+    font-family: 'Corsiva';
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    padding: 0px;
+}
+
+#main-title{
+    padding-bottom: 10px;
+}
+
+.user-name{
+    font-family: "Jura";
+    font-size: 20px;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.home-select{
+    text-align:center;
+    font-family: 'Philosopher';
+    font-size: 20px;
+    text-align: center;
+    border: solid 3px white;
+    margin-bottom: 15px;
+    padding: 10px;
+    width: -webkit-fill-available;
+    border-color: white;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.home-select:hover{
+    border-color: rgb(255, 252, 210);
+    color: rgb(255, 252, 210);
+    cursor: pointer;
+}

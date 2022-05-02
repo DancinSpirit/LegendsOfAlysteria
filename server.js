@@ -1,20 +1,26 @@
+/* Server Setup */
 const express = require("express");
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const db = require("./models");
-const bcrypt = require("bcryptjs");
-require("dotenv").config();
-
-const PORT = process.env.PORT;
-
+const ejs = require('ejs');
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({extended:true}));
 
-/* Auth Session */
+/* Authorization Setup */
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const bcrypt = require("bcryptjs");
+
+/* Database Setup */
+const db = require("./models");
+
+/* Variable Setup */
+require("dotenv").config();
+const PORT = process.env.PORT;
+
+/* Create Session */
 app.use(session({
     store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI
@@ -27,187 +33,112 @@ app.use(session({
     }  
 }));
 
-/* Auth */
+/* Send User Information */
 app.use(async function(req,res,next){
     if(req.session.currentUser){
-        req.session.currentUser = await db.User.findById(req.session.currentUser._id);
-        app.locals.game = await db.Game.findById('610705a3f252e8aec6989328')
+        req.session.currentUser = await db.User.findById(req.session.currentUser._id).populate("playerCharacters")
         app.locals.user = req.session.currentUser;
     }else{
         app.locals.user = false;
     }
-    if(req.session.currentPlayer){
-        req.session.currentPlayer = await db.Player.findById(req.session.currentPlayer._id);
-        app.locals.player = req.session.currentPlayer;
-    }else{
-        app.locals.player = false;
-    }
     next();
-}) 
-
-/* Home Page Loading */
-app.get("/", function(req,res){
-    res.render('base',{states: ["start"],data: [{}]});
-})
-
-app.get("/data/:model/:id", async function(req,res){
-    const data = await eval(`db.${req.params.model.charAt(0).toUpperCase() + req.params.model.slice(1)}.findById('${req.params.id}')`)
-    res.send(data);
-})
-
-app.get("/colors/name/:characterName", async function(req,res){
-    characterName = req.params.characterName.replace(",","");
-    const firstName = characterName.split("-")[0];
-    console.log("-"+firstName+"-")
-    let lastName;
-    if(characterName.split("-").length>1)
-    lastName = characterName.replace(firstName+"-","").replaceAll("-"," ");
-    else
-     lastName = characterName.split("-")[1];
-    console.log("-"+lastName+"-")
-    const colors = await db.Characterinfo.findOne({firstName: firstName, lastName: lastName});
-    res.send(colors.colors);
-})
-
-/* Color Loading */
-app.get("/colors/:characterinfo", async function(req,res){
-    const colors = await db.Characterinfo.findById(req.params.characterinfo);
-    res.send(colors.colors);
-})
-
-/* Component Loading */
-app.post("/component/:component", async function(req,res){
-    let model = {};
-    let url = `components/${req.params.component.toLowerCase()}`;
-    if(req.body.model){
-        if(req.params.component.toLowerCase()=="basic-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate('traits.metaTrait traits.flavorTraits traits.specialTraits traits.personalityTraits traits.aptitudeTraits traits.combatAbilities').populate({path:'knowledgeTrees',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',populate:{path:'info knowledgeTree',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge',populate:{path: 'info'}}}}})`)
-        }else if(req.params.component.toLowerCase()=="combat-styles-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles spiritPowers',populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
-            console.log("TEST: " + model.combatStyles)
-        }else if(req.params.component.toLowerCase()=="basic-combat-sheet"){
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}').populate({path:'combatStyles spiritPowers',populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility', populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties', populate:{path: 'info'}}}}})`);
-        }else{
-            model = await eval(`db.${req.body.model.name}.findById('${req.body.model.id}')`)
-        }
-    }else if(req.body.data){
-        model = req.body.data;
-    }
-    if(req.params.component.includes(">")){
-        url = `components/${req.params.component.split(">")[0].toLowerCase()}`;
-        for(let x=1; x<req.params.component.split(">").length; x++){
-            model[req.params.component.split(">")[x].split("=")[0]] = req.params.component.split(">")[x].split("=")[1];
-        }
-    }
-    if(req.body.player){
-        model.basicTrue = req.body.basicTrue;
-        model.statTrue = req.body.statTrue;
-        model.combatTrue = req.body.combatTrue;
-        model.spiritTrue = req.body.spiritTrue;
-        model.player = req.body.player;
-    }
-    res.render(url, model);
-})
-
-/* Model Updating */
-app.post("/update/:model/:id", async function(req,res){
-    let model = req.params.model.charAt(0).toUpperCase() + req.params.model.slice(1);
-    let foundModel = await eval(`db.${model}.findByIdAndUpdate('${req.params.id}',${JSON.stringify(req.body)})`);
-    res.send(foundModel);
-})
-
-/* Page Loading */
-app.get("/*", function(req, res){
-    let states = [];
-    let data = [];
-    for(let x=1; x<req.url.split("/").length; x++){
-        if(req.url.split("/")[x].includes("%7C")){
-            let model = {};
-            model.name = req.url.split("/")[x].split("%7C")[1].split("=")[0].charAt(0).toUpperCase() + req.url.split("/")[x].split("%7C")[1].split("=")[0].slice(1); 
-            model.id = req.url.split("/")[x].split("%7C")[1].split("=")[1];
-            data.push(model)
-            states.push(req.url.split("/")[x].split("%7C")[0]);
-        }else{
-            states.push(req.url.split("/")[x]);
-            data.push({});
-        }
-    }
-    res.render('base',{states: states, data: data});
-})
-
-app.post("/playerlogin", async function(req,res){
-    console.log(req.body.id);
-    const foundPlayer = await db.Player.findById(req.body.id);
-    req.session.currentPlayer = foundPlayer;
-    res.send(req.session.currentPlayer);
 })
 
 /* Login */
 app.post("/login", async function(req, res){
     const foundUser = await db.User.findOne({username: req.body.username});
-    if(!foundUser) return res.send({displayText: "That username doesn't exist!"})
+    if(!foundUser) return res.send({loggedIn: false, error: "That username doesn't exist!"})
     const match = await bcrypt.compare(req.body.password, foundUser.password);
-    if(!match) return res.send({displayText: "Password Invalid"});
+    if(!match) return res.send({loggedIn: false, error: "Password Invalid"});
     req.session.currentUser = foundUser;
-    if(foundUser.gamemaster)
-    return res.redirect("/");
-    else
-    return res.redirect("/");
+    app.locals.user = req.session.currentUser;
+    return res.send({loggedIn: true, user: app.locals.user});
 })
-
 /* Register */
 app.post("/register", async function(req, res){
     const foundUser = await db.User.findOne({username: req.body.username});
-    if(foundUser) return res.send("This username already exists!");
+    if(foundUser) return res.send({registered: false, error: "This username already exists!"});
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
     req.body.password = hash;
-    req.body.avatar = "/images/avatar_placeholder.png";
-    req.body.bio = "This user hasn't written a bio yet!";
-    req.body.gamemaster = false;
-    req.body.settings = {pageSpeed: 1000, textSpeed: 50, musicVolume: .1, soundVolume: .1};
     const newUser = await db.User.create(req.body);
-    console.log(newUser);
     req.session.currentUser = newUser;
-    return res.redirect("/")
+    app.locals.user = req.session.currentUser;
+    return res.send({registered: true, user: app.locals.user});
 })
-
 /* Logout */
 app.post("/logout", async function(req,res){
     req.session.currentUser = false;
     req.session.currentPlayer = false;
-    return res.redirect("/main/login")
-})
-/* playerLogout */
-app.post("/playerlogout", async function(req,res){
-    req.session.currentPlayer = false;
-    return res.send(false);
+    return res.send();
 })
 
-io.on('connection', (socket) => {
-    socket.on('declareActionsUpdate', async function(battle, round, actions){
-        let battleDB = await db.Battle.findById(battle)
-        for(let x=0; x<actions.length; x++){
-            if(!battleDB.rounds[round]){
-                battleDB.rounds[round] = {};
-            }
-            if(!battleDB.rounds[round].declaredActions){
-                battleDB.rounds[round].declaredActions = []
-            }
-            battleDB.rounds[round].declaredActions[actions[x].index] = actions[x].action;
+/* Home Page Loading */
+app.get("/", function(req,res){
+    res.render('base',{states: ["start"], databaseObjects: [false], customData: [false]});
+})
+
+/* Page Loading */
+app.get("/*", function(req, res){
+    let states = [];
+    for(let x=1; x<req.url.split("/").length; x++){
+        states.push(req.url.split("/")[x]);
+    }
+    let databaseObjects = [];
+    let customData = [];
+    if(req.body.databaseObjects){
+        databaseObjects = req.body.databaseObjects;
+    }else{
+        for(let x=0; x<states.length; x++){
+            databaseObjects[x] = false;
         }
-        battleDB.save();
-        battleDB.markModified('rounds');
-        console.log(battleDB);
-        io.emit('declareActionsUpdate', battle, round, actions);
-    })
-    socket.on('updateInitiative', async function(battle, init){
-        let battleDB = await db.Battle.findById(battle)
-        //battle.rounds[0] etc. stuff
-        battleDB.save();
-        battleDB.markModified('rounds');
-        io.emit('updateInitiative', battle, init);
-    })
+    }
+    if(req.body.customData){
+        customData = req.body.customData;
+    }else{
+        for(let x=0; x<states.length; x++){
+            customData[x] = false;
+        }
+    }
+    res.render('base',{states: states, databaseObjects: databaseObjects, customData: customData});
+})
+
+/* Database Loading */
+app.get("/data/:databaseObject/:id", async function(req,res){
+    const data = await db[req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1)].findById(req.params.id);
+    res.send(data);
+})
+
+/* Database Updating */
+app.post("/update/:databaseObject/:id", async function(req,res){
+    let databaseObject = req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1);
+    let foundObject = await db[databaseObject].findByIdAndUpdate(req.params.id,JSON.stringify(req.body));
+    res.send(foundObject);
+})
+
+/* Component Loading */
+app.post("/component/:component", async function(req,res){
+    let data = {};
+    let url = `components/${req.params.component.toLowerCase()}`;
+    if((req.body.customData != "false")&&(typeof req.body.customData != "undefined")){
+        data = req.body.customData;
+    }
+    if(req.body.databaseObjects != "false"&&(typeof req.body.databaseObjects != "undefined")){
+        for(let x=0; x<req.body.databaseObjects.length; x++){
+            data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id);
+        }
+    }
+    data.user = app.locals.user;
+    ejs.renderFile("views/"+url+".ejs", data, (err, result) => {
+        if (err) {
+            res.render("error",{error:err});
+        }
+            res.send(result);
+    });
+})
+
+/* Socket.IO */
+io.on('connection', (socket) => {
     console.log('User Connected!');
 });
 

@@ -4,9 +4,7 @@ const dbUrl = process.env.MONGODB_URI;
 
 mongoose.connect(dbUrl, {
    useNewUrlParser: true,
-   useUnifiedTopology: true,
-   useFindAndModify: false,
-   useCreateIndex: true
+   useUnifiedTopology: true
 });
 
 mongoose.connection.on("disconnected", function(){

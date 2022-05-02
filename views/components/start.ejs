@@ -7,9 +7,11 @@
 <script>
     $("body").on("click", function(){
         states = ["main","home"]
+        databaseObjects = [false,false]
+        customData = [false,false]
         loadStates();
-        window.history.pushState({states:states,data:data}, "Home Page", "/main/home");
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Home", "/main/home");
         $("body").off("click");
     })
 </script>
-<animation>down</animation>
+<animation>up</animation>

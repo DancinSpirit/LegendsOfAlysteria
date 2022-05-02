@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legends of Alysteria</title>
-    <link rel="icon" href="/LoA.jpg">
+    <title>Dancing Server</title>
+    <link rel="icon" href="/Dancing.jpg">
     <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- FONTS -->
@@ -16,12 +16,15 @@
     <!-- SOCKET.IO -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js" integrity="sha512-MgkNs0gNdrnOM7k+0L+wgiRc5aLgl74sJQKbIWegVIMvVGPc1+gc1L2oK9Wf/D9pq58eqIJAxOonYPVE5UwUFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- SCRIPTS -->
-    <%- include('variableProcessor.ejs')%>
-    <script src="/scripts/functions.js"></script>
+    <script>
+        let states = JSON.parse(`<%-JSON.stringify(states)%>`); 
+        let databaseObjects = JSON.parse(`<%-JSON.stringify(databaseObjects)%>`)
+        let customData = JSON.parse(`<%-JSON.stringify(customData)%>`)
+        let user = JSON.parse(`<%-JSON.stringify(user)%>`)
+    </script>
     <script src="/scripts/animations.js"></script>
+    <script src="/scripts/sounds.js"></script>
     <script src="/scripts/base.js" defer></script>
-    <script src="/scripts/story.js" defer></script>
-    <script src="/scripts/dice.js"></script>
     <!-- STYLES -->
     <link rel="stylesheet" href="/styles/base.css">
 </head>

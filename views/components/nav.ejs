@@ -2,13 +2,15 @@
     <section id = "nav-title" class="clickable">
         Legends of Alysteria
     </section>
-    <%if(user){%>
+    <%if(typeof user != "undefined"&& user != false){%>
         <section id = "account-info" class="clickable">
             <%=user.fullName()%>
         </section>
         <section id = "account-options">
             <%for(let x=0; x<user.playerCharacters.length; x++){%>
-                <component>player-character-button|Player|<%=user.playerCharacters[x]%></component>
+                <div id="<%=user.playerCharacters[x].id%>"class="account-option clickable character-button">
+                    <%=user.playerCharacters[x].name%>
+                </div>
             <%}%>
             <section id = "main-settings-button" class = "account-option clickable">
                 Settings
@@ -25,27 +27,101 @@
     <%}%>
 </nav>
 <script>
-    $("#main-settings-button").on("click",async function(){
-        if(states[1] != ["settings"]){
-            states = ["main","settings"]
-            window.history.pushState({states:states,data:data}, "Settings", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`settings`))
-            deactivateButtons();
+    buttons.navTitleClick = function(){
+        $("#nav-title").on("click", async function(){
+            if(states[1]!="home"){
+                states = ["main","home"];
+                databaseObjects = [false,false];
+                customdata = [false,false];       
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Home", "/main/home");
+                await loadState(1);
+            }
+        })
+    }
+    buttons.accountInfoClick = function(){
+        $("#account-info").on("click", async function(){
+            $("#account-options").css("display","block");
+            $("#account-info").css("background-color","var(--darker)")
+            $("#account-info").off("click");
+            $("#account-info").on("click",async function(){
+                $("#account-options").css("display","none");
+                $("#account-info").css("background-color","var(--dark)")
+                $("#account-info").off("click");
+                buttons.accountInfoClick();
+            })
+        })
+    }
+    buttons.mainSettingsClick = function(){
+        $("#main-settings-button").on("click", async function(){
+            //Deactivate Menu
             $("#account-options").css("display","none");
             $("#account-info").css("background-color","var(--dark)")
-            await loadState(1);
-            activateButtons();
-        }
-    })
-    $('.character-button').on("click",async function(){
-        playerLogin($(this).attr("id"))
-    })
-    $("#logout-button").on("click",async function(){
-        $.ajax({
-            method: "POST",
-            url: "/logout",
-            success: (res)=>{
-                window.location.href = "/main/login"
+            $("#account-info").off("click");
+            buttons.accountInfoClick();
+
+            if(states[1]!="settings"){
+                states = ["main","settings"];
+                databaseObjects = [false,false];
+                customdata = [false,false];       
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings", "/main/settings");
+                await loadState(1);
             }
-        }) 
-    })
+        })
+    }
+    buttons.logoutClick = function(){
+        $("#logout-button").on("click", async function(){
+            //Deactivate Menu
+            $("#account-options").css("display","none");
+            $("#account-info").css("background-color","var(--dark)")
+            $("#account-info").off("click");
+            buttons.accountInfoClick();
+
+            await logout();
+            states = ["main","login"];
+            databaseObjects = [false,false];
+            customdata = [false,false];       
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Login", "/main/login");
+            await loadStates();
+        })
+    }
+    buttons.loginButtonClick = function(){
+        $("#login-button").on("click", async function(){
+            states = ["main","login"];
+            databaseObjects = [false,false];
+            customdata = [false,false];       
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Login", "/main/login");
+            await loadState(1);
+        })
+    }
+    buttons.registerButtonClick = function(){
+        $("#register-button").on("click", async function(){
+            states = ["main","register"];
+            databaseObjects = [false,false];
+            customdata = [false,false];       
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Register", "/main/register");
+            await loadState(1);
+        })
+    }
+    buttons.characterButtonsClick = function(){
+        $(".character-button").on("click", async function(){
+            //Deactivate Menu
+            $("#account-options").css("display","none");
+            $("#account-info").css("background-color","var(--dark)")
+            $("#account-info").off("click");
+            buttons.accountInfoClick();
+            
+            states = ["main","character-home"];
+            databaseObjects = [false, [{name: "Player",id: $(this).attr("id")}]];
+            customData = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, $(this).text(), "/main/character-home");
+            await loadState(1);
+        })
+    }
+    buttons.navTitleClick();
+    buttons.accountInfoClick();
+    buttons.mainSettingsClick();
+    buttons.logoutClick();
+    buttons.loginButtonClick();
+    buttons.registerButtonClick();
+    buttons.characterButtonsClick();
 </script>

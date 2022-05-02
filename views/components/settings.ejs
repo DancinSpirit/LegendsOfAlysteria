@@ -32,54 +32,27 @@
     <div id="testSound" class = "clickable menu-item setting">
         Test Sound Effect <i class="fas fa-music"></i>
     </div>
+    <div id="return" class="clickable menu-item setting">
+        Return
+    </div>
 </section>
 <script>
     if(user.settings.pageScroll){
         $("#pageScroll-checkbox").attr('checked', 'checked');
     }
-    if(typeof story != "undefined"){
-        $("#settings").addClass("external");
-        $("#settings").addClass("invisible");
-        $("#settings").append(`<div id="return-home" class="clickable menu-item setting">
-            Return to Home Page
-        </div>`)
-    }else{
-        $("#settings").append(`<div id="return-home-2" class="clickable menu-item setting">
-            Return
-        </div>`)  
-    }
     $("#textSpeed-slider").on("change", function(){
-        console.log((100 - $(this).val()))
         user.settings.textSpeed = (100 - $(this).val());
-        $.ajax({
-            method: "POST",
-            url: `/update/user/${user._id}`,
-            data: user,
-            success: (res)=>{
-            }
-        }) 
+        updateDatabaseObject("User",user._id,user);
     })
     $("#pageSpeed-slider").on("change", function(){
         console.log((20-$(this).val())*100)
         user.settings.pageSpeed = (20-$(this).val())*100;
-        $.ajax({
-            method: "POST",
-            url: `/update/user/${user._id}`,
-            data: user,
-            success: (res)=>{
-            }
-        }) 
+        updateDatabaseObject("User",user._id,user);
     })
     $("#musicVolume-slider").on("change", function(){
         console.log($(this).val()/100)
         user.settings.musicVolume = $(this).val()/100;
-        $.ajax({
-            method: "POST",
-            url: `/update/user/${user._id}`,
-            data: user,
-            success: (res)=>{
-            }
-        }) 
+        updateDatabaseObject("User",user._id,user);
         if(song){
             song.volume = user.settings.musicVolume;
         }
@@ -87,13 +60,7 @@
     $("#soundVolume-slider").on("change", function(){
         console.log($(this).val()/100)
         user.settings.soundVolume = $(this).val()/100;
-        $.ajax({
-            method: "POST",
-            url: `/update/user/${user._id}`,
-            data: user,
-            success: (res)=>{
-            }
-        }) 
+        updateDatabaseObject("User",user._id,user);
     })
     $("#pageScroll-checkbox").on("change", async function(){
         if(this.checked){
@@ -101,33 +68,13 @@
         }else{
             user.settings.pageScroll = false;
         }
-        $.ajax({
-            method: "POST",
-            url: `/update/user/${user._id}`,
-            data: user,
-            success: (res)=>{
-            }
-        })
-        $("#settings-button").on("click", function(){
-            loadState(1);
-        })
+        updateDatabaseObject("User",user._id,user);
     })
     $("#testSound").on("click", function(){
         playSound("Test Sound")
     })
-    $("#return-home").on("click",async function(){
-        states = ["main","home"];
-        window.history.pushState({states:states,data:data}, "Home Page", "/main/home");
-        $("#settings-button").click();
-        $("#settings-button").addClass("external");
-        $("#settings-button").addClass("invisible");
-        setTimeout(async function(){
-            deactivateButtons();
-            await loadStates();
-            activateButtons();
-        },user.settings.pageSpeed)
-    })
-    $("#return-home-2").on("click",async function(){
+    $("#return").on("click",async function(){
         window.history.back();
     })
 </script>
+<animation>down</animation>

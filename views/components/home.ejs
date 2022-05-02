@@ -2,7 +2,7 @@
     <div id="main-title">
         <p class="boxtext story-supertitle">Not! Conquering High Fantasy</p>
         <p class="boxtext story-title">Legends of Alysteria</p>
-        <p class="boxtext story-subtitle">A game of Legends, Lords, and Luck</p>
+        <p class="boxtext story-subtitle">A Game of Legends, Lords, and Luck</p>
     </div>
     <div class="user-name">
         Logged In As: <%=user.fullName()%>
@@ -17,49 +17,38 @@
         Exit Game
     </div>
 </section>
-<animation>right</animation>
 <script>
-    $("#home-settings-button").on("click",async function(){
-        if(states[1] != ["settings"]){
-            states = ["main","settings"]
-            window.history.pushState({states:states,data:data}, "Settings", window.location.href.replace(window.location.href.split("/")[window.location.href.split("/").length-1],`settings`))
-            deactivateButtons();
+    buttons.characterSelectClick = function(){
+        $("#character-select-button").on("click", async function(){
+            states = ["main","character-select"];
+            databaseObjects = [false,false];
+            customdata = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Character Select", "/main/character-select");
             await loadState(1);
-            activateButtons();
-        }
-    })
-    $("#continue-button").on("click", async function(){
-        states = ["story","event"]
-        data = [{name: "Story",id: `${user.currentEvent.story}`},{name: "Event",id:`${user.currentEvent.event}`}]
-        window.history.pushState({states:states,data:data}, "Event", `/story|story=${user.currentEvent.story}/event|event=${user.currentEvent.event}`);
-        loadStates();
-    })
-    $("#exit").on("click",async function(){
-        window.location.href = "/"
-    })
-    $("#character-select-button").on("click", async function(){
-        states = ["main", "character-select"];
-        window.history.pushState({states:states,data:data}, "Character Select Page", `/main/character-select`)
-        deactivateButtons();
-        await loadState(1);
-        activateButtons();
-    })
-    if(song){
-        song.play();
-    }else{
-        if(!document.getElementById("Alysteria")){
-            $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
-        }
-        song = document.getElementById("Alysteria");
-        song.volume = user.settings.musicVolume;
-        let played = song.play();
-                if(played !== undefined){
-                    played.then(_ =>{
-                    }).catch(error =>{
-                        $('body').on("click", function(){
-                            song.play();
-                        })
-                    })
-                }
+            $("#character-select-button").off("click");
+        })
     }
+    buttons.homeSettingsClick = function(){
+        $("#home-settings-button").on("click", async function(){
+            states = ["main","settings"];
+            databaseObjects = [false,false];
+            customdata = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings", "/main/settings");
+            await loadState(1);
+            $("#home-settings-button").off("click");
+        })
+    } 
+    buttons.exitClick = function(){
+        $("#exit").on("click", async function(){
+            states = ["start"];
+            databaseObjects = [false];
+            customdata = [false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Start", "/");
+            await loadStates();
+        })
+    }
+    buttons.characterSelectClick();
+    buttons.homeSettingsClick();
+    buttons.exitClick();
 </script>
+<animation>right</animation>

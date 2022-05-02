@@ -1,9 +1,0 @@
-<animation>basicSheet</animation>
-<%if(informationLevel(player.name)==-1){%>
-    <div>
-        You don't have access to this character!
-        Current Player: <%=player.name%>
-    </div>
-<%}else{%>
-    <%-include(`basic-${informationLevel(player.name)}.ejs`)%>
-<%}%>

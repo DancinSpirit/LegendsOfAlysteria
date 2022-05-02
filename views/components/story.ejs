@@ -1,59 +1,58 @@
-    <div id = "story">
-        <component>settings</component>
-        <div class="invisible external" id="settings-button">
-            <i class="fas fa-cog"></i>
-        </div>
-        <section id="top-section">
-            <section id="tabs">
-                <button class="tab" id="story-tab">Story</button>
-                <button class="tab unselected" id="contents-tab">Table of Contents</button> 
-                <button class="tab unselected <%if(!user.gamemaster){%>invisible-2<%}%>" id="gamemaster-tab">Gamemaster View</button> 
-            </section>
-        </section>
-        <section id="main-story-section">
-            <section id="left-arrow">
-                <section class="arrow-box invisible" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
-            </section>
-            <section>
-                <section class="textbox" id="player-box">
-                    <section class="bottom" id="player-bottom">
-                        <div id="sub-story-container-container">
-                            <div id="sub-story-container">
-                                <section id="sub-story">
-                    
-                                </section>
-                            </div>
-                        </div>  
-                    </section>
-                </section>
-            </section>  
-            <section id="right-arrow">
-                <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
-            </section>
-        </section>
-        <section id="top-arrow">
-            <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
-        </section>
-        <section id="cutaway-image-collection" class="invisible external">
-    
-        </section>
-
-
-
-        <section id="cutaway-image-container">
-            <section id="cutaway-image">
-    
-            </section>
-            <section id="cutaway-subtitle">
-            </section>
-        </section>
-        <section id="choice-container">
-            <section id="choice">
-    
-            </section>
-        </section>
+<div id = "story">
+    <div class="invisible external" id="settings-button">
+        <i class="fas fa-cog"></i>
     </div>
+    <section id="top-section">
+        <section id="tabs">
+            <button class="tab" id="story-tab">Story</button>
+            <button class="tab unselected" id="contents-tab">Table of Contents</button> 
+            <button class="tab unselected <%if(!user.gamemaster){%>invisible-2<%}%>" id="gamemaster-tab">Gamemaster View</button> 
+        </section>
+    </section>
+    <section id="main-story-section">
+        <section id="left-arrow">
+            <section class="arrow-box invisible" id="left-arrow-box"><i class="fas fa-chevron-left"></i></section>
+        </section>
+        <section>
+            <section class="textbox" id="player-box">
+                <section class="bottom" id="player-bottom">
+                    <div id="sub-story-container-container">
+                        <div id="sub-story-container">
+                            <section id="sub-story">
+                
+                            </section>
+                        </div>
+                    </div>  
+                </section>
+            </section>
+        </section>  
+        <section id="right-arrow">
+            <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
+        </section>
+    </section>
+    <section id="top-arrow">
+        <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
+    </section>
+    <section id="cutaway-image-collection" class="invisible external">
+
+    </section>
+
+
+
+    <section id="cutaway-image-container">
+        <section id="cutaway-image">
+
+        </section>
+        <section id="cutaway-subtitle">
+        </section>
+    </section>
+    <section id="choice-container">
+        <section id="choice">
+
+        </section>
+    </section>
+</div>
 <script>
-    years = JSON.parse(`<%-JSON.stringify(years)%>`); 
+years = JSON.parse(`<%-JSON.stringify(story.years)%>`); 
 </script>
 <animation>up</animation>

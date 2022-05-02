@@ -1,9 +1,28 @@
-<animation>up</animation>
-<div id="login-page">
-    <form class="form" id="login-form" action="/login" method="POST">
+<div id="login">
+    <form class="form" id="login-form">
         <p class="center-form form-title">Login</p>
-        <p class="right-form">Username: <input type="text" name="username" class="form-input"></p>
-        <p class="right-form">Password: <input type="password" name="password" class="form-input"></p>
+        <p class="right-form">Username: <input id="username-input" type="text" name="username" class="form-input"></p>
+        <p class="right-form">Password: <input id="password-input" type="password" name="password" class="form-input"></p>
         <p class="center-form"><input type="submit" value="Login" class="submit-button"></p>
     </form>
 </div>
+<script>
+    $("#login-form").submit(async function(e){
+        e.preventDefault();
+        let attempt = await login($("#username-input").val(),$("#password-input").val())
+        if(attempt.loggedIn){
+            states = ["main","home"]
+            databaseObjects = [false,false];
+            customData = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Home", "/main/home");
+            loadStates();
+        }else{
+            if($("#error-message").length){
+                $("#error-message").text(attempt.error)
+            }else{
+                $("#login-form").append(`<p id='error-message'>${attempt.error}</p>`) 
+            }
+        }
+    })
+</script>
+<animation>up</animation>
