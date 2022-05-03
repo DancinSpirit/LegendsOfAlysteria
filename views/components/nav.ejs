@@ -85,7 +85,7 @@
             customdata = [false,false];       
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Login", "/main/login");
             await loadState(0,"left")
-            await loadState(1,"up");
+            await loadState(1);
         })
     }
     buttons.loginButtonClick = function(){
