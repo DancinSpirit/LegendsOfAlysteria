@@ -15,7 +15,7 @@
             databaseObjects = [false,false];
             customData = [false,false];
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Home", "/main/home");
-            loadStates();
+            loadState(1,"down");
         }else{
             if($("#error-message").length){
                 $("#error-message").text(attempt.error)

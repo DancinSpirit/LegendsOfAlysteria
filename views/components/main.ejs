@@ -9,8 +9,10 @@
     </div>  
 </div>
 <script>
+    <%if(user){%>
     <%for(let x=0; x<user.playerCharacters.length; x++){%>
         $("head").append(`<link rel="prefetch" as="image" href="/images/<%=user.playerCharacters[x].background%>.jpg">`);
+    <%}%>
     <%}%>
 </script>
 <animation>down</animation>
