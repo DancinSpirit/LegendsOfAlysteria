@@ -23,6 +23,24 @@
     document.documentElement.style.setProperty('--darker', "#727272");
     document.documentElement.style.setProperty('--highlight', "#5f5b50");
     document.documentElement.style.setProperty('--background', "#2e2b28");
+    if(song){
+        song.play();
+    }else{
+        if(!document.getElementById("Alysteria")){
+            $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
+        }
+        song = document.getElementById("Alysteria");
+        song.volume = user.settings.musicVolume;
+        let played = song.play();
+                if(played !== undefined){
+                    played.then(_ =>{
+                    }).catch(error =>{
+                        $('body').on("click", function(){
+                            song.play();
+                        })
+                    })
+                }
+    }
     buttons.characterSelectClick = function(){
         $("#character-select-button").on("click", async function(){
             states = ["main","character-select"];
