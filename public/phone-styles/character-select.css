@@ -1,11 +1,11 @@
 #character-select{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 60%;
     width: 60%;
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
-    padding-top: 35px;
+    padding-top: 25px;
     padding-bottom: 35px;
     padding-right: 35px;
     border: solid white;
@@ -21,8 +21,7 @@
 }
   
 .player-character-image{
-    max-height: 90%;
-    max-width: 100%;
+    display: none;
 }
 
 .player-character-name{

@@ -1,10 +1,10 @@
 #character-home{
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 30px;
+    padding-right: 30px;
     padding-top: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
     border: solid white;
 }
 
@@ -12,7 +12,7 @@
     font-family: 'Philosopher', sans-serif;
     display: flex;
     justify-content: center;
-    font-size: 26px;
+    font-size: 15px;
     padding: 5px;
 }
   
@@ -21,7 +21,7 @@
     text-align: center;
     display: flex;
     justify-content: center;
-    font-size: 80px;
+    font-size: 40px;
     padding: 0px;
 }
   
@@ -29,17 +29,17 @@
     font-family: 'Corsiva';
     display: flex;
     justify-content: center;
-    font-size: 40px;
+    font-size: 20px;
     padding: 0px;
 }
 
 #main-title{
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .user-name{
     font-family: "Jura";
-    font-size: 20px;
+    font-size: 13px;
     font-style: italic;
     color: white;
     text-align: center;
@@ -49,7 +49,7 @@
 .home-select{
     text-align:center;
     font-family: 'Philosopher';
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
     border: solid 3px white;
     margin-bottom: 15px;
