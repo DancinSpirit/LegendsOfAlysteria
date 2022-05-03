@@ -16,6 +16,7 @@
     font-family: 'Jura';
     font-style: italic;
     padding-bottom: 10px;
+    user-select: none;
 }
 
 .slider{
