@@ -84,6 +84,7 @@
             databaseObjects = [false,false];
             customdata = [false,false];       
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Login", "/main/login");
+            await loadState(0,"left")
             await loadState(1,"up");
         })
     }
