@@ -208,13 +208,21 @@ window.addEventListener('popstate',async function(event){
             }
         }
     }
-    for(let x=startingIndex; x<event.state.states.length; x++){
-        states = event.state.states;
-        databaseObjects = event.state.databaseObjects;
-        customData = event.state.customData;
-        await loadState(x);
+    if(states[1]=="settings"){
+        
+    }else{
+        for(let x=startingIndex; x<event.state.states.length; x++){
+            states = event.state.states;
+            databaseObjects = event.state.databaseObjects;
+            customData = event.state.customData;
+            await loadState(x);
+        }
     }
 })
+
+function setInfinityCookie(name, value){
+    document.cookie = name + "=" + value + ";  path=/";
+}
 
 function setCookie(name, value) {        
     let date = new Date();        

@@ -74,7 +74,19 @@
         playSound("Test Sound")
     })
     $("#return").on("click",async function(){
-        window.history.back();
+        states = convertCookieToArray(getCookie("origin-states"));
+        try{
+            databaseObjects= JSON.parse(getCookie("origin-databaseObjects"));    
+        }catch(e){
+            databaseObjects= convertCookieToArray(getCookie("origin-databaseObjects"));    
+        }
+        try{
+            customData = JSON.parse(getCookie("origin-customData"));  
+        }catch(e){
+            customData = convertCookieToArray(getCookie("origin-customData"));    
+        }
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings Return", `/main/${states[1]}`);
+        loadState(1,"up");
     })
 </script>
 <animation>down</animation>
