@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'Corsiva';
+  src: url(/fonts/Corsiva.ttf);
+}
+@font-face{
+  font-family: 'Ork';
+  src: url(/fonts/Ork.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html{
+  height: 100%;
+  width: 100%;
+}
+body{
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  transition: 1000ms;
+}
+#sub-base-container-container{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+#sub-base-container{
+  height: 200%;
+  width: 200%;
+  display: flex;
+}
+#sub-base, #old-sub-base{
+  height: 50%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+animation, component, background{
+  display: none;
+}
+.clickable{
+  cursor:pointer;
+}
+.invisible{
+  display: none;
+}
+
+#error-box{
+  display:flex;
+  flex-direction: column;
+  background-color: gray;
+  border: solid white 2px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}

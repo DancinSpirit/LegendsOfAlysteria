@@ -140,7 +140,11 @@ const componentCheck = async function(component){
 
 const loadState = async function(x, animation){
     await deactivateButtons(x);
-    $("head").append(`<link rel="stylesheet" href="/styles/${states[x]}.css">`)
+    if(isMobile){
+        $("head").append(`<link rel="stylesheet" href="/phone-styles/${states[x]}.css">`)
+    }else{
+        $("head").append(`<link rel="stylesheet" href="/styles/${states[x]}.css">`)
+    }
     let component = await loadComponent(states[x],databaseObjects[x],customData[x]);    
     if(component.includes("<background>")){
         $("body").css("background-image",`url("${component.split("<background>")[1].split("</background>")[0]}"`);

@@ -1,0 +1,894 @@
+ 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  #sub-base-container-container{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  #sub-base-container{
+    height: 200%;
+    width: 200%;
+    display: flex;
+  }
+  #sub-base, #old-sub-base{
+  height: 50%;
+  width: 50%;
+  }
+
+  body{
+    height: 100%;
+    width: 100%;
+  }
+
+  #year{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    text-align: center;
+  }
+
+  #sub-contents-container-container{
+    height: 100%;
+    width: 90vw;
+    overflow: hidden;
+  }
+  #sub-contents-container{
+    height: 200%;
+    width: 200%;
+    display: flex;
+  }
+  #sub-contents, #old-sub-contents{
+  height: 50%;
+  width: 50%;
+  }
+
+  #year-divider{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    border-right: solid white 3px;
+  }
+
+  .event-content{
+    padding: 10px;
+  }
+
+  #year-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    font-family: "Philosopher";
+    font-size: 30px;
+  }
+
+  .season{
+    display: flex;
+    flex-direction: column;
+    width:25%;
+    font-family: "Philosopher";
+    font-size: 26px;
+    border-top: white solid 4px;
+    border-left: white solid 4px;
+    border-bottom: white solid 4px;
+  }
+
+  .season-title{
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #2b2b2b;
+    cursor:pointer;
+  }
+
+.region-title{
+  padding: 10px;
+    background-color: slategray;
+    border-bottom: solid 2px white;
+}
+
+  .region-title, .ruler-title, .event-content{
+    cursor: pointer;
+  }
+
+  .region-phase{
+    padding-top:10px;
+    border-bottom: solid 2px white;
+    font-size: 22px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: lightsteelblue;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .region-container{
+    display: flex;
+    flex-direction: column;
+    justify-content:stretch;
+  }
+
+  .region-section{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .ruler-phase{
+    color: white;
+    border-bottom: solid 1px white;
+    border-top: solid 1px white;
+    padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+  }
+
+  .event-content{
+    font-size: 15px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  #settings-button{
+    position: fixed;
+    top:0px;
+    left: calc(100vw - 50px);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  .title-image{
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+  }
+
+  #background{
+    background-image: url('https://www.mandlpaints.com/wp-content/uploads/2018/09/Lead-Gray-600x600.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.2s ease-in-out;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top:0;
+    left:0;
+  }
+  
+  #tabs {
+    margin-top: calc(10vh - 26px);
+    margin-left: 5vw;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .textbox::-webkit-scrollbar {
+    display: none;
+  }
+  .expand-button{
+    background-color: #2b2b2b;
+    border: none;
+    color: white;
+    font-family: 'Philosopher';
+    padding-bottom: 10px;
+    border-bottom: solid white 2px;
+    cursor: pointer;
+    font-size:15px;
+  }
+  .region-button{
+    background-color: slategray;
+    border: none;
+    color: white;
+    font-family: 'Philosopher';
+    padding-bottom: 10px;
+    border-bottom: solid white 2px;
+    cursor: pointer;
+    font-size:15px;
+  }
+  .textbox {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    margin: auto;
+    color: white;
+    height: 80vh;
+    width: 90vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  #sub-story::-webkit-scrollbar{
+    display: none;
+  }
+  #old-sub-story::-webkit-scrollbar{
+    display: none;
+  }
+  #sub-story, #old-sub-story{
+    overflow-y: auto;
+  }
+
+  background{
+    display: none;
+  }
+  
+  #battler{
+    height: 0vh;
+    width: 90vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    margin-left: 5vw;
+    display:flex;
+    color: white;
+  }
+  
+  .character{
+    border: solid white 2px;
+    width: 30vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+  }
+  .abilities-container, .character-stats{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: space-evenly;
+  }
+  
+  #abilities-container-1-1-2, #abilities-container-1-2-2,#abilities-container-2-1-2, #abilities-container-2-2-2{
+    border-left: solid white 1px;
+  }
+  .ability-section{
+    display: flex;
+    justify-content: center;
+  }
+  .ability{
+    padding-right:10px;
+  }
+  
+  .character-name{
+    font-family:'Philosopher';
+    font-size: 18px;
+    border-bottom: solid 2px white;
+  }
+  
+  .character-row{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  #character-row-1-2, #character-row-2-2{
+    border-top: solid 1px white;
+  }
+  
+  .round{
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  #battle-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: solid 2px white;
+    height: 10%;
+    border-bottom: solid 2px white;
+  }
+  .character-image{
+    height: 60%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .character-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: calc(40% - 40px);
+    overflow-y: auto;
+  }
+  
+  #battle-results{
+    border-bottom: solid white 2px;
+    border-top: solid white 2px;
+    width: 30vw;
+  
+  }
+  
+  .bottom {
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: 500ms;
+  }
+  
+  .boxtext {
+    user-select: none;
+    font-size: 17px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+
+  .nextline{
+    padding-bottom: 0px;
+  }
+  
+  .gamemaster-text:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  .hidden-text {
+    display: none;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .tab {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: none;
+    padding: 5px;
+    margin: 0;
+    color: white;
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  #user-input {
+    position: absolute;
+    bottom: 9vh;
+    height: 1vh;
+    margin-left: 5vw;
+    width: 90vw;
+    word-wrap: normal;
+  }
+  
+  .edit-input {
+    background: none;
+    user-select: none;
+    font-size: 17px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .unselected {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: gray;
+  }
+  
+  .invisible-2{
+    visibility: hidden;
+  }
+  
+  .other{
+    text-shadow: 1px 1px 5px #7965a7, 5px 5px 1px #2b0c6e;
+    color: black;
+    font-weight: bold;
+  }
+
+  .shadows{
+    text-shadow: 1px 1px 10px #0e0620,1px 1px 15px white;
+    color: black;
+    font-weight: bold;
+    font-family: 'Mali', cursive;
+  }
+  
+  .eventType{
+    font-family: 'Corsiva';
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+    padding: 0px;
+    padding-bottom: 2.5px;
+  }
+  .title{
+    text-align: center;
+    font-family: 'Philosopher', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    padding-bottom: 10px;
+  }
+  .subtitle{
+    font-family: 'Philosopher', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    padding-bottom: 20px;
+  }
+  .nick-subtitle{
+    font-family: 'Philosopher', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    padding-bottom: 15px;
+  }
+  .story-disclaimer{
+    padding: 20px;
+    text-align: center;
+    font-family: 'Philosopher';
+  }
+
+  #player-title, #turn-title, #main-title{
+    width: 100%;
+  }
+
+  #title-box-region-title{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #turn-players-list{
+    padding-bottom: 40px;
+  }
+  
+  .turn-title{
+    font-family: 'Corsiva';
+    display: flex;
+    justify-content: center;
+    font-size: 80px;
+    padding: 0px;
+  }
+  .turn-subtitle{
+    font-family: 'Corsiva';
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    padding: 0px;
+  }
+  
+  .story-supertitle{
+    font-family: 'Philosopher', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 26px;
+    padding: 5px;
+  }
+  
+  .story-title{
+    font-family: 'Corsiva';
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    font-size: 80px;
+    padding: 0px;
+  }
+  
+  .story-subtitle{
+    font-family: 'Corsiva';
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    padding: 0px;
+  }
+  
+  .story-subsubtitle{
+    font-family: 'Jura', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    font-style: italic;
+  }
+
+  .nick{
+    font-family: 'Jura', sans-serif;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    padding-bottom: 20px;
+    font-style: italic;
+  }
+  
+  #main-story-section{
+    display: flex;
+  }
+
+  #left-arrow, #right-arrow{
+    height: 100%;
+    width: 5vw;
+  }
+  
+  #top-arrow{
+    display: flex;
+    justify-content: center;
+    align-items:flex-end;
+    height: 10vh;
+  }
+  
+  #left-arrow-box,#right-arrow-box{
+    margin-top: 35vh;
+    z-index: 1;
+  }
+  
+  .arrow-box{
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5vw;
+    padding: 1.5vw;
+    cursor: pointer;
+    transition: none;
+  }
+  
+  #top-arrow-box{
+    height: 2vh;
+    width: 10vw;
+    bottom: 0;
+  }
+  
+  .fa-chevron-left, .fa-chevron-right, .fa-chevron-up, .fa-chevron-down{
+    color: white;
+    font-size: 30px;
+  }
+  
+  #player-bottom-left, .left{
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  #player-bottom-right, .right{
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+  
+  .invisible {
+    display: none;
+  }
+  
+  #cutaway-image-collection{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    height: 80vh;
+    margin-left: 5vw;
+    width: 90vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap:wrap;
+    align-items: center;
+  }
+  .cutaway-image{
+    height:20vh;
+    cursor: pointer;
+  }
+  .cutaway-image-subtitle{
+    margin-top: 10px;
+    font-family: 'Arial';
+  }
+  
+  #cutaway-image-container, #choice-container{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top:0;
+    left:0;
+    display: none;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #choice{
+    background-color:rgb(36, 35, 35);
+    color: white;
+    padding: 20px;
+    border: solid 3px white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .choice-title{
+    font-family: 'Philosopher';
+    text-align: center;
+    font-size: 40px;
+    padding-bottom: 10px;
+  }
+  
+  .choice-description{
+    padding-bottom: 10px;
+    font-size: 17px;
+    font-family: "Jura";
+    font-style: italic;
+  }
+  
+  .choice-option{
+    text-align: center;
+    border: solid 3px white;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: -webkit-fill-available;
+    font-family: "Arial";
+  }
+  
+  .unchosen-option{
+    border-color: rgb(110, 110, 110);
+    color: rgb(110, 110, 110);
+  }
+  .chosen-option{
+    cursor: pointer;
+  }
+  .chosen-option:hover{
+    border-color: rgb(255, 252, 210);
+    color: rgb(255, 252, 210);
+  }
+  .continue-button{
+    cursor:pointer;
+    text-align: center;
+    color: white;
+    padding: 5px;
+    border: solid 3px white;
+    margin-top: 10px;
+    font-family: "Arial";
+  }
+  .continue-button:hover{
+    border-color: rgb(255, 252, 210);
+    color: rgb(255, 252, 210);
+  }
+  
+  #cutaway-image{
+    position: absolute;
+    height: 90vh;
+    width: 80vw;
+  }
+  #cutaway-subtitle{
+    align-self: center;
+    position: absolute;
+    bottom: 3.5vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 8px;
+    color: white;
+    font-size: 20px;
+    z-index: 2;
+    display: none;
+    font-family: 'Arial';
+  }
+
+.slider{
+  width: 50vw;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  cursor: pointer; /* Cursor on hover */
+}
+  #title-image{
+    width: 90vw;
+    height: 40vh;
+    padding: 0;
+    padding-top: .4vh;
+  }
+
+  .turn-players{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Philosopher', sans-serif;
+  }
+  #turn-players-title{
+    font-size: 25px;
+    padding-bottom: 20px;
+    font-family: 'Jura', sans-serif;
+    font-style: italic;
+    text-align: center;
+  }
+  #turn-players-list{
+    display: flex;
+    width: 90vw;
+    justify-content: space-around;
+    height: 3vh;
+    align-items: center;
+    font-size: 20px;
+    padding-top: 40px;
+    border-top: white solid 1px;
+  }
+  .turn-player{
+    text-align: center;
+    font-family: "Corsiva";
+    font-size: 30px;
+  }
+  
+  #character-name-title{
+    font-family: "Philosopher", sans-serif;
+    font-size: 20px;
+  }
+  
+  #duchy{
+    display: flex;
+    height: 60vh;
+    width: 90vw;
+    padding: 20px;
+  }
+  
+  #duchy-text{
+    text-align: center;
+    width: 50%;
+  }
+  
+  .duchy-info-p{
+    padding-bottom: 10px;
+  }
+  
+  .duchy-descript-p{
+    text-align: left;
+  }
+  
+  #duchy-symbol{
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  #duchy-image{
+    height: 100%;
+    width: 50%;
+  }
+  
+  #click-signifier-big{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+  }
+  
+  #click-signifier{
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    padding-bottom: 20px;
+  }
+  #htmlConverter{
+    display: none;
+  }
+
+  #event{
+      height: 100%;
+      width: 100%;
+  }
+  /* Main & Sub-Main */
+#story{
+    height: 100%;
+    width: 100%;
+}
+#sub-story-container-container{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+#sub-story-container{
+    height: 200%;
+    width: 400%;
+    display: flex;
+}
+#sub-story, #old-sub-story{
+  height: 50%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial';
+}
+
+.page{
+  height: 100%;
+}
+
+.setting{
+  padding: 10px;
+}
+
+.checkbox-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox{
+  margin-top: 5px;
+}
+
+.event-box{
+  height: 100%;
+  width: 100%;
+}
+
+.height-box{
+  height: 100%;
+  width: 100%;
+  transform: translateY(-200%);
+}
+
+  /* FONT CLASSES */
+  .oswald{
+    font-family: 'Oswald', sans-serif;
+  }
+  .noto-sans-jp{
+    font-family: 'Noto Sans JP', sans-serif;
+  
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  }
+  .philosopher{
+    font-family: 'Philosopher', sans-serif;
+    text-align: center;
+  }
+  .corsiva{
+    font-family: 'Corsiva';
+    font-size:22px;
+  }
+  .indie-flower{
+    font-family: 'Indie Flower';
+    text-align: center;
+    font-size: 20px;
+  }
+  .center{
+    text-align: center;
+  }
+  
+  @keyframes fa-blink {
+    0% { transform: translateY(0px) }
+    25% { transform: translateY(2px) }
+    50% { transform: translateY(0px) }
+    75% { transform: translateY(-2px) }
+    100% { transform: translateY(0px)}
+  }
+  .fa-blink {
+  -webkit-animation: fa-blink 1.5s linear infinite;
+  -moz-animation: fa-blink 1.5s linear infinite;
+  -ms-animation: fa-blink 1.5s linear infinite;
+  -o-animation: fa-blink 1.5s linear infinite;
+  animation: fa-blink 1.5s linear infinite;
+  }
+
+  .ork{
+    color: green;
+    font-size:25px;
+    font-family: "Ork";
+  }
+  
+  .receded-1{
+    font-size:15px;
+  }
+  .receded-2{
+    font-size:13px;
+  }
+  .receded-3{
+    font-size:11px;
+  }
+
+  .big-boy{
+    padding: 0;
+  }
