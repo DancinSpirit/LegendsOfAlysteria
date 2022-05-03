@@ -9,5 +9,8 @@
     </div>  
 </div>
 <script>
+    <%for(let x=0; x<user.playerCharacters.length; x++){%>
+        $("head").append(`<link rel="preload" as="image" href="/images/<%=user.playerCharacters[x].background%>.jpg">`);
+    <%}%>
 </script>
 <animation>left</animation>
