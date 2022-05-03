@@ -112,7 +112,7 @@ app.get("/data/:databaseObject/:id", async function(req,res){
 /* Database Updating */
 app.post("/update/:databaseObject/:id", async function(req,res){
     let databaseObject = req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1);
-    let foundObject = await db[databaseObject].findByIdAndUpdate(req.params.id,JSON.stringify(req.body));
+    let foundObject = await db[databaseObject].findByIdAndUpdate(req.params.id, req.body);
     res.send(foundObject);
 })
 

@@ -60,7 +60,7 @@
     $("#soundVolume-slider").on("change", function(){
         console.log($(this).val()/100)
         user.settings.soundVolume = $(this).val()/100;
-        updateDatabaseObject("User",user._id,user);
+        console.log(updateDatabaseObject("User",user._id,user));
     })
     $("#pageScroll-checkbox").on("change", async function(){
         if(this.checked){

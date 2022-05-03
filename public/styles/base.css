@@ -23,6 +23,7 @@ body{
   background-size: cover;
   background-position: center;
   transition: 1000ms;
+  background-color: gray;
 }
 #sub-base-container-container{
   height: 100%;
