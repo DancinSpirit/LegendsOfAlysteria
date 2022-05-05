@@ -1,4 +1,4 @@
-let transitionSpeed = 1000;
+let transitionSpeed = user.settings.pageSpeed;
 const animations = {};
 
 animations.left = async function(state, component){
