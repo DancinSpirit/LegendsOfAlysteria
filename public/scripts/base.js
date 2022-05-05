@@ -232,15 +232,11 @@ window.addEventListener('popstate',async function(event){
             }
         }
     }
-    if(states[1]=="settings"){
-        
-    }else{
-        for(let x=startingIndex; x<event.state.states.length; x++){
-            states = event.state.states;
-            databaseObjects = event.state.databaseObjects;
-            customData = event.state.customData;
-            await loadState(x);
-        }
+    for(let x=startingIndex; x<event.state.states.length; x++){
+        states = event.state.states;
+        databaseObjects = event.state.databaseObjects;
+        customData = event.state.customData;
+        await loadState(x);
     }
 })
 
