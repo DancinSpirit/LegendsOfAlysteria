@@ -53,6 +53,66 @@
     </section>
 </div>
 <script>
-years = JSON.parse(`<%-JSON.stringify(story.years)%>`); 
+story = JSON.parse(`<%-JSON.stringify(story)%>`); 
+invisibleArrow = false;
+buttons.contentsTab = function(){
+    $("#contents-tab").on("click", async function(){
+        setCookieStates();
+        states = ["story","contents","content-year"];
+        databaseObjects = [databaseObjects[0],false,databaseObjects[0]];
+        customData = [customData[0],customData[1],customData[1]];
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Table of Contents", `/story/contents/content-year`);
+        await loadState(1, "down");
+        await loadState(2, "right");
+       if($("#left-arrow-box").hasClass("invisible")){
+            $("#left-arrow-box").removeClass("invisible");
+            invisibleArrow = true;
+        }
+        $("#left-arrow-box").off("click");
+        $("#right-arrow-box").off("click");
+        $("#left-arrow-box").on("click", async function(){
+            if(customData[2].year>0){
+                customData[2].year--;
+                await loadState(2, "right");
+            }
+        })
+        $("#right-arrow-box").on("click", async function(){
+            if(customData[2].year<story.years.length-1){
+                customData[2].year++;
+                await loadState(2, "left");
+            }
+        })
+    })
+}
+buttons.storyTab = function(){
+    $("#story-tab").on("click", async function(){
+        onContents = false;
+        if(states[1]=="contents"){
+            getCookieStates();
+        }else{
+            if(states[1]=="gamemaster-event"){
+                states[1]=`event`;
+            }
+        }
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story", `/story/${states[1]}`);
+        await loadState(1, "down");
+    })
+}
+
+buttons.gamemasterTab = function(){
+    $("#gamemaster-tab").on("click", async function(){
+        $("#gamemaster-tab").removeClass("unselected");
+        $("#contents-tab").addClass("invisible");
+        $("#story-tab").addClass("unselected")
+        if(states[1]=="event"){
+            states[1]=`gamemaster-event`;
+            await loadState(1, "up");
+        }
+    })
+}
+buttons.contentsTab();
+buttons.storyTab();
+buttons.gamemasterTab();
 </script>
+<background>/images/<%=player.background%>.jpg</background>
 <animation>up</animation>

@@ -1,0 +1,67 @@
+<div id = "year">
+    <section id="year-top">
+        <p>Year <%=year%></p>
+    </section>
+    <section id="year-divider">
+        <%for(let x=0; x<story.years[year].seasons.length; x++){%>
+            <section id="<%=x%>-season" class="season">
+                <%let turnNum = 0;%>
+                <%if(year<1){%>
+                    <%turnNum = x-3;%>
+                <%}else{%>
+                    <%turnNum = (year*4)+x-3;%>
+                <%}%>
+                <p id="<%=turnNum%>|<%=year%>|<%=x%>|season" class="season-title"><%=story.years[year].seasons[x].name%></p>
+                <button class="expand-button" id="<%=x%>"><i class="fa-solid fa-arrows-left-right"></i><i class="invisible fa-solid fa-arrow-left-rotate"></i></button>
+                <section class="region-container">
+                    <%for(let y=0; y<story.years[year].seasons[x].regionPhases.length; y++){%>
+                        <section class="region-section" id="<%=x%>-<%=y%>-region">
+                            <p id="<%=year%>|<%=x%>|<%=y%>|region" class="region-title"><%=story.years[year].seasons[x].regionPhases[y].name%></p>
+                            <button class= 'region-button invisible' id= '<%=x%>-<%=y%>'><i class="fa-solid fa-arrows-left-right"></i><i class="invisible fa-solid fa-arrow-left-rotate"></i></button>
+                            <section class="region-phase">
+                                <%for(let z=0; z<story.years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){%>
+                                    <section class="ruler-phase <%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replaceAll(' ','-').replaceAll(',','')%>">
+                                        <p id="<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name=="Keith Zandros"){%>From Shadows Into Light<%}else{%><%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name%><%}%></p>
+                                        <%for(let a=0; a<story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){%>
+                                            <section id="event-content-<%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>"class="event-content">
+                                            </section>
+                                        <%}%>
+                                    </section>
+                                <%}%>
+                            </section>
+                        </section>
+                    <%}%>
+                </section>
+            </section>
+        <%}%>
+        <%for(let x=0; x<4-story.years[year].seasons.length; x++){%>
+            <section class="season fake">
+                <p class="season-title fake" style="padding-bottom: 10px; border-bottom: solid white 2px;">Yet To Be Written</p>
+                <section class="region-phase fake">
+                    <section class="ruler-phase fake" style="background-color: #2b2b2b;">
+                        <p class="ruler-title fake">Yet To Be Written</p>
+                            <section class="event-content fake">
+                                Yet To Be Written
+                            </section>
+                    </section>
+                </section>
+            </section>
+        <%}%>
+    </section>
+</div> 
+<script>
+    onContents=true;
+    returnEvents(story,"<%=year%>");
+    $(".expand-button").on("click", function(){
+      expandSeason(this);
+    })
+        $(".region-button").on("click", function(){
+        expandRegion(this)
+    })
+    if(story.years[<%=year%>].seasons.length==1){
+        $(".expand-button").click();
+    }
+</script>
+<div class = "height-box">
+
+</div>

@@ -42,9 +42,7 @@
     }
     buttons.homeSettingsClick = function(){
         $("#home-settings-button").on("click", async function(){
-            setInfinityCookie("origin-states",states);
-            setInfinityCookie("origin-databaseObjects",JSON.stringify(databaseObjects));
-            setInfinityCookie("origin-customData",JSON.stringify(customData));
+            setCookieStates();
             states = ["main","settings"];
             databaseObjects = [false,false];
             customdata = [false,false];

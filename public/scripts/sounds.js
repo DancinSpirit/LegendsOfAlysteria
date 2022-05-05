@@ -1,5 +1,4 @@
 let song = false;
-let continueEvent = true;
 
 const playSound = function(url){
     if(!document.getElementById(url.replace(/\s+/g, '-'))){

@@ -53,9 +53,7 @@
     }
     buttons.mainSettingsClick = function(){
         $("#main-settings-button").on("click", async function(){
-            setInfinityCookie("origin-states",states);
-            setInfinityCookie("origin-databaseObjects",JSON.stringify(databaseObjects));
-            setInfinityCookie("origin-customData",JSON.stringify(customData));
+            setCookieStates();
             //Deactivate Menu
             $("#account-options").css("display","none");
             $("#account-info").css("background-color","var(--dark)")

@@ -78,6 +78,24 @@ app.get("/", function(req,res){
     res.render('base',{states: ["start"], databaseObjects: [false], customData: [false]});
 })
 
+/* Database Loading By Property */
+app.get("/data/:databaseObject/:property/:name", async function(req,res){
+    const data = await db[req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1)].findOne({[req.params.property]: req.params.name});
+    res.send(data);
+})
+
+/* Database Loading */
+app.get("/data/:databaseObject/:id", async function(req,res){
+    const data = await db[req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1)].findById(req.params.id);
+    res.send(data);
+})
+
+/* Return ALL From Database */
+app.get("/data/:databaseObject", async function(req,res){
+    const data = await db[req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1)].find();
+    res.send(data);
+})
+
 /* Page Loading */
 app.get("/*", function(req, res){
     let states = [];
@@ -101,12 +119,6 @@ app.get("/*", function(req, res){
         }
     }
     res.render('base',{states: states, databaseObjects: databaseObjects, customData: customData});
-})
-
-/* Database Loading */
-app.get("/data/:databaseObject/:id", async function(req,res){
-    const data = await db[req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1)].findById(req.params.id);
-    res.send(data);
 })
 
 /* Database Updating */

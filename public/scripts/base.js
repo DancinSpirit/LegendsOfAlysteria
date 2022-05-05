@@ -82,6 +82,30 @@ const loadDatabaseObject = async function(name, id){
     })
 }
 
+const loadAllDatabaseObjects = async function(name){
+    return new Promise((resolve)=>{
+        $.ajax({
+            method: "GET",
+            url: `/data/${name}`,
+            success: (res)=>{
+                resolve(res);
+            }
+        }) 
+    })
+}
+
+const loadDatabaseObjectByProperty = async function(name, property, value){
+    return new Promise((resolve)=>{
+        $.ajax({
+            method: "GET",
+            url: `/data/${name}/${property}/${value}`,
+            success: (res)=>{
+                resolve(res);
+            }
+        }) 
+    })
+}
+
 const updateDatabaseObject = async function(name,id,data){
     return new Promise((resolve)=>{
         $.ajax({
@@ -119,7 +143,7 @@ const componentCheck = async function(component){
             let customData = {};
             if(components[y].split("<database>").length>1){
                 for(let x=0; x<components[y].split("<database>")[1].split("|").length; x++){
-                    databaseObjects.push({name: components[y].split("<database>")[1].split("|")[x].split("=")[0], id: components[y].split("<database>").split("|")[x].split("=")[1].split("</database>")});
+                    databaseObjects.push({name: components[y].split("<database>")[1].split("|")[x].split("=")[0], id: components[y].split("<database>")[1].split("|")[x].split("=")[1].split("</database>")[0]});
                 }
             }
             if(components[y].split("<data>").length>1){
@@ -219,6 +243,26 @@ window.addEventListener('popstate',async function(event){
         }
     }
 })
+
+function setCookieStates(){
+    setInfinityCookie("origin-states",states);
+    setInfinityCookie("origin-databaseObjects",JSON.stringify(databaseObjects));
+    setInfinityCookie("origin-customData",JSON.stringify(customData));
+}
+
+function getCookieStates(){
+    states = convertCookieToArray(getCookie("origin-states"));
+    try{
+        databaseObjects= JSON.parse(getCookie("origin-databaseObjects"));    
+    }catch(e){
+        databaseObjects= convertCookieToArray(getCookie("origin-databaseObjects"));    
+    }
+    try{
+        customData = JSON.parse(getCookie("origin-customData"));  
+    }catch(e){
+        customData = convertCookieToArray(getCookie("origin-customData"));    
+    }
+}
 
 function setInfinityCookie(name, value){
     document.cookie = name + "=" + value + ";  path=/";
