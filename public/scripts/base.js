@@ -196,12 +196,12 @@ const loadState = async function(x, animation){
 }
 
 const loadStates = async function(){
-    if(!user&&(states[1]!="login"&&states[1]!="register")){
+    if(!user.firstName&&(states[1]!="login"&&states[1]!="register")){
         states = ["main","login"];
         databaseObjects = [false,false];
         customData = [false,false];
         window.history.replaceState({states:states,databaseObjects:databaseObjects,customData:customData}, "login", "/main/login");
-    }else if(user&&(states[1]=="login"||states[1]=="register")){
+    }else if(user.firstName&&(states[1]=="login"||states[1]=="register")){
         states = ["main","home"];
         databaseObjects = [false,false];
         customData = [false,false];

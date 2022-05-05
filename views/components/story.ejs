@@ -55,6 +55,7 @@
 <script>
 story = JSON.parse(`<%-JSON.stringify(story)%>`); 
 invisibleArrow = false;
+loadStory();
 buttons.contentsTab = function(){
     $("#left-arrow-box").off("click");
     $("#right-arrow-box").off("click");

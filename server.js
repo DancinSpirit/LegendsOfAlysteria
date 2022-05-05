@@ -68,9 +68,8 @@ app.post("/register", async function(req, res){
 })
 /* Logout */
 app.post("/logout", async function(req,res){
-    req.session.currentUser = false;
-    req.session.currentPlayer = false;
-    return res.send();
+    req.session.currentUser = {settings:{pageSpeed:1000}};
+    return res.send(req.session.currentUser);
 })
 
 /* Home Page Loading */

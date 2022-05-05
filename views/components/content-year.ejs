@@ -50,8 +50,7 @@
     </section>
 </div> 
 <script>
-    onContents=true;
-    returnEvents(story,"<%=year%>");
+    returnEvents(<%=year%>);
     $(".expand-button").on("click", function(){
       expandSeason(this);
     })

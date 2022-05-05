@@ -77,7 +77,7 @@
             $("#account-info").off("click");
             buttons.accountInfoClick();
 
-            await logout();
+            user = await logout();
             states = ["main","login"];
             databaseObjects = [false,false];
             customdata = [false,false];       
