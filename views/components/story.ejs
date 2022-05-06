@@ -125,11 +125,15 @@ if(isMobile){
 
     function handleGesture() {
         if (touchendX <= touchstartX) {
-            $("#right-arrow-box").click();
+            if(touchstartX - touchendX > 50){
+                $("#right-arrow-box").click();
+            }
         }
         
         if (touchendX >= touchstartX) {
-            $("#left-arrow-box").click();
+            if(touchstartX - touchendX < -50){
+                $("#left-arrow-box").click();
+            }
         }
         
         if (touchendY <= touchstartY) {
