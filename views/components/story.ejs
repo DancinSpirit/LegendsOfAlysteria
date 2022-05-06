@@ -69,22 +69,10 @@ buttons.contentsTab = function(){
         window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Table of Contents", `/story/contents/content-year`);
         await loadState(1, "down");
         await loadState(2, "right");
-       if($("#left-arrow-box").hasClass("invisible")){
+        if($("#left-arrow-box").hasClass("invisible")){
             $("#left-arrow-box").removeClass("invisible");
             invisibleArrow = true;
         }
-        $("#left-arrow-box").on("click", async function(){
-            if(customData[2].year>0){
-                customData[2].year--;
-                await loadState(2, "right");
-            }
-        })
-        $("#right-arrow-box").on("click", async function(){
-            if(customData[2].year<story.years.length-1){
-                customData[2].year++;
-                await loadState(2, "left");
-            }
-        })
     })
 }
 buttons.storyTab = function(){
@@ -118,6 +106,45 @@ buttons.gamemasterTab = function(){
 buttons.contentsTab();
 buttons.storyTab();
 buttons.gamemasterTab();
+if(isMobile){
+    let touchstartX = 0;
+    let touchstartY = 0;
+    let touchendX = 0;
+    let touchendY = 0;
+
+    window.addEventListener('touchstart', function(event) {
+        touchstartX = event.changedTouches[0].screenX;
+        touchstartY = event.changedTouches[0].screenY;
+    }, false);
+
+    window.addEventListener('touchend', function(event) {
+        touchendX = event.changedTouches[0].screenX;
+        touchendY = event.changedTouches[0].screenY;
+        handleGesture();
+    }, false); 
+
+    function handleGesture() {
+        if (touchendX <= touchstartX) {
+            $("#right-arrow-box").click();
+        }
+        
+        if (touchendX >= touchstartX) {
+            $("#left-arrow-box").click();
+        }
+        
+        if (touchendY <= touchstartY) {
+            //UP
+        }
+        
+        if (touchendY >= touchstartY) {
+            //DOWN
+        }
+        
+        if (touchendY === touchstartY) {
+            //TAP
+        }
+    }
+}
 </script>
 <background>/images/<%=player.background%>.jpg</background>
 <animation>up</animation>

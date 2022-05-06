@@ -16,6 +16,18 @@
 
 </div>
 <script>
+        $("#left-arrow-box").on("click", async function(){
+            if(customData[2].year>0){
+                customData[2].year--;
+                await loadState(2, "right");
+            }
+        })
+        $("#right-arrow-box").on("click", async function(){
+            if(customData[2].year<story.years.length-1){
+                customData[2].year++;
+                await loadState(2, "left");
+            }
+        })
     $("#gamemaster-tab").addClass("invisible")
     $("#contents-tab").removeClass("unselected");
     $("#story-tab").addClass("unselected")
