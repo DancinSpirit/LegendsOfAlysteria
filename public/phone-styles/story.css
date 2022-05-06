@@ -216,7 +216,7 @@
     /* Firefox */
     margin: auto;
     color: white;
-    height: calc(100vh - 5px);
+    height: calc(100% - 5px);
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.7);
     position: relative;
@@ -498,6 +498,7 @@
   
   #main-story-section{
     display: flex;
+    height:100%;
   }
   
   #top-arrow{
