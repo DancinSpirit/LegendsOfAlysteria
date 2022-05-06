@@ -43,13 +43,7 @@ const loadEvents = async function(story){
 }
 
 const loadStory = async function(){
-    $("#sub-story").html("<div id='loading'><p id='loading-p' class='boxtext story-supertitle'><i class='fa-solid fa-spinner'></i></p></div>");
     $("#sub-story").css("display","block");
-    $("#loading").css("width","50%")
-    $("#loading").css("height","100%");
-    $("#loading").css("display","flex");
-    $("#loading").css("align-items","center");
-    $("#loading-p").css("width","100%");
     await loadEvents(story);
 }
 
