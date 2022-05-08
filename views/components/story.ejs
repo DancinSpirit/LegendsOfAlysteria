@@ -1,5 +1,5 @@
 <div id = "story">
-    <div class="invisible external" id="settings-button">
+    <div class="external" id="settings-button">
         <i class="fas fa-cog"></i>
     </div>
     <section id="top-section">
@@ -56,11 +56,18 @@
 </div>
 <script>
 story = JSON.parse(`<%-JSON.stringify(story)%>`); 
-invisibleArrow = false;
 loadStory();
+buttons.settingsClick = function(){
+        $("#settings-button").on("click", async function(){
+            setCookieStates();
+            states = ["main","settings"];
+            databaseObjects = [false,false];
+            customdata = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings", "/main/settings");
+            await loadStates();
+        })
+    } 
 buttons.contentsTab = function(){
-    $("#left-arrow-box").off("click");
-    $("#right-arrow-box").off("click");
     $("#contents-tab").on("click", async function(){
         setCookieStates();
         states = ["story","contents","content-year"];
@@ -71,7 +78,6 @@ buttons.contentsTab = function(){
         await loadState(2, "right");
         if($("#left-arrow-box").hasClass("invisible")){
             $("#left-arrow-box").removeClass("invisible");
-            invisibleArrow = true;
         }
     })
 }
@@ -103,6 +109,7 @@ buttons.gamemasterTab = function(){
         }
     })
 }
+buttons.settingsClick();
 buttons.contentsTab();
 buttons.storyTab();
 buttons.gamemasterTab();

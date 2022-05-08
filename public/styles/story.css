@@ -689,7 +689,7 @@
 }
   #title-image{
     width: 90vw;
-    height: 40vh;
+    height: 30vh;
     padding: 0;
     padding-top: .4vh;
   }
@@ -930,6 +930,10 @@
   }
  
   #title-box-contents{
+    padding-top: 20px;
+  }
+
+  #title-box-event{
     padding-top: 20px;
   }
 

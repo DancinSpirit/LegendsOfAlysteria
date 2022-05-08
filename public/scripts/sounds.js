@@ -75,3 +75,8 @@ const loadMusic = async function(url){
         }
     })
 }
+
+const stopAudio = function(song){
+    song.pause();
+    song.currentTime = 0;
+}

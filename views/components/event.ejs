@@ -1,0 +1,74 @@
+<div id = "event-<%=event._id%>" class="event-box">
+    <%if(user.settings.pageScroll){%>
+    <section id="page-1" class="page">
+    <%}%>
+        <p class="boxtext big-boy big-boy-event"></p>
+        <div id="title-box-event">
+            <p class="boxtext eventType">~ <%=event.type%> ~</p>
+            <p class="boxtext title"><%=event.title%></p>
+            <%if(event.type=="Original CHF Event"){%>
+                <p class="boxtext nick-subtitle"><%=event.subtitle%></p>
+                <p class="boxtext nick"> - Written by Nick Nienberg - </p> 
+            <%}else{%>
+                <p class="boxtext subtitle"><%=event.subtitle%></p>
+            <%}%>
+            <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
+        </div>
+        <p id="big-boy-2" class="boxtext big-boy big-boy-event"></p>
+    <%if(user.settings.pageScroll){%>
+    </section>
+    <%}%>
+</div> 
+<div id = "event-<%=event._id%>-height-box" class = "height-box">
+
+</div>
+<script>
+    eventId = JSON.parse(`<%-JSON.stringify(event._id)%>`); 
+    text = JSON.parse(`<%-JSON.stringify(event.text)%>`); 
+    loadMusic(`<%=event.startingMusic%>`);
+    $("#left-arrow-box").removeClass("invisible");
+    $("#left-arrow-box").off("click");
+    $("#left-arrow-box").on("click", function(){
+        if(customData[1].eventIndex>0){
+            states = ["story","event"]
+            customData[1].eventIndex--;
+            let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
+            let alreadyExists = false;
+            for(let x=0; x<databaseObjects[1].length; x++){
+                if(databaseObjects[1][x].name=="Event"){
+                    alreadyExists = true;
+                    databaseObjects[1][x].id = event;
+                }
+            }
+            if(!alreadyExists){
+                databaseObjects[1].push({name:"Event",id:event})
+            }
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        }else{
+            states = ["story","player-title"]
+            databaseObjects = databaseObjects;
+            customData = customData;
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Player Title", "/story/player-title");  
+        }
+        loadState(1,"right");
+    })
+    $("#right-arrow-box").off("click");
+    $("#right-arrow-box").on("click", function(){
+        states = ["story","event"]
+        customData[1].eventIndex++;
+        let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
+        let alreadyExists = false;
+        for(let x=0; x<databaseObjects[1].length; x++){
+            if(databaseObjects[1][x].name=="Event"){
+                alreadyExists = true;
+                databaseObjects[1][x].id = event;
+            }
+        }
+        if(!alreadyExists){
+            databaseObjects[1].push({name:"Event",id:event})
+        }
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        loadState(1,"left");
+    })
+</script>
+<background>/images/<%=event.background%>.jpg</background>

@@ -11,7 +11,17 @@
 
 </div>
 <script>
-    customData[1] = {year:0,turn:0,season:0}
+    $("#left-arrow-box").off("click");
+    $("#right-arrow-box").off("click");
+    $("#left-arrow-box").addClass("invisible");
+    $("#right-arrow-box").on("click",function(){
+        states = ["story","turn-title"]
+        databaseObjects = databaseObjects;
+        customData = customData;
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+        loadState(1,"left");
+    })
+    customData[1] = {year:0,turn:-3,season:0}
     $("#gamemaster-tab").addClass("unselected")
     $("#gamemaster-tab").removeClass("invisible");
     $("#contents-tab").addClass("unselected");

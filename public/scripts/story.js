@@ -2,6 +2,7 @@ let continueEvent = true;
 let invisibleArrow = false;
 let playersLoaded = false;
 let eventArray = []
+let currentStory = false;
 
 const loadPlayerColors = async function(){
     if(!playersLoaded){
@@ -44,7 +45,10 @@ const loadEvents = async function(story){
 
 const loadStory = async function(){
     $("#sub-story").css("display","block");
-    await loadEvents(story);
+    if(currentStory._id!=story._id){
+        await loadEvents(story);
+    }
+    currentStory = story;
 }
 
 const returnEventTitle = function(id){

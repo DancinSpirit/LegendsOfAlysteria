@@ -1,0 +1,59 @@
+<div id = "region-title">
+    <p class="boxtext big-boy big-boy-region-title"></p>
+    <div id="title-box-region-title">
+        <section class="boxtext title-image" id="title-image" style="background-image: url(<%=story.years[year].seasons[season].regionPhases[regionPhase].emblem%>)"></section>
+        <p class="boxtext turn-title"><%=story.years[year].seasons[season].regionPhases[regionPhase].name%></p>
+        <p class="boxtext turn-subtitle">
+            <%if(season=="0"){%>
+                Winter
+            <%}%>
+            <%if(season=="1"){%>
+                Spring
+            <%}%>
+            <%if(season=="2"){%>
+                Summer
+            <%}%>
+            <%if(season=="3"){%>
+                Fall
+            <%}%>
+            of Year <%=year%></p>
+        <%if(story.years[year].seasons[season].regionPhases[regionPhase].players.length){%>
+            <p class="boxtext turn-players">
+                <div id="turn-players-title">Players</div>
+                <div id="turn-players-list">
+                    <%for(let y=0; y<story.years[year].seasons[season].regionPhases[regionPhase].players.length; y++){%>
+                        <div>
+                            <div class="turn-player"><%=story.years[year].seasons[season].regionPhases[regionPhase].players[y].name%></div>
+                            <div class="turn-player" id="character-name-title"><%=story.years[year].seasons[season].regionPhases[regionPhase].players[y].character%></div>
+                        </div>
+                    <%}%>
+                </div>
+            </p>
+        <%}%>
+    </div>
+    <p class="boxtext big-boy big-boy-region-title"></p>
+</div> 
+<div class = "height-box">
+
+</div>
+<background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>
+<script>
+    $("#left-arrow-box").removeClass("invisible");
+    $("#left-arrow-box").off("click");
+    $("#left-arrow-box").on("click",function(){
+        states = ["story","turn-title"]
+        databaseObjects = databaseObjects;
+        customData = customData;
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+        loadState(1,"right");
+    })
+    $("#right-arrow-box").off("click");
+    $("#right-arrow-box").on("click", function(){
+        states = ["story","player-title"]
+        databaseObjects = databaseObjects;
+        customData[1].rulerPhase = 0;
+        customData = [customData[0],customData[1]];
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Player Title", "/story/player-title");
+        loadState(1,"left");
+    })
+</script>
