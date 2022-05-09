@@ -16,6 +16,8 @@
 
 </div>
 <script>
+    $("#left-arrow-box").off("click");
+    $("#right-arrow-box").off("click");
         $("#left-arrow-box").on("click", async function(){
             if(customData[2].year>0){
                 customData[2].year--;
