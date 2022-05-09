@@ -163,6 +163,8 @@ const componentCheck = async function(component){
 }
 
 const loadState = async function(x, animation){
+    $("body").append("<div id='button-blocker'></div>")
+    keyButtons = false;
     await deactivateButtons(x);
     if(isMobile){
         if(!$(`#${states[x]}-style`).length){
@@ -193,6 +195,8 @@ const loadState = async function(x, animation){
             await animations.left(previousState, component);
         }
     }
+    $("#button-blocker").remove();
+    keyButtons = true;
 }
 
 const loadStates = async function(){

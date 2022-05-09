@@ -14,6 +14,8 @@
     $("#left-arrow-box").off("click");
     $("#right-arrow-box").off("click");
     $("#left-arrow-box").addClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").removeClass("invisible");
     $("#right-arrow-box").on("click",function(){
         states = ["story","turn-title"]
         databaseObjects = databaseObjects;
@@ -27,5 +29,6 @@
     $("#contents-tab").addClass("unselected");
     $("#contents-tab").removeClass("invisible");
     $("#story-tab").removeClass("unselected")
+    activateTitleClick();
 </script>
 <background>/images/<%=player.background%>.jpg</background>

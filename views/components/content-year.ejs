@@ -52,9 +52,9 @@
 <script>
     returnEvents(<%=year%>);
     $(".expand-button").on("click", function(){
-      expandSeason(this);
+        expandSeason(this);
     })
-        $(".region-button").on("click", function(){
+    $(".region-button").on("click", function(){
         expandRegion(this)
     })
     if(story.years[<%=year%>].seasons.length==1){

@@ -32,6 +32,13 @@
 <%}%>
 <script>
     $("#left-arrow-box").removeClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").removeClass("invisible");
+    $("#gamemaster-tab").addClass("unselected")
+    $("#gamemaster-tab").removeClass("invisible");
+    $("#contents-tab").addClass("unselected");
+    $("#contents-tab").removeClass("invisible");
+    $("#story-tab").removeClass("unselected")
     $("#left-arrow-box").off("click");
     $("#left-arrow-box").on("click",function(){
         states = ["story","region-title"]
@@ -59,4 +66,5 @@
         window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
         loadState(1,"left");
     })
+    activateTitleClick();
 </script>

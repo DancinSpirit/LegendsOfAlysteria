@@ -5,8 +5,8 @@
     <section id="top-section">
         <section id="tabs">
             <button class="tab" id="story-tab">Story</button>
-            <button class="tab unselected" id="contents-tab">Table of Contents</button> 
-            <button class="tab unselected <%if(!user.gamemaster){%>invisible-2<%}%>" id="gamemaster-tab">Gamemaster View</button> 
+            <button class="tab unselected invisible" id="contents-tab">Table of Contents</button> 
+            <button class="tab unselected invisible <%if(!user.gamemaster){%>invisible-2<%}%>" id="gamemaster-tab">Gamemaster View</button> 
         </section>
     </section>
     <section id="main-story-section">
@@ -29,11 +29,11 @@
             </section>
         </section>  
         <section id="right-arrow">
-            <section class="arrow-box" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
+            <section class="arrow-box invisible" id="right-arrow-box"><i class="fas fa-chevron-right"></i></section>
         </section>
     </section>
     <section id="top-arrow">
-        <section class="arrow-box" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
+        <section class="arrow-box invisible" id="top-arrow-box"><i class="fas fa-chevron-up"></i></section>
     </section>
     <section id="cutaway-image-collection" class="invisible external">
 
@@ -57,6 +57,30 @@
 <script>
 story = JSON.parse(`<%-JSON.stringify(story)%>`); 
 loadStory();
+$("body").on("keydown", function (e) {
+    if (e.keyCode == 17) {
+        if(enterButton&&keyButtons)
+            $("#player-box").click()
+    }
+})
+
+$("body").on("keypress", function (e) {
+    if (e.keyCode == 13 || e.keyCode == 32) {
+        if(ctrlButton&&keyButtons)
+            $("#player-box").click();
+    }
+})
+
+$("body").on("keydown", function (e){
+    if(e.keyCode == 37){
+        if(keyButtons)
+        $("#left-arrow-box").click();
+    }
+    if(e.keyCode == 39){
+        if(keyButtons)
+        $("#right-arrow-box").click();
+    }
+})
 buttons.settingsClick = function(){
         $("#settings-button").on("click", async function(){
             setCookieStates();
@@ -113,6 +137,24 @@ buttons.settingsClick();
 buttons.contentsTab();
 buttons.storyTab();
 buttons.gamemasterTab();
+
+window.addEventListener('contextmenu', function(e){
+    if(!user.gamemaster){
+        e.preventDefault();
+        if(screen){
+            $("#title-box-event").css("visibility","hidden");
+            $("#sub-base").css("visibility","hidden");
+            $("#settings-button").css("visibility","hidden");
+            screen = false;
+        }else{
+            $("#sub-base").css("visibility","visible");
+            $("#title-box-event").css("visibility","visible");
+            $("#settings-button").css("visibility","visible");
+            screen = true;
+        }
+    }
+}) 
+
 if(isMobile){
     let touchstartX = 0;
     let touchstartY = 0;

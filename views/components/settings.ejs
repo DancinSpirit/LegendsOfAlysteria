@@ -75,7 +75,7 @@
     })
     $("#return").on("click",async function(){
         getCookieStates();
-        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings Return", `/main/${states[1]}`);
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Settings Return", `/${states[0]}/${states[1]}`);
         if(states[0]=="main")
         loadState(1,"up");
         else

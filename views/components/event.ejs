@@ -14,7 +14,6 @@
             <%}%>
             <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
         </div>
-        <p id="big-boy-2" class="boxtext big-boy big-boy-event"></p>
     <%if(user.settings.pageScroll){%>
     </section>
     <%}%>
@@ -24,11 +23,21 @@
 </div>
 <script>
     eventId = JSON.parse(`<%-JSON.stringify(event._id)%>`); 
+    index = -1;
+    pageNum = 1;
     text = JSON.parse(`<%-JSON.stringify(event.text)%>`); 
     loadMusic(`<%=event.startingMusic%>`);
     $("#left-arrow-box").removeClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").removeClass("invisible");
+    $("#gamemaster-tab").addClass("unselected")
+    $("#gamemaster-tab").removeClass("invisible");
+    $("#contents-tab").addClass("unselected");
+    $("#contents-tab").removeClass("invisible");
+    $("#story-tab").removeClass("unselected")
     $("#left-arrow-box").off("click");
     $("#left-arrow-box").on("click", function(){
+        eventInterrupt = true;
         if(customData[1].eventIndex>0){
             states = ["story","event"]
             customData[1].eventIndex--;
@@ -54,21 +63,45 @@
     })
     $("#right-arrow-box").off("click");
     $("#right-arrow-box").on("click", function(){
-        states = ["story","event"]
-        customData[1].eventIndex++;
-        let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
-        let alreadyExists = false;
-        for(let x=0; x<databaseObjects[1].length; x++){
-            if(databaseObjects[1][x].name=="Event"){
-                alreadyExists = true;
-                databaseObjects[1][x].id = event;
+        eventInterrupt = true;
+        if(customData[1].eventIndex++<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1){
+            states = ["story","event"]
+            customData[1].eventIndex++;
+            let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
+            let alreadyExists = false;
+            for(let x=0; x<databaseObjects[1].length; x++){
+                if(databaseObjects[1][x].name=="Event"){
+                    alreadyExists = true;
+                    databaseObjects[1][x].id = event;
+                }
+            }
+            if(!alreadyExists){
+                databaseObjects[1].push({name:"Event",id:event})
+            }
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        }else{
+            if(customData[1].rulerPhase<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases.length-1){
+                //load RulerPhase
+            }else{
+                if(customData[1].regionPhase<story.years[customData[1].year].seasons[customData[1].season].regionPhases.length-1){
+                    //load RegionPhase
+                }else{
+                    if(customData[1].season<story.years[customData[1].year].seasons.length-1){
+                        //load Season
+                    }else{
+                        if(customData[1].year<story.years.length-1){
+                            //load Year
+                        }else{
+                            states = ["story","to-be-continued"];
+                            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "To Be Continued", "/story/to-be-continued");
+                        }   
+                    }   
+                } 
             }
         }
-        if(!alreadyExists){
-            databaseObjects[1].push({name:"Event",id:event})
-        }
-        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        
         loadState(1,"left");
     })
+    loadEvent();
 </script>
 <background>/images/<%=event.background%>.jpg</background>

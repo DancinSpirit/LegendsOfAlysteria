@@ -42,9 +42,9 @@ const loadMusic = async function(url){
                 if(!document.getElementById(url.replace(/\s+/g, '-'))){
                     $("audio").attr("src","");
                     if(repeat)
-                    $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" loop src="/sounds/${url}.mp3"></audio>`);
+                    $("body").append(`<audio id="${url.replace(/\s+/g, '-')}" loop src="/sounds/${url}.mp3"></audio>`);
                     else
-                    $("#story").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
+                    $("body").append(`<audio id="${url.replace(/\s+/g, '-')}" src="/sounds/${url}.mp3"></audio>`);
                 }else{
                     if(document.getElementById(url.replace(/\s+/g, '-')).paused){
                         $(`#${url.replace(/\s+/g, '-')}`).attr("src",`/sounds/${url}.mp3`)

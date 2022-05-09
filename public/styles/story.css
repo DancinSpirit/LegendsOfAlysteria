@@ -891,6 +891,8 @@
 
   .big-boy{
     padding: 0;
+    height: calc(50% - 105px);
+    transition: 1000ms;
   }
 
   .fa-spinner{
