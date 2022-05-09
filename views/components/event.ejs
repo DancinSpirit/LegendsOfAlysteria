@@ -64,7 +64,7 @@
     $("#right-arrow-box").off("click");
     $("#right-arrow-box").on("click", function(){
         eventInterrupt = true;
-        if(customData[1].eventIndex++<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1){
+        if(customData[1].eventIndex<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1){
             states = ["story","event"]
             customData[1].eventIndex++;
             let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
@@ -81,10 +81,17 @@
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
         }else{
             if(customData[1].rulerPhase<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases.length-1){
-                //load RulerPhase
+                customData[1].rulerPhase++;
+                customData[1].eventIndex = 0;
+                states = ["story","player-title"];
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Player Title", "/story/player-title");
             }else{
                 if(customData[1].regionPhase<story.years[customData[1].year].seasons[customData[1].season].regionPhases.length-1){
-                    //load RegionPhase
+                    customData[1].regionPhase++;
+                    customData[1].rulerPhase = 0;
+                    customData[1].eventIndex = 0;
+                    states = ["story","region-title"];
+                    window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Region Title", "/story/region-title");
                 }else{
                     if(customData[1].season<story.years[customData[1].year].seasons.length-1){
                         //load Season

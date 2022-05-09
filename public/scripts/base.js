@@ -177,7 +177,11 @@ const loadState = async function(x, animation){
     }
     let component = await loadComponent(states[x],databaseObjects[x],customData[x]);    
     if(component.includes("<background>")){
-        $("body").css("background-image",`url("${component.split("<background>")[1].split("</background>")[0]}"`);
+        let background = component.split("<background>")[1].split("</background>")[0];
+        if(background.includes("[TOP]")){
+            $("body").css("background-position","top");
+        }
+        $("body").css("background-image",`url("${background.replace("[TOP]","")}"`);
     }
     component = await componentCheck(component);
     let previousState;

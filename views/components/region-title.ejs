@@ -48,10 +48,29 @@
     $("#story-tab").removeClass("unselected")
     $("#left-arrow-box").off("click");
     $("#left-arrow-box").on("click",function(){
-        states = ["story","turn-title"]
-        databaseObjects = databaseObjects;
-        customData = customData;
-        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+        if(customData[1].regionPhase==0){
+            states = ["story","turn-title"]
+            databaseObjects = databaseObjects;
+            customData = customData;
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+        }else{
+            states = ["story","event"]
+            customData[1].regionPhase--;
+            customData[1].rulerPhase = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases.length-1;
+            customData[1].eventIndex = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1;
+            let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
+            let alreadyExists = false;
+            for(let x=0; x<databaseObjects[1].length; x++){
+                if(databaseObjects[1][x].name=="Event"){
+                    alreadyExists = true;
+                    databaseObjects[1][x].id = event;
+                }
+            }
+            if(!alreadyExists){
+                databaseObjects[1].push({name:"Event",id:event})
+            }
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        }
         loadState(1,"right");
     })
     $("#right-arrow-box").off("click");

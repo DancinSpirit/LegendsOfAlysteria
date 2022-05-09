@@ -17,6 +17,16 @@
     $("#top-arrow-box").removeClass("invisible");
     $("#right-arrow-box").removeClass("invisible");
     $("#right-arrow-box").on("click",function(){
+        while(!story.years[customData[1].year].seasons[customData[1].season].regionPhases.length){
+            if(customData[1].season<3){
+                customData[1].season++
+                customData[1].turn++;
+            }else{
+                customData[1].year++
+                customData[1].turn++;
+                customData[1].season = 0;
+            }
+        }
         states = ["story","turn-title"]
         databaseObjects = databaseObjects;
         customData = customData;
