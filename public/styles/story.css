@@ -140,17 +140,6 @@
     padding-right: 5px;
   }
 
-  #settings-button{
-    position: fixed;
-    top:0px;
-    left: calc(100vw - 50px);
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    font-size: 30px;
-    cursor: pointer;
-  }
-
   .title-image{
     background-repeat: no-repeat;
     background-size: contain;
@@ -805,10 +794,6 @@
 
 .page{
   height: 100%;
-}
-
-.setting{
-  padding: 10px;
 }
 
 .checkbox-form{

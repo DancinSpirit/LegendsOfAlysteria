@@ -103,6 +103,9 @@ buttons.contentsTab = function(){
         if($("#left-arrow-box").hasClass("invisible")){
             $("#left-arrow-box").removeClass("invisible");
         }
+        $("#contents-tab").off("click");
+        $("#story-tab").off("click");
+        buttons.storyTab();
     })
 }
 buttons.storyTab = function(){
@@ -119,6 +122,9 @@ buttons.storyTab = function(){
         }
         window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story", `/story/${states[1]}`);
         await loadState(1, "down");
+        $("#story-tab").off("click");
+        $("#contents-tab").off("click");
+        buttons.contentsTab();
     })
 }
 

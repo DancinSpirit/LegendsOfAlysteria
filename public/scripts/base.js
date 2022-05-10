@@ -4,6 +4,8 @@ const deactivateButtons = function(x){
     return new Promise(async function(resolve){
         $("body").off("click");
         if(x==0){
+            $("body").off("keydown");
+            $("body").off("keypress");
             $Object = $(`#sub-base`)
         }else{
             $Object = $(`#sub-${states[x-1]}`)
