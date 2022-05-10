@@ -235,11 +235,24 @@ window.addEventListener('popstate',async function(event){
         window.history.replaceState({states:event.state.states,databaseObjects:event.state.databaseObjects,customData:event.state.customData}, "home", "/main/home");
     }
     let startingIndex = 0;
-    for(let x=0; x<event.state.states.length; x++){
-        if(x<states.length){
-            if(states[x]==event.state.states[x]){
-                startingIndex++;
+    let databaseObjectsSame = true;
+    let customDataSame = true;
+    let x=0;
+    while(x==0){
+        if(startingIndex<states.length){
+            for(let y=0; y<event.state.databaseObjects[startingIndex].length; y++){
+                if(event.state.databaseObjects[startingIndex][y].id != databaseObjects[startingIndex][y].id){
+                    databaseObjectsSame = false;
+                }
             }
+            if(JSON.stringify(event.state.customData[startingIndex])!=JSON.stringify(customData[startingIndex])){
+                customDataSame = false;
+            }
+            if((states[startingIndex]==event.state.states[startingIndex])&&(databaseObjectsSame)&&(customDataSame)){
+                startingIndex++;
+                x--;
+            }
+            x++;
         }
     }
     for(let x=startingIndex; x<event.state.states.length; x++){
