@@ -41,6 +41,7 @@
         $("#pageScroll-checkbox").attr('checked', 'checked');
     }
     $("#textSpeed-slider").on("change", function(){
+        console.log(100 - $(this).val())
         user.settings.textSpeed = (100 - $(this).val());
         updateDatabaseObject("User",user._id,user);
     })
