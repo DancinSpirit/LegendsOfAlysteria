@@ -9,10 +9,10 @@ const schema = new mongoose.Schema(
     gamemaster: {type: Boolean},
     playerCharacters: [{type: mongoose.Schema.Types.ObjectId, ref: "Player"}],
     settings: {
-      textSpeed: {type: Number},
-      pageSpeed: {type: Number},
-      musicVolume: {type: Number},
-      soundVolume: {type: Number},
+      textSpeed: {type: Number, default: 50},
+      pageSpeed: {type: Number, default: 1000},
+      musicVolume: {type: Number, default: 0.25},
+      soundVolume: {type: Number, default: 0.25},
       pageScroll: {type: Boolean, default: true}
     }
   },
