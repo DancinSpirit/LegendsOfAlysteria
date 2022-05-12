@@ -182,6 +182,8 @@ const loadState = async function(x, animation){
         let background = component.split("<background>")[1].split("</background>")[0];
         if(background.includes("[TOP]")){
             $("body").css("background-position","top");
+        }else{
+            $("body").css("background-position","center");
         }
         $("body").css("background-image",`url("${background.replace("[TOP]","")}"`);
     }
@@ -252,8 +254,8 @@ window.addEventListener('popstate',async function(event){
                 startingIndex++;
                 x--;
             }
-            x++;
         }
+        x++;
     }
     for(let x=startingIndex; x<event.state.states.length; x++){
         states = event.state.states;

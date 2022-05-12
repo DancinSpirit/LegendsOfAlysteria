@@ -29,7 +29,34 @@
         if(!document.getElementById("Alysteria")){
             $("body").append(`<audio id="Alysteria" loop src="/sounds/Alysteria.mp3"></audio>`);
         }
-        song = document.getElementById("Alysteria");
+        if(!document.getElementById("Alysteria-Soft")){
+            $("body").append(`<audio id="Alysteria-Soft" loop src="/sounds/Alysteria Soft.mp3"></audio>`);
+        }
+        if(!document.getElementById("Alysteria-Pure")){
+            $("body").append(`<audio id="Alysteria-Pure" loop src="/sounds/Alysteria Pure.mp3"></audio>`);
+        }
+        if(!document.getElementById("Alysteria-Mysterious")){
+            $("body").append(`<audio id="Alysteria-Mysterious" loop src="/sounds/Alysteria Mysterious.mp3"></audio>`);
+        }
+        if(!document.getElementById("Alysteria-Chill")){
+            $("body").append(`<audio id="Alysteria-Chill" loop src="/sounds/Alysteria Chill.mp3"></audio>`);
+        }
+        let songNum = parseInt(Math.random()*13);
+        if(songNum==0||songNum==1||songNum==2||songNum==3){
+            song = document.getElementById("Alysteria");
+        }
+        if(songNum==4||songNum==5||songNum==6){
+            song = document.getElementById("Alysteria-Soft");
+        }
+        if(songNum==7){
+            song = document.getElementById("Alysteria-Pure");
+        }
+        if(songNum==8||songNum==9){
+            song = document.getElementById("Alysteria-Mysterious");
+        }
+        if(songNum==10||songNum==11||songNum==12){
+            song = document.getElementById("Alysteria-Chill");
+        }
         song.volume = user.settings.musicVolume;
         let played = song.play();
                 if(played !== undefined){
