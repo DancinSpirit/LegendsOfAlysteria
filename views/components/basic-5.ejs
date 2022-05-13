@@ -1,0 +1,79 @@
+<div id="character-sheet">
+    <section id = "character-left">
+        <section id = "basic-info">
+            <section id="basic-info-image">
+                <%-include('basic-character/avatar.ejs')%>
+            </section>
+            <section id="basic-info-content-container">
+                <section id="basic-info-content">
+                    <section class="basic-info-row">
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/name.ejs')%>
+                        </section>
+                        <section class = "basic-info-row-space">
+
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/stress-level.ejs')%>
+                        </section>
+                        <section class = "basic-info-row-space">
+
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/info-level.ejs')%>
+                        </section>
+                    </section>
+                    <section class="basic-info-row">
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/race.ejs')%>
+                        </section>
+                        <section class = "basic-info-row-space">
+
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/age.ejs')%>
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/birthday.ejs')%>
+                        </section>
+                        <section class = "basic-info-row-space">
+
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/fate-rerolls.ejs')%>
+                            <%-include('basic-character/mana.ejs')%>
+                        </section>
+                    </section>
+                    <section class="basic-info-row">
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/profession.ejs')%>
+                        </section>
+                        <section class = "basic-info-row-space">
+
+                        </section>
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/savings.ejs')%>
+                            <%-include('basic-character/salary.ejs')%>
+                            <%-include('basic-character/lifestyle.ejs')%>
+                        </section>
+                    </section>
+                    <section class="basic-info-row">
+                        <section class = "basic-info-group">
+                            <%-include('basic-character/description.ejs')%>
+                        </section>
+                    </section>
+                    <section class="basic-info-row">
+                        <%-include('basic-character/stats.ejs')%>
+                    </section>
+                </section>  
+            </section>
+        </section>
+        <%-include('basic-character/traits.ejs')%>
+    </section>
+    <section id = "character-right">
+        <%if(characterinfo.traits.metaTrait.length){%>
+            <%-include('basic-character/meta-trait.ejs')%>
+        <%}%>
+        <%-include('basic-character/knowledge.ejs')%>
+    </section>
+</div>

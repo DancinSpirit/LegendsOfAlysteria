@@ -198,7 +198,7 @@ schema.methods.infoConversion = function infoConversion(infoNumber){
     return "Rank S"
   }
   if(infoNumber==6){
-    return "Observer"
+    return "Game Master"
   }
 }
 
@@ -224,9 +224,10 @@ schema.methods.returnDescription = function returnDescription(player){
 }
 
 schema.methods.informationLevel = function informationLevel(player){
-  console.log(player)
-  console.log(this.informationLevels)
-  if(player=="Observer"||player=="Game Master"){
+  if(player=="Observer"){
+    return 5;
+  }
+  if(player=="Game Master"){
     return 6;
   }else{
     for(let x=0; x<this.informationLevels.length; x++){
@@ -305,8 +306,6 @@ schema.methods.age = function age(player){
       return this.informationLevels[x].age
     }
   }
-  console.log(this.year);
-  console.log(this.birthday.year);
   let age = this.year - this.birthday.year;
   if(this.birthday.month/4>=this.season+1){
     age++;

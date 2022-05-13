@@ -85,3 +85,54 @@ animations.none = async function(state, component){
         resolve();
     })
 }
+
+animations.basicSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#basic-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    })
+}
+
+animations.advancedStatSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#advanced-stat-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    })    
+}
+animations.basicCombatSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#basic-combat-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    }) 
+}
+
+animations.combatStylesSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#combat-styles-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    }) 
+}
+animations.spiritualSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#spiritual-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    }) 
+}
+animations.heroSheet = async function(state, component){
+    return new Promise((resolve)=>{
+        $(".character-nav-button").addClass("character-nav-button-unselected");
+        $("#hero-sheet-button").removeClass("character-nav-button-unselected");
+        animations.down(state, component);
+        resolve();
+    }) 
+}

@@ -198,7 +198,7 @@ const loadState = async function(x, animation){
         await animations[animation](previousState,component);
     }else{
         if(component.includes("<animation>")){
-            await animations[component.split("<animation>")[1].split("</animation")[0]](previousState, component);
+            await animations[component.split("<animation>")[1].split("</animation>")[0]](previousState, component);
         }else{
             await animations.left(previousState, component);
         }
@@ -337,7 +337,11 @@ window.onload = function(){
         let stateCookie = convertCookieToArray(getCookie("states"));
         let databaseObjectsCookie = JSON.parse(getCookie("databaseObjects"));    
         let customDataCookie = JSON.parse(getCookie("customData"));
-        if(equalArrays(stateCookie,states)){
+        if(stateCookie[2]=="character"){
+            states = ["story","event"];
+            databaseObjects = [databaseObjectsCookie[0],databaseObjectsCookie[1]];
+            customData = [customDataCookie[0],customDataCookie[1]];
+        }else if(equalArrays(stateCookie,states)){
             databaseObjects = databaseObjectsCookie;
             customData = customDataCookie;
         }else{

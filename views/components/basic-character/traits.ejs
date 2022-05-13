@@ -1,0 +1,87 @@
+<section id="traits">
+    <%if(characterinfo.traits.specialTraits.length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Special Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.specialTraits.length; x++){%>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section">
+                        <%=characterinfo.traits.specialTraits[x].name%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <%=characterinfo.traits.specialTraits[x].description%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <b>Effect:</b> <%=characterinfo.traits.specialTraits[x].effect%>
+                    </section>
+                </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(characterinfo.traits.aptitudeTraits.length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Aptitude Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.aptitudeTraits.length; x++){%>
+                <section class = "trait">
+                    <section class = "character-box-title character-box-section">
+                        <%=characterinfo.traits.aptitudeTraits[x].name%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <%=characterinfo.traits.aptitudeTraits[x].description%>
+                    </section>
+                    <section class = "character-box-content character-box-section">
+                        <b>Effect:</b> <%=characterinfo.traits.aptitudeTraits[x].effect%>
+                    </section>
+                </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(characterinfo.traits.personalityTraits.length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Personality Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.personalityTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <%=characterinfo.traits.personalityTraits[x].name%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <%=characterinfo.traits.personalityTraits[x].description%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <b>Effect:</b> <%=characterinfo.traits.personalityTraits[x].effect%>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+        <%}%>
+        <%if(characterinfo.traits.flavorTraits.length){%>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Flavor Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.flavorTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <%=characterinfo.traits.flavorTraits[x].name%>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <%=characterinfo.traits.flavorTraits[x].description%>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+    <%}%>
+</section>

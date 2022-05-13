@@ -39,7 +39,6 @@ knowledgeSchema.methods.totalSkillModifier = function totalSkillModifier(wellRea
 
 knowledgeSchema.methods.knowledgeTotal = function knowledgeTotal(knowledgeGroup, rankUp){
     let total = 0;
-    console.log(knowledgeGroup);
     for(let x=0; x<knowledgeGroup.length; x++){
         total = total + (knowledgeGroup[x].info.modifier(rankUp)/knowledgeGroup.length);
     }

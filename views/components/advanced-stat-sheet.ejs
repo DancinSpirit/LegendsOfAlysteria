@@ -1,0 +1,87 @@
+<animation>advancedStatSheet</animation>
+<div id="advanced-stat-sheet">
+    <section id="advanced-stats">
+        <section id="label-column">
+            <div class='advanced-box-section invisible-border-top-thick'>
+                &nbsp; 
+            </div>
+            <div class='advanced-box-section character-box-title border-left-thick border-top-thick border-right'>
+                &nbsp; 
+            </div>
+            <%for(let x=0; x<characterinfo.longestStat()-1; x++){%>
+                <div class='advanced-box-section character-box-title border-right-thick border-left-thick invisible-border-top'>
+                    &nbsp; 
+                </div>
+            <%}%>
+            <div class='advanced-box-section character-box-title border-right-thick border-bottom-thick border-left-thick invisible-border-top-thick'>
+                Dice
+            </div>
+            <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom'>
+                Priority Bonus
+            </div>
+            <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom-thick'>
+                Total
+            </div>
+            <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom'>
+                Training
+            </div>
+            <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom-thick'>
+                Total
+            </div>
+        </section>
+        <%for(let y=0; y<characterinfo.stats.length; y++){%>
+        <section class="stat-column">
+            <%if(characterinfo.stats[y].priorityStat){%>
+                <%if(y!=0){%>
+                    <%if(characterinfo.stats[y-1].priorityStat){%>
+                        <div class="priority-box advanced-box-section character-box-content border-right-thick border-top-thick">
+                            <strong>Priority Stat</strong>
+                        </div>
+                    <%}else{%>
+                        <div class="priority-box advanced-box-section character-box-content border-right-thick border-left-thick border-top-thick">
+                            <strong>Priority Stat</strong>
+                        </div>
+                    <%}%>
+                <%}else{%>
+                    <div class="priority-box advanced-box-section character-box-content border-right-thick border-left-thick border-top-thick">
+                        <strong>Priority Stat</strong>
+                    </div>
+                <%}%>
+            <%}else{%>
+                <div class='advanced-box-section invisible-border-top-thick'>
+                    &nbsp; 
+                </div>
+            <%}%>
+            <div class='advanced-box-section character-box-title border-top-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%> border-bottom-thick'>
+                <%=characterinfo.stats[y].name%>
+            </div>
+            <%for(let x=0; x<characterinfo.longestStat(); x++){%>
+                <div class='advanced-box-section character-box-content <%if(x==characterinfo.longestStat()-1){%>border-bottom-thick<%}else{%>border-bottom<%}%> <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'> 
+                    <%if(characterinfo.stats[y].dice[x]){%>
+                        <%=characterinfo.stats[y].dice[x]%>
+                    <%}else{%>
+                        &nbsp; 
+                    <%}%>
+                </div>
+            <%}%>
+            <div class='advanced-box-section character-box-content <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%> border-bottom'>
+                <%if(characterinfo.stats[y].priorityStat){%>
+                    <%=characterinfo.stats[y].dice.length%>
+                <%}else{%>
+                    &nbsp; 
+                <%}%>
+            </div>
+            <div class='advanced-box-section character-box-content border-bottom-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                <%=characterinfo.baseStat(y)%>
+            </div>
+            <div class='advanced-box-section character-box-content border-bottom <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                &nbsp; 
+            </div>
+            <div class='advanced-box-section character-box-content border-bottom-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                <%=characterinfo.baseStat(y)%> 
+            </div>
+        </section>
+        <%}%>
+
+    </section>
+</div>

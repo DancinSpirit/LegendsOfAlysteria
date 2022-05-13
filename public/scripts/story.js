@@ -259,7 +259,6 @@ const nextLine = async function(){
                     let numberOfOptions = parseInt(sentText.split("|")[2]);
                     $("#choice").append(`<p class='choice-title'>${sentText.split("|")[1]}</p>`)
                     $("#choice").append(`<p class='choice-description'>${sentText.split("|")[0]}</p>`)
-                    console.log(sentText.split("|"));
                     for(let x=0; x<numberOfOptions; x++){
                         if(sentText.split("|")[x+3].startsWith("<CHOSEN>")){
                             $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
@@ -311,6 +310,44 @@ const nextLine = async function(){
                         createText($(`#event-${eventId}`),eventId,index,sentText);
                     }
                     printLine(sentText); 
+                    break;
+                case "CHARACTER":
+                    //starting-sheet|Characterinfo-ID|Player-ID|stat-sheet-boolean|combat-sheet-boolean|spirit-sheet-boolean|hero-sheet-boolean
+                    $("#title-box-event").css("transition",user.settings.pageSpeed + "ms");
+                    $("#title-box-event").css("transform", "translateY(-100%)");
+                    setTimeout(function(){
+                        $("#title-box-event").css("transition","0ms");
+                        $("#title-box-event").css("transform", "translateY(0%)");
+                    },user.settings.pageSpeed)
+                    let startingSheet = sentText.split("|")[0];
+                    let characterInfoId = sentText.split("|")[1];
+                    let playerId = sentText.split("|")[2];
+                    let statSheet = sentText.split("|")[3];
+                    let combatSheet = sentText.split("|")[4];
+                    let spiritSheet = sentText.split("|")[5];
+                    let heroSheet = sentText.split("|")[6];
+                    characterInfo = await loadComponent("character",[{name: "Characterinfo",id:characterInfoId},{name:"Player",id:playerId}],{statSheet:statSheet,combatSheet:combatSheet,spiritSheet:spiritSheet,heroSheet:heroSheet})
+                    if(user.settings.pageScroll){
+                        $(`#page-${pageNum}`).append(characterInfo);
+                    }else{
+                        $(`#event-${eventId}`).append(characterInfo);
+                    }
+                    $("#character").on("click",function(event){
+                        event.stopPropagation();
+                    })
+                    document.documentElement.style.setProperty('--light', characterColors.light);
+                    document.documentElement.style.setProperty('--dark', characterColors.dark);
+                    document.documentElement.style.setProperty('--darker', characterColors.darker);
+                    document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+                    document.documentElement.style.setProperty('--background', characterColors.background);
+                    oldStates = states;
+                    oldDatabaseObjects = databaseObjects;
+                    oldCustomData = customData;
+                    states = ["story","event","character",startingSheet];
+                    databaseObjects = [databaseObjects[0],databaseObjects[1],[{name: "Characterinfo",id:characterInfoId},{name:"Player",id:playerId}],[{name: "Characterinfo",id:characterInfoId},{name:"Player",id:playerId}]];
+                    customData = [customData[0],customData[1],{statSheet:statSheet,combatSheet:combatSheet,spiritSheet:spiritSheet,heroSheet:heroSheet},false]
+                    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+                    await loadState(3);
                     break;
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);
@@ -428,7 +465,6 @@ const typeWriter = async function(appendBox, returnString, i, txt, sentIndex, id
                     }
                 }
                 $(`#boxtext-${sentIndex}`).css("height",`${$(`#height-check-${sentIndex}`).outerHeight(true)}px`)
-                console.log(id + " " + txt)  
                 $(id).html(txt) 
                 clearTimeout(timeout);
                 typeInterrupt = false;

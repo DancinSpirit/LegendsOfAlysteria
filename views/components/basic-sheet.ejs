@@ -1,0 +1,21 @@
+<animation>basicSheet</animation>
+<%if(characterinfo.informationLevel(player.name)==-1){%>
+    <div>
+        You don't have access to this character!
+        Current Player: <%=player%>
+    </div>
+<%}else{%>
+    <%-include(`basic-${characterinfo.informationLevel(player.name)}.ejs`)%>
+<%}%>
+<!-- 
+    Information Levels 
+    Does not Guarantee Access to this info, but formatting will include all options, (Obviously I never finished)
+     -1: No Access
+      0: Name, Description, Age, Race, Profession | Have Heard of But Not Met | Stranger | E
+      1: Name, Description, Age, Race, Profession, Image | Might've met, slightly better picture of person | Known Entity | D
+      2: Name, Description, Age, Race, Profession, Image | Met, but only breifly interacted | Occasional Acquaintance | C 
+      3: Name, Description, Age, Race, Profession, Image | Regularly Interact With | Regular Aquiantance <Most Spies get here and no further | B
+      4: Name, Description, Age, Race, Profession, Image | Know Well | Friend | A
+      5: Name, Description, Age, Race, Profession, Image | Know Well | Knows Everything About The Person | S
+      6: GameMaster Sheet | SS
+-->

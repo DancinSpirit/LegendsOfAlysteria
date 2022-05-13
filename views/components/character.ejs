@@ -1,0 +1,51 @@
+<animation>down</animation>
+<section id ="character">
+    <section id="character-navbar">
+        <section id = "basic-sheet-button" class = "character-nav-button character-nav-button-unselected">
+            Basic Character Sheet
+        </section> 
+        <section id = "advanced-stat-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(statSheet=="false"){%>invisible<%}%>">
+            Advanced Stat Sheet
+        </section> 
+        <section id = "basic-combat-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
+            Basic Combat Sheet
+        </section> 
+        <section id = "combat-styles-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
+            Combat Styles Sheet
+        </section> 
+        <section id = "spiritual-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(spiritSheet=="false"){%>invisible<%}%>">
+            Spiritual Sheet
+        </section> 
+        <section id = "spiritual-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(heroSheet=="false"){%>invisible<%}%>">
+            Hero Sheet
+        </section> 
+    </section>
+    <div id="sub-character-container-container">
+        <div id="sub-character-container">
+            <section id="sub-character">
+
+            </section>
+        </div>
+    </div>  
+</section>
+<script>
+    buttons.advancedStatClick = function(){
+        $("#advanced-stat-sheet-button").on("click",function(){
+            if(states[3]!="advanced-stat-sheet"){
+                states[3] = "advanced-stat-sheet";
+                loadState(3);
+            }
+        })
+    }
+    buttons.basicClick = function(){
+        $("#basic-sheet-button").on("click",function(){
+            if(states[3]!="basic-sheet"){
+                states[3] = "basic-sheet";
+                loadState(3);
+            }
+        })
+    }
+    buttons.basicClick();
+    buttons.advancedStatClick();
+    characterColors = JSON.parse(`<%-JSON.stringify(characterinfo.colors)%>`)
+</script>

@@ -136,7 +136,15 @@ app.post("/component/:component", async function(req,res){
     }
     if(req.body.databaseObjects != "false"&&(typeof req.body.databaseObjects != "undefined")){
         for(let x=0; x<req.body.databaseObjects.length; x++){
-            data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id);
+            if(req.params.component.toLowerCase()=="basic-sheet"){
+                data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id).populate({path: 'traits.metaTrait traits.flavorTraits traits.specialTraits traits.personalityTraits traits.aptitudeTraits traits.combatAbilities',strictPopulate: false}).populate({path:'knowledgeTrees',strictPopulate: false,populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',strictPopulate: false,populate:{path:'info knowledgeTree',populate:{path:'generalKnowledge specializedKnowledge highlySpecializedKnowledge',strictPopulate: false,populate:{path: 'info',strictPopulate: false}}}}});
+            }else if(req.params.component.toLowerCase()=="combat-styles-sheet"){
+                data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id.populate({path:'combatStyles spiritPowers',strictPopulate: false,populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',strictPopulate: false,populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility',strictPopulate: false, populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',strictPopulate: false, populate:{path: 'info',strictPopulate: false}}}}}));
+            }else if(req.params.component.toLowerCase()=="basic-combat-sheet"){  
+                data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id).populate({path:'combatStyles spiritPowers',strictPopulate: false,populate: {path:'info character weapons armor fightingStyles weaponTypes weaponStyle',strictPopulate: false,populate:{path: 'spiritPowers traits.combatAbilities advantageOver weakAgainst info knowledgeTree passiveAbilities specialAbility',strictPopulate: false, populate:{path:'info generalKnowledge specializedKnowledge highlySpecializedKnowledge bonusKnowledge skills specialties',strictPopulate: false, populate:{path: 'info',strictPopulate: false}}}}});
+            }else{    
+                data[req.body.databaseObjects[x].name.toLowerCase()]  = await db[req.body.databaseObjects[x].name].findById(req.body.databaseObjects[x].id);
+            }
         }
     }
     data.user = app.locals.user;
