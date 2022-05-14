@@ -10,6 +10,9 @@
     <div class="home-select" id="character-select-button">
         Character Select
     </div>
+    <div class="home-select" id="progress-update-button">
+        Progress Update
+    </div>
     <div class="home-select" id="home-settings-button">
         Settings
     </div>
@@ -89,6 +92,17 @@
             $("#home-settings-button").off("click");
         })
     } 
+    buttons.progressReportClick = function(){
+        $("#progress-report-button").on("click", async function(){
+            setCookieStates();
+            states = ["main","progress-report"];
+            databaseObjects = [false,false];
+            customdata = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Progress Report", "/main/progress-report");
+            await loadState(1);
+            $("#progress-report-button").off("click");
+        })
+    } 
     buttons.exitClick = function(){
         $("#exit").on("click", async function(){
             states = ["start"];
@@ -99,6 +113,7 @@
         })
     }
     buttons.characterSelectClick();
+    buttons.progressReportClick();
     buttons.homeSettingsClick();
     buttons.exitClick();
 </script>
