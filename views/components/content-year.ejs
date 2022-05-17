@@ -16,12 +16,12 @@
                 <section class="region-container">
                     <%for(let y=0; y<story.years[year].seasons[x].regionPhases.length; y++){%>
                         <section class="region-section" id="<%=x%>-<%=y%>-region">
-                            <p id="<%=year%>|<%=x%>|<%=y%>|region" class="region-title"><%=story.years[year].seasons[x].regionPhases[y].name%></p>
+                            <p id="<%=turnNum%>|<%=year%>|<%=x%>|<%=y%>|region" class="region-title"><%=story.years[year].seasons[x].regionPhases[y].name%></p>
                             <button class= 'region-button invisible' id= '<%=x%>-<%=y%>'><i class="fa-solid fa-arrows-left-right"></i><i class="invisible fa-solid fa-arrow-left-rotate"></i></button>
                             <section class="region-phase">
                                 <%for(let z=0; z<story.years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){%>
                                     <section class="ruler-phase <%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replaceAll(' ','-').replaceAll(',','')%>">
-                                        <p id="<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name=="Keith Zandros"){%>From Shadows Into Light<%}else{%><%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name%><%}%></p>
+                                        <p id="<%=turnNum%>|<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name=="Keith Zandros"){%>From Shadows Into Light<%}else{%><%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name%><%}%></p>
                                         <%for(let a=0; a<story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){%>
                                             <section id="event-content-<%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>"class="event-content">
                                             </section>
@@ -51,6 +51,47 @@
 </div> 
 <script>
     returnEvents(<%=year%>);
+    $(".season-title").on("click", async function(){
+        states = ["story","turn-title"];
+        databaseObjects = [databaseObjects[0],databaseObjects[0]]
+        customData = [false,{year:parseInt($(this).attr("id").split("|")[1]),turn:parseInt($(this).attr("id").split("|")[0]),season:parseInt($(this).attr("id").split("|")[2])}]
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+        await loadState(1,"left");
+        $("#story-tab").off("click");
+        $("#contents-tab").off("click");
+        buttons.contentsTab();
+    })
+    $(".region-title").on("click", async function(){
+        states = ["story","region-title"];
+        databaseObjects = [databaseObjects[0],databaseObjects[0]]
+        customData = [false,{turn:parseInt($(this).attr("id").split("|")[0]),year:parseInt($(this).attr("id").split("|")[1]),season:parseInt($(this).attr("id").split("|")[2]), regionPhase:parseInt($(this).attr("id").split("|")[3])}]
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Region Title", "/story/region-title");
+        await loadState(1,"left");
+        $("#story-tab").off("click");
+        $("#contents-tab").off("click");
+        buttons.contentsTab();
+    })
+    $(".ruler-title").on("click", async function(){
+        states = ["story","player-title"];
+        databaseObjects = [databaseObjects[0],databaseObjects[0]]
+        customData = [false,{turn:parseInt($(this).attr("id").split("|")[0]),year:parseInt($(this).attr("id").split("|")[1]),season:parseInt($(this).attr("id").split("|")[2]), regionPhase:parseInt($(this).attr("id").split("|")[3]), rulerPhase:parseInt($(this).attr("id").split("|")[4])}]
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Player Title", "/story/player-title");
+        await loadState(1,"left");
+        $("#story-tab").off("click");
+        $("#contents-tab").off("click");
+        buttons.contentsTab();
+    })
+    $(".event-content").on("click", async function(){
+        states = ["story","event"];
+        databaseObjects[0].push({name:"Event",id:$(this).attr("id").replace("event-content-","")})
+        databaseObjects = [databaseObjects[0],databaseObjects[0]]
+        customData = [false,{eventIndex: $(this).attr("index"),turn:parseInt($(this).parent().children().first().attr("id").split("|")[0]),year:parseInt($(this).parent().children().first().attr("id").split("|")[1]),season:parseInt($(this).parent().children().first().attr("id").split("|")[2]), regionPhase:parseInt($(this).parent().children().first().attr("id").split("|")[3]), rulerPhase:parseInt($(this).parent().children().first().attr("id").split("|")[4])}]
+        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        await loadState(1,"left");
+        $("#story-tab").off("click");
+        $("#contents-tab").off("click");
+        buttons.contentsTab();
+    })
     $(".expand-button").on("click", function(){
         expandSeason(this);
     })

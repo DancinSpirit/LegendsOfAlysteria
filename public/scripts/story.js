@@ -1,8 +1,6 @@
 let continueEvent = true;
 let invisibleArrow = false;
 let playersLoaded = false;
-let eventArray = []
-let currentStory = false;
 let pageNum = 1;
 let index = -1;
 let typing = false;
@@ -26,46 +24,69 @@ const loadPlayerColors = async function(){
 }
 
 const returnEvents = async function(year){
-    let events = eventArray[year];
+    let events = story.eventNames[year];
     for(let x=0; x<events.length; x++){
         events[x] = await events[x];
         $(events[x].id).text(events[x].title)
+        $(events[x].id).attr("index",events[x].index);
     }
 }
 
-const loadEvents = async function(story){
-    return new Promise(async function(resolve){
-        for(let year=0; year<story.years.length; year++){
-            eventArray.push([]);
-            for(let x=0; x<story.years[year].seasons.length; x++){
-                for(let y=0; y<story.years[year].seasons[x].regionPhases.length; y++){
-                    for(let z=0; z<story.years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){
-                        for(let a=0; a<story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){
-                                eventArray[year].push(returnEventTitle(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]));
-                                if(a==story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length-1)
-                                    resolve();
-                        }
-                    }
-                }
-            }
-        }
+const expandRegion = function(thisButton){
+    $(thisButton).children(".fa-arrow-left-rotate").removeClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").addClass("invisible");
+    $(".region-section").addClass("invisible");
+    $("#"+$(thisButton).attr("id")+"-region").removeClass("invisible");
+    $(".region-phase").css("flex-direction","row");
+    $(".ruler-phase").css("width", "calc(25% - 10px)");
+    $(".ruler-phase").css("margin-left", "5px");
+    $(".ruler-phase").css("margin-right", "5px");
+    $(".region-button").off("click");
+    $(".region-button").on("click", function(){
+        minimizeRegion(this)
     })
 }
 
-const loadStory = async function(){
-    $("#sub-story").css("display","block");
-    if(currentStory._id!=story._id){
-        await loadEvents(story);
-    }
-    currentStory = story;
+const expandSeason = function(thisButton){
+    $(thisButton).children(".fa-arrow-left-rotate").removeClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").addClass("invisible");
+    $(".season").addClass("invisible");
+    $("#"+$(thisButton).attr("id")+"-season").removeClass("invisible");
+    $(".region-container").css("flex-direction","row");
+    $(".region-title").css("border-bottom","none");
+    $(".region-title").css("padding-bottom","0px");
+    $("#"+$(thisButton).attr("id")+"-season").css("width","100%");
+    $(".region-button").removeClass("invisible");
+    $(".expand-button").off("click");
+    $(".expand-button").on("click", function(){
+        minimizeSeason(this)
+    })
 }
-
-const returnEventTitle = function(id){
-    return new Promise(async function(resolve){
-        let event = await loadDatabaseObject("Event",id);
-        let title = event.title;
-        event = {title:event.title,id:`#event-content-${id}`}
-        resolve(event);
+const minimizeSeason = function(thisButton){
+    $(".season").removeClass("invisible");
+    $(thisButton).children(".fa-arrow-left-rotate").addClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").removeClass("invisible");
+    $(".region-container").css("flex-direction","column");
+    $(".region-title").css("border-bottom","solid white 2px");
+    $(".region-title").css("padding-bottom","10px");
+    $("#"+$(thisButton).attr("id")+"-season").css("width","25%");
+    $(".region-button").addClass("invisible");
+    $(".expand-button").off("click");
+    $(".expand-button").on("click", function(){
+        expandSeason(this)
+    })
+}
+const minimizeRegion = function(thisButton){
+    $(".region-section").removeClass("invisible");
+    $(thisButton).children(".fa-arrow-left-rotate").addClass("invisible");
+    $(thisButton).children(".fa-arrows-left-right").removeClass("invisible");
+    $(".region-phase").css("flex-direction","column");
+    $(".ruler-phase").css("width", "auto");
+    $(".ruler-phase").css("margin-left", "0px");
+    $(".ruler-phase").css("margin-right", "0px");
+    $(".region-button").off("click");
+    $(".region-button").on("click", function(){
+        expandRegion(this)
     })
 }
 

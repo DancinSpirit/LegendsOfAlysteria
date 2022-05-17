@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
   {
+    eventNames: [],
     currentTurn: {type: String},
     currentYear: {type: String},
     currentSeason: {type: String},
