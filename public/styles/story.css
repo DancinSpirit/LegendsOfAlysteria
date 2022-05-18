@@ -826,6 +826,13 @@
   height: 100%;
   width: 100%;
 }
+#gamemaster-title-box-event{
+  padding-top: 20px;
+  width: 50%;
+}
+#gamemaster-text-box{
+  width:50%;
+}
 
 .height-box{
   height: 100%;

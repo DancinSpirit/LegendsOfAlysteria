@@ -106,6 +106,7 @@ buttons.contentsTab = function(){
 }
 buttons.storyTab = function(){
     $("#story-tab").on("click", async function(){
+        continueEvent = true;
         $("#left-arrow-box").off("click");
         $("#right-arrow-box").off("click");
         onContents = false;
@@ -120,19 +121,24 @@ buttons.storyTab = function(){
         await loadState(1, "down");
         $("#story-tab").off("click");
         $("#contents-tab").off("click");
+        $("#gamemaster-tab").off("click");
         buttons.contentsTab();
+        buttons.gamemasterTab();
     })
 }
 
 buttons.gamemasterTab = function(){
     $("#gamemaster-tab").on("click", async function(){
+        continueEvent = false;
         $("#gamemaster-tab").removeClass("unselected");
         $("#contents-tab").addClass("invisible");
         $("#story-tab").addClass("unselected")
-        if(states[1]=="event"){
-            states[1]=`gamemaster-event`;
-            await loadState(1, "up");
-        }
+        states[1]=`gamemaster-${states[1]}`;
+        await loadState(1, "up");
+        states[1] = states[1].replace("gamemaster-","");
+        $("#gamemaster-tab").off("click");
+        $("#story-tab").off("click");
+        buttons.storyTab();
     })
 }
 buttons.settingsClick();

@@ -10,6 +10,7 @@ let ctrlButton = true;
 let enterButton = true;
 let screen = true;
 let keyButtons = true;
+let enterKeyPressed = false;
 
 const loadPlayerColors = async function(){
     if(!playersLoaded){
@@ -105,28 +106,29 @@ const loadEvent = function(){
     buttons.playerBox = function(){
         $("#player-box").off("click")
         $("#player-box").on("click", function(){
-            $("#click-signifier").remove();
-            eventInterrupt = false;
-            $("#player-box").off("click");
-            $(".big-boy").css("transition",user.settings.pageSpeed);
-            $(".big-boy").height(0);
-            setTimeout(function(){
-                nextLine();
-                $("#player-box").on("click", function(){
-                    if(typing){
-                        typing = false;
-                        typeInterrupt = true;
-                    }else{
-                        if(continueEvent){
+            if(continueEvent){
+                $("#click-signifier").remove();
+                eventInterrupt = false;
+                $("#player-box").off("click");
+                $(".big-boy").css("transition",user.settings.pageSpeed);
+                $(".big-boy").height(0);
+                setTimeout(function(){
+                    nextLine();
+                    $("#player-box").on("click", function(){
+                        if(typing){
                             typing = false;
-                            typeInterrupt = false;
-                            $("#click-signifier").remove();
-                            nextLine();  
+                            typeInterrupt = true;
+                        }else{
+                            if(continueEvent){
+                                typing = false;
+                                typeInterrupt = false;
+                                $("#click-signifier").remove();
+                                nextLine();  
+                            }
                         }
-                    }
-                })
-            },user.settings.pageSpeed+100);
-            
+                    })
+                },user.settings.pageSpeed+100);
+            }   
         })
     }
     buttons.playerBox();
@@ -184,6 +186,48 @@ const nextLine = async function(){
                         await typeWriter(`#event-${eventId}`,"", 0, text4,index,`#boxtext-${index}-4`, 1);
                         typing = false;
                         loadClickSignifier($(`#event-${eventId}`));
+                    }
+                    break;
+                case "ORK":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
+                    if(sentText.startsWith("<")){
+                        sentText = sentText.replace("<","").replace(">","");
+                       if(user.settings.pageScroll){
+                            pageCheck(eventId, index, sentText);
+                            $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class='boxtext ork' style="height: ${$(`#height-check-${index}`).height()+36}px"></p>`);
+                            typing = true;
+                            await typeWriter(`#page-${pageNum}`,"", 0, sentText,index,`#boxtext-${index}`, 1);
+                            typing = false;
+                            loadClickSignifier($(`#page-${pageNum}`));
+                        }else{
+                            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext ork' style="height: ${$(`#height-check-${index}`).height()+36}px"></p>`);
+                            typing = true;
+                            await typeWriter(`#event-${eventId}`,"", 0, sentText,index,`#boxtext-${index}`, 1);
+                            typing = false;
+                            loadClickSignifier($(`#event-${eventId}`));
+                        }
+                    }else{
+                        text1 = sentText.split("<")[0] + " ";
+                        text2 = sentText.split("<")[1].split(">")[0];
+                        text3 = sentText.split(">")[1];
+                        if(user.settings.pageScroll){
+                            pageCheck(eventId, index, sentText);
+                            $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='ork' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+                            typing = true;
+                            await typeWriter(`#page-${pageNum}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+                            await typeWriter(`#page-${pageNum}`,"", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+                            await typeWriter(`#page-${pageNum}`,"", 0, text3,index,`#boxtext-${index}-3`, 1);
+                            typing = false;
+                            loadClickSignifier($(`#page-${pageNum}`));
+                        }else{
+                            $(`#event-${eventId}`).append(`<p id="boxtext-${index}" class='boxtext' style="height: ${$(`#height-check-${index}`).height()+36}px"><span id="boxtext-${index}-1"></span><span class='ork' id="boxtext-${index}-2"></span><span id="boxtext-${index}-3"></span></p>`);
+                            typing = true;
+                            await typeWriter(`#event-${eventId}`,"", 0, text1,index,`#boxtext-${index}-1`, 1, {text2:{id:`#boxtext-${index}-2`,text:text2},text3:{id:`#boxtext-${index}-3`,text:text3}});
+                            await typeWriter(`#event-${eventId}`,"", 0, text2,index,`#boxtext-${index}-2`, 20, {text3:{id:`#boxtext-${index}-3`,text:text3}});
+                            await typeWriter(`#event-${eventId}`,"", 0, text3,index,`#boxtext-${index}-3`, 1);
+                            typing = false;
+                            loadClickSignifier($(`#event-${eventId}`));
+                        }
                     }
                     break;
                 case "OTHER":
