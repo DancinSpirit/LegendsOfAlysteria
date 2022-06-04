@@ -36,29 +36,42 @@
     $("#left-arrow-box").on("click",function(){
             if(customData[1].season==0){
                 if(customData[1].year==0){
-                    states = ["story","main-title"]
-                    databaseObjects = databaseObjects;
-                    customData = customData;
-                    window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Main Title", "/story/main-title");
-                    loadState(1,"right");
+                    if(databaseObjects[0][0].id == "613914ffd4d10a12926304cd"){
+                        states = ["story","disclaimer"]
+                        databaseObjects = databaseObjects;
+                        customData = customData;
+                        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Disclaimer", "/story/disclaimer");
+                        loadState(1,"right");  
+                    }else{
+                        states = ["story","main-title"]
+                        databaseObjects = databaseObjects;
+                        customData = customData;
+                        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Main Title", "/story/main-title");
+                        loadState(1,"right");
+                    }
                 }else{
                     customData[1].year--;
                     customData[1].season=3;
                     customData[1].regionPhase=story.years[customData[1].year].seasons[customData[1].season].regionPhases.length-1;
                     customData[1].rulerPhase=story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases.length-1;
                     customData[1].eventIndex=story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1;
+                    customData[1].turn--;
+                    states = ["story","event"];
+                    databaseObjects[1].push({name:"Event",id:story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex]})
+                    window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+                    loadState(1,"right");
                 }
             }else{
                 customData[1].season--;
                 customData[1].regionPhase=story.years[customData[1].year].seasons[customData[1].season].regionPhases.length-1;
                 customData[1].rulerPhase=story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases.length-1;
                 customData[1].eventIndex=story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1;
+                customData[1].turn--;
+                states = ["story","event"];
+                databaseObjects[1].push({name:"Event",id:story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex]})
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+                loadState(1,"right");
             }
-            customData[1].turn--;
-            states = ["story","event"];
-            databaseObjects[1].push({name:"Event",id:story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex]})
-            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
-            loadState(1,"right");
     })
     $("#right-arrow-box").off("click");
     $("#right-arrow-box").on("click", function(){

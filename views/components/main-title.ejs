@@ -27,11 +27,19 @@
                 customData[1].season = 0;
             }
         }
-        states = ["story","turn-title"]
-        databaseObjects = databaseObjects;
-        customData = customData;
-        window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
-        loadState(1,"left");
+        if(databaseObjects[0][0].id == "613914ffd4d10a12926304cd"){
+            states = ["story","disclaimer"]
+            databaseObjects = databaseObjects;
+            customData = customData;
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Disclaimer", "/story/disclaimer");
+            loadState(1,"left");  
+        }else{
+            states = ["story","turn-title"]
+            databaseObjects = databaseObjects;
+            customData = customData;
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Turn Title", "/story/turn-title");
+            loadState(1,"left");
+        }
     })
     customData[1] = {year:0,turn:-3,season:0}
     $("#gamemaster-tab").addClass("unselected")
