@@ -18,6 +18,15 @@
     enterKeyPressed = false;
     buttons.gamemasterInput = function(x){
         $("#gamemaster-text-"+x).on("input",function(){
+            let amountOfQuotes = 0;
+            for(let y=0; y<text[x].length; y++){
+                if(amountOfQuotes%2==0){
+                    text[x].replace("\"","“")
+                }else{
+                    text[x].replace("\"","”")
+                }
+            }
+
             text[x] = $("#gamemaster-text-"+x).text();
             if(text[x] == ""){
                 text.splice(x,1);

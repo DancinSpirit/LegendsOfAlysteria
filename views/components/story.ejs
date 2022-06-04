@@ -124,6 +124,23 @@ buttons.storyTab = function(){
         $("#gamemaster-tab").off("click");
         buttons.contentsTab();
         buttons.gamemasterTab();
+        $("body").on("keydown", function (e) {
+            if (e.keyCode == 17) {
+                if(enterButton&&keyButtons)
+                    $("#player-box").click()
+            }
+        })
+        
+        $("body").on("keydown", function (e){
+            if(e.keyCode == 37){
+                if(keyButtons)
+                $("#left-arrow-box").click();
+            }
+            if(e.keyCode == 39){
+                if(keyButtons)
+                $("#right-arrow-box").click();
+            }
+        })
     })
 }
 

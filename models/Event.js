@@ -7,7 +7,12 @@ const schema = new mongoose.Schema(
     subtitle: {type: String}, //Title Bottom
     background: {type: String},
     startingMusic: {type: String},
-    text: [{type: String}]
+    text: [{type: String}],
+    progress: {
+      finished: {type: Boolean, default: false},
+      edited: {type: Boolean, default: false},
+      complete: {type: Boolean, default: false},
+    }
   },
   {timestamps: true}
 )

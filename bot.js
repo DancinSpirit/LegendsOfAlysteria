@@ -1,4 +1,4 @@
-const {Client, Intents, MessageEmbed} = require("discord.js");
+const {Client, Intents} = require("discord.js");
 const db = require("./models");
 const bot = new Client({
     intents: [Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
@@ -6,9 +6,6 @@ const bot = new Client({
 const TOKEN = process.env.TOKEN;
 
 bot.login(TOKEN);
-bot.on("ready", async function(){
-    console.log(`Logged In As ${bot.user.tag}!`)
-});
 
 //This is a listener that allows you to input comands (functions) from the console.
 const stdin = process.openStdin();

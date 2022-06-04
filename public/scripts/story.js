@@ -325,8 +325,10 @@ const nextLine = async function(){
                     $("#choice").append(`<p class='choice-title'>${sentText.split("|")[1]}</p>`)
                     $("#choice").append(`<p class='choice-description'>${sentText.split("|")[0]}</p>`)
                     for(let x=0; x<numberOfOptions; x++){
+                        console.log("HM<?")
                         if(sentText.split("|")[x+3].startsWith("<CHOSEN>")){
-                            $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
+                            console.log("HELLO?")
+                            $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("<CHOSEN>","")}</div>`)
                             $(".chosen-option").on("click",function(){
                                 $("#choice-container").css("display","none");
                                 ctrlButton = true;
@@ -339,7 +341,7 @@ const nextLine = async function(){
                     $("#choice-container").css("display","flex");
                     break;
                 case "REWARD":
-                    //Name|Reward Details|Character Color Id
+                    //Name|Reward Details|player Color Id
                     $("#choice").empty();
                     $("#choice").css("color","black");
                     ctrlButton = false;
