@@ -18,16 +18,18 @@
     enterKeyPressed = false;
     buttons.gamemasterInput = function(x){
         $("#gamemaster-text-"+x).on("input",function(){
+            text[x] = $("#gamemaster-text-"+x).text();
             let amountOfQuotes = 0;
             for(let y=0; y<text[x].length; y++){
-                if(amountOfQuotes%2==0){
-                    text[x].replace("\"","“")
-                }else{
-                    text[x].replace("\"","”")
+                if(text[x][y] == "\"" || text[x][y] =="“" || text[x][y] =="”"){
+                    amountOfQuotes ++;
+                    if(amountOfQuotes%2 == 0){
+                        text[x] = text[x].replaceAt(y,"”")
+                    }else{
+                        text[x] = text[x].replaceAt(y,"“")
+                    }
                 }
             }
-
-            text[x] = $("#gamemaster-text-"+x).text();
             if(text[x] == ""){
                 text.splice(x,1);
                 $("#gamemaster-text-"+x).remove();
