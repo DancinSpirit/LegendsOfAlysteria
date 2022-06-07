@@ -297,9 +297,9 @@ const sendMessage = function(channel){
 
 bot.on("ready", async function(){
     console.log(`Logged In As ${bot.user.tag}!`)
-    let channel = bot.channels.cache.get('977054955011719208')
-    channel.bulkDelete(99);
-    returnProgress("613914ffd4d10a12926304cd") 
+    //let channel = bot.channels.cache.get('977054955011719208')
+    //channel.bulkDelete(99);
+    //returnProgress("613914ffd4d10a12926304cd") 
 });
 
 
