@@ -144,6 +144,113 @@ buttons.storyTab = function(){
     })
 }
 
+buttons.completionCheckbox = function(checkbox){
+    checkbox.off("change");
+    checkbox.change(function(){
+        let progress = {};
+        if($("#finished").is(":checked")){
+            progress.finished = true;
+        }else{
+            progress.finished = false;
+        }
+        if($("#edited").is(":checked")){
+            progress.edited = true;
+        }else{
+            progress.edited = false;
+        }
+        if($("#complete").is(":checked")){
+            progress.complete = true;
+        }else{
+            progress.complete = false;
+        }
+        updateDatabaseObject("Event",eventId,{progress:progress});
+    })
+}
+
+buttons.gamemasterPageSetup = function(){
+    buttons.completionCheckbox($("#finished"));
+    buttons.completionCheckbox($("#edited"));
+    buttons.completionCheckbox($("#complete"));
+    buttons.gamemasterInput = function(x){
+        $("#gamemaster-text-"+x).on("input",function(){
+            text[x] = $("#gamemaster-text-"+x).text();
+            let amountOfQuotes = 0;
+            for(let y=0; y<text[x].length; y++){
+                if(text[x][y] == "\"" || text[x][y] =="“" || text[x][y] =="”"){
+                    amountOfQuotes ++;
+                    if(amountOfQuotes%2 == 0){
+                        text[x] = text[x].replaceAt(y,"”")
+                    }else{
+                        text[x] = text[x].replaceAt(y,"“")
+                    }
+                }
+            }
+            if(text[x] == ""){
+                text.splice(x,1);
+                $("#gamemaster-text-"+x).remove();
+                for(let y=x+1; y<$(".gamemaster-text").length; y++){
+                    $("#gamemaster-text-"+y).attr("id","gamemaster-text-"+(y-1));
+                    $("#gamemaster-text-"+(y-1)).off("input");
+                    $("#gamemaster-text-"+(y-1)).off("keydown");
+                    $("#gamemaster-text-"+(y-1)).off("keyup");
+                    buttons.gamemasterInput((y-1));
+                }
+            }
+            updateDatabaseObject("Event",eventId,{text:text});
+        })
+        $("#gamemaster-text-"+x).on("keydown",function(e){
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                if(!enterKeyPressed){
+                    enterKeyPressed = true;
+                    text.splice(x+1,0,"");
+                    for(let y=$(".gamemaster-text").length-1; y>x; y--){
+                        $("#gamemaster-text-"+y).attr("id","gamemaster-text-"+(y+1));
+                        $("#gamemaster-text-"+(y+1)).off("input");
+                        $("#gamemaster-text-"+(y+1)).off("keydown");
+                        $("#gamemaster-text-"+(y+1)).off("keyup");
+                        buttons.gamemasterInput((y+1));
+                    }
+                    $("#gamemaster-text-"+x).after(`<p id="gamemaster-text-${x+1}" class="gamemaster-text boxtext" contenteditable="true">${text[x+1]}</p>`)
+                    buttons.gamemasterInput(x+1);
+                    $("#gamemaster-text-"+(x+1)).focus();
+                }
+            }
+            if(e.keyCode == 38){
+                if(x>0){
+                    $("#gamemaster-text-"+(x-1)).focus();
+                }else{
+                    text.splice(0,0,"");
+                    for(let y=$(".gamemaster-text").length-1; y>-1; y--){
+                        $("#gamemaster-text-"+y).attr("id","gamemaster-text-"+(y+1));
+                        $("#gamemaster-text-"+(y+1)).off("input");
+                        $("#gamemaster-text-"+(y+1)).off("keydown");
+                        $("#gamemaster-text-"+(y+1)).off("keyup");
+                        buttons.gamemasterInput((y+1));
+                    }
+                    $("#gamemaster-text-1").before(`<p id="gamemaster-text-0" class="gamemaster-text boxtext" contenteditable="true">${text[0]}</p>`)
+                    buttons.gamemasterInput(0);
+                    $("#gamemaster-text-0").focus();
+                }
+            }
+            if(e.keyCode == 40){
+                if(x<text.length){
+                    $("#gamemaster-text-"+(x+1)).focus();
+                }
+            }
+        })
+        $("#gamemaster-text-"+x).on("keyup",function(e){
+            if (e.keyCode == 13) {
+                enterKeyPressed = false;
+            }
+        })
+    }
+    for(let x=0; x<text.length; x++){
+        $("#gamemaster-text-box").append(`<p id="gamemaster-text-${x}" class="gamemaster-text boxtext" contenteditable="true">${text[x]}</p>`)
+        buttons.gamemasterInput(x);
+    }
+}
+
 buttons.gamemasterTab = function(){
     $("#gamemaster-tab").on("click", async function(){
         continueEvent = false;
@@ -152,6 +259,7 @@ buttons.gamemasterTab = function(){
         $("#story-tab").addClass("unselected")
         states[1]=`gamemaster-${states[1]}`;
         await loadState(1, "up");
+        buttons.gamemasterPageSetup();
         states[1] = states[1].replace("gamemaster-","");
         $("#gamemaster-tab").off("click");
         $("#story-tab").off("click");

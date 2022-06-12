@@ -12,6 +12,19 @@ let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
 
+const loadBackground = async function(url){
+    return new Promise((resolve) =>{
+        if(url.includes("[TOP]")){
+            $('body').css("background-position", "top");
+            url = url.replace("[TOP]","");
+        }else{
+            $('body').css("background-position", "center center");
+        }
+        $('body').css("background-image", `url('${url}')`);
+        resolve();
+    })
+}
+
 const loadPlayerColors = async function(){
     if(!playersLoaded){
         let players = await loadAllDatabaseObjects("Player");
@@ -152,6 +165,10 @@ const nextLine = async function(){
         if(text[index].includes("[")){
             let [command,sentText] = text[index].replace("[","").split("]");
             switch(command){
+                case "SCENE TRANSITION":
+                    await loadBackground("/images/" + sentText + ".jpg")
+                    nextLine();
+                    break;
                 case "PHILOSOPHER":
                     applyFont(sentText, eventId, index, "philosopher");
                     break;
@@ -314,6 +331,26 @@ const nextLine = async function(){
                         }
                     }
                     break;
+                case "CUTAWAY IMAGE":
+                    $("#cutaway-subtitle").css("display","block")
+                    $("#cutaway-image").css("background-image", `url(${sentText.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
+                    $("#cutaway-image-collection").append(`<section class="cutaway-image-container"><div id="${sentText.split("|")[1].replace(/<strong>/g,"").replace(/<\/strong>/g,"")}" class='cutaway-image'></div><div class="cutaway-image-subtitle">${sentText.split("|")[1]}</div></section>`)
+                    $("#cutaway-image").css("background-repeat", `no-repeat`)
+                    $("#cutaway-image").css("background-size", `contain`)
+                    $("#cutaway-image").css("background-position", `center`)
+                    $("#cutaway-image").fadeIn();
+                    $("#cutaway-subtitle").html(sentText.split("|")[1])
+                    $("#cutaway-subtitle").fadeIn();
+                    $("#cutaway-image-container").css("display","flex");
+                    $("#cutaway-image-container").on("click", function(){
+                        $("#cutaway-image").fadeOut();
+                        $("#cutaway-subtitle").fadeOut();
+                        setTimeout(function(){
+                            $("#cutaway-image-container").css("display","none");
+                            $("#cutaway-subtitle").css("display","none");
+                        },500)
+                    })
+                    break;
                 case "PLAYER ACTION":
                     //Description|Title|NUMofOPTIONS|{OPTIONS WITH CHOSEN OPTION HAVING <CHOSEN>}
                     $("#choice").empty();
@@ -364,6 +401,14 @@ const nextLine = async function(){
                     break;
                 case "MUSIC":
                     await loadMusic(sentText);
+                    nextLine();
+                    break;
+                case "MUSIC STOP":
+                    stopAudio(song);
+                    nextLine();
+                    break;
+                case "SOUND EFFECT":
+                    playSound(sentText);
                     nextLine();
                     break;
                 case "ONOMATOPOEIA":

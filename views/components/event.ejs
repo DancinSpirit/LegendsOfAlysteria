@@ -103,7 +103,14 @@
                         window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Turn Title", "/story/turn-title");
                     }else{
                         if(customData[1].year<story.years.length-1){
-                            //load Year
+                            customData[1].year++;
+                            customData[1].season = 0;
+                            customData[1].turn++;
+                            customData[1].regionPhase = 0;
+                            customData[1].rulerPhase = 0;
+                            customData[1].eventIndex = 0;
+                            states = ["story","turn-title"];
+                            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Turn Title", "/story/turn-title");
                         }else{
                             states = ["story","to-be-continued"];
                             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "To Be Continued", "/story/to-be-continued");
