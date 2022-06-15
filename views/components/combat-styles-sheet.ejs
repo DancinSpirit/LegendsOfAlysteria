@@ -1,0 +1,666 @@
+<animation>combatStylesSheet</animation>
+<section class="combat-sheet">
+    <%for(let x=0; x<characterinfo.combatStyles.length; x++){%>
+        <section class = "combat-style flex-column">
+            <section class = "character-super-title character-box-section border-top-thick border-bottom-thick border-left-thick border-right-thick">
+                <%=characterinfo.combatStyles[x].name%>
+            </section>
+            <section class= "combat-style-columns" style="flex-grow: 1">
+                <section class = "combat-style-column flex-column">
+                    <section class = "combat-style-box-left">
+                        <section class = "character-big-title character-box-section border-right border-bottom border-left-thick">
+                            <%=characterinfo.combatStyles[x].weaponStyle.name%>
+                        </section>
+                        <section class = "combat-style-box-content">
+                            <section class = "combat-style-box-half">
+                                <section class = "combat-style-content-row">
+                                    <section class = "character-box-title character-box-section combat-row-half border-left-thick border-bottom">
+                                        Modifier:
+                                    </section>
+                                    <section class = "character-box-content character-box-section combat-row-half border-bottom border-right">
+                                        <%=characterinfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                                    </section>
+                                </section>
+                            </section>
+                            <section class = "combat-style-box-half">
+                                <section class = "combat-style-content-row">
+                                    <section class = "character-box-title character-box-section combat-row-half border-bottom">
+                                        Rank:
+                                    </section>
+                                    <section class = "character-box-content character-box-section combat-row-half border-right border-bottom">
+                                        <%=characterinfo.combatStyles[x].weaponStyle.info.rankString()%>
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                    <section class = "combat-margin-left">
+
+                    </section>
+                    <%if(characterinfo.combatStyles[x].weaponStyle.info.rank()>3){%>
+                        <section class = "combat-style-box-left">
+                            <section class = "character-big-title character-box-section border-top border-bottom border-left-thick border-right">
+                                Fighting Styles
+                            </section>
+                            <section class = "combat-style-box-content">
+                                <%if(characterinfo.combatStyles[x].fightingStyles.length){%>
+                                    <section class = "combat-style-box-half">
+                                        <section class = "character-box-title character-box-section fighting-style-name border-left-thick border-right">
+                                            <%=characterinfo.combatStyles[x].fightingStyles[0].name%>
+                                        </section>
+                                        <section class = "combat-style-content-row">
+                                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half border-left-thick">
+                                                Advantage Over:
+                                            </section>
+                                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                                                <%=characterinfo.combatStyles[x].fightingStyles[0].advantageOver.name%>
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-content-row">
+                                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half border-left-thick">
+                                                Weak Against:
+                                            </section>
+                                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                                                <%=characterinfo.combatStyles[x].fightingStyles[0].weakAgainst.name%>
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-content-row">
+                                            <section class = "character-box-content character-box-section border-left-thick border-right">
+                                                <strong>Effect: </strong><%=characterinfo.combatStyles[x].fightingStyles[0].effect%>
+                                            </section>
+                                        </section>
+                                    </section>
+                                <%}%>
+                                <%if(characterinfo.combatStyles[x].fightingStyles.length===2){%>
+                                    <section class = "combat-style-box-half flex-column">
+                                        <section class = "character-box-title character-box-section fighting-style-name border-right">
+                                            <%=characterinfo.combatStyles[x].fightingStyles[1].name%>
+                                        </section>
+                                        <section class = "combat-style-content-row">
+                                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                                Advantage Over:
+                                            </section>
+                                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                                                <%=characterinfo.combatStyles[x].fightingStyles[1].advantageOver.name%>
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-content-row">
+                                            <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                                                Weak Against:
+                                            </section>
+                                            <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                                                <%=characterinfo.combatStyles[x].fightingStyles[1].weakAgainst.name%>
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-content-row" style="flex-grow: 1">
+                                            <section class = "character-box-content character-box-section border-right">
+                                                <strong>Effect: </strong><%=characterinfo.combatStyles[x].fightingStyles[1].effect%>
+                                            </section>
+                                        </section>
+                                    </section>
+                                <%}%>
+                            </section>
+                            <section class = "combat-style-content-row">
+                                <section class = "combat-style-box-half character-box-content character-box-section border-right border-left-thick border-bottom soft-border-top">
+                                    <strong>Reroll: </strong>
+                                    <%if(characterinfo.combatStyles[x].rerolls().length){%>
+                                        <%if(characterinfo.combatStyles[x].rerolls()[0].max>1){%>
+                                            <%=characterinfo.combatStyles[x].rerolls()[0].name%> x<%=characterinfo.combatStyles[x].rerolls()[0].max%>
+                                        <%}else if(characterinfo.combatStyles[x].rerolls()[0].max>0){%>
+                                            <%=characterinfo.combatStyles[x].rerolls()[0].name%>
+                                        <%}else{%>
+                                            None
+                                        <%}%>
+                                    <%}else{%>
+                                        None
+                                    <%}%>                            
+                                </section>
+                                <section class = "combat-style-box-half character-box-content character-box-section border-right border-bottom soft-border-top">
+                                    <strong>Reroll: </strong>
+                                    <%if(characterinfo.combatStyles[x].rerolls().length==2){%>
+                                        <%if(characterinfo.combatStyles[x].rerolls()[1].max>1){%>
+                                            <%=characterinfo.combatStyles[x].rerolls()[1].name%> x<%=characterinfo.combatStyles[x].rerolls()[1].max%>
+                                        <%}else if(characterinfo.combatStyles[x].rerolls()[1].max>0){%>
+                                            <%=characterinfo.combatStyles[x].rerolls()[1].name%>
+                                        <%}else{%>
+                                            None
+                                        <%}%>
+                                    <%}else{%>
+                                        None
+                                    <%}%>                
+                                </section>
+                            </section>
+                        </section>
+                    <%}%>
+                    <section class = "combat-margin-left">
+
+                    </section>
+                    <section class = "combat-style-box-left">
+                        <section class = "character-big-title character-box-section border-top border-bottom border-left-thick border-right">
+                            Weapon Types
+                        </section>
+                        <section class = "combat-style-box-content">
+                            <%for(let y=0; y<2; y++){%>
+                                <section class = "combat-style-box-half">
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-title character-box-section weapon-type-name border-right <%if(y==0){%> border-left-thick<%}%>">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].name%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%> border-left-thick<%}%>">
+                                            Attack: 
+                                        </section>
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half border-right">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].attack%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%>border-left-thick<%}%>">
+                                            Defense: 
+                                        </section>
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half border-right">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].defense%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%> border-left-thick<%}%>">
+                                            AP: 
+                                        </section>
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half border-right">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].armorPenetration%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%> border-left-thick<%}%>">
+                                            DD: 
+                                        </section>
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half border-right">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].directDamage%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%> border-left-thick<%}%> ">
+                                            <%if(characterinfo.combatStyles[x].weaponTypes[y].passiveAbilities.length<2){%>
+                                                Passive Ability: 
+                                            <%}else{%>
+                                                Passive Abilities:
+                                            <%}%>
+                                        </section>
+                                        <section class = "soft-border-bottom character-box-content character-box-section combat-row-half border-right">
+                                            <%if(characterinfo.combatStyles[x].weaponTypes[y].passiveAbilities.length){%>
+                                                <%=characterinfo.combatStyles[x].weaponTypes[y].passiveAbilities[0].name%> 
+                                                <%for(let z=1; z<characterinfo.combatStyles[x].weaponTypes[y].passiveAbilities.length; z++){%>
+                                                    , <%=characterinfo.combatStyles[x].weaponTypes[y].passiveAbilities[z].name%>
+                                                <%}%>
+                                            <%}else{%>
+                                                None 
+                                            <%}%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right border-bottom <%if(y==0){%>border-left-thick<%}%>">
+                                            Special Ability: 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].weaponTypes[y].specialAbility.name%>
+                                        </section>
+                                    </section>
+                                </section>
+                            <%}%>
+                        </section>
+                    </section>
+                    <section class = "combat-margin-left">
+
+                    </section>
+                    <section class = "combat-style-box-left">
+                        <section class = "character-big-title character-box-section border-top border-bottom border-right border-left-thick">
+                            Equipment
+                        </section>
+                        <section class = "combat-style-box-content">
+                            <section class = "combat-style-box-half">
+                                <section class = "combat-style-content-row">
+                                    <section class = "character-big-title character-box-section weapon-type-name border-right border-left-thick">
+                                        Weapons
+                                    </section>
+                                </section>
+                                <%for(let y=0; y<characterinfo.combatStyles[x].weapons.length; y++){%>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "character-box-title character-box-section weapon-type-name border-right <%if(y==0){%>border-left-thick<%}%>">
+                                            <%=characterinfo.combatStyles[x].weapons[y].name%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row soft-border-bottom <%if(y==0){%>border-right border-left-thick<%}%>">
+                                        <section class = "character-box-section">
+                                            <%=characterinfo.combatStyles[x].weapons[y].description%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%>border-left-thick<%}%> soft-border-bottom">
+                                            Defense
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-right soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weapons[y].defense%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%>border-left-thick<%}%> soft-border-bottom">
+                                            AP: 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-right soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weapons[y].armorPenetration%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right <%if(y==0){%>border-left-thick<%}%> soft-border-bottom">
+                                            DD: 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-right soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weapons[y].directDamage%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right border-bottom <%if(y==0){%>border-left-thick<%}%>">
+                                            Weight 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].weapons[y].weight%>
+                                        </section>
+                                    </section>
+                                <%}%>
+                            </section>
+                            <section class = "combat-style-box-half">
+                                <section class = "combat-style-content-row">
+                                    <section class = "character-big-title character-box-section weapon-type-name border-right">
+                                        Armor
+                                    </section>
+                                </section>
+                                <%if(characterinfo.combatStyles[x].armor){%>
+                                    <section class = "combat-style-content-ro">
+                                        <section class = "character-box-title character-box-section weapon-type-name border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].armor.name%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row soft-border-bottom border-right soft-border-bottom">
+                                        <section class = "character-box-section">
+                                            <%=characterinfo.combatStyles[x].armor.description%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Melee Armor:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].armor.meleeArmor%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Ranged Armor: 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].armor.rangedArmor%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Durability 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].armor.durability.available%>/<%=characterinfo.combatStyles[x].armor.durability.max%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right border-bottom">
+                                            Weight 
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-bottom border-right">
+                                            <%=characterinfo.combatStyles[x].armor.weight%>
+                                        </section>
+                                    </section>
+                                <%}%>
+                            </section>
+                        </section>
+                    </section>
+                    <section class = "combat-margin-left border-bottom-thick" style="flex-grow: 1">
+
+                    </section>
+                </section>
+                <%if(characterinfo.combatStyles[x].weaponStyle.info.rank()>2){%>
+                    <section class = "combat-style-column flex-column">
+                        <section class = "combat-style-box-right border-left">
+                            <section class = "character-big-title character-box-section border-bottom border-right-thick">
+                                Passive Abilities
+                            </section>
+                            <%let abilities = characterinfo.combatStyles[x].passiveAbilities()%>
+                            <%for(let y=0; y<abilities.length; y++){%>
+                                <%if(abilities[y].amount==1){%>
+                                    <section class = "combat-style-box-content character-box-title character-box-section border-right-thick">
+                                        <%=abilities[y].name%>
+                                    </section>
+                                <%}else{%>
+                                    <section class = "combat-style-box-half">
+                                        <section class = "combat-style-box-content character-box-title character-box-section ">
+                                            <%=abilities[y].name%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-box-half">
+                                        <section class = "combat-style-box-half">
+                                            <section class = "combat-style-box-content character-box-title character-box-section">
+                                                Stack Count:
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-box-half">
+                                            <section class = "combat-style-box-content character-box-title character-box-section border-right-thick">
+                                                <%=abilities[y].amount%>
+                                            </section>
+                                        </section>
+                                    </section>
+                                <%}%>
+                                <section class = "combat-style-box-content character-box-section character-box-content border-bottom border-right-thick">
+                                    <%=abilities[y].effect%>
+                                </section>
+                            <%}%>
+                        </section>
+                        <section class = "combat-margin-right">
+
+                        </section>
+                        <section class = "combat-style-box-right border-left">
+                            <section class = "character-big-title character-box-section border-top border-bottom border-right-thick">
+                                Special Abilities
+                            </section>
+                            <%for(let y=0; y<characterinfo.combatStyles[x].weaponTypes.length; y++){%>
+                                <%if(characterinfo.combatStyles[x].weaponStyle.info.rank()<6){%>
+                                    <section class = "combat-style-box-content character-box-title character-box-section border-right-thick">
+                                        <%=characterinfo.combatStyles[x].weaponTypes[y].specialAbility.name%>
+                                    </section>
+                                <%}else{%>
+                                    <section class = "row">
+                                        <section class = "combat-style-box-half">
+                                            <section class = "combat-style-box-content character-box-title character-box-section">
+                                                <%=characterinfo.combatStyles[x].weaponTypes[y].specialAbility.name%>
+                                            </section>
+                                        </section>
+                                        <section class = "combat-style-box-half">
+                                            <section class = "row">
+                                                <section class = "combat-style-box-half" style= "height: 100%">
+                                                    <section class = "combat-style-box-content character-box-title character-box-section">
+                                                        
+                                                    </section>
+                                                </section>
+                                                <section class = "combat-style-box-half">
+                                                    <section class = "combat-style-box-content character-box-title character-box-section soft-border-left border-right-thick">
+                                                        <%if(characterinfo.combatStyles[x].weaponStyle.info.rank()<7){%>
+                                                            x2
+                                                        <%}else{%>
+                                                            x3
+                                                        <%}%>
+                                                    </section>
+                                                </section>
+                                            </section>
+                                        </section>
+                                    </section>
+                                <%}%>
+                                <section class = "combat-style-box-content character-box-section character-box-content border-bottom border-right-thick">
+                                    <%=characterinfo.combatStyles[x].weaponTypes[y].specialAbility.effect%>
+                                </section>
+                            <%}%>
+                        </section>
+                        <section class = "combat-margin-right">
+
+                        </section>
+                        <section class = "combat-style-box-right">
+                            <section class = "border-left character-big-title character-box-section border-top border-bottom border-right-thick">
+                                Combat Stats
+                            </section>
+                            <section class = "combat-style-box-content">
+                                <section class = "combat-style-box-half border-right flex-column">
+                                    <section class = "border-left character-box-title character-box-section fighting-style-name">
+                                        Attack
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Skill Modifier:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Modifiers:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].attackMods()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight ">
+                                        <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
+                                            Total Attack:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-bottom">
+                                            <%=characterinfo.combatStyles[x].attack()%>
+                                        </section>
+                                    </section>
+                                    <section class = "border-left character-box-title character-box-section fighting-style-name">
+                                        Defense
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Skill Modifier:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponStyle.totalSkillModifier()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Modifiers:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].defenseMods()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight ">
+                                        <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
+                                            Total Defense:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-bottom">
+                                            <%=characterinfo.combatStyles[x].defense()%>
+                                        </section>
+                                    </section>
+                                    <section class = "border-left character-box-title character-box-section fighting-style-name">
+                                        Direct Damage (DD)
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Types:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponTypeDD()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row ">
+                                        <section class = "border-left character-box-content soft-border-right character-box-section combat-row-half soft-border-bottom">
+                                            Weapons:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponsDD()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight">
+                                        <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
+                                            Total:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-bottom">
+                                            <%=characterinfo.combatStyles[x].directDamage()%>
+                                        </section>
+                                    </section>
+                                    <section class = "border-left character-box-title character-box-section fighting-style-name">
+                                        Armor Penetration (AP)
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "border-left character-box-content character-box-section combat-row-half soft-border-right soft-border-bottom">
+                                            Types:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponTypeAP()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row">
+                                        <section class = "border-left character-box-content soft-border-right character-box-section combat-row-half soft-border-bottom">
+                                            Weapons:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].weaponsAP()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight">
+                                        <section class = "border-left soft-border-right character-box-section combat-row-half border-bottom">
+                                            Total:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-bottom">
+                                            <%=characterinfo.combatStyles[x].armorPenetration()%>
+                                        </section>
+                                    </section>
+                                    <section class = "character-box-title character-box-section fighting-style-name border-left">
+                                        Armor
+                                    </section>
+                                    <section class = "combat-style-content-row highlight">
+                                        <section class = "character-box-section combat-row-half soft-border-right border-left soft-border-bottom">
+                                            Melee:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half soft-border-bottom">
+                                            <%=characterinfo.combatStyles[x].meleeArmor()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half border-left">
+                                            Ranged:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half ">
+                                            <%=characterinfo.combatStyles[x].rangedArmor()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight">
+                                        <section class = "soft-border-right character-box-section combat-row-half border-left">
+                                            Durability:
+                                        </section>
+                                        <section class = "character-box-section combat-row-half">
+                                            <%=characterinfo.combatStyles[x].armorDurability().available%>/<%=characterinfo.combatStyles[x].armorDurability().max%>
+                                        </section>
+                                    </section>
+                                    <section class = "border-left border-bottom" style="flex-grow: 1">
+
+                                    </section>
+                                </section>
+                                <section class = "combat-style-box-half flex-column">
+                                    <section class = "character-box-title character-box-section fighting-style-name border-right-thick">
+                                        Weight
+                                    </section>
+                                    <section class = "combat-style-content-row soft-border-bottom">
+                                        <section class = "character-box-content character-box-section combat-row-half soft-border-right">
+                                            Weapon Weight:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weaponWeight()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row soft-border-bottom">
+                                        <section class = "character-box-content soft-border-right character-box-section combat-row-half">
+                                            Weapons:
+                                        </section>
+                                        <section class = "character-box-content character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].armorWeight()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "character-box-section combat-row-half soft-border-right">
+                                            Total Weight
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weightValue()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Weight Class
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weightClass()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Combat Modifier
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weightModifier()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight soft-border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Stamina Modifier
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weightStamina()%>
+                                        </section>
+                                    </section>
+                                    <section class = "combat-style-content-row highlight border-bottom">
+                                        <section class = "soft-border-right character-box-section combat-row-half">
+                                            Movement Modifier
+                                        </section>
+                                        <section class = "character-box-section combat-row-half border-right-thick">
+                                            <%=characterinfo.combatStyles[x].weightMovement()%>
+                                        </section>
+                                    </section>
+                                    <section class = "character-box-title character-box-section fighting-style-name border-right-thick">
+                                        Passive Abilities
+                                    </section>
+                                    <%let passiveAbilities = characterinfo.combatStyles[x].allPassiveAbilities()%>
+                                    <%for(let y=0; y<passiveAbilities.length; y++){%>
+                                    <section class = "combat-style-content-row highlight">
+                                        <%if(passiveAbilities[y].amount==1){%>
+                                            <section class = "border-right-thick character-box-section  <%if(y!=passiveAbilities.length-1){%>soft-border-bottom<%}%>" style="width:100%">
+                                                <%=passiveAbilities[y].name%>
+                                            </section>
+                                        <%}else{%>
+                                        <section class = "soft-border-right character-box-section combat-row-half <%if(y!=passiveAbilities.length-1){%>soft-border-bottom<%}%>">
+                                            <%=passiveAbilities[y].name%>
+                                        </section>
+                                        <section class = "character-box-section combat-row-half <%if(y!=passiveAbilities.length-1){%>soft-border-bottom<%}%> border-right-thick">
+                                            <%=passiveAbilities[y].amount%>
+                                        </section>
+                                        <%}%>
+                                    </section>
+                                    <%}%>
+                                    <%let activeAbilities = characterinfo.combatStyles[x].allActiveAbilities()%>
+                                    <section class = "character-box-title character-box-section fighting-style-name border-top border-right-thick">
+                                        Activated Abilities
+                                    </section>
+                                    <%for(let y=0; y<activeAbilities.length; y++){%>
+                                        <section class = "combat-style-content-row highlight">
+                                            <section class = "soft-border-right character-box-section combat-row-half <%if(y!=activeAbilities.length-1){%>soft-border-bottom<%}else{%>border-bottom<%}%>">
+                                                <%=activeAbilities[y].name%>
+                                            </section>
+                                            <section class = "character-box-section combat-row-half <%if(y!=activeAbilities.length-1){%>soft-border-bottom<%}else{%>border-bottom<%}%> border-right-thick">
+                                                <%=activeAbilities[y].available%>/<%=activeAbilities[y].max%>
+                                            </section>
+                                        </section>
+                                    <%}%>
+                                    <section class = "border-right-thick border-bottom" style="flex-grow: 1">
+
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
+                        <section class = "combat-margin-right border-bottom-thick" style="flex-grow: 1">
+
+                        </section>
+                        </section>
+                    </section>
+                <%}%>
+            </section>
+        </section>
+    <%}%>
+</section>

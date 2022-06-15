@@ -47,7 +47,25 @@
             }
         })
     }
+    buttons.basicCombatClick = function(){
+        $("#basic-combat-sheet-button").on("click", function(){
+            if(states[3]!="basic-combat-sheet"){
+                states[3] = "basic-combat-sheet";
+                loadState(3);
+            }
+        })
+    }
+    buttons.combatStylesSheetClick = function(){
+        $("#combat-styles-sheet-button").on("click", function(){
+            if(states[3]!="combat-styles-sheet"){
+                states[3] = "combat-styles-sheet";
+                loadState(3);
+            }
+        })
+    }
     buttons.basicClick();
     buttons.advancedStatClick();
+    buttons.basicCombatClick();
+    buttons.combatStylesSheetClick();
     characterColors = JSON.parse(`<%-JSON.stringify(characterinfo.colors)%>`)
 </script>
