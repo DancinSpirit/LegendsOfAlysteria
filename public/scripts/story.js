@@ -11,6 +11,7 @@ let enterButton = true;
 let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
+let storyHeight = 0;
 
 const loadBackground = async function(url){
     return new Promise((resolve) =>{
@@ -461,6 +462,19 @@ const nextLine = async function(){
                     $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
                     await loadState(3);
                     break;
+                case "BATTLE":
+                    storyHeight = //calc the height based off container
+                    $("#sub-story").before("<div id='battle-window'></div>")
+                    $("#sub-story").css("transition","1000ms");
+                    $("#battle-window").css("transition","1000ms");
+                    $("#battle-window").css("height","30%");
+                    $("#sub-story").css("height","20%");
+                    setTimeout(function(){
+                        $("#sub-story").css("transition","0ms");
+                        $("#battle-window").css("transition","0ms");
+                    },1000)
+
+                    break;
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);
                     if(user.settings.pageScroll){
@@ -510,7 +524,7 @@ const pageCheck = function(eventId){
         }
     }
     pageHeight = pageHeight+$(`#height-check-${index}`).height()+20+36;
-    if(pageHeight>$("#player-box").height()){
+    if(pageHeight>storyHeight){
         newPage(eventId);
     }
 }
@@ -528,7 +542,7 @@ const createText = function($appendBox, eventId,index,sentText){
     if(!user.settings.pageScroll)
     $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
     else
-    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-storyHeight);
 }
 
 const loadClickSignifier = function($appendBox){
@@ -540,7 +554,7 @@ const loadClickSignifier = function($appendBox){
             if(!user.settings.pageScroll)
             $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
             else
-            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#player-box").height());
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-storyHeight);
             $(".boxtext").css("height","auto")
     }
 }

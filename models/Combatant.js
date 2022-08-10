@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
   {
+    player: {type: String},
     name: {type: String},
     avatar: {type: String},
     version: {type: String},
@@ -13,10 +14,13 @@ const schema = new mongoose.Schema(
     maxMana: {type: Number},
     activeAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Activeability"}],
     passiveAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Passiveability"}],
-    modifiers: [{name: {type: String},value: {type: Number}}],
+    attackModifiers: [{name: {type: String},value: {type: Number}}],
+    defenseModifiers: [{name: {type: String},value: {type: Number}}],
+    tempModifiers: [{name: {type: String},value: {type: Number}}],
     sprinting: {type: Boolean, default: false},
     sprintValue: {type: Number, default: 2},
     staminaWeightMod: {type: Number},
+    fightingStyles: [],
   },
   {timestamps: true}
 )

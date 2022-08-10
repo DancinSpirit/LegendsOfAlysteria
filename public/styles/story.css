@@ -798,6 +798,7 @@
     height: 200%;
     width: 400%;
     display: flex;
+    flex-direction: column;
 }
 #sub-story, #old-sub-story{
   height: 50%;
@@ -1462,4 +1463,10 @@ width: 50%;
 .completion-checkbox{
   margin-left: 5px;
   margin-right: 5px;
+}
+
+
+#battle-window{
+  height: 0%;
+  width: 50%;
 }

@@ -357,3 +357,34 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substring(0, index) + replacement + this.substring(index + replacement.length);
 }
 
+/* Quick Sort functions */
+function partition(array, start, end, array2){
+    const pivot = array[end];
+    let pivotIndex = start;
+    for(let x=start; x<end; x++){
+        if(array[x]>pivot){
+            [array[x],array[pivotIndex]] = [array[pivotIndex], array[x]];
+            [array2[x],array2[pivotIndex]] = [array2[pivotIndex], array2[x]];
+            pivotIndex++;
+        }
+    }
+    [array[pivotIndex], array[end]] = [array[end], array[pivotIndex]];
+    [array2[pivotIndex], array2[end]] = [array2[end], array2[pivotIndex]];
+    return pivotIndex;
+}
+function quickSort(array, start, end, array2){
+    if(start>=end){
+        return;
+    }
+    if(array2){
+        let index = partition(array, start, end, array2);
+        quickSort(array, start, index-1, array2);
+        quickSort(array, index+1, end, array2);
+    }else{
+        let index = partition(array, start, end);
+        quickSort(array, start, index-1);
+        quickSort(array, index+1, end); 
+    }
+
+}
+
