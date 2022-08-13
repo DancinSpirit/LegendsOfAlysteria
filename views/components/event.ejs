@@ -6,7 +6,10 @@
         <div id="title-box-event">
             <p class="boxtext eventType">~ <%=event.type%> ~</p>
             <p class="boxtext title"><%=event.title%></p>
-            <%if(event.type=="Original CHF Event"){%>
+            <%if(event.writtenBy != "false"){%>
+                <p class="boxtext nick-subtitle"><%=event.subtitle%></p>
+                <p class="boxtext nick"> - Written by <%=event.writtenBy%> - </p> 
+            <%}else if(event.type=="Original CHF Event"){%>
                 <p class="boxtext nick-subtitle"><%=event.subtitle%></p>
                 <p class="boxtext nick"> - Written by Nick Nienberg - </p> 
             <%}else{%>

@@ -398,6 +398,10 @@
   .invisible-2{
     visibility: hidden;
   }
+
+  .centered{
+    text-align: center;
+  }
   
   .other{
     text-shadow: 1px 1px 5px #7965a7, 5px 5px 1px #2b0c6e;

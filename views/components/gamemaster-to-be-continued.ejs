@@ -1,0 +1,46 @@
+<div id = "turn-title">
+    <p class="boxtext big-boy big-boy-turn-title"></p>
+    <div id="title-box-turn-title">
+        <p class="boxtext turn-title">What do you want to do?</p>
+        <p class="boxtext event-create-choice">Insert New Event</p>
+        <p class="boxtext event-create-choice">Insert New Ruler Phase</p>
+        <p class="boxtext event-create-choice">Insert New Region Phase</p>
+        <p class="boxtext event-create-choice">Go To Next Season</p>
+    </div>
+    <p class="boxtext big-boy big-boy-turn-title"></p>
+</div> 
+<div class = "height-box">
+
+</div>
+<script>
+    $("#left-arrow-box").removeClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").addClass("invisible");
+    $("#gamemaster-tab").removeClass("unselected")
+    $("#gamemaster-tab").removeClass("invisible");
+    $("#contents-tab").addClass("unselected");
+    $("#contents-tab").removeClass("invisible");
+    $("#story-tab").addClass("unselected")
+    $("#left-arrow-box").off("click");
+    $("#left-arrow-box").on("click", function(){
+        states = ["story","event"];
+        let year = story.years[story.years.length-1]
+        let season = year.seasons[year.seasons.length-1]
+        let regionPhase = season.regionPhases[season.regionPhases.length-1]
+        let rulerPhase = regionPhase.rulerPhases[regionPhase.rulerPhases.length-1]
+        let event = rulerPhase.events[rulerPhase.events.length-1];
+        let alreadyExists = false;
+            for(let x=0; x<databaseObjects[1].length; x++){
+                if(databaseObjects[1][x].name=="Event"){
+                    alreadyExists = true;
+                    databaseObjects[1][x].id = event;
+                }
+            }
+            if(!alreadyExists){
+                databaseObjects[1].push({name:"Event",id:event})
+            }
+        loadState(1,"right");
+        states = ["story","to-be-continued"];
+    })
+</script>
+<background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>

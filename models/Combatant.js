@@ -21,6 +21,7 @@ const schema = new mongoose.Schema(
     sprintValue: {type: Number, default: 2},
     staminaWeightMod: {type: Number},
     fightingStyles: [],
+    colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
   },
   {timestamps: true}
 )

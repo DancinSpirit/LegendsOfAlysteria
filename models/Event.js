@@ -12,7 +12,8 @@ const schema = new mongoose.Schema(
       finished: {type: Boolean, default: false},
       edited: {type: Boolean, default: false},
       complete: {type: Boolean, default: false},
-    }
+    },
+    writtenBy: {type: String, default: "false"}
   },
   {timestamps: true}
 )

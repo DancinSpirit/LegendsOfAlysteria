@@ -11,7 +11,6 @@ let enterButton = true;
 let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
-let storyHeight = 0;
 
 const loadBackground = async function(url){
     return new Promise((resolve) =>{
@@ -148,15 +147,19 @@ const loadEvent = function(){
     buttons.playerBox();
 }
 
-const applyFont = async function(sentText, eventId, index, font){
+const applyClass = async function(sentText, eventId, index, clas, newPage){
     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
-    if(user.settings.pageScroll){
-        newPage(eventId);
-        createText($(`#page-${pageNum}`),eventId,index,sentText);
-    }else{
-        createText($(`#event-${eventId}`),eventId,index,sentText);
-    }
-    $(`#boxtext-${index}`).addClass(font)
+        if(user.settings.pageScroll){
+            if(newPage){
+                newPage(eventId);
+            }else{
+                pageCheck(eventId, index, sentText);
+            }
+            createText($(`#page-${pageNum}`),eventId,index,sentText);
+        }else{
+            createText($(`#event-${eventId}`),eventId,index,sentText);
+        }
+    $(`#boxtext-${index}`).addClass(clas)
     printLine(sentText);
 }
 
@@ -171,13 +174,16 @@ const nextLine = async function(){
                     nextLine();
                     break;
                 case "PHILOSOPHER":
-                    applyFont(sentText, eventId, index, "philosopher");
+                    applyClass(sentText, eventId, index, "philosopher", true);
                     break;
                 case "CORSIVA":
-                    applyFont(sentText, eventId, index, "corsiva");
+                    applyClass(sentText, eventId, index, "corsiva");
                     break;
                 case "INDIE FLOWER":
-                    applyFont(sentText, eventId, index, "indie-flower");
+                    applyClass(sentText, eventId, index, "indie-flower");
+                    break;
+                case "CENTERED":
+                    applyClass(sentText, eventId, index, "centered");
                     break;
                 case "RECEDING":
                     text1 = sentText.split("<RECEDE>")[0];
@@ -462,18 +468,33 @@ const nextLine = async function(){
                     $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
                     await loadState(3);
                     break;
-                case "BATTLE":
-                    storyHeight = //calc the height based off container
-                    $("#sub-story").before("<div id='battle-window'></div>")
-                    $("#sub-story").css("transition","1000ms");
-                    $("#battle-window").css("transition","1000ms");
-                    $("#battle-window").css("height","30%");
-                    $("#sub-story").css("height","20%");
+                case "DUEL":
+                    if(isMobile){
+                        if(!$(`#duel-style`).length){
+                            $("head").append(`<link id="duel-style" rel="stylesheet" href="/phone-styles/duel.css">`)
+                        }
+                    }else{
+                        if(!$(`#duel-style`).length){
+                            $("head").append(`<link id="duel-style" rel="stylesheet" href="/styles/duel.css">`)
+                        }
+                    }
+                    duelWindow = await loadComponent("duel")
+                    $("#sub-story").before(`<div id='duel-window'>${duelWindow}</div>`)
+                    //load CSS colors for each combatant and load the duel data etc.
+                    $(".background-1").css("background-color","#8b0000");
+                    $(".darker-1").css("background-color","#cc4125");
+                    $(".dark-1").css("background-color","#dd7e6b");
+                    $(".light-1").css("background-color","#e6b8af");
+                    $(".background-2").css("background-color","#234E98");
+                    $(".darker-2").css("background-color","#164d81");
+                    $(".dark-2").css("background-color","#1A65A9");
+                    $(".light-2").css("background-color","#3386d3");
+                    $("#duel-window").css("animation","battlewindow-transform 1000ms linear");
+                    $("#sub-story").css("animation","battlestory-transform 1000ms linear");
                     setTimeout(function(){
-                        $("#sub-story").css("transition","0ms");
-                        $("#battle-window").css("transition","0ms");
+                        $("#sub-story").css("height","20%");
+                        $("#duel-window").css("height","30%");
                     },1000)
-
                     break;
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);
@@ -524,7 +545,7 @@ const pageCheck = function(eventId){
         }
     }
     pageHeight = pageHeight+$(`#height-check-${index}`).height()+20+36;
-    if(pageHeight>storyHeight){
+    if(pageHeight>$("#sub-story").height()){
         newPage(eventId);
     }
 }
@@ -542,7 +563,7 @@ const createText = function($appendBox, eventId,index,sentText){
     if(!user.settings.pageScroll)
     $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
     else
-    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-storyHeight);
+    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#sub-story").height());
 }
 
 const loadClickSignifier = function($appendBox){
@@ -554,7 +575,7 @@ const loadClickSignifier = function($appendBox){
             if(!user.settings.pageScroll)
             $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
             else
-            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-storyHeight);
+            $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight")-20-$("#sub-story").height());
             $(".boxtext").css("height","auto")
     }
 }
