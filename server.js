@@ -127,6 +127,25 @@ app.post("/update/:databaseObject/:id", async function(req,res){
     res.send(foundObject);
 })
 
+app.post("/update2/:databaseObject/:id", async function(req,res){
+    let update = {};
+    update[req.body.updateKey] = req.body.updateValue;
+    let update2 = {}
+    update2[req.body.updateType] = update;
+    console.log(update2);
+    update = update2;
+    let databaseObject = req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1);
+    let foundObject = await db[databaseObject].findByIdAndUpdate(req.params.id, update, req.body.settings);
+    res.send(foundObject);
+})
+
+/* Database Creating */
+app.post("/create/:databaseObject", async function(req,res){
+    let databaseObject = req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1);
+    let createdObject = await db[databaseObject].create(req.body);
+    res.send(createdObject);
+})
+
 /* Component Loading */
 app.post("/component/:component", async function(req,res){
     let data = {};

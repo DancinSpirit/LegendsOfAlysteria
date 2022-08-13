@@ -172,6 +172,24 @@ buttons.gamemasterPageSetup = function(){
     buttons.completionCheckbox($("#edited"));
     buttons.completionCheckbox($("#complete"));
     buttons.gamemasterInput = function(x){
+        $("#event-type").on("input",function(){
+            updateDatabaseObject("Event",eventId,{type: $("#event-type").text()})
+        })
+        $("#event-title").on("input",function(){
+            updateDatabaseObject("Event",eventId,{title: $("#event-title").text()})
+        })
+        $("#event-subtitle").on("input",function(){
+            updateDatabaseObject("Event",eventId,{subtitle: $("#event-subtitle").text()})
+        })
+        $("#event-writtenBy").on("input",function(){
+            updateDatabaseObject("Event",eventId,{writtenBy: $("#event-writtenBy").text()})
+        })
+        $("#event-background").on("input",function(){
+            updateDatabaseObject("Event",eventId,{background: $("#event-background").text()})
+        })
+        $("#event-starting-music").on("input",function(){
+            updateDatabaseObject("Event",eventId,{startingMusic: $("#event-starting-music").text()})
+        })
         $("#gamemaster-text-"+x).on("input",function(){
             text[x] = $("#gamemaster-text-"+x).text();
             let amountOfQuotes = 0;
@@ -245,9 +263,11 @@ buttons.gamemasterPageSetup = function(){
             }
         })
     }
-    for(let x=0; x<text.length; x++){
-        $("#gamemaster-text-box").append(`<p id="gamemaster-text-${x}" class="gamemaster-text boxtext" contenteditable="true">${text[x]}</p>`)
-        buttons.gamemasterInput(x);
+    if(states[1] == "gamemaster-event"){
+        for(let x=0; x<text.length; x++){
+            $("#gamemaster-text-box").append(`<p id="gamemaster-text-${x}" class="gamemaster-text boxtext" contenteditable="true">${text[x]}</p>`)
+            buttons.gamemasterInput(x);
+        }
     }
 }
 

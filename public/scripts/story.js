@@ -147,10 +147,10 @@ const loadEvent = function(){
     buttons.playerBox();
 }
 
-const applyClass = async function(sentText, eventId, index, clas, newPage){
+const applyClass = async function(sentText, eventId, index, clas, newPageBoolean){
     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${sentText}</p>`);
         if(user.settings.pageScroll){
-            if(newPage){
+            if(newPageBoolean){
                 newPage(eventId);
             }else{
                 pageCheck(eventId, index, sentText);
@@ -181,6 +181,9 @@ const nextLine = async function(){
                     break;
                 case "INDIE FLOWER":
                     applyClass(sentText, eventId, index, "indie-flower");
+                    break;
+                case "CAVEAT":
+                    applyClass(sentText, eventId, index, "caveat");
                     break;
                 case "CENTERED":
                     applyClass(sentText, eventId, index, "centered");

@@ -108,6 +108,33 @@ const loadDatabaseObjectByProperty = async function(name, property, value){
     })
 }
 
+const createDatabaseObject = async function(name,data){
+    return new Promise((resolve)=>{
+        $.ajax({
+            method: "POST",
+            url: `/create/${name}`,
+            data: data,
+            success: (res)=>{
+                resolve(res);
+            }
+        }) 
+    })    
+}
+
+const updateStory = async function(id,updateType,updateKey, updateValue, settings){
+    return new Promise((resolve)=>{
+        $.ajax({
+            method: "POST",
+            url: `/update2/Story/${id}`,
+            data: {updateKey: updateKey, updateValue: updateValue ,settings: settings, updateType: updateType},
+            success: (res)=>{
+                resolve(res);
+            }
+        }) 
+    })
+}
+
+
 const updateDatabaseObject = async function(name,id,data){
     return new Promise((resolve)=>{
         $.ajax({

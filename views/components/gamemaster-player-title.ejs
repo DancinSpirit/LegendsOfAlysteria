@@ -1,0 +1,58 @@
+<%if(story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].name!="Keith Zandros"){%>
+<div id = "player-title">
+    <p class="boxtext big-boy big-boy-player-title"></p>
+    <div>
+        <p class="boxtext story-supertitle">Legends of Alysteria</p>
+            <p id="rulerPhase-name" class="boxtext story-title" contenteditable="true"><%=story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].name%></p>
+            <p id="player-input" class="boxtext story-subtitle">Player: <span id="rulerPhase-player"  contenteditable="true"><%=story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].player%></span></p>
+            <p class="boxtext story-subsubtitle"><%=story.years[year].seasons[season].regionPhases[regionPhase].name%></p>
+    </div>
+    <p class="boxtext big-boy big-boy-player-title"></p>
+</div> 
+<div class = "height-box">
+
+</div>
+<background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>
+<%}else{%>
+    <div id = "main-title">
+        <p class="boxtext big-boy big-boy-main-title"></p>
+        <div>
+            <p class="boxtext story-supertitle">Introductory Segment</p>
+            <p class="boxtext story-title">From Shadows Into Light</p>
+            <p class="boxtext story-subtitle">Original CHF Story</p>
+            </div>
+        <p class="boxtext big-boy big-boy-main-title"></p>
+    </div>
+    <div class = "height-box">
+    
+    </div>
+    <background>https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77700604135.jpg</background>
+<%}%>
+<script>
+     $("#left-arrow-box").removeClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").addClass("invisible");
+    $("#gamemaster-tab").removeClass("unselected")
+    $("#gamemaster-tab").removeClass("invisible");
+    $("#contents-tab").addClass("unselected");
+    $("#contents-tab").removeClass("invisible");
+    $("#story-tab").addClass("unselected")
+    $("#left-arrow-box").off("click");
+    $("#right-arrow-box").off("click");
+    $("#player-input").on("click", async function(){
+        $("#player-input").off("click");
+        $("#rulerPhase-player").text("New Player")
+        $("#rulerPhase-player").on("input",function(){
+            story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].player = $("#rulerPhase-player").text();
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+        })
+    })
+    $("#rulerPhase-name").on("input",function(){
+            story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].name = $("#rulerPhase-name").text();
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].name",$("#rulerPhase-name").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+    })
+    $("#rulerPhase-player").on("input",function(){
+        story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].player = $("#rulerPhase-player").text();
+        updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+    })
+</script>

@@ -1,13 +1,20 @@
 <div id = "event-<%=event._id%>" class="event-box">
     <div id="gamemaster-title-box-event">
-        <p class="boxtext eventType">~ <%=event.type%> ~</p>
-        <p class="boxtext title"><%=event.title%></p>
-        <%if(event.type=="Original CHF Event"){%>
-            <p class="boxtext nick-subtitle"><%=event.subtitle%></p>
+        <p class="boxtext eventType">~ |<span id="event-type" contenteditable="true"><%=event.type%></span>| ~</p>
+        <p id="event-title" class="boxtext title" contenteditable="true"><%=event.title%></p>
+        <%if(event.writtenBy != "false"){%>
+            <p id="event-subtitle" class="boxtext nick-subtitle" contenteditable="true"><%=event.subtitle%></p>
+            <p class="boxtext nick"> - Written by |<span id="event-writtenBy" contenteditable="true"><%=event.writtenBy%></span>| - </p> 
+        <%}else if(event.type=="Original CHF Event"){%>
+            <p id="event-subtitle" class="boxtext nick-subtitle" contenteditable="true"><%=event.subtitle%></p>
             <p class="boxtext nick"> - Written by Nick Nienberg - </p> 
         <%}else{%>
-            <p class="boxtext subtitle"><%=event.subtitle%></p>
+            <p id="event-subtitle" class="boxtext subtitle" contenteditable="true"><%=event.subtitle%></p>
         <%}%>
+        <p class="boxtext completion-status">
+            <span>Music: <span id="event-starting-music" contenteditable="true"><%=event.startingMusic%></span></span>
+            <span>| |Background: <span id="event-background" contenteditable="true"><%=event.background%></span></span>
+        </p>
         <p class="boxtext completion-status">
             <label for="finished">Written: </label>
             <input type="checkbox" class="completion-checkbox" id="finished" name="finished" value="finished" <%if(event.progress.finished){%>checked<%}%>>

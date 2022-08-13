@@ -2,8 +2,8 @@
     <p class="boxtext big-boy big-boy-turn-title"></p>
     <div id="title-box-turn-title">
         <p class="boxtext turn-title">What do you want to do?</p>
-        <p class="boxtext event-create-choice">Insert New Event</p>
-        <p class="boxtext event-create-choice">Insert New Ruler Phase</p>
+        <p id="new-event-button" class="boxtext event-create-choice">Insert New Event</p>
+        <p id="new-ruler-phase" class="boxtext event-create-choice">Insert New Ruler Phase</p>
         <p class="boxtext event-create-choice">Insert New Region Phase</p>
         <p class="boxtext event-create-choice">Go To Next Season</p>
     </div>
@@ -42,5 +42,49 @@
         loadState(1,"right");
         states = ["story","to-be-continued"];
     })
+    buttons.newEventButton = function(){
+        $("#new-event-button").on("click", async function(){
+            let newEvent = await createDatabaseObject("Event",{title: "New Event",subtitle: "Event Subtitle",type: "Event Type",text:["New Event Text!"],background:"Book",startingMusic:"none"})
+            story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1).events.push(newEvent._id)
+            updateStory(story._id,"$push","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].events",newEvent._id,{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+            customData[1].eventIndex++;
+            let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
+            let alreadyExists = false;
+            for(let x=0; x<databaseObjects[1].length; x++){
+                if(databaseObjects[1][x].name=="Event"){
+                    alreadyExists = true;
+                    databaseObjects[1][x].id = event;
+                }
+            }
+            if(!alreadyExists){
+                databaseObjects[1].push({name:"Event",id:event})
+            }
+            states[1]="gamemaster-event";
+            loadState(1);
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+        })
+    }
+    buttons.newRulerPhase = function(){
+        $("#new-ruler-phase").on("click", async function(){
+            let newEvent = await createDatabaseObject("Event",{title: "New Event",subtitle: "Event Subtitle",type: "Event Type",text:["New Event Text!"],background:"Book",startingMusic:"none"})
+            story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.push({
+                name: "Ruler",
+                progress: {
+                    finished: false,
+                    edited: false,
+                    completed: false
+                },
+                events: [newEvent._id]
+            });
+            updateStory(story._id,"$push","years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases",story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1),{arrayFilters:[{"regionPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1)._id}]})
+            customData[1].rulerPhase++;
+            customData[1].eventIndex = 0;
+            states[1] = "gamemaster-player-title"
+            loadStates(1);
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/player-title");
+        })
+    }
+    buttons.newEventButton();   
+    buttons.newRulerPhase();
 </script>
 <background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>
