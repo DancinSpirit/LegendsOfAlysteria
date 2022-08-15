@@ -12,6 +12,12 @@ let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
 
+const removeCustomStyles = async function(){
+    if($("#red-style").length){
+        $("#red-style").remove();
+    }
+}
+
 const loadBackground = async function(url){
     return new Promise((resolve) =>{
         if(url.includes("[TOP]")){
@@ -65,11 +71,11 @@ const expandSeason = function(thisButton){
     $(thisButton).children(".fa-arrow-left-rotate").removeClass("invisible");
     $(thisButton).children(".fa-arrows-left-right").addClass("invisible");
     $(".season").addClass("invisible");
-    $("#"+$(thisButton).attr("id")+"-season").removeClass("invisible");
+    $("#season-"+$(thisButton).attr("id")).removeClass("invisible");
     $(".region-container").css("flex-direction","row");
     $(".region-title").css("border-bottom","none");
     $(".region-title").css("padding-bottom","0px");
-    $("#"+$(thisButton).attr("id")+"-season").css("width","100%");
+    $("#season-"+$(thisButton).attr("id")).css("width","100%");
     $(".region-button").removeClass("invisible");
     $(".expand-button").off("click");
     $(".expand-button").on("click", function(){

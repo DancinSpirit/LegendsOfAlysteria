@@ -1,29 +1,29 @@
 <section id="settings">
-    <div class="setting">
+    <div id="text-speed" class="setting">
         Text Speed: 
         <form class="slider-form" id="textSpeed">
             <input type="range" min="1" max="99" value="<%=100-user.settings.textSpeed%>" class="slider" id="textSpeed-slider">
         </form>
     </div>
-    <div class="setting">
+    <div id="page-speed" class="setting">
         Page Transition Speed:
         <form class="slider-form" id="pageSpeed">
             <input type="range" min="0" max="20" value="<%=20-(user.settings.pageSpeed/100)%>" class="slider" id="pageSpeed-slider">
         </form>
     </div>
-    <div class="setting">
+    <div id="music-vol" class="setting">
         Music Volume
         <form class="slider-form" id="musicVolume">
             <input type="range" min="0" max="50" value="<%=(user.settings.musicVolume*100)%>" class="slider" id="musicVolume-slider">
         </form>
     </div>
-    <div class="setting">
+    <div id="sound-vol"class="setting">
         Sound Volume
         <form class="slider-form" id="soundVolume">
             <input type="range" min="0" max="50" value="<%=(user.settings.soundVolume*100)%>" class="slider" id="soundVolume-slider">
         </form>
     </div>
-    <div class="setting">
+    <div id="use-scroll"class="setting">
         Use Page Scrolling?
         <form class="checkbox-form" id="pageScroll">
             <input type="checkbox" value="pageScroll" class="checkbox" id="pageScroll-checkbox")>

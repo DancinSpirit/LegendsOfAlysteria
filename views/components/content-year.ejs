@@ -4,7 +4,7 @@
     </section>
     <section id="year-divider">
         <%for(let x=0; x<story.years[year].seasons.length; x++){%>
-            <section id="<%=x%>-season" class="season">
+            <section id="season-<%=x%>" class="season">
                 <%let turnNum = 0;%>
                 <%if(year<1){%>
                     <%turnNum = x-3;%>
@@ -35,7 +35,7 @@
             </section>
         <%}%>
         <%for(let x=0; x<4-story.years[year].seasons.length; x++){%>
-            <section class="season fake">
+            <section id="season-<%=x+story.years[year].seasons.length%>" class="season fake">
                 <p class="season-title fake" style="padding-bottom: 10px; border-bottom: solid white 2px;">Yet To Be Written</p>
                 <section class="region-phase fake">
                     <section class="ruler-phase fake" style="background-color: #2b2b2b;">
@@ -52,6 +52,9 @@
 <script>
     returnEvents(<%=year%>);
     $(".season-title").on("click", async function(){
+        if($("#red-style").length){
+            $("#red-style").remove();
+        }
         states = ["story","turn-title"];
         databaseObjects = [databaseObjects[0],databaseObjects[0]]
         customData = [false,{year:parseInt($(this).attr("id").split("|")[1]),turn:parseInt($(this).attr("id").split("|")[0]),season:parseInt($(this).attr("id").split("|")[2])}]
@@ -62,6 +65,9 @@
         buttons.contentsTab();
     })
     $(".region-title").on("click", async function(){
+        if($("#red-style").length){
+            $("#red-style").remove();
+        }
         states = ["story","region-title"];
         databaseObjects = [databaseObjects[0],databaseObjects[0]]
         customData = [false,{turn:parseInt($(this).attr("id").split("|")[0]),year:parseInt($(this).attr("id").split("|")[1]),season:parseInt($(this).attr("id").split("|")[2]), regionPhase:parseInt($(this).attr("id").split("|")[3])}]
@@ -72,6 +78,9 @@
         buttons.contentsTab();
     })
     $(".ruler-title").on("click", async function(){
+        if($("#red-style").length){
+            $("#red-style").remove();
+        }
         states = ["story","player-title"];
         databaseObjects = [databaseObjects[0],databaseObjects[0]]
         customData = [false,{turn:parseInt($(this).attr("id").split("|")[0]),year:parseInt($(this).attr("id").split("|")[1]),season:parseInt($(this).attr("id").split("|")[2]), regionPhase:parseInt($(this).attr("id").split("|")[3]), rulerPhase:parseInt($(this).attr("id").split("|")[4])}]
@@ -82,6 +91,9 @@
         buttons.contentsTab();
     })
     $(".event-content").on("click", async function(){
+        if($("#red-style").length){
+            $("#red-style").remove();
+        }
         states = ["story","event"];
         databaseObjects[0].push({name:"Event",id:$(this).attr("id").replace("event-content-","")})
         databaseObjects = [databaseObjects[0],databaseObjects[0]]
@@ -98,9 +110,6 @@
     $(".region-button").on("click", function(){
         expandRegion(this)
     })
-    if(story.years[<%=year%>].seasons.length==1){
-        $(".expand-button").click();
-    }
 </script>
 <div class = "height-box">
 

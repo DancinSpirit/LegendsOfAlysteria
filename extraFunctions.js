@@ -18,32 +18,33 @@ const returnEventTitle = function(a,id){
     })
 }
 
-const loadEvents = async function(story){
+const loadEvents = async function(story, year){
     return new Promise(async function(resolve){
         let eventArray = [];
-        for(let year=0; year<story.years.length; year++){
-            eventArray.push([]);
             for(let x=0; x<story.years[year].seasons.length; x++){
                 for(let y=0; y<story.years[year].seasons[x].regionPhases.length; y++){
                     for(let z=0; z<story.years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){
                         for(let a=0; a<story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){
-                                eventArray[year].push(await returnEventTitle(a,story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]));
+                            let eventTitle = await returnEventTitle(a,story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]);
+                                eventArray.push(eventTitle);
                                 if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]._id==story.years[year].seasons[story.years[year].seasons.length-1].regionPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases.length-1].rulerPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases.length-1].rulerPhases.length-1].events[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases.length-1].rulerPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases[story.years[year].seasons[story.years[year].seasons.length-1].regionPhases.length-1].rulerPhases.length-1].events.length-1]._id)
                                     resolve(eventArray);
                         }
                     }
                 }
             }
-        }
     })
 }
 
 const updateStoryEventNames = async function(){
     const stories = await db.Story.find();
     for(let x=0; x<stories.length; x++){
-        stories[x].eventNames = await loadEvents(stories[x]);
+        for(let year=0; year<stories[x].years.length; year++){
+            stories[x].eventNames[year] = await loadEvents(stories[x],year);
+        }
         stories[x].save();
     }
+    console.log("Completed")
 }
 
 updateStoryEventNames();

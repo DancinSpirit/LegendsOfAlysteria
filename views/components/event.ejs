@@ -15,6 +15,8 @@
             <%}else{%>
                 <%if(event.subtitle.includes("Red")){%>
                     <p class="boxtext subtitle"><span class="red">̵̛͚̣͕̭ͨ́̕͠R̷̵̩͕̹̓̊͟͠͠e̷̷̢͇͍͐̈̈́͘d̵̡̨͌͋̅̌̕҉̻</span>&nbsp<%=event.subtitle.split("Red")[1]%></p>
+                <%}else{%>
+                    <p class="boxtext subtitle"><%=event.subtitle%></p>
                 <%}%>
             <%}%>
             <div id='click-signifier'><i class='fas fa-scroll fa-blink'></i></div>
@@ -28,24 +30,9 @@
 </div>
 <script>
     <%if(event.subtitle.includes("Red")&&event.subtitle!="Red Prologue - Part I"){%>
-        $("#player-box").css("border-radius","25% 10%");
-        $("#tabs").css("transform","translateX(50%)")
-        $("#story-tab").css("border-top-left-radius","10px")
-        $("#contents-tab").css("transform","rotate(180deg)");
-        $("#left-arrow-box").css("margin-top","55vh");
-        $("#right-arrow-box").css("margin-top","25vh");
-        $(".fa-chevron-left").css("color","red");
-        $(".fa-chevron-right").css("color","red");
-        $(".fa-chevron-up").css("color","red");
-        $(".fa-chevron-down").css("color","red");
-        $(".fa-cog").css("color","red");
-        $(".fa-cog").css("text-shadow","0px 0px 5px white")
-        $(".fa-chevron-left").css("text-shadow","0px 0px 5px white");
-        $(".fa-chevron-right").css("text-shadow","0px 0px 5px white");
-        $(".fa-chevron-up").css("text-shadow","0px 0px 5px white");
-        $(".fa-chevron-down").css("text-shadow","0px 0px 5px white");
-        $("#sub-story").css("text-shadow","0px 0px 5px red");
-        $(".tab").css("text-shadow","0px 0px 1px red")
+        if(!$("#red-style").length){
+            $("head").append(`<link id="red-style" rel="stylesheet" href="/styles/red.css">`);
+        }
     <%}%>
     eventId = JSON.parse(`<%-JSON.stringify(event._id)%>`); 
     index = -1;
@@ -62,6 +49,7 @@
     $("#story-tab").removeClass("unselected")
     $("#left-arrow-box").off("click");
     $("#left-arrow-box").on("click", function(){
+        removeCustomStyles();
         eventInterrupt = true;
         if(customData[1].eventIndex>0){
             states = ["story","event"]
@@ -88,6 +76,7 @@
     })
     $("#right-arrow-box").off("click");
     $("#right-arrow-box").on("click", function(){
+        removeCustomStyles();
         eventInterrupt = true;
         if(customData[1].eventIndex<story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events.length-1){
             states = ["story","event"]

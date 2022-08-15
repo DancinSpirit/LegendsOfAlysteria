@@ -76,6 +76,7 @@
     border-top: white solid 4px;
     border-left: white solid 4px;
     border-bottom: white solid 4px;
+    height:fit-content;
   }
 
   .season-title{

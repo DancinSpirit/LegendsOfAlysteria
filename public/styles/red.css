@@ -1,0 +1,102 @@
+
+
+
+*{
+    transition: 500ms;
+}
+
+#player-box{
+    border-radius: 25% 10%;
+}
+#tabs{
+    transform: translateX(50%);
+}
+#story-tab{
+    border-top-left-radius: 10px;
+}
+#contents-tab{
+    transform: rotate(180deg);
+}
+#left-arrow-box{
+    margin-top: 55vh;
+}
+#right-arrow-box{
+    margin-top: 25vh
+}
+.fa-chevron-left, .fa-chevron-right, .fa-chevron-up, .fa-chevron-down, .fa-cog{
+    color: red;
+    text-shadow: 0px 0px 5px white;
+}
+#sub-story{
+    text-shadow: 0px 0px 5px red;
+}
+.tab{
+    text-shadow: 0px 0px 1px red;
+}
+
+.season-title, .expand-button{
+    background-color: darkred;
+}
+
+.region-title, .region-button{
+    background-color: red;
+}
+
+.region-phase{
+    background-color: crimson;
+}
+
+.season{
+    border: solid rgb(75, 6, 6) 5px 
+}
+#season-0{
+   transform: translateY(-50px);
+}
+
+#season-2{
+    transform: translateY(50px);
+}
+
+#season-3{
+    transform: translateY(100px);
+    margin-bottom: 120px;
+}
+
+#year-divider{
+    border-right: none;
+}
+
+#settings{
+    border-radius: 0% 70%;
+    width: 90%;
+    height: 75%;
+    accent-color: crimson;
+}
+
+#text-speed{
+    transform: translateX(-15vw);
+}
+
+#page-speed{
+    transform: translateX(-10vw);
+}
+
+#music-vol{
+    transform: translateX(-5vw);
+}
+
+#sound-vol{
+
+}
+
+#use-scroll{
+    transform: translateX(5vw)
+}
+
+#testSound{
+    transform: translateX(15vw);
+}
+
+#return{
+    transform: translateX(30vw);
+}

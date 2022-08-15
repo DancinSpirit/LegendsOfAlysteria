@@ -4,7 +4,7 @@
         <p class="boxtext turn-title">What do you want to do?</p>
         <p id="new-event-button" class="boxtext event-create-choice">Insert New Event</p>
         <p id="new-ruler-phase" class="boxtext event-create-choice">Insert New Ruler Phase</p>
-        <p class="boxtext event-create-choice">Insert New Region Phase</p>
+        <p id="new-region-phase" class="boxtext event-create-choice">Insert New Region Phase</p>
         <p class="boxtext event-create-choice">Go To Next Season</p>
     </div>
     <p class="boxtext big-boy big-boy-turn-title"></p>
@@ -79,7 +79,7 @@
             customData[1].regionPhase++;
             customData[1].rulerPhase = 0;
             customData[1].eventIndex = 0;
-            story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).splice(customData[1].regionPhase,0,{
+            story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.splice(customData[1].regionPhase,0,{
                 name: "Region",
                 emblem: "https://cdn.discordapp.com/attachments/948762262829666325/973352327274692658/alysteria.png",
                 players: [],
@@ -88,7 +88,7 @@
                     events: [newEvent._id]
                 }]
             });
-            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases",story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases,{arrayFilters:[{"regionPhase._id": story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase)._id}]})
+            updateStory(story._id,"$set","years.$[].seasons.$[season].regionPhases",story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases,{arrayFilters:[{"season._id": story.years.at(customData[1].year).seasons.at(customData[1].season)._id}]})
             states[1] = "region-title"
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Region Title", "/story/region-title");
             window.location.reload();
@@ -96,5 +96,6 @@
     }
     buttons.newEventButton();   
     buttons.newRulerPhase();
+    buttons.newRegionPhase();
 </script>
 <background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>
