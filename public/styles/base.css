@@ -6,6 +6,10 @@
   font-family: 'Ork';
   src: url(/fonts/Ork.ttf);
 }
+@font-face{
+  font-family: 'Satisfy';
+  src: url(/fonts/Satisfy.ttf);
+}
 
 * {
   margin: 0;

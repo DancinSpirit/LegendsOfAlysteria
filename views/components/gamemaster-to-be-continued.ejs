@@ -45,29 +45,20 @@
     buttons.newEventButton = function(){
         $("#new-event-button").on("click", async function(){
             let newEvent = await createDatabaseObject("Event",{title: "New Event",subtitle: "Event Subtitle",type: "Event Type",text:["New Event Text!"],background:"Book",startingMusic:"none"})
-            story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1).events.push(newEvent._id)
-            updateStory(story._id,"$push","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].events",newEvent._id,{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
             customData[1].eventIndex++;
-            let event = story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].events[customData[1].eventIndex];
-            let alreadyExists = false;
-            for(let x=0; x<databaseObjects[1].length; x++){
-                if(databaseObjects[1][x].name=="Event"){
-                    alreadyExists = true;
-                    databaseObjects[1][x].id = event;
-                }
-            }
-            if(!alreadyExists){
-                databaseObjects[1].push({name:"Event",id:event})
-            }
-            states[1]="gamemaster-event";
-            loadState(1);
+            story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases.at(customData[1].rulerPhase).events.splice(customData[1].eventIndex, 0, newEvent._id)
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].events",story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases.at(customData[1].rulerPhase).events,{arrayFilters:[{"rulerPhase._id": story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases.at(customData[1].rulerPhase)._id}]});
+            states[1] = "event";
             window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/event");
+            window.location.reload();
         })
     }
     buttons.newRulerPhase = function(){
         $("#new-ruler-phase").on("click", async function(){
             let newEvent = await createDatabaseObject("Event",{title: "New Event",subtitle: "Event Subtitle",type: "Event Type",text:["New Event Text!"],background:"Book",startingMusic:"none"})
-            story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.push({
+            customData[1].rulerPhase++;
+            customData[1].eventIndex = 0;
+            story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases.splice(customData[1].rulerPhase,0,{
                 name: "Ruler",
                 progress: {
                     finished: false,
@@ -76,12 +67,31 @@
                 },
                 events: [newEvent._id]
             });
-            updateStory(story._id,"$push","years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases",story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1),{arrayFilters:[{"regionPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1)._id}]})
-            customData[1].rulerPhase++;
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases",story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases,{arrayFilters:[{"regionPhase._id": story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase)._id}]})
+            states[1] = "player-title"
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Player Title", "/story/player-title");
+            window.location.reload();
+        })
+    }
+    buttons.newRegionPhase = function(){
+        $("#new-region-phase").on("click", async function(){
+            let newEvent = await createDatabaseObject("Event",{title: "New Event",subtitle: "Event Subtitle",type: "Event Type",text:["New Event Text!"],background:"Book",startingMusic:"none"})
+            customData[1].regionPhase++;
+            customData[1].rulerPhase = 0;
             customData[1].eventIndex = 0;
-            states[1] = "gamemaster-player-title"
-            loadStates(1);
-            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Event", "/story/player-title");
+            story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).splice(customData[1].regionPhase,0,{
+                name: "Region",
+                emblem: "https://cdn.discordapp.com/attachments/948762262829666325/973352327274692658/alysteria.png",
+                players: [],
+                rulerPhases: [{
+                    name: "Ruler",
+                    events: [newEvent._id]
+                }]
+            });
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases",story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase).rulerPhases,{arrayFilters:[{"regionPhase._id": story.years.at(customData[1].year).seasons.at(customData[1].season).regionPhases.at(customData[1].regionPhase)._id}]})
+            states[1] = "region-title"
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Story Region Title", "/story/region-title");
+            window.location.reload();
         })
     }
     buttons.newEventButton();   

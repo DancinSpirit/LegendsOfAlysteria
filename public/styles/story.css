@@ -875,6 +875,10 @@
     font-family: 'Corsiva';
     font-size:22px;
   }
+  .satisfy{
+    font-family: 'Satisfy';
+    font-size: 23px;
+  }
   .indie-flower{
     font-family: 'Indie Flower';
     text-align: center;
@@ -882,7 +886,7 @@
   }
   .caveat{
     font-family: 'Caveat';
-    font-size: 18px;
+    font-size: 27px;
   }
   .center{
     text-align: center;

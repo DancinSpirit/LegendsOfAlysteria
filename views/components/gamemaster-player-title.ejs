@@ -44,15 +44,15 @@
         $("#rulerPhase-player").text("New Player")
         $("#rulerPhase-player").on("input",function(){
             story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].player = $("#rulerPhase-player").text();
-            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase]._id}]});
         })
     })
     $("#rulerPhase-name").on("input",function(){
             story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].name = $("#rulerPhase-name").text();
-            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].name",$("#rulerPhase-name").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+            updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].name",$("#rulerPhase-name").text(),{arrayFilters:[{"rulerPhase._id": story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase]._id}]});
     })
     $("#rulerPhase-player").on("input",function(){
         story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase].player = $("#rulerPhase-player").text();
-        updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years.at(-1).seasons.at(-1).regionPhases.at(-1).rulerPhases.at(-1)._id}]});
+        updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[].rulerPhases.$[rulerPhase].player",$("#rulerPhase-player").text(),{arrayFilters:[{"rulerPhase._id": story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].rulerPhases[customData[1].rulerPhase]._id}]});
     })
 </script>

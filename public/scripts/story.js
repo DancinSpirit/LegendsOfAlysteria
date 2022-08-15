@@ -185,6 +185,9 @@ const nextLine = async function(){
                 case "CAVEAT":
                     applyClass(sentText, eventId, index, "caveat");
                     break;
+                case "SATISFY":
+                    applyClass(sentText, eventId, index, "satisfy");
+                    break;
                 case "CENTERED":
                     applyClass(sentText, eventId, index, "centered");
                     break;
