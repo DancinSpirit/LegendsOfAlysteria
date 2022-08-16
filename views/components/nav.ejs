@@ -8,7 +8,7 @@
         </section>
         <section id = "account-options">
             <%for(let x=0; x<user.playerCharacters.length; x++){%>
-                <div id="<%=user.playerCharacters[x].id%>"class="account-option clickable character-button">
+                <div id="<%=user.playerCharacters[x].id%>"class="account-option clickable character-button" style="background-color: <%=user.playerCharacters[x].colors.dark%>">
                     <%=user.playerCharacters[x].name%>
                 </div>
             <%}%>

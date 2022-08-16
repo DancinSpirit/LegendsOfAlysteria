@@ -5,8 +5,9 @@ const {MessageEmbed} = require("discord.js");
 const movePhasesOver = async function(){
     let larrauStory = await db.Story.findById("62702eeb83361d9bcaad4801");
     let zacharyStory = await db.Story.findById("61390a85d4d10a12926304cb");
-    let larrauPhase = larrauStory.years[0].seasons[3].regionPhases[1];  
-    let completeStory = await db.Story.findByIdAndUpdate("613914ffd4d10a12926304cd",{"$push":{"years.$[].seasons.$[season].regionPhases":larrauPhase}},{arrayFilters:[{"season._id": "61141da3903d2a11cc1ecde4"}]});
+    let completeStory = await db.Story.findById("613914ffd4d10a12926304cd");
+    let malcPhase = completeStory.years[0].seasons[3].regionPhases[2].rulerPhases[1];
+    let malcStory = await db.Story.findByIdAndUpdate("62fb27edf93e5a51ea7b29d0",{"$push":{"years.$[].seasons.$[].regionPhases.$[regionPhase].rulerPhases":malcPhase}},{arrayFilters:[{"regionPhase._id": "614c0bb22f26fe28c36f4ef9"}]});
 }
 
 const returnEventTitle = function(a,id){
