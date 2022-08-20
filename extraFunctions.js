@@ -62,7 +62,7 @@ const populateEventProgress = async function(id){
             for(let regionPhase=0; regionPhase<story.years[year].seasons[season].regionPhases.length; regionPhase++){
                 for(let rulerPhase=0; rulerPhase<story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases.length; rulerPhase++){
                     for(let eventIndex=0; eventIndex<story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events.length; eventIndex++){
-                        let event = await db.Event.findById(story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events[eventIndex]);
+                        let event = await db.Event.findById(story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events[eventIndex]);                        
                         if(season==0){
                             event.progress.finished = true;
                             event.progress.edited = true;
