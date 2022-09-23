@@ -75,3 +75,10 @@ animation, component, background{
   top: 0;
   left: 0;
 }
+
+#guest-login{
+  font-size: 15px;
+  padding-top: 5px;
+  color: peachpuff;
+  cursor: pointer;
+}

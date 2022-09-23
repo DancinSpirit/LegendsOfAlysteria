@@ -3,6 +3,7 @@
         <p class="center-form form-title">Login</p>
         <p class="right-form">Username: <input id="username-input" type="text" name="username" class="form-input"></p>
         <p class="right-form">Password: <input id="password-input" type="password" name="password" class="form-input"></p>
+        <p class="center-form form-title" id="guest-login">Continue As Guest</p>
         <p class="center-form"><input type="submit" value="Login" class="submit-button"></p>
     </form>
 </div>
@@ -24,6 +25,15 @@
                 $("#login-form").append(`<p id='error-message'>${attempt.error}</p>`) 
             }
         }
+    })
+    $("#guest-login").on("click",async function(){
+        await login("Guest","guest");
+        states = ["main","home"]
+            databaseObjects = [false,false];
+            customData = [false,false];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Home", "/main/home");
+            await loadState(0,"right")
+            await loadState(1,"up");
     })
 </script>
 <animation>up</animation>
