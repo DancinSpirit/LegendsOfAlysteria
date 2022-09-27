@@ -175,59 +175,11 @@ const nextLine = async function(){
         if(text[index].includes("[")){
             let [command,sentText] = text[index].replace("[","").split("]");
             switch(command){
-                case "WARP BACK":
-                    $("#sub-story").css("transition","5000ms");
-                    $("#sub-story").css("transform","rotateX(-25deg)")
-                    setTimeout(function(){$("#sub-story").css("transition","none")},5000);
-                    nextLine();
+                case "WARP":
+                    $("head").append(`<link id="warp-style" rel="stylesheet" href="/styles/warp.css">`)
                     break;
-                case "WARP UNBACK":
-                    $("#sub-story").css("transition","5000ms");
-                    $("#sub-story").css("transform","rotateX(0deg)")
-                    setTimeout(function(){$("#sub-story").css("transition","none")},5000);
-                    nextLine();
-                    break;
-                case "WARP CONDENSE":
-                    $("#story-tab").css("transition","5000ms");
-                    $("#contents-tab").css("transition","10000ms");
-                    $("#player-box").css("transition","7500ms");
-                    $("#story-tab").css("transform","translate(10px,10px");
-                    $("#contents-tab").css("transform","translate(10px, -10px)");
-                    $("#player-box").css("transform","scaleY(.9)");
-                    setTimeout(function(){$("#story-tab").css("transition","none")},5000);
-                    setTimeout(function(){$("#contents-tab").css("transition","none")},10000);
-                    setTimeout(function(){$("#player-box").css("transition","none")},7500);
-                    nextLine();
-                    break;  
-                case "WARP UNCONDENSE":
-                    $("#story-tab").css("transition","5000ms");
-                    $("#contents-tab").css("transition","10000ms");
-                    $("#player-box").css("transition","7500ms");
-                    $("#story-tab").css("transform","translate(0px,0px");
-                    $("#contents-tab").css("transform","translate(0px, 0px)");
-                    $("#player-box").css("transform","scaleY(1)");
-                    setTimeout(function(){$("#story-tab").css("transition","none")},5000);
-                    setTimeout(function(){$("#contents-tab").css("transition","none")},10000);
-                    setTimeout(function(){$("#player-box").css("transition","none")},7500);
-                    nextLine();
-                    break;    
-                case "WARP RIGHT":
-                    $("#sub-story-container-container").css("transition","12000ms");
-                    $("#sub-story-container-container").css("transform","rotate(1deg)");
-                    setTimeout(function(){$("#sub-story-container-container").css("transition","none")},12000)
-                    nextLine();
-                    break;
-                case "WARP LEFT":
-                    $("#sub-story-container-container").css("transition","12000ms");
-                    $("#sub-story-container-container").css("transform","rotate(-1deg)");
-                    setTimeout(function(){$("#sub-story-container-container").css("transition","none")},12000)
-                    nextLine();
-                    break;
-                case "WARP CENTER":
-                    $("#sub-story-container-container").css("transition","12000ms");
-                    $("#sub-story-container-container").css("transform","rotate(0deg)");
-                    setTimeout(function(){$("#sub-story-container-container").css("transition","none")},12000)
-                    nextLine();
+                case "UNWARP":
+                    $("#warp-style").remove();
                     break;
                 case "GRAYSCALE":
                     $("html").css("filter","grayscale(1)")

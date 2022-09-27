@@ -192,6 +192,7 @@ const componentCheck = async function(component){
 }
 
 const loadState = async function(x, animation){
+    $("#warp-style").remove();
     $("body").append("<div id='button-blocker'></div>")
     keyButtons = false;
     await deactivateButtons(x);
