@@ -11,6 +11,7 @@ let enterButton = true;
 let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
+let duel;
 
 const removeCustomStyles = async function(){
     if($("#red-style").length){
@@ -523,16 +524,60 @@ const nextLine = async function(){
                     $(".darker-1").css("background-color","#cc4125");
                     $(".dark-1").css("background-color","#dd7e6b");
                     $(".light-1").css("background-color","#e6b8af");
-                    $(".background-2").css("background-color","#234E98");
-                    $(".darker-2").css("background-color","#164d81");
-                    $(".dark-2").css("background-color","#1A65A9");
-                    $(".light-2").css("background-color","#3386d3");
+                    $(".background-2").css("background-color","#674ea7");
+                    $(".darker-2").css("background-color","#8e7cc3");
+                    $(".dark-2").css("background-color","#b4a7d6");
+                    $(".light-2").css("background-color","#d9d2e9");
                     $("#duel-window").css("animation","battlewindow-transform 1000ms linear");
                     $("#sub-story").css("animation","battlestory-transform 1000ms linear");
                     setTimeout(function(){
                         $("#sub-story").css("height","20%");
                         $("#duel-window").css("height","30%");
                     },1000)
+                    let Zachary = {
+                        player: "Kristian",
+                        name: "Zachary",
+                        attackModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 12},{name: "Heavy", value: -10}],
+                        defenseModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 12},{name: "Heavy", value: -10}],
+                        parry: 1,
+                        health: 72,
+                        maxHealth: 72,
+                        stamina: 90,
+                        maxStamina: 90,
+                        staminaWeightMod: 2,
+                        woundedLevel: 0,
+                        exhaustionLevel: 0,
+                        armor: {melee: 15, ranged: 30, durability: 225, maxDurability: 225},
+                        directDamage: 3,
+                        armorPenetration: 6,
+                        fightingStyles: ["Barrage","Reversal"],
+                        inCombatWith: ["Violet"],
+                        tempModifiers: []
+                    }
+                    let Violet = {
+                        player: "Gamemaster",
+                        name: "Violet",
+                        attackModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 8},{name: "Heavy", value: -10},{name: "Brutish Strength", value: 5}],
+                        defenseModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 8},{name: "Heavy", value: -10},{name: "Brutish Strength", value: 5}],
+                        parry: 1,
+                        health: 72,
+                        maxHealth: 72,
+                        stamina: 90,
+                        maxStamina: 90,
+                        staminaWeightMod: 2,
+                        woundedLevel: 0,
+                        exhaustionLevel: 0,
+                        armor: {melee: 15, ranged: 30, durability: 225, maxDurability: 225},
+                        directDamage: 3,
+                        armorPenetration: 6,
+                        fightingStyles: ["Punisher","Reversal"],
+                        inCombatWith: ["Zachary"],
+                        tempModifiers: []
+                    }
+                    duel = new Battle("duel",[Violet,Zachary])
+                    break;
+                case "DUEL COMMAND":
+                    duel[sentText.split("(")[0]](...sentText.split("(")[1].split(")")[0].split(","));
                     break;
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);

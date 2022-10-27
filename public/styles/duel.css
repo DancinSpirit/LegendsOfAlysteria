@@ -71,3 +71,19 @@
     text-align: left;
     padding-left: 10px;
 }
+
+.dueltext {
+    user-select: none;
+    font-size: 17px;
+    padding: 5px;
+}
+.dueltitle{
+    user-select: none;
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+#battle-text{
+    overflow: hidden;
+}

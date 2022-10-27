@@ -1,19 +1,59 @@
+class Grid{
+    constructor(height,width){
+        this.rows = [];
+        for(let x=0; x<height; x++){
+            this.rows.push({columns: []});
+            for(let z=0; z<width; z++){
+                let space = {terrain:"Empty", unit:"Empty"}
+                this.rows[x].columns.push(space);
+            }
+        }
+    }
+
+    addUnit(name,row,column){
+            this.rows[row].columns[column].unit = name;
+    }
+
+    toConsole = async function(){
+        let grid = {}
+        for(const x of this.rows.keys()){
+            let row = [];
+            for(let y=0; y<this.rows[x].columns.length; y++){
+                let unit = false;
+                let quadrant = "";
+                if(this.rows[x].columns[y].unit!="Empty"){
+                    unit = this.rows[x].columns[y].unit
+                }
+                if(unit)
+                row.push("[" + unit + "]");
+                else
+                row.push("[ ]");
+            }
+            grid[x] = row;
+        }
+        console.table(grid);
+    }
+}
+
 class Battle{
-    constructor(combatants,grid=false){
+    constructor(name,combatants,grid=false){
+        this.name = name;
+        this.grid = grid;
         this.combatants = combatants;
         for(let x=0; x<combatants.length; x++){
             this.combatants[x].dice = new Dice();
             this.combatants[x].trueMaxStamina = this.combatants[x].maxStamina;
         }
         this.roundCount = 1;
-        this.phase = "Initiative Phase";
+        this.phase = "Initiation Phase";
+        this.updateString = `${combatants[0].name} vs. ${combatants[1].name}`;
+        this.updateBattle();
         console.log("New Battle Created!")
         console.log("Combatants:")
         for(let x=0; x<combatants.length; x++){
             console.log(this.combatants[x].name)
         }
         console.log("");
-        console.log("Initiative Phase:");
     }
     //Automation Methods
     automateSimpleBattle(){
@@ -46,7 +86,73 @@ class Battle{
         this.confirmAllActionsCalculated();
     }
     //Universal Methods
+    calculateAdvantage(combatant,type){
+        for(let x=0; x<combatant.fightingStyles.length; x++){
+            this.applyAdvantageFor(combatant.fightingStyles[x],combatant,type);
+        }
+    }
+    applyAdvantageFor(fightingStyle,combatant,type){
+        for(let x=0; x<combatant.inCombatWith.length; x++){
+            if(fightingStyle=="Punisher"){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name==combatant.inCombatWith[x]){
+                        if(this.combatants[y].fightingStyles.includes("Reversal")){
+                            combatant.tempModifiers.push({name:"Punisher Advantage",value:5})
+                        }
+                    }
+                }
+            }
+            if(fightingStyle=="Reversal"){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name==combatant.inCombatWith[x]){
+                        if(this.combatants[y].fightingStyles.includes("Berserk-Attack")||this.combatants[y].fightingStyles.includes("Berserk-Defend")){
+                            if(type=="Attack"){
+
+                            }
+                            if(type=="Defend"){
+                                combatant.tempModifiers.push({name:"Reversal Advantage",value:10})
+                            }
+                        }
+                    }
+                }
+            }
+            if((fightingStyle=="Berserk-Attack")||(fightingStyle=="Berserk-Defend")){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name==combatant.inCombatWith[x]){
+                        if(this.combatants[y].fightingStyles.includes("Barrage")){
+                            if(type=="Attack"&&fightingStyle=="Berserk-Attack"){
+                                combatant.tempModifiers.push({name:"Berserk Advantage",value:10})
+                            }
+                            if(type=="Defend"&&fightingStyle=="Berserk-Defend"){
+                                combatant.tempModifiers.push({name:"Berserk Advantage",value:10})
+                            }
+                        }
+                    }
+                }
+            }
+            if(fightingStyle=="Barrage"){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name==combatant.inCombatWith[x]){
+                        if(this.combatants[y].fightingStyles.includes("Punisher")){
+                            if(type=="Attack"){
+                                combatant.tempModifiers.push({name:"Barrage Advantage",value:10})
+                            }
+                            if(type=="Defend"){
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     rollFor(combatant){
+        if(combatant.berserkMod){
+            combatant.tempModifiers.push({name:"Berserking!",value:combatant.berserkMod})
+        }
+        if(combatant.barrageMod){
+            combatant.tempModifiers.push({name:"Barraged!",value:combatant.barrageMod})
+        }
         if(combatant.tempModifiers){
             for(let x=0; x<combatant.tempModifiers.length; x++){
                 combatant.dice.addModifier(combatant.tempModifiers[x]);
@@ -91,6 +197,12 @@ class Battle{
         return combatant.dice.latestResult;
     }
     customRollFor(combatant,customRollList){
+        if(combatant.berserkMod){
+            combatant.tempModifiers.push({name:"Berserking!",value:combatant.berserkMod})
+        }
+        if(combatant.barrageMod){
+            combatant.tempModifiers.push({name:"Barraged!",value:combatant.barrageMod})
+        }
         if(combatant.tempModifiers){
             for(let x=0; x<combatant.tempModifiers.length; x++){
                 combatant.dice.addModifier(combatant.tempModifiers[x]);
@@ -122,7 +234,7 @@ class Battle{
                 }
             }
             if(combatant.woundedLevel==4){
-                woundedModifier = 100;
+                woundedModifier = 50;
                 if(Math.round((totalModifier/5)*4)>woundedModifier){
                     woundedModifier = Math.round((totalModifier/5)*4);
                 }
@@ -131,6 +243,15 @@ class Battle{
         }
         let roll = combatant.dice.customRollFull(customRollList);
         combatant.initiativeScore += (combatant.dice.latestCritCount * 10) + (combatant.dice.latestCritFailCount * -10);
+        if(combatant.dice.latestCritFailCount>0){
+            for(let x=0; x<combatant.inCombatWith.length; x++){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name==combatant.inCombatWith[x]){
+                        this.punishmentCheck(combatant,this.combatants[y]);
+                    }
+                }
+            }
+        }
         this.update(combatant);
         return combatant.dice.latestResult;
     }
@@ -141,17 +262,25 @@ class Battle{
             }
         }
     }
+    updateBattle(){
+        console.log("HM?")
+        let updateEvent = new CustomEvent(`${this.name}-update`,{detail: this})
+        window.dispatchEvent(updateEvent);
+    }
     //Initative Methods
     rollFlatInitiativeAll(){
+        this.startInitiativePhase();
         console.log("Auto-Rolling Initiative...")
         for(let x=0; x<this.combatants.length; x++){
             this.rollInitiative(x)
         }
         this.calculateOrder();
-        console.log("Initiative Order: ")
-        for(let x=0; x<this.combatants.length; x++){
-            console.log(this.combatants[x].name + " (" + this.combatants[x].initiativeScore + ")");
-        }
+    }
+    startInitiativePhase(){
+        this.phase = "Initiative Phase";
+        console.log("Initiative Phase:");
+        this.updateString = "Initiative Phase:";
+        this.updateBattle();
     }
     rollInitiativeFor(combatantName, additionalModifiers=false){
         console.log("Rolling Initiative For " + combatantName + "...")
@@ -165,6 +294,8 @@ class Battle{
         console.log("Rolling Custom Initiative For " + combatantName + "...")
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==combatantName){
+                this.updateString  = this.combatants[x].name + "'s Roll:";
+                this.updateBattle();
                 this.rollCustomInitiative(x, additionalModifiers, customRollList)
             }
         }
@@ -178,8 +309,12 @@ class Battle{
             this.combatants[x].dice.addModifier(modifiersList[y]);
         }
         console.log(this.combatants[x].name + "'s Roll:")
+        this.updateString  = this.combatants[x].name + "'s Roll:";
         let roll = this.combatants[x].dice.roll();
         this.combatants[x].initiativeScore = this.combatants[x].dice.latestResult;
+        console.log(this.combatants[x].dice.latestRollString);
+        this.updateString += this.combatants[x].dice.latestRollString;
+        this.updateBattle();
     }
     rollCustomInitiative(x, additionalModifiers=false, customRollList){
         let modifiersList = [];
@@ -191,6 +326,9 @@ class Battle{
         }
         let roll = this.combatants[x].dice.customRollFull(customRollList);
         this.combatants[x].initiativeScore = this.combatants[x].dice.latestResult;
+        this.updateString = this.combatants[x].name + "'s Roll:";
+        this.updateString += this.combatants[x].dice.latestRollString;
+        this.updateBattle();
     }
     //Phase Transition Method
     calculateOrder(){
@@ -204,9 +342,32 @@ class Battle{
         console.log("Stats:")
         for(let x=0; x<this.combatants.length; x++){
             console.log(this.combatants[x].name)
-            console.log("Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth + " (" + this.combatants[x].woundedType + ")")
-            console.log("Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina + " (" + this.combatants[x].exhaustionType + ")")
+            if(this.combatants[x].woundedType){
+                console.log("Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth + " (" + this.combatants[x].woundedType + ")")
+            }else{
+                console.log("Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth)
+            }
+            if(this.combatants[x].exhaustionType){
+                console.log("Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina + " (" + this.combatants[x].exhaustionType + ")")
+            }else{
+                console.log("Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina)
+            }
             console.log("Initiative: " + this.combatants[x].initiativeScore)
+            if(this.combatants[x].punishmentPool){
+                console.log("Punishment Pools:")
+                for (const combatant in this.combatants[x].punishmentPool) {
+                    console.log("   " + combatant + ": " + this.combatants[x].punishmentPool[combatant]);
+                }
+            }
+            if(this.combatants[x].reversalPool){
+                console.log("Reversal Pool: " + this.combatants[x].reversalPool);
+            }
+            if(this.combatants[x].berserkMod){
+                console.log("Berserk Modifier: " + this.combatants[x].berserkMod)
+            }
+            if(this.combatants[x].barrageMod){
+                console.log("Barrage Modifier: " + this.combatants[x].barrageMod)
+            }
             console.log("")
         }
         console.log("Action Declaration Phase:")
@@ -237,6 +398,7 @@ class Battle{
                 //could probably add a for loop that details every target in case of multiple targets for above console.log
             }
             console.log("");
+            this.updateBattle();
             console.log("Action Calculation Phase:")
         }
     }
@@ -312,6 +474,7 @@ class Battle{
             defender.dice.addModifier(defender.defenseModifiers[x]);
         }
         let defenseRoll;
+        this.calculateAdvantage(defender,"Defend")
         if(!attackers[0].action.customDefenseList){
             defenseRoll = this.rollFor(defender) 
         }else{
@@ -327,8 +490,7 @@ class Battle{
         //Defend Another is not accounted for
         console.log(defender.name + " Defense Sub-Phase:")
     }
-    defend(defenderName,attackerName,points){
-        
+    defend(defenderName,attackerName,points){ 
         console.log(defenderName + " Defends Against " + attackerName + "!")
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==defenderName){
@@ -340,6 +502,22 @@ class Battle{
                         }
                         console.log("Defends " + points + " out of " +this.combatants[x].unresolvedAttacks[y].value + " Points of Damage!")
                         this.combatants[x].unresolvedAttacks[y].value = this.combatants[x].unresolvedAttacks[y].value - points;
+                        this.combatants[x].unresolvedAttacks[y].defended = true;
+                        if(this.combatants[x].unresolvedAttacks[y].value<1){
+                            this.reversalCheck(this.combatants[x])
+                            for(let z=0; z<this.combatants.length; z++){
+                                if(this.combatants[z].name==attackerName){
+                                    for(let a=0; a<this.combatants[z].inCombatWith.length; a++){
+                                        for(let b=0; b<this.combatants.length; b++){
+                                            if(this.combatants[z].inCombatWith[a]==this.combatants[b].name){
+                                               this.punishmentCheck(this.combatants[z],this.combatants[b]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
                         this.combatants[x].defensePoints = this.combatants[x].defensePoints - points;
                         console.log("Remaining Attack Points: " + this.combatants[x].unresolvedAttacks[y].value)
                         console.log("Remaining Defense Points: " + this.combatants[x].defensePoints);
@@ -382,7 +560,7 @@ class Battle{
                 for( let y=0; y<this.combatants.length; y++){
                     if(this.combatants[y].name == attackerName){
                         let defenderAction = this.combatants[x].action;
-                        this.combatants[x].action = {name: "Attack",targets: [this.combatants[y].name],customAttackList: customAttackList,customDefenseList: customDefenseList}
+                        this.combatants[x].action = {name: "Attack",targets: [this.combatants[y].name],customAttackList: customAttackList,customDefenseList: customDefenseList,type:"melee"}
                         this.combatants[x].counterModifier = {name: "Counter",value:this.combatants[x].defensePoints*10}
                         this.combatants[y] = this.calculateAttack(this.combatants[x],this.combatants[y])
                         this.calculateDefense([this.combatants[x]],this.combatants[y])
@@ -399,16 +577,44 @@ class Battle{
         for(let x=0; x<this.combatants.length; x++){
             if(defenderName == this.combatants[x].name){
                 for(let y=0; y<this.combatants[x].unresolvedAttacks.length; y++){
-                    let finalDamage = this.calculateAttackerDamage(this.combatants[x].unresolvedAttacks[y]);
+                    if(!this.combatants[x].unresolvedAttacks[y].defended){
+                        for(let z=0; z<this.combatants.length; z++){
+                            if(this.combatants[z].name == this.combatants[x].unresolvedAttacks[y].name){
+                                this.punishmentCheck(this.combatants[x],this.combatants[z]);
+                            }
+                        }
+                    }
+                    let finalDamage = this.calculateAttackerDamage(this.combatants[x].unresolvedAttacks[y],this.combatants[x]);
                     console.log(finalDamage + " Damage from " + this.combatants[x].unresolvedAttacks[y].name + "!");
+                    if(finalDamage>0){
+                        for(let z=0; z<this.combatants.length; z++){
+                            if(this.combatants[z].name == this.combatants[x].unresolvedAttacks[y].name){
+                                this.punishmentCheck(this.combatants[x],this.combatants[z]);
+                                this.berserkAttackSuccess(this.combatants[z]);
+                                this.barrageSuccess(this.combatants[x],this.combatants[z])
+                            }
+                        }
+                    }else{
+                        for(let z=0; z<this.combatants.length; z++){
+                            if(this.combatants[z].name == this.combatants[x].unresolvedAttacks[y].name){
+                                this.berserkAttackFailure(this.combatants[z])
+                                this.barrageFailure(this.combatants[x],this.combatants[z])
+                            }
+                        }
+                    }
                     totalDamage += finalDamage;
                     this.combatants[x].unresolvedAttacks.splice(y,1)
                     y--;
                 }
                 console.log("Total Damage Taken: " + totalDamage);
-                this.combatants[x].health = this.combatants[x].health - totalDamage;
-                this.combatants[x].initiativeScore = this.combatants[x].initiativeScore - totalDamage*10;
-                console.log("Remaining Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth);
+                if(totalDamage==0){
+                    this.berserkDefendSuccess(this.combatants[x])
+                }else{
+                    this.combatants[x].health = this.combatants[x].health - totalDamage;
+                    this.combatants[x].initiativeScore = this.combatants[x].initiativeScore - totalDamage*10;
+                    console.log("Remaining Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth);
+                    this.berserkDefendFailure(this.combatants[x]);
+                }
                 let woundedLevel = this.combatants[x].woundedLevel;
                 if(this.calculateWounded(this.combatants[x])==-1){
                     this.combatants[x].woundedType = "Dead!";
@@ -449,7 +655,108 @@ class Battle{
                 }
             }
         }
+        this.updateBattle();
     }
+    reversalCheck(combatant){
+        if(combatant.fightingStyles.includes("Reversal")){
+            if(!combatant.reversalPool){
+                combatant.reversalPool = 0;
+            }
+            if((combatant.fightingStyles[0]=="Reversal")&&(combatant.fightingStyles[1]=="Reversal")){
+                console.log("+2 to the Reversal Pool!")
+                combatant.reversalPool += 2;
+            }else{
+                console.log("+1 to the Reversal Pool!")
+                combatant.reversalPool += 1;
+            }
+            console.log("Reversal Pool Total: " + combatant.reversalPool)
+        }
+    }
+    punishmentCheck(punished,punisher){
+        if(punisher.fightingStyles.includes("Punisher")){
+            if(!punished.punishmentPool){
+                punished.punishmentPool = {};
+            }
+            if(!punished.punishmentPool[punisher.name]){
+                punished.punishmentPool[punisher.name] = 0;
+            }
+            if((punisher.fightingStyles[0]=="Punisher")&&(punisher.fightingStyles[1]=="Punisher")){
+                console.log("+2 to the Punishment Pool!")
+                punished.punishmentPool[punisher.name] += 2;
+            }else{
+                console.log("+1 to the Punishment Pool!")
+                punished.punishmentPool[punisher.name] += 1;
+            }
+            console.log("Punishment Pool Total: " + punished.punishmentPool[punisher.name])
+        }
+    }
+    berserkAttackSuccess(combatant){
+        if(combatant.fightingStyles.includes("Berserk-Attack")){
+            if(!combatant.berserkMod){
+                combatant.berserkMod = 1;
+            }else{
+                if((combatant.fightingStyles[0]=="Berserk-Attack")&&(combatant.fightingStyles[1]=="Berserk-Attack")){
+                    console.log("Berserk Mod Multiplied By 4!")
+                    combatant.berserkMod= berserkMod*4;
+                }else{
+                    console.log("Berserk Mod Multiplied By 2!")
+                    combatant.berserkMod= berserkMod*2;
+                }
+            }
+            console.log("Berserk Modifier Total: " + combatant.berserkMod)
+        }
+    }
+    berserkDefendSuccess(combatant){
+        if(combatant.fightingStyles.includes("Berserk-Defend")){
+            if(!combatant.berserkMod){
+                combatant.berserkMod = 1;
+            }else{
+                if((combatant.fightingStyles[0]=="Berserk-Defend")&&(combatant.fightingStyles[1]=="Berserk-Defend")){
+                    console.log("Berserk Mod Multiplied By 4!")
+                    combatant.berserkMod= berserkMod*4;
+                }else{
+                    console.log("Berserk Mod Multiplied By 2!")
+                    combatant.berserkMod= berserkMod*2;
+                }
+            }
+            console.log("Berserk Modifier Total: " + combatant.berserkMod)
+        }
+    }
+    berserkAttackFailure(combatant){
+        if(combatant.fightingStyles.includes("Berserk-Attack")){
+            combatant.berserkMod = 0;
+            console.log("Berserk Modifier Total: " + combatant.berserkMod)
+        }
+    }
+    berserkDefendFailure(combatant){
+        if(combatant.fightingStyles.includes("Berserk-Defend")){
+            combatant.berserkMod = 0;
+            console.log("Berserk Modifier Total: " + combatant.berserkMod)
+        }
+    }
+    barrageSuccess(target,attacker){
+        if(attacker.fightingStyles.includes("Barrage")){
+            if(!target.barrageMod){
+                target.barrageMod = -1;
+            }else{
+                if((attacker.fightingStyles[0]=="Barrage")&&(attacker.fightingStyles[1]=="Barrage")){
+                    console.log("Barrage Mod Multiplied By 4!")
+                    target.barrageMod= barrageMod*4;
+                }else{
+                    console.log("Barrage Mod Multiplied By 2!")
+                    target.barrageMod= barrageMod*2;
+                }
+            }
+            console.log("Barrage Modifier Total: " + target.barrageMod);
+        }
+    }
+    barrageFailure(target,attacker){
+        if(attacker.fightingStyles.includes("Barrage")){
+            target.barrageMod = 0;
+            console.log("Barrage Modifier Total: " + target.barrageMod);
+        }
+    }
+
     calculateExhaustion(combatant){
         if(combatant.stamina<0){
             combatant.exhaustionType = "Exhausted";
@@ -484,8 +791,47 @@ class Battle{
         }
         return 0;
     }
-    calculateAttackerDamage(attack){
+    calculateAttackerDamage(attack, defender){
+        //makes sure value is not negative
+        if(attack.value<1){
+            return 0;
+        }
+        let durabilityDamage = 0;
+        if(defender.armor){
+            if(attack.value < defender.armor[attack.type]){
+                durabilityDamage += attack.value;
+            }else{
+                durabilityDamage += defender.armor[attack.type];
+            }
+            attack.value = attack.value - defender.armor[attack.type];
+            if(attack.armorPenetration){
+                attack.value += attack.armorPenetration;
+                durabilityDamage += attack.armorPenetration;
+                console.log("Bonus Damage from AP: " + attack.armorPenetration)
+            }
+            if(attack.directDamage){
+                attack.value += Math.floor(attack.directDamage/2);
+                durabilityDamage += attack.directDamage;
+                console.log("Bonus Damage from DD: " + Math.floor(attack.directDamage/2))
+            }
+            console.log(durabilityDamage + " Damage to Armor!")
+            defender.armor.durability = defender.armor.durability - durabilityDamage;
+            console.log("Armor Durability: " + defender.armor.durability + "/" + defender.armor.maxDurability)
+        }else{
+            if(attack.armorPenetration){
+                attack.value += Math.floor(attack.armorPenetration/2);
+                console.log("Bonus Damage from AP: " + Math.floor(attack.armorPenetration/2))
+            }
+            if(attack.directDamage){
+                attack.value += attack.directDamage;
+                console.log("Bonus Damage from DD: " + Math.floor(attack.directDamage))
+            }
+        }
         //Need to check for abilities that deal more damage or whatever
+        if(attack.value<0){
+            attack.value = 0;
+        }
+        console.log("Total Damage: " + attack.value)
         return attack.value;
     }
     calculateAttack(attacker, defender){
@@ -532,13 +878,20 @@ class Battle{
             }
         }
         let attackRoll;
+        this.calculateAdvantage(attacker,"Attack")
         if(!attacker.action.customAttackList){
             attackRoll = this.rollFor(attacker) 
         }else{
             attackRoll = this.customRollFor(attacker,attacker.action.customAttackList) ;
         }
         let attackPoints = Math.round(attackRoll/10)
-        let attack = {name: attacker.name,value: attackPoints}
+        let attack = {name: attacker.name,value: attackPoints,type:attacker.action.type}
+        if(attacker.armorPenetration){
+            attack.armorPenetration = attacker.armorPenetration;
+        }
+        if(attacker.directDamage){
+            attack.directDamage = attacker.directDamage;
+        }
         if(!defender.unresolvedAttacks){
             defender.unresolvedAttacks = [];
         }
@@ -552,6 +905,40 @@ class Battle{
         this.roundCount++;
         console.log("Round " + this.roundCount);
         this.calculateOrder();
+    }
+    applyReversalPool(attackerName){
+        for(let x=0; x<this.combatants.length; x++){
+            if(this.combatants[x].name == attackerName){
+                this.combatants[x].tempModifiers.push({name: "Reversal!", value: this.combatants[x].reversalPool})
+                this.combatants[x].reversalPool = 0;
+            }
+        }
+    }
+    applyPunishmentPool(attackerName,defenderName){
+        for(let x=0; x<this.combatants.length; x++){
+            if(this.combatants[x].name == attackerName){
+                for(let y=0; y<this.combatants.length; y++){
+                    if(this.combatants[y].name == defenderName){
+                        this.combatants[x].tempModifiers.push({name: "Punishment!", value: this.combatants[y].punishmentPool[attackerName]})
+                        this.combatants[y].punishmentPool[attackerName] = 0;
+                    }
+                }
+            }
+        }
+    }
+    convertIntoReversal(combatantName,defensePoints){
+        console.log(combatantName + " sets up a Reversal!")
+        for(let x=0; x<this.combatants.length; x++){
+            if(this.combatants[x].name == combatantName){
+                this.combatants[x].reversalPool += defensePoints/5;
+                if((this.combatants[x].fightingStyles[0]=="Reversal")&&(this.combatants[x].fightingStyles[1]=="Reversal")){
+                    this.combatants[x].reversalPool += defensePoints/5;
+                }
+                this.combatants[x].defensePoints += -defensePoints;
+                console.log("Reversal Pool Total: " + this.combatants[x].reversalPool)
+                console.log("Remaining Defense Points: " + this.combatants[x].defensePoints);
+            }
+        }
     }
 }
 

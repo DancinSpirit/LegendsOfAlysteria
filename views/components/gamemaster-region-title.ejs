@@ -1,0 +1,58 @@
+<div id = "region-title">
+    <p class="boxtext big-boy big-boy-region-title"></p>
+    <div id="title-box-region-title">
+        <p id="emblem-input" class="boxtext story-supertitle" contenteditable="true"><%=story.years[year].seasons[season].regionPhases[regionPhase].emblem%></p>
+        <p id="name-input" class="boxtext turn-title" contenteditable="true"><%=story.years[year].seasons[season].regionPhases[regionPhase].name%></p>
+        <p class="boxtext turn-subtitle">
+            <%if(season=="0"){%>
+                Winter
+            <%}%>
+            <%if(season=="1"){%>
+                Spring
+            <%}%>
+            <%if(season=="2"){%>
+                Summer
+            <%}%>
+            <%if(season=="3"){%>
+                Fall
+            <%}%>
+            of Year <%=year%></p>
+            <p class="boxtext turn-players">
+                <div id="turn-players-title">Players</div>
+                <div id="turn-players-list">
+                    I didn't code adding new players yet cause i'm so fucking tired.
+                    <%for(let y=0; y<story.years[year].seasons[season].regionPhases[regionPhase].players.length; y++){%>
+                        <div>
+                            <div class="turn-player"><%=story.years[year].seasons[season].regionPhases[regionPhase].players[y].name%></div>
+                            <div class="turn-player" id="character-name-title"><%=story.years[year].seasons[season].regionPhases[regionPhase].players[y].character%></div>
+                        </div>
+                    <%}%>
+                </div>
+            </p>
+    </div>
+    <p class="boxtext big-boy big-boy-region-title"></p>
+</div> 
+<div class = "height-box">
+
+</div>
+<background>https://media.discordapp.net/attachments/948762262829666325/948765394330595388/Book.jpg</background>
+<script>
+    $("#left-arrow-box").removeClass("invisible");
+    $("#top-arrow-box").removeClass("invisible");
+    $("#right-arrow-box").addClass("invisible");
+    $("#gamemaster-tab").removeClass("unselected")
+    $("#gamemaster-tab").removeClass("invisible");
+    $("#contents-tab").addClass("unselected");
+    $("#contents-tab").removeClass("invisible");
+    $("#story-tab").addClass("unselected")
+    $("#left-arrow-box").off("click");
+    $("#right-arrow-box").off("click");
+    $("#name-input").on("input",function(){
+        story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].name = $("#name-input").text();
+        updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[regionPhase].name",$("#name-input").text(),{arrayFilters:[{"regionPhase._id": story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase]._id}]});
+    })
+    $("#emblem-input").on("input",function(){
+        story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase].emblem = $("#emblem-input").text();
+        updateStory(story._id,"$set","years.$[].seasons.$[].regionPhases.$[regionPhase].emblem",$("#emblem-input").text(),{arrayFilters:[{"regionPhase._id": story.years[customData[1].year].seasons[customData[1].season].regionPhases[customData[1].regionPhase]._id}]});
+    })
+</script>

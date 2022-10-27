@@ -20,6 +20,7 @@ class Dice{
         this.latestList = [];
         this.latestCritCount = 0;
         this.latestCritFailCount = 0;
+        this.latestRollString = "";
     }
 
     addModifier(modifier){
@@ -164,6 +165,7 @@ class Dice{
         let finalResult = this.critCalc(roll);
         this.latestResult = finalResult;
         let returnString = this.rollString;
+        this.latestRollString = this.rollString;
         this.latestCritCount = this.critSuccesses;
         this.latestCritFailCount = this.critFails;
         this.reset();
@@ -178,6 +180,7 @@ class Dice{
         let finalResult = this.critCalc(roll);
         this.latestResult = finalResult;
         let returnString = this.rollString;
+        this.latestRollString = this.rollString;
         this.latestCritCount = this.critSuccesses;
         this.latestCritFailCount = this.critFails;
         this.reset();
