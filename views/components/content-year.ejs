@@ -21,7 +21,7 @@
                             <section class="region-phase">
                                 <%for(let z=0; z<story.years[year].seasons[x].regionPhases[y].rulerPhases.length; z++){%>
                                     <section class="ruler-phase <%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name.replaceAll(' ','-').replaceAll(',','')%>">
-                                        <p id="<%=turnNum%>|<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name=="Keith Zandros"){%>From Shadows Into Light<%}else{%><%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name%><%}%></p>
+                                        <p id="<%=turnNum%>|<%=year%>|<%=x%>|<%=y%>|<%=z%>|ruler" class="ruler-title"><%if(story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name=="Keith Zandros"&&year==0){%>From Shadows Into Light<%}else{%><%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].name%><%}%></p>
                                         <%for(let a=0; a<story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events.length; a++){%>
                                             <section id="event-content-<%=story.years[year].seasons[x].regionPhases[y].rulerPhases[z].events[a]%>"class="event-content">
                                             </section>

@@ -55,14 +55,15 @@
 }
 #combatant-1{
     border-right: solid 2px white;
-    width: 33%
+    width: 33%;
 }
 #battle-text{
-    width: 34%
+    width: 34%;
+    font-family: Jura;
 }
 #combatant-2{
     border-left: solid 2px white;
-    width: 33%
+    width: 33%;
 }
 .stat-row{
     padding-top: 5px;

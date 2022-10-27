@@ -174,7 +174,8 @@ const nextLine = async function(){
     if(index<text.length-1){
         index++;
         if(text[index].includes("[")){
-            let [command,sentText] = text[index].replace("[","").split("]");
+            let command = text[index].replace("[","").split(`]`)[0];
+            let sentText = text[index].replace("[","").split(`${command}]`)[1];
             switch(command){
                 case "WARP":
                     $("head").append(`<link id="warp-style" rel="stylesheet" href="/styles/warp.css">`)
@@ -574,10 +575,12 @@ const nextLine = async function(){
                         inCombatWith: ["Zachary"],
                         tempModifiers: []
                     }
-                    duel = new Battle("duel",[Violet,Zachary])
+                    duel = new Battle("duel",[Zachary, Violet])
                     break;
                 case "DUEL COMMAND":
-                    duel[sentText.split("(")[0]](...sentText.split("(")[1].split(")")[0].split(","));
+                    sentText = sentText.replace(/“/g,"'")
+                    sentText = sentText.replace(/”/g,"'");
+                    eval(`duel.${sentText}`)
                     break;
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);

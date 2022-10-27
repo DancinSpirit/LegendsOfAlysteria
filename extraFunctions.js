@@ -8,8 +8,8 @@ const movePhasesOver = async function(){
     let completeStory = await db.Story.findById("613914ffd4d10a12926304cd");
     let malcStory = await db.Story.findById("62fb27edf93e5a51ea7b29d0");
     let observerStory = await db.Story.findById("62373ba6896942d7c9927fce");
-    let keithPhase = completeStory.years[0].seasons[1];
-    observerStory.years[0].seasons[1] = keithPhase
+    let keithPhase = completeStory.years[0].seasons[2];
+    observerStory.years[0].seasons[2] = keithPhase
     observerStory.save();
 }
 
