@@ -12,6 +12,11 @@ let screen = true;
 let keyButtons = true;
 let enterKeyPressed = false;
 let duel;
+let duelWriteIndex;
+let duelIndex;
+let duelText;
+let duelPageNum;
+let duelTyping;
 
 const removeCustomStyles = async function(){
     if($("#red-style").length){
@@ -580,8 +585,17 @@ const nextLine = async function(){
                 case "DUEL COMMAND":
                     sentText = sentText.replace(/“/g,"'")
                     sentText = sentText.replace(/”/g,"'");
-                    eval(`duel.${sentText}`)
+                    eval(`duel.${sentText}`);
+                    nextLine();
                     break;
+                case "DUEL PROGRESS":
+                    let updateDuel = new CustomEvent(`duel-progress`)
+                    window.dispatchEvent(updateDuel);
+                    nextLine();
+                    break;
+                case "AUTO BREAK":
+                    //this is to prevent an automatic next line   
+                    break; 
                 default:
                     $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext">${text[index]}</p>`);
                     if(user.settings.pageScroll){
