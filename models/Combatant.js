@@ -2,33 +2,27 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
   {
-    player: {type: String},
-    name: {type: String},
-    avatar: {type: String},
-    version: {type: String},
+    player: {type: "String"},
+    name: {type: "String"},
+    attackModifiers: [{name: {type: String}, value: {type: Number}}],
+    defenseModifiers: [{name: {type: String}, value: {type: Number}}],
+    parry: {type: Number},
     health: {type: Number},
     maxHealth: {type: Number},
     stamina: {type: Number},
     maxStamina: {type: Number},
-    mana: {type: Number},
-    maxMana: {type: Number},
-    activeAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Activeability"}],
-    passiveAbilities: [{type: mongoose.Schema.Types.ObjectId, ref: "Passiveability"}],
-    attackModifiers: [{name: {type: String},value: {type: Number}}],
-    defenseModifiers: [{name: {type: String},value: {type: Number}}],
-    tempModifiers: [{name: {type: String},value: {type: Number}}],
-    sprinting: {type: Boolean, default: false},
-    sprintValue: {type: Number, default: 2},
     staminaWeightMod: {type: Number},
-    fightingStyles: [],
-    colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
+    woundedLevel: {type: Number},
+    exhaustionLevel: {type: Number},
+    armor: {melee: {type: Number}, ranged: {type: Number}, durability: {type: Number}, maxDurability: {type: Number}},
+    directDamage: {type: Number},
+    armorPenetration: {type: Number},
+    fightingStyles: [{type: String}],
+    inCombatWith: [{type: String}],
+    tempModifiers: []
   },
   {timestamps: true}
 )
-
-schema.methods.decreaseStamina = function decreaseStamina(amount){
-  this.stamina = this.stamina - amount*this.staminaWeightMod;
-}
 
 const Model = mongoose.model("Combatant", schema);
 

@@ -17,6 +17,9 @@ let duelIndex;
 let duelText;
 let duelPageNum;
 let duelTyping;
+let duelUpdating = false;
+let duelTypeInterrupt = false;
+let createDuelText;
 
 const removeCustomStyles = async function(){
     if($("#red-style").length){
@@ -514,6 +517,7 @@ const nextLine = async function(){
                     await loadState(3);
                     break;
                 case "DUEL":
+                    duelUpdating = true;
                     if(isMobile){
                         if(!$(`#duel-style`).length){
                             $("head").append(`<link id="duel-style" rel="stylesheet" href="/phone-styles/duel.css">`)
@@ -540,58 +544,36 @@ const nextLine = async function(){
                         $("#sub-story").css("height","20%");
                         $("#duel-window").css("height","30%");
                     },1000)
-                    let Zachary = {
-                        player: "Kristian",
-                        name: "Zachary",
-                        attackModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 12},{name: "Heavy", value: -10}],
-                        defenseModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 12},{name: "Heavy", value: -10}],
-                        parry: 1,
-                        health: 72,
-                        maxHealth: 72,
-                        stamina: 90,
-                        maxStamina: 90,
-                        staminaWeightMod: 2,
-                        woundedLevel: 0,
-                        exhaustionLevel: 0,
-                        armor: {melee: 15, ranged: 30, durability: 225, maxDurability: 225},
-                        directDamage: 3,
-                        armorPenetration: 6,
-                        fightingStyles: ["Barrage","Reversal"],
-                        inCombatWith: ["Violet"],
-                        tempModifiers: []
-                    }
-                    let Violet = {
-                        player: "Gamemaster",
-                        name: "Violet",
-                        attackModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 8},{name: "Heavy", value: -10},{name: "Brutish Strength", value: 5}],
-                        defenseModifiers: [{name: "Two-Handed Longsword", value: 65},{name: "Athleticism", value: 8},{name: "Heavy", value: -10},{name: "Brutish Strength", value: 5}],
-                        parry: 1,
-                        health: 72,
-                        maxHealth: 72,
-                        stamina: 90,
-                        maxStamina: 90,
-                        staminaWeightMod: 2,
-                        woundedLevel: 0,
-                        exhaustionLevel: 0,
-                        armor: {melee: 15, ranged: 30, durability: 225, maxDurability: 225},
-                        directDamage: 3,
-                        armorPenetration: 6,
-                        fightingStyles: ["Punisher","Reversal"],
-                        inCombatWith: ["Zachary"],
-                        tempModifiers: []
-                    }
-                    duel = new Battle("duel",[Zachary, Violet])
+                    let duelData = await loadDatabaseObject("Duel",sentText.split("|")[1])
+                    duelData.combatants[0] = await loadDatabaseObject("Combatant",duelData.combatants[0])
+                    duelData.combatants[1] = await loadDatabaseObject("Combatant",duelData.combatants[1])
+                    duel = new Battle("duel",[duelData.combatants[0], duelData.combatants[1]])
                     break;
                 case "DUEL COMMAND":
-                    sentText = sentText.replace(/“/g,"'")
-                    sentText = sentText.replace(/”/g,"'");
-                    eval(`duel.${sentText}`);
-                    nextLine();
+                    if(duelTyping||duelUpdating){
+                        duelTyping = false;
+                        duelTypeInterrupt = true;
+                        index--;
+                    }else{
+                        duelUpdating = true;
+                        sentText = sentText.replace(/“/g,"'")
+                        sentText = sentText.replace(/”/g,"'");
+                        eval(`duel.${sentText}`);
+                        nextLine();
+                    }
                     break;
                 case "DUEL PROGRESS":
-                    let updateDuel = new CustomEvent(`duel-progress`)
-                    window.dispatchEvent(updateDuel);
-                    nextLine();
+                    if(duelTyping||duelUpdating){
+                        duelTyping = false;
+                        duelTypeInterrupt = true;
+                        index--;
+                    }else{
+                        duelTyping = false;
+                        duelTypeInterrupt = false;
+                        let updateDuel = new CustomEvent(`duel-progress`)
+                        window.dispatchEvent(updateDuel);
+                        nextLine();
+                    }
                     break;
                 case "AUTO BREAK":
                     //this is to prevent an automatic next line   

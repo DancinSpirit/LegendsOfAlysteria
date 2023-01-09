@@ -13,6 +13,15 @@ const movePhasesOver = async function(){
     observerStory.save();
 }
 
+const loadIntoEvent = async function(){
+    let combatEvent = await db.Event.findById("63bba7ee0298bab02eb32ef9");
+    let originEvent = await db.Event.findById("60b9398e004695169dff05ab");
+    for(let x=0; x<49; x++){
+        combatEvent.text[x] = originEvent.text[x]
+    }
+    combatEvent.save();
+}
+loadIntoEvent();
 //movePhasesOver();
 
 const returnEventTitle = function(a,id){

@@ -396,6 +396,10 @@ class Battle{
                 this.declareAction(x, action, movement)
             }
         }
+        console.log("Action: ");
+        console.log(action)
+        this.updateString = `${combatantName} ${action.name}s ${action.targets[0]}!`
+        this.updateBattle();
     }
     declareAction(x, action, movement=false){
         this.combatants[x].action = action;
@@ -415,12 +419,10 @@ class Battle{
                     this.updateString += "<br>"
                 }
                 console.log(this.combatants[x].name + " " + this.combatants[x].action.name + "s!")
-                this.updateString += this.combatants[x].name + " " + this.combatants[x].action.name + "s!"
                 //could probably add a for loop that details every target in case of multiple targets for above console.log
             }
             console.log("");
             console.log("Action Calculation Phase:")
-            this.updateBattle();
             this.updateString = "<span class='sectionTitle'>Action Calculation Phase:</span>"
             this.updateBattle();
         }

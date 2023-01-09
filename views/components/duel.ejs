@@ -127,15 +127,17 @@
     duelPageNum = 0;
     duelTyping = false;
 
-    const createDuelText = async function(sentText, phase){
+    createDuelText = async function(sentText, phase){
         duelText[duelWriteIndex]=sentText;
         duelWriteIndex++;
     }
     window.addEventListener("duel-update",function(battle){
+        console.log("4")
         battle = battle.detail;
         $("#combatant-1-initiative").text(battle.combatants[0].initiativeScore);
         $("#combatant-2-initiative").text(battle.combatants[1].initiativeScore);
         createDuelText(battle.updateString, battle.phase);
+        duelUpdating = false;
     })
     window.addEventListener("duel-progress",async function(){
         phaseClass = "dueltext";
@@ -143,16 +145,17 @@
             phaseClass = "dueltitle";
         }
         let sentText = duelText[duelIndex];
-        if(sentText.includes("<span"))){
+        if(sentText.includes("<span")){
             let fullHtml = $("<section>" + sentText + "</section>");
             //create a forloop that goes through all the spans and then send it as othertext, look at typewriter its not that hard
         }
         $(`#duel-height-box`).append(`<p id="duel-height-check-${duelIndex}" class="${phaseClass}">${duelText[duelIndex]}</p>`);
-        console.log($(`#duel-height-check-${duelIndex}`).outerHeight(true))
         $('#battle-text').append(`<p id="dueltext-${duelIndex}" style="height: ${$(`#duel-height-check-${duelIndex}`).outerHeight(true)}px" class="${phaseClass}"></p>`);
         $("#battle-text").scrollTop($("#battle-text").prop("scrollHeight"));
         duelTyping = true;
+        console.log("1")
         await duelTypeWriter(`#battle-text`,"", 0, duelText[duelIndex], duelIndex, `#dueltext-${duelIndex}`, 1) 
+        console.log("3")
         duelTyping = false;
         duelIndex++;
     })
@@ -175,7 +178,8 @@
             resolve();
         }else{
             let timeout = setTimeout(function(){duelTypeWriter(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
-            if(duelIndex!=sentIndex||typeInterrupt){
+            if(duelIndex!=sentIndex||duelTypeInterrupt){
+                console.log("2")
                 if(otherText){
                     if(otherText.text2){
                         $(otherText.text2.id).text(otherText.text2.text);
@@ -190,7 +194,9 @@
                 $(`#dueltext-${sentIndex}`).css("height",`${$(`#duel-height-check-${sentIndex}`).outerHeight(true)}px`)
                 $(id).html(txt) 
                 clearTimeout(timeout);
-                typeInterrupt = false;
+                duelTyping = false;
+                duelIndex++;
+                duelTypeInterrupt = false;
             }else if(eventInterrupt){
                 clearTimeout(timeout);
             }

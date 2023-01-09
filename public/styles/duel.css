@@ -89,6 +89,8 @@
     padding-left: 10px;
 }
 .sectionTitle{
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 17px;
     font-weight: bold;
     align-self: center;
@@ -118,7 +120,7 @@
 }
 .dueltitle{
     user-select: none;
-    font-size: 20px;
+    font-size: 22px;
     padding: 5px;
     text-align: center;
     font-weight: bold;
