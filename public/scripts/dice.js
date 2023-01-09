@@ -76,7 +76,7 @@ class Dice{
 
     printLine(){
         console.log(this.nextLine);
-        this.rollString += "<br>" + this.nextLine;
+        this.rollString += this.nextLine + "<br>";
         this.nextLine = "";
     }
 

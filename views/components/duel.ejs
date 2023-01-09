@@ -6,9 +6,9 @@
         <section class="combatant-name darker-1">Zachary Stormchaser</section>
         <section class="stats light-1">
             <section class = "stat-section-name dark-1">Stats</section>
-            <section class="combat-style-box-content light-1">
+            <section class="rowD light-1">
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Health:
                         </section>
@@ -18,7 +18,7 @@
                     </section>
                 </section>
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Stamina:
                         </section>
@@ -28,9 +28,9 @@
                     </section>
                 </section>
             </section>
-            <section class="combat-style-box-content light-1">
+            <section class="rowD light-1">
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Mana:
                         </section>
@@ -40,7 +40,7 @@
                     </section>
                 </section>
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Initiative:
                         </section>
@@ -55,8 +55,13 @@
 
         </section>
     </section>
-    <section id="battle-text">
+    <section id="battle-text-container">
+        <section id="battle-text">
 
+        </section>
+        <section id = "duel-height-box" class = "duel-height-box">
+    
+        </section>
     </section>
     <section id="combatant-2" class="combatant background-2">
         <section class="combatant-avatar-box">
@@ -65,9 +70,9 @@
         <section class="combatant-name darker-2">Violet Stormchaser</section>
         <section class="stats light-2">
             <section class = "stat-section-name dark-2">Stats</section>
-            <section class="combat-style-box-content light-2">
+            <section class="rowD light-2">
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Health:
                         </section>
@@ -77,7 +82,7 @@
                     </section>
                 </section>
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Stamina:
                         </section>
@@ -87,9 +92,9 @@
                     </section>
                 </section>
             </section>
-            <section class="combat-style-box-content light-2">
+            <section class="rowD light-2">
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Mana:
                         </section>
@@ -99,7 +104,7 @@
                     </section>
                 </section>
                 <section class="row-cell">
-                    <section class="row stat-row">
+                    <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Initiative:
                         </section>
@@ -116,20 +121,80 @@
     </section>
 </section>
 <script>
-    let duelIndex = 0;
-    const createDuelText = function(index, sentText, phase){
-        if(phase=="Initiation Phase"){
-            $(`#battle-text`).append(`<p id="dueltext-${index}" class="dueltitle">${sentText}</p>`);
-        }else{
-            $(`#battle-text`).append(`<p id="dueltext-${index}" class="dueltext">${sentText}</p>`);
-        }
-        $("#battle-text").scrollTop($("#battle-text").prop("scrollHeight"));
-        duelIndex++;
+    duelWriteIndex = 0;
+    duelIndex = 0;
+    duelText = [];
+    duelPageNum = 0;
+    duelTyping = false;
+
+    const createDuelText = async function(sentText, phase){
+        duelText[duelWriteIndex]=sentText;
+        duelWriteIndex++;
     }
     window.addEventListener("duel-update",function(battle){
         battle = battle.detail;
         $("#combatant-1-initiative").text(battle.combatants[0].initiativeScore);
         $("#combatant-2-initiative").text(battle.combatants[1].initiativeScore);
-        createDuelText(duelIndex,battle.updateString, battle.phase);
+        createDuelText(battle.updateString, battle.phase);
     })
+    window.addEventListener("duel-progress",async function(){
+        phaseClass = "dueltext";
+        if(duelIndex==0){
+            phaseClass = "dueltitle";
+        }
+        let sentText = duelText[duelIndex];
+        if(sentText.includes("<span"))){
+            let fullHtml = $("<section>" + sentText + "</section>");
+            //create a forloop that goes through all the spans and then send it as othertext, look at typewriter its not that hard
+        }
+        $(`#duel-height-box`).append(`<p id="duel-height-check-${duelIndex}" class="${phaseClass}">${duelText[duelIndex]}</p>`);
+        console.log($(`#duel-height-check-${duelIndex}`).outerHeight(true))
+        $('#battle-text').append(`<p id="dueltext-${duelIndex}" style="height: ${$(`#duel-height-check-${duelIndex}`).outerHeight(true)}px" class="${phaseClass}"></p>`);
+        $("#battle-text").scrollTop($("#battle-text").prop("scrollHeight"));
+        duelTyping = true;
+        await duelTypeWriter(`#battle-text`,"", 0, duelText[duelIndex], duelIndex, `#dueltext-${duelIndex}`, 1) 
+        duelTyping = false;
+        duelIndex++;
+    })
+    const duelTypeWriter = async function(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText) {
+    return new Promise((resolve) =>{
+        if (i < txt.length) {
+            returnChar = txt.charAt(i);
+            returnString += returnChar;
+        for(let x=2; x<=speedMod; x++){
+            if(i+x-1<txt.length)
+            returnString += txt.charAt(i+x-1);
+            else
+            i=txt.length;
+        }
+        $(id).html(returnString) 
+        if(i!=txt.length)
+        i+=speedMod;
+        }
+        if(i==txt.length){
+            resolve();
+        }else{
+            let timeout = setTimeout(function(){duelTypeWriter(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
+            if(duelIndex!=sentIndex||typeInterrupt){
+                if(otherText){
+                    if(otherText.text2){
+                        $(otherText.text2.id).text(otherText.text2.text);
+                    }
+                    if(otherText.text3){
+                        $(otherText.text3.id).text(otherText.text3.text);
+                    }
+                    if(otherText.text4){
+                        $(otherText.text4.id).text(otherText.text4.text);
+                    }
+                }
+                $(`#dueltext-${sentIndex}`).css("height",`${$(`#duel-height-check-${sentIndex}`).outerHeight(true)}px`)
+                $(id).html(txt) 
+                clearTimeout(timeout);
+                typeInterrupt = false;
+            }else if(eventInterrupt){
+                clearTimeout(timeout);
+            }
+        }
+    })
+}
 </script>

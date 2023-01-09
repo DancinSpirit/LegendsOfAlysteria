@@ -263,7 +263,6 @@ class Battle{
         }
     }
     updateBattle(){
-        console.log("HM?")
         let updateEvent = new CustomEvent(`${this.name}-update`,{detail: this})
         window.dispatchEvent(updateEvent);
     }
@@ -279,7 +278,7 @@ class Battle{
     startInitiativePhase(){
         this.phase = "Initiative Phase";
         console.log("Initiative Phase:");
-        this.updateString = "Initiative Phase:";
+        this.updateString = "<span class='sectionTitle'>Initiative Phase</span>";
         this.updateBattle();
     }
     rollInitiativeFor(combatantName, additionalModifiers=false){
@@ -294,8 +293,6 @@ class Battle{
         console.log("Rolling Custom Initiative For " + combatantName + "...")
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==combatantName){
-                this.updateString  = this.combatants[x].name + "'s Roll:";
-                this.updateBattle();
                 this.rollCustomInitiative(x, additionalModifiers, customRollList)
             }
         }
@@ -309,11 +306,11 @@ class Battle{
             this.combatants[x].dice.addModifier(modifiersList[y]);
         }
         console.log(this.combatants[x].name + "'s Roll:")
-        this.updateString  = this.combatants[x].name + "'s Roll:";
+        this.updateString  = "<span class='subSection'>" + this.combatants[x].name + "'s Roll:</span>";
         let roll = this.combatants[x].dice.roll();
         this.combatants[x].initiativeScore = this.combatants[x].dice.latestResult;
         console.log(this.combatants[x].dice.latestRollString);
-        this.updateString += this.combatants[x].dice.latestRollString;
+        this.updateString += "<span class='diceRoll'>" + this.combatants[x].dice.latestRollString + "</span>";
         this.updateBattle();
     }
     rollCustomInitiative(x, additionalModifiers=false, customRollList){
@@ -326,8 +323,8 @@ class Battle{
         }
         let roll = this.combatants[x].dice.customRollFull(customRollList);
         this.combatants[x].initiativeScore = this.combatants[x].dice.latestResult;
-        this.updateString = this.combatants[x].name + "'s Roll:";
-        this.updateString += this.combatants[x].dice.latestRollString;
+        this.updateString = "<span class='subSection'>" + this.combatants[x].name + "'s Roll:</span>";
+        this.updateString += "<span class='diceRoll'>" + this.combatants[x].dice.latestRollString + "</span>";
         this.updateBattle();
     }
     //Phase Transition Method
@@ -338,37 +335,56 @@ class Battle{
         }
         quickSort(initiativeScores,0,initiativeScores.length-1,this.combatants);
         this.phase = "Action Declaration Phase";
+        this.updateString = "<span class='sectionTitle'>Action Declaration Phase:</span>"
+        this.updateBattle();
         console.log("");
         console.log("Stats:")
         for(let x=0; x<this.combatants.length; x++){
+            this.updateString = "<strong>" + this.combatants[x].name + "</strong>";
             console.log(this.combatants[x].name)
             if(this.combatants[x].woundedType){
+                this.updateString += "Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth + " (" + this.combatants[x].woundedType + ")"
                 console.log("Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth + " (" + this.combatants[x].woundedType + ")")
             }else{
+                this.updateString += "Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth;
                 console.log("Health: " + this.combatants[x].health + "/" + this.combatants[x].maxHealth)
             }
             if(this.combatants[x].exhaustionType){
+                this.updateString += "<br>" + "Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina + " (" + this.combatants[x].exhaustionType + ")"
                 console.log("Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina + " (" + this.combatants[x].exhaustionType + ")")
             }else{
+                this.updateString += "<br>" + "Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina
                 console.log("Stamina: " + this.combatants[x].stamina + "/" + this.combatants[x].maxStamina)
             }
             console.log("Initiative: " + this.combatants[x].initiativeScore)
+            this.updateString += "<br>" + "Initiative: " + this.combatants[x].initiativeScore;
+            let fightingStyleString = "";
             if(this.combatants[x].punishmentPool){
                 console.log("Punishment Pools:")
+                fightingStyleString += "<br><span class='fightingStyleMods'>Punishment Pools:</span>"
                 for (const combatant in this.combatants[x].punishmentPool) {
+                    fightingStyleString += "<br>   " + combatant + ": " + this.combatants[x].punishmentPool[combatant]
                     console.log("   " + combatant + ": " + this.combatants[x].punishmentPool[combatant]);
                 }
             }
             if(this.combatants[x].reversalPool){
+                fightingStyleString += "Reversal Pool: " + this.combatants[x].reversalPool;
                 console.log("Reversal Pool: " + this.combatants[x].reversalPool);
             }
             if(this.combatants[x].berserkMod){
+                fightingStyleString += "Berserk Modifier: " + this.combatants[x].berserkMod;
                 console.log("Berserk Modifier: " + this.combatants[x].berserkMod)
             }
             if(this.combatants[x].barrageMod){
+                fightingStyleString += "Barrage Modifier: " + this.combatants[x].barrageMod;
                 console.log("Barrage Modifier: " + this.combatants[x].barrageMod)
             }
             console.log("")
+            if(fightingStyleString!=""){
+                this.updateString += "<br>Fighting Style Modifiers:" + fightingStyleString;
+            }
+            this.updateString += fightingStyleString;
+            this.updateBattle();
         }
         console.log("Action Declaration Phase:")
     }
@@ -393,13 +409,20 @@ class Battle{
             this.calculateMovementPhase()
         }else{
             this.phase = "Action Phase"
+            this.updateString = "";
             for(let x=0; x<this.combatants.length; x++){
+                if(x>0){
+                    this.updateString += "<br>"
+                }
                 console.log(this.combatants[x].name + " " + this.combatants[x].action.name + "s!")
+                this.updateString += this.combatants[x].name + " " + this.combatants[x].action.name + "s!"
                 //could probably add a for loop that details every target in case of multiple targets for above console.log
             }
             console.log("");
-            this.updateBattle();
             console.log("Action Calculation Phase:")
+            this.updateBattle();
+            this.updateString = "<span class='sectionTitle'>Action Calculation Phase:</span>"
+            this.updateBattle();
         }
     }
     calculateMovementPhase(){
@@ -411,6 +434,7 @@ class Battle{
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==combatantName){
                 console.log(this.combatants[x].name + " " + this.combatants[x].action.name + "s!");
+                this.updateString = "<strong>" + this.combatants[x].name + " " + this.combatants[x].action.name + "s!</strong>";
                 this.calculateAction(this.combatants[x]);
             }
         }
@@ -466,6 +490,7 @@ class Battle{
     }
     calculateDefense(attackers, defender){
         console.log(defender.name + " Defends!")
+        this.updateString = "<strong>" + defender.name + " Defends!</strong>";
         defender.dice.clear();
         for(let x=0; x<attackers.length; x++){
             //calculate fightingStyle stuff
@@ -480,17 +505,27 @@ class Battle{
         }else{
             defenseRoll = this.customRollFor(defender,attackers[0].action.customDefenseList) ;
         }
+        this.updateString += defender.dice.latestRollString;
         defender.defensePoints = Math.round(defenseRoll/10);
         this.update(defender);
+        this.updateBattle();
+        this.updateString = "<span class='sectionTitle'>" + defender.name + " Defense Sub-Phase:</span>";
+        console.log(defender.name + " Defense Sub-Phase:")
+        this.updateBattle();
+        this.updateString = "Defense Points: " + defender.defensePoints;
+        this.updateString += "<br>Incoming Damage:"
         console.log("Defense Points: " + defender.defensePoints);
         console.log("Incoming Damage:")
         for(let x=0; x<defender.unresolvedAttacks.length; x++){
+            this.updateString += "<br>&nbsp;&nbsp;&nbsp;" + defender.unresolvedAttacks[x].name + ": " + defender.unresolvedAttacks[x].value;
             console.log(defender.unresolvedAttacks[x].name + ": " + defender.unresolvedAttacks[x].value);
         }
         //Defend Another is not accounted for
-        console.log(defender.name + " Defense Sub-Phase:")
+        this.updateString +="<br>"
+        this.updateBattle();
     }
     defend(defenderName,attackerName,points){ 
+        this.updateString = defenderName + " Defends Against " + attackerName + "!";
         console.log(defenderName + " Defends Against " + attackerName + "!")
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==defenderName){
@@ -500,6 +535,7 @@ class Battle{
                             this.combatants[x].stamina = this.combatants[x].stamina - this.combatants[x].staminaWeightMod;
                             this.calculateExhaustion(this.combatants[x])
                         }
+                        this.updateString += "<br>Defends " + points + " out of " +this.combatants[x].unresolvedAttacks[y].value + " Points of Damage!";
                         console.log("Defends " + points + " out of " +this.combatants[x].unresolvedAttacks[y].value + " Points of Damage!")
                         this.combatants[x].unresolvedAttacks[y].value = this.combatants[x].unresolvedAttacks[y].value - points;
                         this.combatants[x].unresolvedAttacks[y].defended = true;
@@ -519,8 +555,11 @@ class Battle{
                         }
                         
                         this.combatants[x].defensePoints = this.combatants[x].defensePoints - points;
+                        this.updateString += "Remaining Attack Points: " + this.combatants[x].unresolvedAttacks[y].value;
+                        this.updateString += "<br>Remaining Defense Points: " + this.combatants[x].defensePoints;
                         console.log("Remaining Attack Points: " + this.combatants[x].unresolvedAttacks[y].value)
                         console.log("Remaining Defense Points: " + this.combatants[x].defensePoints);
+                        this.updateBattle();
                     }
                 }
             }
@@ -532,14 +571,17 @@ class Battle{
             if(this.combatants[x].name==defenderName){
                 if(this.combatants[x].parry){
                     if(this.combatants[x].parry==1){
+                        this.updateString = defenderName + " Uses Parry!";
                         console.log(defenderName + " Uses Parry!")
                         bonus = bonus*10;
                     }
                     if(this.combatants[x].parry==2){
+                        this.updateString = defenderName + " Uses Enhanced Parry!";
                         console.log(defenderName + " Uses Enhanced Parry!")
                         bonus = bonus*15;
                     }
                 }else{
+                    this.updateString = defenderName + " Uses Overwhelming Defense!";
                     console.log(defenderName + " Uses Overwhelming Defense!")
                     bonus = bonus*5;
                 }
@@ -549,7 +591,9 @@ class Battle{
                     attackers.push(this.combatants[x].unresolvedAttacks[y].name);
                 }
                 this.combatants[x].parryModifier = {attackers: attackers,value: bonus};
+                this.updateString += "<br>" + defenderName + " Gains a +" + this.combatants[x].parryModifier.value + " Bonus!";
                 console.log(defenderName + " Gains a +" + this.combatants[x].parryModifier.value + " Bonus!")
+                this.updateBattle();
             }
         }
     }
@@ -663,12 +707,15 @@ class Battle{
                 combatant.reversalPool = 0;
             }
             if((combatant.fightingStyles[0]=="Reversal")&&(combatant.fightingStyles[1]=="Reversal")){
+                this.updateSring += "<br><span class='fightingStyleUpdate'>+2 to the Reversal Pool!</span>"
                 console.log("+2 to the Reversal Pool!")
                 combatant.reversalPool += 2;
             }else{
+                this.updateString += "<br><span class='fightingStyleUpdate'>+1 to the Reversal Pool!</span>"
                 console.log("+1 to the Reversal Pool!")
                 combatant.reversalPool += 1;
             }
+            this.updateString += "<span class='fightingStyleUpdate'>Reversal Pool Total: " + combatant.reversalPool + "</span>";
             console.log("Reversal Pool Total: " + combatant.reversalPool)
         }
     }
@@ -835,6 +882,7 @@ class Battle{
         return attack.value;
     }
     calculateAttack(attacker, defender){
+        this.updateString = "<strong>" + attacker.name + " Attacks " + defender.name + "!</strong>";
         console.log(attacker.name + " Attacks " + defender.name + "!")
         if(attacker.staminaWeightMod){
             attacker.stamina = attacker.stamina - attacker.staminaWeightMod;
@@ -884,6 +932,7 @@ class Battle{
         }else{
             attackRoll = this.customRollFor(attacker,attacker.action.customAttackList) ;
         }
+        this.updateString += attacker.dice.latestRollString;
         let attackPoints = Math.round(attackRoll/10)
         let attack = {name: attacker.name,value: attackPoints,type:attacker.action.type}
         if(attacker.armorPenetration){
@@ -897,6 +946,8 @@ class Battle{
         }
         defender.unresolvedAttacks.push(attack);
         console.log("Attack Points: " + attack.value)
+        this.updateString += "<span>Attack Points: " + attack.value + "</span>";
+        this.updateBattle();
         return defender;
     }
     //End Action Phase, Start New Round!
