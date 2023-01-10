@@ -196,7 +196,7 @@ class Battle{
         this.update(combatant);
         return combatant.dice.latestResult;
     }
-    customRollFor(combatant,customRollList){
+    prepareDice(combatant){
         if(combatant.berserkMod){
             combatant.tempModifiers.push({name:"Berserking!",value:combatant.berserkMod})
         }
@@ -241,7 +241,35 @@ class Battle{
             }
             combatant.dice.addModifier({name:combatant.woundedType,value:woundedModifier*-1})
         }
-        let roll = combatant.dice.customRollFull(customRollList);
+    }
+    customRollFor(combatant,customRollList){
+        this.prepareDice(combatant)
+        if(customRollList.includes("hardReroll")){
+            let currentList = [];
+            let currentModList = combatant.dice.modList;
+            let roll;
+            for(let x=0; x<customRollList.length; x++){
+                if(customRollList[x]!="hardReroll"){
+                    currentList.push(customRollList[x])
+                }
+                else{
+                    roll = combatant.dice.customRollFull(currentList);
+                    this.updateString += combatant.dice.latestRollString;
+                    this.updateBattle();
+                    this.updateString = "Hard Reroll!<br>"
+                    this.updateBattle();
+                    this.updateString = "";
+                    currentList = [];
+                    this.prepareDice(combatant)
+                    combatant.dice.modList = currentModList;
+                }
+                if(x==customRollList.length-1){
+                    roll = combatant.dice.customRollFull(currentList);
+                }
+            }
+        }else{
+            let roll = combatant.dice.customRollFull(customRollList);
+        }
         combatant.initiativeScore += (combatant.dice.latestCritCount * 10) + (combatant.dice.latestCritFailCount * -10);
         if(combatant.dice.latestCritFailCount>0){
             for(let x=0; x<combatant.inCombatWith.length; x++){
@@ -423,8 +451,6 @@ class Battle{
             }
             console.log("");
             console.log("Action Calculation Phase:")
-            this.updateString = "<span class='sectionTitle'>Action Calculation Phase:</span>"
-            this.updateBattle();
         }
     }
     calculateMovementPhase(){
@@ -433,6 +459,8 @@ class Battle{
 
     //Action Methods
     calculateActionFor(combatantName){
+        this.updateString = "<span class='sectionTitle'>Action Calculation Phase:</span>"
+        this.updateBattle();
         for(let x=0; x<this.combatants.length; x++){
             if(this.combatants[x].name==combatantName){
                 console.log(this.combatants[x].name + " " + this.combatants[x].action.name + "s!");
@@ -619,6 +647,9 @@ class Battle{
         }
     }
     calculateTotalDamage(defenderName){
+        this.updateString = "<span class='sectionTitle'> Final Damage Calculations For " + defenderName + "</span>";
+        this.updateBattle();
+        this.updateString = "";
         let totalDamage = 0;
         for(let x=0; x<this.combatants.length; x++){
             if(defenderName == this.combatants[x].name){
@@ -631,6 +662,7 @@ class Battle{
                         }
                     }
                     let finalDamage = this.calculateAttackerDamage(this.combatants[x].unresolvedAttacks[y],this.combatants[x]);
+                    this.updateString += finalDamage + " Damage from " + this.combatants[x].unresolvedAttacks[y].name + "!";
                     console.log(finalDamage + " Damage from " + this.combatants[x].unresolvedAttacks[y].name + "!");
                     if(finalDamage>0){
                         for(let z=0; z<this.combatants.length; z++){
@@ -653,6 +685,7 @@ class Battle{
                     y--;
                 }
                 console.log("Total Damage Taken: " + totalDamage);
+                this.updateString += "<br>Total Damage Taken: " + totalDamage;
                 if(totalDamage==0){
                     this.berserkDefendSuccess(this.combatants[x])
                 }else{
@@ -992,6 +1025,16 @@ class Battle{
                 console.log("Remaining Defense Points: " + this.combatants[x].defensePoints);
             }
         }
+    }
+    hardReroll(combatantName){
+        console.log(combatantName + " hard rerolls!")
+        for(let x=0; x<this.combatants.length; x++){
+            if(this.combatants[x].name == combatantName){
+                //this.combatants[x].hardRerolls--;
+                this.updateString = `${combatantName} hard rerolls!`
+            }
+        }
+        this.updateBattle();
     }
 }
 
