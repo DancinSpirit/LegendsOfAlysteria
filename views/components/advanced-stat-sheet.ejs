@@ -75,7 +75,11 @@
                 <%=characterinfo.baseStat(y)%>
             </div>
             <div class='advanced-box-section character-box-content border-bottom <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
-                <%=characterinfo.trainedPoints%> 
+                <%if(characterinfo.stats[y].trainedPoints){%>
+                <%=characterinfo.stats[y].trainedPoints%> 
+                <%}else{%>
+                    &nbsp;
+                <%}%>
             </div>
             <div class='advanced-box-section character-box-content border-bottom-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
                 <%=characterinfo.baseStat(y)%> 
