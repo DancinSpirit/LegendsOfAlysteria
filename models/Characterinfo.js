@@ -437,6 +437,16 @@ schema.methods.baseStat = function baseStat(index){
   }
   return total;
 }
+schema.methods.preTrainedStat = function preTrainedStat(index){
+  let total = 0;
+  for(let x=0; x<this.stats[index].dice.length; x++){
+    total += this.stats[index].dice[x];
+  }
+  if(this.stats[index].priorityStat){
+    total += this.stats[index].dice.length;
+  }
+  return total;
+}
 
 schema.methods.fullStat = function fullStat(index){
   let total = this.baseStat(index);
