@@ -67,6 +67,18 @@
     width: 100%;
     font-family: Jura;
     overflow-y: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    margin: auto;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#battle-text::-webkit-scrollbar {
+    display: none;
 }
 .fightingStyleMods, .fightingStyleUpdate{
     font-size: 12px;
@@ -131,4 +143,43 @@
     height: 100%;
     font-family: Jura;
     transform: translateY(200%);
+}
+
+.bottom-row{
+    padding-bottom: 5px;
+    border-bottom: solid 1px black;
+}
+
+.full-row-cell{
+    width: 100%;
+}
+
+.stat-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: 5px;
+    border:solid 1px black;
+}
+.stat-tick{
+    width: 100%;
+    height: 100%;
+}
+.health-tick{
+    background-color: indianred;
+}
+.stamina-tick{
+    background-color: seagreen;
+}
+.mana-tick{
+    background-color: cornflowerblue;
+}
+.empty-tick{
+    background-color:lightgray;
+}
+.initiative-tick{
+    background-color: lightyellow;
+}
+.stat-number{
+    position:fixed;
 }

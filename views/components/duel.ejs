@@ -3,7 +3,7 @@
         <section class="combatant-avatar-box">
             <img class="combatant-avatar" src="/avatars/Zachary Stormchaser.jpg">
         </section>
-        <section class="combatant-name darker-1">Zachary Stormchaser</section>
+        <section class="combatant-name darker-1" id="combatant-1-name">Zachary</section>
         <section class="stats light-1">
             <section class = "stat-section-name dark-1">Stats</section>
             <section class="rowD light-1">
@@ -12,8 +12,14 @@
                         <section class="row-cell stat-name">
                             Health:
                         </section>
-                        <section class="row-cell">
-                            72/72
+                        <section  id="combatant-1-health" class="row-cell stat-bar">
+                            <%for(let x=0; x<72; x++){%>
+                                <div class="stat-tick health-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                72/72
+                            </span>
                         </section>
                     </section>
                 </section>
@@ -22,20 +28,32 @@
                         <section class="row-cell stat-name">
                             Stamina:
                         </section>
-                        <section class="row-cell">
-                            90/90
+                        <section id="combatant-1-stamina" class="row-cell stat-bar">
+                            <%for(let x=0; x<90; x++){%>
+                                <div class="stat-tick stamina-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                90/90
+                            </span>
                         </section>
                     </section>
                 </section>
             </section>
-            <section class="rowD light-1">
+            <section class="rowD light-1 bottom-row">
                 <section class="row-cell">
                     <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Mana:
                         </section>
-                        <section class="row-cell">
-                            30/30
+                        <section id="combatant-1-mana" class="row-cell stat-bar">
+                            <%for(let x=0; x<30; x++){%>
+                                <div class="stat-tick mana-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                30/30
+                            </span>
                         </section>
                     </section>
                 </section>
@@ -51,8 +69,52 @@
                 </section>
             </section>
         </section>
-        <section class="rerolls">
-
+        <section class="stats light-1">
+            <section class = "stat-section-name dark-1">Fighting Style Pools and Mods</section>
+            <section class="rowD light-1">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name negative-effect">
+                            Punishment Pool:
+                        </section>
+                        <section  id="combatant-1-punishment" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name negative-effect">
+                            Barrage Mod:
+                        </section>
+                        <section id="combatant-1-barrage" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="rowD light-1 bottom-row">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Reversal Pool:
+                        </section>
+                        <section id="combatant-1-reversal" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Berseker Mod:
+                        </section>
+                        <section id="combatant-1-berserker" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+            </section>
         </section>
     </section>
     <section id="battle-text-container">
@@ -67,7 +129,7 @@
         <section class="combatant-avatar-box">
             <img class="combatant-avatar" src="/avatars/Violet Stormchaser.jpg">
         </section>
-        <section class="combatant-name darker-2">Violet Stormchaser</section>
+        <section class="combatant-name darker-2" id="combatant-2-name">Violet</section>
         <section class="stats light-2">
             <section class = "stat-section-name dark-2">Stats</section>
             <section class="rowD light-2">
@@ -76,8 +138,14 @@
                         <section class="row-cell stat-name">
                             Health:
                         </section>
-                        <section class="row-cell">
-                            72/72
+                        <section  id="combatant-2-health" class="row-cell stat-bar">
+                            <%for(let x=0; x<72; x++){%>
+                                <div class="stat-tick health-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                72/72
+                            </span>
                         </section>
                     </section>
                 </section>
@@ -86,20 +154,32 @@
                         <section class="row-cell stat-name">
                             Stamina:
                         </section>
-                        <section class="row-cell">
-                            90/90
+                        <section id="combatant-2-stamina" class="row-cell stat-bar">
+                            <%for(let x=0; x<90; x++){%>
+                                <div class="stat-tick stamina-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                90/90
+                            </span>
                         </section>
                     </section>
                 </section>
             </section>
-            <section class="rowD light-2">
+            <section class="rowD light-2 bottom-row">
                 <section class="row-cell">
                     <section class="rowD stat-row">
                         <section class="row-cell stat-name">
                             Mana:
                         </section>
-                        <section class="row-cell">
-                            30/30
+                        <section id="combatant-2-mana" class="row-cell stat-bar">
+                            <%for(let x=0; x<30; x++){%>
+                                <div class="stat-tick mana-tick">
+                                </div>
+                            <%}%>
+                            <span class="stat-number">
+                                30/30
+                            </span>
                         </section>
                     </section>
                 </section>
@@ -115,46 +195,201 @@
                 </section>
             </section>
         </section>
-        <section class="rerolls">
-
+        <section class="stats light-2">
+            <section class = "stat-section-name dark-2">Fighting Style Pools and Mods</section>
+            <section class="rowD light-2">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Punishment Pool:
+                        </section>
+                        <section  id="combatant-2-punishment" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Barrage Mod:
+                        </section>
+                        <section id="combatant-2-barrage" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="rowD light-2 bottom-row">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Reversal Pool:
+                        </section>
+                        <section id="combatant-2-reversal" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Berserker Mod:
+                        </section>
+                        <section id="combatant-2-berserker" class="row-cell">
+                            0
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="stats light-2">
+            <section class = "stat-section-name dark-2">Active Abilities</section>
+            <section class="rowD light-2">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Soft Rerolls:
+                        </section>
+                        <section  id="combatant-2-soft-reroll" class="row-cell">
+                            0/0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Hard Rerolls:
+                        </section>
+                        <section id="combatant-2-hard-reroll" class="row-cell">
+                            0/0
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="rowD light-2 bottom-row">
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Soft Opp Rerolls:
+                        </section>
+                        <section id="combatant-2-soft-opponent-reroll" class="row-cell">
+                            0/0
+                        </section>
+                    </section>
+                </section>
+                <section class="row-cell">
+                    <section class="rowD stat-row">
+                        <section class="row-cell stat-name">
+                            Hard Opp Rerolls:
+                        </section>
+                        <section id="combatant-2-hard-opponent-reroll" class="row-cell">
+                            0/0
+                        </section>
+                    </section>
+                </section>
+            </section>
         </section>
     </section>
 </section>
 <script>
+
+                    //load CSS colors for each combatant and load the duel data etc.
+                    $(".background-1").css("background-color","#8b0000");
+                    $(".darker-1").css("background-color","#cc4125");
+                    $(".dark-1").css("background-color","#dd7e6b");
+                    $(".light-1").css("background-color","#e6b8af");
+                    $(".background-2").css("background-color","#674ea7");
+                    $(".darker-2").css("background-color","#8e7cc3");
+                    $(".dark-2").css("background-color","#b4a7d6");
+                    $(".light-2").css("background-color","#d9d2e9");
+
     duelWriteIndex = 0;
     duelIndex = 0;
     duelText = [];
+    duelInfo = [];
     duelPageNum = 0;
     duelTyping = false;
+    let updateDuelEvent = new CustomEvent(`duel-progress`)
+    updateDuel = function(){
+        window.dispatchEvent(updateDuelEvent);
+    }
 
-    createDuelText = async function(sentText, phase){
+    createDuelText = async function(sentText,sentInfo){
         duelText[duelWriteIndex]=sentText;
+        duelInfo[duelWriteIndex]=sentInfo;
         duelWriteIndex++;
     }
     window.addEventListener("duel-update",function(battle){
-        battle = battle.detail;
-        $("#combatant-1-initiative").text(battle.combatants[0].initiativeScore);
-        $("#combatant-2-initiative").text(battle.combatants[1].initiativeScore);
-        createDuelText(battle.updateString, battle.phase);
+        battle = JSON.parse(JSON.stringify(battle.detail));
+        if(battle.combatants[0].name==$("#combatant-1-name").text()){
+
+        }else{
+            battle.combatants.push(battle.combatants[0]);
+            battle.combatants = battle.combatants.slice(1);
+        }
+        createDuelText(battle.updateString, battle);
         duelUpdating = false;
     })
+    statHtml = function(type,combatant){
+        let statHtml = "";
+        for(let x=0; x<combatant[type]; x++){
+            statHtml += `<div class='stat-tick ${type}-tick'></div>`
+        }
+        for(let x=combatant[type]; x<combatant[`max${type.charAt(0).toUpperCase() + type.slice(1)}`]; x++){
+            statHtml += "<div class='stat-tick empty-tick'></div>"
+        }
+        statHtml += "<span class='stat-number'>" + combatant[type] + "/" + combatant[`max${type.charAt(0).toUpperCase() + type.slice(1)}`] + "</span>"
+        return statHtml;
+    }
     window.addEventListener("duel-progress",async function(){
-        phaseClass = "dueltext";
-        if(duelIndex==0){
-            phaseClass = "dueltitle";
+        if(duelTyping){
+            duelTypeInterrupt = true;
+        }else{
+            let battle = duelInfo[duelIndex]
+            //ADD TOOL TIPS USING ABILITY EFFECTS AND WHATNOT
+            let healthHtml1 = statHtml("health",battle.combatants[0])
+            let healthHtml2 = statHtml("health",battle.combatants[1])
+            let staminaHtml1 = statHtml("stamina",battle.combatants[0])
+            let staminaHtml2 = statHtml("stamina",battle.combatants[1])
+            let manaHtml1 = statHtml("mana",battle.combatants[0])
+            let manaHtml2 = statHtml("mana",battle.combatants[1])
+            $("#combatant-1-health").html(healthHtml1);
+            $("#combatant-2-health").html(healthHtml2)
+            $("#combatant-1-stamina").html(staminaHtml2)
+            $("#combatant-2-stamina").html(staminaHtml2)
+            $("#combatant-1-mana").html(manaHtml2)
+            $("#combatant-2-mana").html(manaHtml2)
+            $("#combatant-1-initiative").text(battle.combatants[0].initiativeScore);
+            $("#combatant-2-initiative").text(battle.combatants[1].initiativeScore);
+            if(battle.combatants[0].punishmentPool){
+                $("#combatant-1-punishment").text(battle.combatants[0].punishmentPool[$("#combatant-2-name").text()])
+            }
+            if(battle.combatants[1].punishmentPool){
+                $("#combatant-2-punishment").text(battle.combatants[1].punishmentPool[$("#combatant-1-name").text()])
+            }
+            if(battle.combatants[0].reversalPool){
+                $("#combatant-1-reversal").text(battle.combatants[0].reversalPool)
+            }
+            if(battle.combatants[1].reversalPool){
+                $("#combatant-2-reversal").text(battle.combatants[1].reversalPool)
+            }
+            phaseClass = "dueltext";
+            if(duelIndex==0){
+                phaseClass = "dueltitle";
+            }
+            let sentText = duelText[duelIndex];
+            if(sentText.includes("<span")){
+                let fullHtml = $("<section>" + sentText + "</section>");
+                //create a forloop that goes through all the spans and then send it as othertext, look at typewriter its not that hard
+            }
+            $(`#duel-height-box`).append(`<p id="duel-height-check-${duelIndex}" class="${phaseClass}">${duelText[duelIndex]}</p>`);
+            $('#battle-text').append(`<p id="dueltext-${duelIndex}" style="height: ${$(`#duel-height-check-${duelIndex}`).outerHeight(true)}px" class="${phaseClass}"></p>`);
+            $("#battle-text").scrollTop($("#battle-text").prop("scrollHeight"));
+            duelTyping = true;
+            await duelTypeWriter(`#battle-text`,"", 0, duelText[duelIndex], duelIndex, `#dueltext-${duelIndex}`, 1) 
+            duelTyping = false;
+            duelIndex++;
         }
-        let sentText = duelText[duelIndex];
-        if(sentText.includes("<span")){
-            let fullHtml = $("<section>" + sentText + "</section>");
-            //create a forloop that goes through all the spans and then send it as othertext, look at typewriter its not that hard
-        }
-        $(`#duel-height-box`).append(`<p id="duel-height-check-${duelIndex}" class="${phaseClass}">${duelText[duelIndex]}</p>`);
-        $('#battle-text').append(`<p id="dueltext-${duelIndex}" style="height: ${$(`#duel-height-check-${duelIndex}`).outerHeight(true)}px" class="${phaseClass}"></p>`);
-        $("#battle-text").scrollTop($("#battle-text").prop("scrollHeight"));
-        duelTyping = true;
-        await duelTypeWriter(`#battle-text`,"", 0, duelText[duelIndex], duelIndex, `#dueltext-${duelIndex}`, 1) 
-        duelTyping = false;
-        duelIndex++;
     })
     const duelTypeWriter = async function(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText) {
     return new Promise((resolve) =>{
@@ -176,6 +411,9 @@
         }else{
             let timeout = setTimeout(function(){duelTypeWriter(appendBox, returnString, i, txt, sentIndex, id, speedMod, otherText).then(resolve)}, user.settings.textSpeed)
             if(duelIndex!=sentIndex||duelTypeInterrupt){
+                duelTyping = false;
+                duelIndex++;
+                duelTypeInterrupt = false;
                 if(otherText){
                     if(otherText.text2){
                         $(otherText.text2.id).text(otherText.text2.text);
@@ -190,9 +428,7 @@
                 $(`#dueltext-${sentIndex}`).css("height",`${$(`#duel-height-check-${sentIndex}`).outerHeight(true)}px`)
                 $(id).html(txt) 
                 clearTimeout(timeout);
-                duelTyping = false;
-                duelIndex++;
-                duelTypeInterrupt = false;
+                updateDuel();
             }else if(eventInterrupt){
                 clearTimeout(timeout);
             }

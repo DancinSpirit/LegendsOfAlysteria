@@ -569,21 +569,26 @@ class Battle{
                         console.log("Defends " + points + " out of " +this.combatants[x].unresolvedAttacks[y].value + " Points of Damage!")
                         this.combatants[x].unresolvedAttacks[y].value = this.combatants[x].unresolvedAttacks[y].value - points;
                         this.combatants[x].unresolvedAttacks[y].defended = true;
+                        let smallText = false;
                         if(this.combatants[x].unresolvedAttacks[y].value<1){
-                            this.reversalCheck(this.combatants[x])
+                            smallText = this.reversalCheck(this.combatants[x])
                             for(let z=0; z<this.combatants.length; z++){
                                 if(this.combatants[z].name==attackerName){
                                     for(let a=0; a<this.combatants[z].inCombatWith.length; a++){
                                         for(let b=0; b<this.combatants.length; b++){
                                             if(this.combatants[z].inCombatWith[a]==this.combatants[b].name){
-                                               this.punishmentCheck(this.combatants[z],this.combatants[b]);
+                                                if(!smallText){
+                                                    this.punishmentCheck(this.combatants[z],this.combatants[b]);
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                        
+                        if(!smallText){
+                            this.updateString += "<br>";
+                        }
                         this.combatants[x].defensePoints = this.combatants[x].defensePoints - points;
                         this.updateString += "Remaining Attack Points: " + this.combatants[x].unresolvedAttacks[y].value;
                         this.updateString += "<br>Remaining Defense Points: " + this.combatants[x].defensePoints;
@@ -737,7 +742,9 @@ class Battle{
         this.updateBattle();
     }
     reversalCheck(combatant){
+        let returnValue = false;
         if(combatant.fightingStyles.includes("Reversal")){
+            returnValue = true;
             if(!combatant.reversalPool){
                 combatant.reversalPool = 0;
             }
@@ -753,9 +760,12 @@ class Battle{
             this.updateString += "<span class='fightingStyleUpdate'>Reversal Pool Total: " + combatant.reversalPool + "</span>";
             console.log("Reversal Pool Total: " + combatant.reversalPool)
         }
+        return returnValue;
     }
     punishmentCheck(punished,punisher){
+        let returnValue = false;
         if(punisher.fightingStyles.includes("Punisher")){
+            returnValue = true;
             if(!punished.punishmentPool){
                 punished.punishmentPool = {};
             }
@@ -763,14 +773,18 @@ class Battle{
                 punished.punishmentPool[punisher.name] = 0;
             }
             if((punisher.fightingStyles[0]=="Punisher")&&(punisher.fightingStyles[1]=="Punisher")){
+                this.updateSring += "<br><span class='fightingStyleUpdate'>+2 to the Punishment Pool!</span>"
                 console.log("+2 to the Punishment Pool!")
                 punished.punishmentPool[punisher.name] += 2;
             }else{
                 console.log("+1 to the Punishment Pool!")
+                this.updateString += "<br><span class='fightingStyleUpdate'>+1 to the Punishment Pool!</span>"
                 punished.punishmentPool[punisher.name] += 1;
             }
+            this.updateString += "<span class='fightingStyleUpdate'>Punishment Pool Total: " + punished.punishmentPool[punisher.name] + "</span>";
             console.log("Punishment Pool Total: " + punished.punishmentPool[punisher.name])
         }
+        return returnValue;
     }
     berserkAttackSuccess(combatant){
         if(combatant.fightingStyles.includes("Berserk-Attack")){

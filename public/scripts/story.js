@@ -418,9 +418,9 @@ const nextLine = async function(){
                     $("#choice").append(`<p class='choice-description'>${sentText.split("|")[0]}</p>`)
                     for(let x=0; x<numberOfOptions; x++){
                         console.log("HM<?")
-                        if(sentText.split("|")[x+3].startsWith("<CHOSEN>")){
+                        if(sentText.split("|")[x+3].startsWith("[CHOSEN]")){
                             console.log("HELLO?")
-                            $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("<CHOSEN>","")}</div>`)
+                            $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
                             $(".chosen-option").on("click",function(){
                                 $("#choice-container").css("display","none");
                                 ctrlButton = true;
