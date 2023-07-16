@@ -23,6 +23,7 @@ const schema = new mongoose.Schema(
       priorityStat: {type: Boolean},
       dice: [{type: Number}],
       trainingPoints: {type: Number},
+      trainedPoints: {type: Number},
       rerolls: {available: {type: Number},max: {type: Number}}
     }],
     traits: {
@@ -367,12 +368,18 @@ schema.methods.baseAthletics = function baseAthletics(){
   for(let x=0; x<this.stats[0].dice.length; x++){
     total += this.stats[0].dice[x];
   }
+  if(this.stats[0].trainedPoints){
+    total += this.stats[0].trainedPoints
+  }
   return total;
 }
 schema.methods.baseSpirituality = function baseSpirituality(){
   let total = 0;
   for(let x=0; x<this.stats[1].dice.length; x++){
     total += this.stats[1].dice[x];
+  }
+  if(this.stats[1].trainedPoints){
+    total += this.stats[1].trainedPoints
   }
   return total;
 }
@@ -381,12 +388,18 @@ schema.methods.baseSociability = function baseSociability(){
   for(let x=0; x<this.stats[2].dice.length; x++){
     total += this.stats[2].dice[x];
   }
+  if(this.stats[2].trainedPoints){
+    total += this.stats[2].trainedPoints
+  }
   return total;
 }
 schema.methods.baseDeception = function baseDeception(){
   let total = 0;
   for(let x=0; x<this.stats[3].dice.length; x++){
     total += this.stats[3].dice[x];
+  }
+  if(this.stats[3].trainedPoints){
+    total += this.stats[3].trainedPoints
   }
   return total;
 }
@@ -395,12 +408,18 @@ schema.methods.baseManagement = function baseManagement(){
   for(let x=0; x<this.stats[4].dice.length; x++){
     total += this.stats[4].dice[x];
   }
+  if(this.stats[4].trainedPoints){
+    total += this.stats[4].trainedPoints
+  }
   return total;
 }
 schema.methods.baseIngenuity = function baseIngenuity(){
   let total = 0;
   for(let x=0; x<this.stats[5].dice.length; x++){
     total += this.stats[5].dice[x];
+  }
+  if(this.stats[5].trainedPoints){
+    total += this.stats[5].trainedPoints
   }
   return total;
 }
@@ -412,6 +431,9 @@ schema.methods.baseStat = function baseStat(index){
   }
   if(this.stats[index].priorityStat){
     total += this.stats[index].dice.length;
+  }
+  if(this.stats[index].trainedPoints){
+    total += this.stats[index].trainedPoints
   }
   return total;
 }
