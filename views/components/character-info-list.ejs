@@ -1,0 +1,20 @@
+<%for(let y=0; y<character.turnInfo.length; y++){%>
+    <div>
+        Turn <%=y%>
+    </div>
+    <%for(let z=0; z<character.turnInfo[y].length; z++){%>
+        <div class="character-info"id="<%=character.turnInfo[y][z]%>">
+            Turn <%=y%>-<%=z%>
+        </div>
+        <script>
+            $("#<%=character.turnInfo[y][z]%>").on("click", function(){
+                states = ["main","character","basic-sheet"]
+                databaseObjects = [false,[{name: "Characterinfo",id:'<%=character.turnInfo[y][z]%>'},{name:"Player",id:'<%=player._id%>'}],[{name: "Characterinfo",id:'<%=character.turnInfo[y][z]%>'},{name:"Player",id:'<%=player._id%>'}]]
+                customData = [false,{statSheet:true,combatSheet:true,spiritSheet:true,heroSheet:true},false]
+                window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "<%=character.name%>", "/main/character/basic-sheet");
+                loadState(1);
+                loadState(2);
+            })
+        </script>
+    <%}%>
+<%}%>

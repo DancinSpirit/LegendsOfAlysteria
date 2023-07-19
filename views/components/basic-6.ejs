@@ -2,75 +2,75 @@
     <section id = "character-left">
         <section id = "basic-info">
             <section id="basic-info-image">
-                <%-include('avatar.ejs')%>
+                <%-include('basic-character/avatar.ejs')%>
             </section>
             <section id="basic-info-content-container">
                 <section id="basic-info-content">
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('name.ejs')%>
+                            <%-include('basic-character/name.ejs')%>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('stress-level.ejs')%>
+                            <%-include('basic-character/stress-level.ejs')%>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('info-level.ejs')%>
+                            <%-include('basic-character/info-level.ejs')%>
                         </section>
                     </section>
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('age.ejs')%>
+                            <%-include('basic-character/age.ejs')%>
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('birthday.ejs')%>
+                            <%-include('basic-character/birthday.ejs')%>
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('race.ejs')%>
+                            <%-include('basic-character/race.ejs')%>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('fate-rerolls.ejs')%>
-                            <%-include('mana.ejs')%>
+                            <%-include('basic-character/fate-rerolls.ejs')%>
+                            <%-include('basic-character/mana.ejs')%>
                         </section>
                     </section>
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('profession.ejs')%>
+                            <%-include('basic-character/profession.ejs')%>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('savings.ejs')%>
-                            <%-include('salary.ejs')%>
-                            <%-include('lifestyle.ejs')%>
+                            <%-include('basic-character/savings.ejs')%>
+                            <%-include('basic-character/salary.ejs')%>
+                            <%-include('basic-character/lifestyle.ejs')%>
                         </section>
                     </section>
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('description.ejs')%>
+                            <%-include('basic-character/description.ejs')%>
                         </section>
                     </section>
                     <section class="basic-info-row">
-                        <%-include('stats.ejs')%>
+                        <%-include('basic-character/stats.ejs')%>
                     </section>
                 </section>  
             </section>
         </section>
-        <%-include('traits.ejs')%>
+        <%-include('basic-character/traits.ejs')%>
     </section>
     <section id = "character-right">
-        <%if(traits.metaTrait.length){%>
-            <%-include('meta-trait.ejs')%>
+        <%if(characterinfo.traits.metaTrait.length){%>
+            <%-include('basic-character/meta-trait.ejs')%>
         <%}%>
-        <%-include('knowledge.ejs')%>
+        <%-include('basic-character/knowledge.ejs')%>
     </section>
 </div>

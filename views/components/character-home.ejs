@@ -16,6 +16,11 @@
             Continue Game
         </div>
     <%}%>
+    <%if(user.gamemaster){%>
+        <div id="characters-button" class="home-select">
+            Characters
+        </div>
+    <%}%>
     <div class="home-select" id="home-settings-button">
         Settings
     </div>
@@ -31,6 +36,16 @@
     document.documentElement.style.setProperty('--darker', "<%=player.colors.darker%>");
     document.documentElement.style.setProperty('--highlight', "<%=player.colors.highlight%>");
     document.documentElement.style.setProperty('--background', "<%=player.colors.background%>");
+    buttons.charactersButton = function(){
+        $("#characters-button").on("click", async function(){
+            states = ["main", "character-list"];
+            let characters = await loadAllDatabaseObjects("Character");
+            customData = [false,{characters:characters}];
+            window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "Main - Character List", "/main/character-list");
+            await loadState(1);
+        })
+    }
+    buttons.charactersButton();
     buttons.startButtonClick = function(){
         $("#start-button").on("click", async function(){
             states = ["story", "main-title"];

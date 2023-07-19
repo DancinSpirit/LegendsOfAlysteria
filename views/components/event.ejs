@@ -29,6 +29,7 @@
 
 </div>
 <script>
+    $("#sub-base").css("background-color","#0000ff00");
     <%if(event.subtitle.includes("Red")&&event.subtitle!="Red Prologue - Part I"){%>
         if(!$("#red-style").length){
             $("head").append(`<link id="red-style" rel="stylesheet" href="/styles/red.css">`);

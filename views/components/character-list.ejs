@@ -1,0 +1,29 @@
+<section id="character-list">
+    <section id="character-list-main">
+        <%for(let x=0; x<characters.length; x++){%>
+            <div id="<%=characters[x].name.replace(/,/g,"").replace(/ /g,"-").replace(/"/g, "").replace(/'/g, "").replace(/\(|\)/g, "")%>" class="player-character-info clickable">
+                <section class="player-character-name"><%=characters[x].name%></section>
+            </div>
+            <script>
+                $("#<%=characters[x].name.replace(/,/g,"").replace(/ /g,"-").replace(/"/g, "").replace(/'/g, "").replace(/\(|\)/g, "")%>").on("click",async function(){
+                    states = ["main","character-list","character-info-list"];
+                    databaseObjects[2] = [databaseObjects[1][0],{name:"Character",id:'<%=characters[x]._id%>'}];
+                    customData[2] = false;
+                    window.history.pushState({states:states,databaseObjects: databaseObjects,customData:customData}, "<%=characters[x].name%>", "/main/character-list/character-info-list");
+                    await loadState(2);
+                })
+            </script>
+        <%}%>
+    </section>
+    <div id="sub-character-list-container-container">
+        <div id="sub-character-list-container">
+            <section id="sub-character-list">
+                <div id='loading'>
+                    <p id='loading-p' class='boxtext'><i class='fa-solid fa-spinner'></i></p>
+                </div>
+            </section>
+        </div>
+    </div>  
+</section>
+
+<animation>up</animation>

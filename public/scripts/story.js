@@ -387,6 +387,8 @@ const nextLine = async function(){
                     }
                     break;
                 case "CUTAWAY IMAGE":
+                    ctrlButton = false;
+                    enterButton = false;
                     $("#cutaway-subtitle").css("display","block")
                     $("#cutaway-image").css("background-image", `url(${sentText.replace("[CUTAWAY IMAGE]","").split("|")[0]})`)
                     $("#cutaway-image-collection").append(`<section class="cutaway-image-container"><div id="${sentText.split("|")[1].replace(/<strong>/g,"").replace(/<\/strong>/g,"")}" class='cutaway-image'></div><div class="cutaway-image-subtitle">${sentText.split("|")[1]}</div></section>`)
@@ -400,11 +402,18 @@ const nextLine = async function(){
                     $("#cutaway-image-container").on("click", function(){
                         $("#cutaway-image").fadeOut();
                         $("#cutaway-subtitle").fadeOut();
+                        ctrlButton = true;
+                        enterButton = true;
                         setTimeout(function(){
                             $("#cutaway-image-container").css("display","none");
                             $("#cutaway-subtitle").css("display","none");
                         },500)
                     })
+                    break;
+                case "FADE TO BLACK":
+                    $("#sub-base").css("transition","5000ms");
+                    $("#sub-base").css("background-color","black");
+                    nextLine();
                     break;
                 case "PLAYER ACTION":
                     //Description|Title|NUMofOPTIONS|{OPTIONS WITH CHOSEN OPTION HAVING <CHOSEN>}
@@ -417,9 +426,7 @@ const nextLine = async function(){
                     $("#choice").append(`<p class='choice-title'>${sentText.split("|")[1]}</p>`)
                     $("#choice").append(`<p class='choice-description'>${sentText.split("|")[0]}</p>`)
                     for(let x=0; x<numberOfOptions; x++){
-                        console.log("HM<?")
                         if(sentText.split("|")[x+3].startsWith("[CHOSEN]")){
-                            console.log("HELLO?")
                             $("#choice").append(`<div class='choice-option chosen-option'>${sentText.split("|")[x+3].replace("[CHOSEN]","")}</div>`)
                             $(".chosen-option").on("click",function(){
                                 $("#choice-container").css("display","none");
@@ -502,11 +509,6 @@ const nextLine = async function(){
                     $("#character").on("click",function(event){
                         event.stopPropagation();
                     })
-                    document.documentElement.style.setProperty('--light', characterColors.light);
-                    document.documentElement.style.setProperty('--dark', characterColors.dark);
-                    document.documentElement.style.setProperty('--darker', characterColors.darker);
-                    document.documentElement.style.setProperty('--highlight', characterColors.highlight);
-                    document.documentElement.style.setProperty('--background', characterColors.background);
                     oldStates = states;
                     oldDatabaseObjects = databaseObjects;
                     oldCustomData = customData;

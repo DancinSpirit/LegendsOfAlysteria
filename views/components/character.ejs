@@ -31,35 +31,41 @@
     </div>  
 </section>
 <script>
+    if(states[0]=="main"){
+        stateNum = 2
+    }else{
+        stateNum = 3
+    }
     buttons.advancedStatClick = function(){
         $("#advanced-stat-sheet-button").on("click",function(){
-            if(states[3]!="advanced-stat-sheet"){
-                states[3] = "advanced-stat-sheet";
-                loadState(3);
+            if(states[stateNum]!="advanced-stat-sheet"){
+                states[stateNum] = "advanced-stat-sheet";
+                loadState(stateNum);
             }
         })
     }
     buttons.basicClick = function(){
         $("#basic-sheet-button").on("click",function(){
-            if(states[3]!="basic-sheet"){
-                states[3] = "basic-sheet";
-                loadState(3);
+            if(states[stateNum]!="basic-sheet"){
+                console.log("CLICKED")
+                states[stateNum] = "basic-sheet";
+                loadState(stateNum);
             }
         })
     }
     buttons.basicCombatClick = function(){
         $("#basic-combat-sheet-button").on("click", function(){
-            if(states[3]!="basic-combat-sheet"){
-                states[3] = "basic-combat-sheet";
-                loadState(3);
+            if(states[stateNum]!="basic-combat-sheet"){
+                states[stateNum] = "basic-combat-sheet";
+                loadState(stateNum);
             }
         })
     }
     buttons.combatStylesSheetClick = function(){
         $("#combat-styles-sheet-button").on("click", function(){
-            if(states[3]!="combat-styles-sheet"){
-                states[3] = "combat-styles-sheet";
-                loadState(3);
+            if(states[stateNum]!="combat-styles-sheet"){
+                states[stateNum] = "combat-styles-sheet";
+                loadState(stateNum);
             }
         })
     }
@@ -68,4 +74,9 @@
     buttons.basicCombatClick();
     buttons.combatStylesSheetClick();
     characterColors = JSON.parse(`<%-JSON.stringify(characterinfo.colors)%>`)
+    document.documentElement.style.setProperty('--light', characterColors.light);
+    document.documentElement.style.setProperty('--dark', characterColors.dark);
+    document.documentElement.style.setProperty('--darker', characterColors.darker);
+    document.documentElement.style.setProperty('--highlight', characterColors.highlight);
+    document.documentElement.style.setProperty('--background', characterColors.background);
 </script>
