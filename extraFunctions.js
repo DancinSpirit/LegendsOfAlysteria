@@ -21,7 +21,7 @@ const loadIntoEvent = async function(){
     }
     combatEvent.save();
 }
-loadIntoEvent();
+//loadIntoEvent();
 //movePhasesOver();
 
 const returnEventTitle = function(a,id){
@@ -295,7 +295,7 @@ const returnProgress = async function(id){
                     printLine("                        Complete: " + completedEvents + "/" + story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events.length +" Events")
                     addFieldToEmbed("Events Completed:",completedEvents + "/" + story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events.length)
                     printLine("                        Event Progress:")
-                    sendMessage(bot.channels.cache.get('977054955011719208'));
+                    //sendMessage(bot.channels.cache.get('977054955011719208'));
                     messageEmbed = new MessageEmbed();
                     addColorToEmbed(player.colors.background)
                     for(let eventIndex=0; eventIndex<story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].events.length; eventIndex++){
@@ -304,7 +304,7 @@ const returnProgress = async function(id){
                         addFieldToEmbed(event.title,eventString(event.progress))
                     }
                     if(messageEmbed.fields.length){
-                        sendMessage(bot.channels.cache.get('977054955011719208'));
+                        //sendMessage(bot.channels.cache.get('977054955011719208'));
                     }
                 }
             }

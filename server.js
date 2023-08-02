@@ -132,8 +132,6 @@ app.post("/update2/:databaseObject/:id", async function(req,res){
     update[req.body.updateKey] = req.body.updateValue;
     let update2 = {}
     update2[req.body.updateType] = update;
-    console.log(update2);
-    console.log(req.body.settings);
     update = update2;
     let databaseObject = req.params.databaseObject.charAt(0).toUpperCase() + req.params.databaseObject.slice(1);
     let foundObject = await db[databaseObject].findByIdAndUpdate(req.params.id, update, req.body.settings);

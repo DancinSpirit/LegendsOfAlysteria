@@ -1506,3 +1506,49 @@ width: 50%;
   height: 0%;
   width: 25%;
 }
+
+.mana-tick{
+  background-color: cornflowerblue;
+}
+.empty-tick{
+  background-color:lightgray;
+}
+.stat-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-right: 5px;
+  border:solid 1px black;
+  height: 20px;
+  width: 120px;
+  align-self:center;
+}
+.stat-row{
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
+  font-family: 'Jura';
+  font-weight: bold;
+}
+.stat-tick{
+  width: 100%;
+  height: 100%;
+}
+.stat-number{
+  display: flex;
+  position: relative;
+  width: 120px;
+  justify-content: center;
+  transform: translateY(-20px);
+  align-self:center;
+}
+
+.stat-name{
+  align-self: center;
+  padding-top:10px;
+  font-weight:normal;
+}

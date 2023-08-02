@@ -265,7 +265,8 @@ buttons.gamemasterPageSetup = function(){
     }
     if(states[1] == "gamemaster-event"){
         for(let x=0; x<text.length; x++){
-            $("#gamemaster-text-box").append(`<p id="gamemaster-text-${x}" class="gamemaster-text boxtext" contenteditable="true">${text[x]}</p>`)
+            $("#gamemaster-text-box").append(`<p id="gamemaster-text-${x}" class="gamemaster-text boxtext" contenteditable="true"></p>`)
+            $(`#gamemaster-text-${x}`).text(text[x]);
             buttons.gamemasterInput(x);
         }
     }

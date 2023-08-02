@@ -416,7 +416,7 @@ const nextLine = async function(){
                     nextLine();
                     break;
                 case "PLAYER ACTION":
-                    //Description|Title|NUMofOPTIONS|{OPTIONS WITH CHOSEN OPTION HAVING <CHOSEN>}
+                    //Description|Title|NUMofOPTIONS|{OPTIONS WITH CHOSEN OPTION HAVING [CHOSEN]}
                     $("#choice").empty();
                     $("#choice").css("color","white");
                     $("#choice-container").css("border-color","white");
@@ -576,6 +576,30 @@ const nextLine = async function(){
                         window.dispatchEvent(updateDuel);
                         nextLine();
                     }
+                    break;
+                case "STAT UPDATE":
+                    //[STAT UPDATE]stat-type(must be lowercase)|mana-remaining|mana-max|action-dexcrittion
+                    $(`#event-${eventId}-height-box`).append(` 
+                    <section id="stat-box-${index}" class="rowD stat-row">
+                        ${sentText.split("|")[3]}
+                        <section class="row-cell stat-name">
+                        Remaining ${sentText.split("|")[0].charAt(0).toUpperCase() + sentText.split("|")[0].slice(1)}:
+                        </section>
+                        <section id="character-mana-${index}" class="row-cell stat-bar">
+                        </section>
+                    </section>`)
+                    for(let x=0; x<sentText.split("|")[1]; x++){
+                        $("#character-mana-"+ index).append(`<div class="stat-tick ${sentText.split("|")[0]}-tick">
+                        </div>`)
+                    }
+                    for(let x=sentText.split("|")[1]; x<sentText.split("|")[2]; x++){
+                        $("#character-mana-"+ index).append(`<div class="stat-tick empty-tick">
+                        </div>`)
+                    }
+                    $("#stat-box-"+ index).append(`<span class="stat-number">
+                        ${sentText.split("|")[1]}/${sentText.split("|")[2]}
+                    </span>`)
+                    $(`#page-${pageNum}`).append($("#stat-box-" + index));
                     break;
                 case "AUTO BREAK":
                     //this is to prevent an automatic next line   
