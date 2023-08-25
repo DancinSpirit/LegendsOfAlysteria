@@ -17,4 +17,32 @@
             })
         </script>
     <%}%>
+    <div id="new-info">Add to Turn <%=y%></div>
+    <script>
+        $("#new-info").on("click",async function(){
+            $("#new-info").off("click");
+            $("#new-info").html("<section id='new-character-info-first'class='character-info' contenteditable=true>firstName</section><section id='new-character-info-last'class='character-info' contenteditable=true>lastName</section><button id='new-character-info-submit'>Submit</button>")
+            $("#new-character-info-submit").on("click",async function(){
+                let newCharacterInfo = await createDatabaseObject("Characterinfo",{firstName:$("#new-character-info-first").text(),lastName:$("#new-character-info-last").text()})
+                let turnInfoArray =JSON.parse('<%-JSON.stringify(character.turnInfo)%>');
+                turnInfoArray[<%=y%>].push(newCharacterInfo._id)
+                let thisCharacter = updateDatabaseObject("Character",'<%=character._id%>',{turnInfo:turnInfoArray})
+                loadState(2,"none")
+            })
+        })
+    </script>
 <%}%>
+<div id="new-turn">Add to New Turn</div>
+<script>
+    $("#new-turn").on("click",async function(){
+        $("#new-turn").off("click");
+        $("#new-turn").html("<section id='new-character-info-first'class='character-info' contenteditable=true>firstName</section><section id='new-character-info-last'class='character-info' contenteditable=true>lastName</section><button id='new-character-info-submit'>Submit</button>")
+        $("#new-character-info-submit").on("click",async function(){
+            let newCharacterInfo = await createDatabaseObject("Characterinfo",{firstName:$("#new-character-info-first").text(),lastName:$("#new-character-info-last").text()})
+            let turnInfoArray = <%if(character.turnInfo.length){%>JSON.parse('<%-JSON.stringify(character.turnInfo)%>')<%}else{%>[]<%}%>;
+            turnInfoArray.push([newCharacterInfo._id])
+            let thisCharacter = updateDatabaseObject("Character",'<%=character._id%>',{turnInfo:turnInfoArray})
+            loadState(2,"none")
+        })
+    })
+</script>

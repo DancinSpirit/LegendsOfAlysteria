@@ -3,24 +3,58 @@
         <section id = "basic-info">
             <section id="basic-info-image">
                 <%-include('basic-character/avatar.ejs')%>
+                <section>
+                    <span class="edit-info" id="avatar" contenteditable="true" ><%=characterinfo.avatar%></span>
+                </section>
             </section>
             <section id="basic-info-content-container">
                 <section id="basic-info-content">
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('basic-character/name.ejs')%>
+                            <section id = "character-name" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-left-thick border-right-thick border-bottom">
+                                    Character: 
+                                </section>
+                                <section class="character-box-content character-box-section border-bottom-thick border-left-thick border-right-thick">
+                                    <span class="edit-info" id="firstName" contenteditable="true" ><%=characterinfo.firstName%></span>&nbsp;<span class="edit-info" id="lastName" contenteditable="true" ><%=characterinfo.lastName%></span>
+                                </section>
+                            </section>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('basic-character/stress-level.ejs')%>
+                            <section id = "character-stress-level" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-left-thick border-right-thick border-bottom">
+                                    Stress Level: 
+                                </section>
+                                <section class ="character-box-content character-box-section border-bottom-thick border-left-thick border-right-thick">
+                                    <span contenteditable="true" class="edit-info" id="stress"><%=characterinfo.stress%></span> <span><%=characterinfo.stressLevel()%></span>
+                                </section>
+                            </section>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('basic-character/info-level.ejs')%>
+                            <section id = "character-info-level" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-left-thick border-right-thick border-bottom">
+                                    Info Id
+                                </section>
+                                <section contenteditable="true" class="character-box-content character-box-section border-left-thick border-right-thick border-bottom-thick">
+                                    <%=characterinfo._id%>
+                                </section>
+                            </section>
+                        </section>
+                        <section class = "basic-info-group">
+                            <section id = "character-info-level" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-left-thick border-right-thick border-bottom">
+                                    Base Character Id
+                                </section>
+                                <section contenteditable="true" class="character-box-content character-box-section border-left-thick border-right-thick border-bottom-thick">
+                                    <%=characterinfo.character%>
+                                </section>
+                            </section>
                         </section>
                     </section>
                     <section class="basic-info-row">
@@ -28,22 +62,57 @@
                             <%-include('basic-character/age.ejs')%>
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('basic-character/birthday.ejs')%>
+                            <section id = "character-birthday" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-right-thick border-bottom">
+                                    Birthday:
+                                </section>
+                                <section class ="character-box-content character-box-section border-bottom-thick border-right-thick">
+                                    <span id="birthday.month" class="edit-info" contenteditable="true"><%=characterinfo.birthday.month%></span>/<span class="edit-info" contenteditable="true" id="birthday.day"><%=characterinfo.birthday.day%></span>/<span class="edit-info" contenteditable="true" id="birthday.year"><%=characterinfo.birthday.year%></span> year:<span class="edit-info" id="year" contenteditable="true"><%=characterinfo.year%></span> season:<span class="edit-info" id="season" contenteditable="true"><%=characterinfo.season%></span>
+                                </section>
+                            </section>
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('basic-character/race.ejs')%>
+                            <section id = "character-birthday" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-right-thick border-bottom border-left-thick">
+                                    Race:
+                                </section>
+                                <section class=" character-box-content character-box-section border-bottom-thick border-right-thick border-left-thick">
+                                    <span  contenteditable="true" id="race" class ="edit-info"><%=characterinfo.race%></span>
+                                </section>
+                            </section>
                         </section>
                         <section class = "basic-info-row-space">
 
                         </section>
                         <section class = "basic-info-group">
-                            <%-include('basic-character/fate-rerolls.ejs')%>
-                            <%-include('basic-character/mana.ejs')%>
+                            <section id = "character-fate-rerolls" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-right-thick border-bottom border-left-thick">
+                                    Fate Rerolls:
+                                </section>
+                                <section class ="character-box-content character-box-section border-right-thick border-bottom-thick border-left-thick">
+                                    <span id="fateRerolls.available" class="edit-info" contenteditable="true"><%=characterinfo.fateRerolls.available%></span>/<span id="fateRerolls.max" class="edit-info" contenteditable="true"><%=characterinfo.fateRerolls.max%></span>
+                                </section>
+                            </section>
+                            <section id = "character-mana" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-right-thick border-bottom">
+                                    Mana:
+                                </section>
+                                <section class ="character-box-content character-box-section border-right-thick border-bottom-thick">
+                                    <span id="mana.available" class="edit-info" contenteditable="true"><%=characterinfo.mana.available%></span>/<span id="mana.max" class="edit-info" contenteditable="true"><%=characterinfo.mana.max%></span>
+                                </section>
+                            </section>
                         </section>
                     </section>
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('basic-character/profession.ejs')%>
+                            <section id = "character-profession" class = "character-box">
+                                <section class = "character-box-title character-box-section border-top-thick border-right-thick border-left-thick border-bottom">
+                                    Profession:
+                                </section>
+                                <section class ="character-box-content character-box-section border-left-thick border-bottom-thick border-right-thick">
+                                    <span id="profession" class="edit-info" contenteditable="true"><%=characterinfo.profession%></span>
+                                </section>
+                            </section>
                         </section>
                         <section class = "basic-info-row-space">
 
@@ -56,16 +125,132 @@
                     </section>
                     <section class="basic-info-row">
                         <section class = "basic-info-group">
-                            <%-include('basic-character/description.ejs')%>
+                            <section id = "character-description" class = "character-box">
+                                <section class = "character-big-title character-box-section border-top-thick border-left-thick border-right-thick">
+                                    Description and Info Levels:
+                                </section>
+                                    <%for(let x=0; x<characterinfo.informationLevels.length; x++){%>
+                                        <section class ="character-box-title character-box-section border-top border-left-thick border-right-thick border-bottom">
+                                            <span class="edit-info" id="informationLevels[<%=x%>].player" contenteditable="true" ><%=characterinfo.informationLevels[x].player%></span>
+                                        </section>
+                                        <section class ="character-box-content character-box-section border-top border-left-thick border-right-thick border-bottom-thick">
+                                            InfoLevel: <span class="edit-info" id="informationLevels[<%=x%>].level" contenteditable="true" ><%=characterinfo.informationLevels[x].level%></span>
+                                            &nbsp;Age: <span class="edit-info" id="informationLevels[<%=x%>].age" contenteditable="true" ><%=characterinfo.informationLevels[x].age%></span>
+                                            &nbsp;Race: <span class="edit-info" id="informationLevels[<%=x%>].race" contenteditable="true" ><%=characterinfo.informationLevels[x].race%></span>
+                                            &nbsp;Stress: <span class="edit-info" id="informationLevels[<%=x%>].stress" contenteditable="true" ><%=characterinfo.informationLevels[x].stress%></span>
+                                        </section>
+                                        <section class ="character-box-content character-box-section border-top border-left-thick border-right-thick border-bottom-thick">
+                                            Description: <span class="edit-info" id="informationLevels[<%=x%>].description" contenteditable="true" ><%=characterinfo.informationLevels[x].description%></span>
+                                        </section>
+                                    <%}%>
+                                    <section id="add-character-info-level" class="add-info-button trait">
+                                        +
+                                    </section>
+                            </section>
                         </section>
                     </section>
                     <section class="basic-info-row">
-                        <%-include('basic-character/stats.ejs')%>
+                        <section id = "character-stats" class = "basic-info-grid">
+                            <section class = "grid-titles">
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left-thick">
+                                    Stats:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Base Stat:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Trait Mods:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Final Stat:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-right-thick border-left">
+                                    Rerolls:
+                                </section>
+                            </section>
+                            <%for(let x=0; x<characterinfo.stats.length; x++){%>
+                                <section class = "grid-content-container">
+                                    <section class = "character-box-content character-box-section stat-row grid-content border-left-thick border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                                        <%=characterinfo.stats[x].name%>
+                                    </section>
+                                    <section class = "character-box-content character-box-section stat-row grid-content border-left border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                                        <%=characterinfo.baseStat(x)%>
+                                    </section>
+                                    <section class = "character-box-content character-box-section stat-row grid-content border-left border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                                        <%for(let y=0; y<characterinfo.allTraits().length; y++){%>
+                                            <%if(characterinfo.allTraits()[y].statModifiers[x]>0){%>
+                                                + <%=characterinfo.allTraits()[y].statModifiers[x]%>
+                                            <%}%>
+                                            <%if(characterinfo.allTraits()[y].statModifiers[x]<0){%>
+                                                - <%=characterinfo.allTraits()[y].statModifiers[x]*-1%>
+                                            <%}%>
+                                        <%}%>
+                                    </section>
+                                    <section class = "character-box-content character-box-section stat-row grid-content highlight border-left border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                                        <%=characterinfo.fullStat(x)%> <%if(characterinfo.fullStat(x)>characterinfo.limitNum(x)){%>[<%=characterinfo.limitNum(x)%>]<%}%>
+                                    </section>
+                                    <section class = "character-box-content character-box-section stat-row grid-content border-left border-top border-right-thick <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                                        <span class="edit-info" id="stats[<%=x%>].rerolls.available" contenteditable="true"><%=characterinfo.stats[x].rerolls.available%></span>/<span class="edit-info" id="stats[<%=x%>].rerolls.max" contenteditable="true"><%=characterinfo.stats[x].rerolls.max%></span>
+                                    </section>
+                                </section>
+                            <%}%>
+                        </section>
+                    </section>
+                    <section class="basic-info-row">
+                        <section id = "character-stats" class = "basic-info-grid">
+                            <section class = "grid-titles">
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left-thick">
+                                    Light:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Dark:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Darker:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+                                    Highlight:
+                                </section>
+                                <section class = "character-box-title character-box-section grid-title border-top-thick border-right-thick border-left">
+                                    Background:
+                                </section>
+                            </section>
+                            <section class = "grid-content-container">
+                                <section class= "character-box-content character-box-section grid-title border-top border-left-thick">
+                                    <input value='<%=characterinfo.colors.light%>'type="color" id="colors.light|" class="edit-color">
+                                    <section class="edit-info" id="colors.light" contenteditable="true" ><%=characterinfo.colors.light%></section>
+                                </section>
+                                <section class = "character-box-content character-box-section grid-title border-top border-left">
+                                    <input value='<%=characterinfo.colors.dark%>'type="color" id="colors.dark|" class="edit-color">
+                                    <section class="edit-info" id="colors.dark" contenteditable="true" ><%=characterinfo.colors.dark%></section>
+                                </section>
+                                <section class = "character-box-content character-box-section grid-title border-top border-left">
+                                    <input value='<%=characterinfo.colors.darker%>'type="color" id="colors.darker|" class="edit-color">
+                                    <section class="edit-info" id="colors.darker" contenteditable="true" ><%=characterinfo.colors.darker%></section>
+                                </section>
+                                <section class = "character-box-content character-box-section grid-title border-top border-left">
+                                    <input value='<%=characterinfo.colors.highlight%>'type="color" id="colors.highlight|" class="edit-color">
+                                    <section class="edit-info" id="colors.highlight" contenteditable="true" ><%=characterinfo.colors.highlight%></section>
+                                </section>
+                                <section class = "character-box-content character-box-section grid-title border-top border-right-thick border-left">
+                                    <input value='<%=characterinfo.colors.background%>'type="color" id="colors.background|" class="edit-color">
+                                    <section class="edit-info" id="colors.background" contenteditable="true" ><%=characterinfo.colors.background%></section>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                    <section id = "character-stress-level" class = "character-box">
+                        <section class = "character-box-title character-box-section border-top-thick border-left-thick border-right-thick border-bottom">
+                            Theme: 
+                        </section>
+                        <section class ="character-box-content character-box-section border-bottom-thick border-left-thick border-right-thick">
+                            <section class="edit-info" id="theme" contenteditable="true" ><%=characterinfo.theme%></section>
+                        </section>
                     </section>
                 </section>  
             </section>
         </section>
-        <%-include('basic-character/traits.ejs')%>
+        <%-include('basic-character/gamemaster-traits.ejs')%>
     </section>
     <section id = "character-right">
         <%if(characterinfo.traits.metaTrait.length){%>
@@ -74,3 +259,57 @@
         <%-include('basic-character/knowledge.ejs')%>
     </section>
 </div>
+<script>
+    buttons.editables = $(".edit-info")
+    for(let x=0; x<buttons.editables.length; x++){
+        $(buttons.editables[x]).on("input",async function(){
+            let updateObject = {}
+            if(buttons.editables[x].id.includes("informationLevels")){
+                updateObject = await loadDatabaseObject("Characterinfo",'<%=characterinfo._id%>')
+                updateObject.informationLevels[buttons.editables[x].id.split("[")[1].split("]")[0]][buttons.editables[x].id.split("].")[1]] = $(buttons.editables[x]).text();
+            }else if(buttons.editables[x].id.includes("stats")&&buttons.editables[x].id.includes("rerolls")){
+                updateObject = await loadDatabaseObject("Characterinfo",'<%=characterinfo._id%>')
+                updateObject.stats[buttons.editables[x].id.split("[")[1].split("]")[0]][buttons.editables[x].id.split("].")[1].split(".")[0]][buttons.editables[x].id.split("].")[1].split(".")[1]] = $(buttons.editables[x]).text();
+            }else{
+                updateObject[buttons.editables[x].id] = $(buttons.editables[x]).text();
+            }
+            let updatedDatabaseObject = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateObject)
+            if(buttons.editables[x].id=="avatar"){
+                $("#character-image").attr("src",$(buttons.editables[x]).text())
+            }
+            if(buttons.editables[x].id.includes("color")){
+                document.documentElement.style.setProperty('--'+buttons.editables[x].id.split("|")[0].split("colors.")[1], $(buttons.editables[x]).text());
+                $(document.getElementById(buttons.editables[x].id+"|")).val($(buttons.editables[x]).text());
+            }
+            if(buttons.editables[x].id=="theme"){
+                loadMusic($(buttons.editables[x]).text())
+            }
+        })
+    }
+    buttons.editColors = $(".edit-color")
+    for(let x=0; x<buttons.editColors.length; x++){
+        $(buttons.editColors[x]).on("input",async function(){
+            let updateObject = {}
+            updateObject[buttons.editColors[x].id.split("|")[0]] = $(buttons.editColors[x]).val();
+            let updatedDatabaseObject = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateObject)
+            $(document.getElementById(buttons.editColors[x].id.split("|")[0])).text($(buttons.editColors[x]).val());
+            document.documentElement.style.setProperty('--'+buttons.editColors[x].id.split("|")[0].split("colors.")[1], $(buttons.editColors[x]).val());
+        })
+    }
+
+    $("#add-character-info-level").on("click",async function(){
+        let infoLevels;
+        <%if(characterinfo.informationLevels.length){%>
+            infoLevels = JSON.parse(<%-JSON.stringify(characterinfo.informationLevels)%>);
+        <%}else{%>
+            infoLevels = [];
+        <%}%>
+        let name = prompt("Insert Player Name");
+        infoLevels.push({name: name});
+        updateObject = {informationLevels:infoLevels}
+        let updatedDatabaseObject = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateObject)
+        loadState(2,"none");
+    })
+
+
+</script>

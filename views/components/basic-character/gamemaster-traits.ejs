@@ -1,0 +1,181 @@
+<section id="traits">
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Special Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.specialTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "<%if(characterinfo.traits.specialTraits[x].replaced!=undefined){if(characterinfo.traits.specialTraits[x].replaced.dueTo!=undefined){%>strike-through<%}}%> character-box-title character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.specialTraits[x]._id%>-name" ><%=characterinfo.traits.specialTraits[x].name%></span>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.specialTraits[x]._id%>-description" ><%=characterinfo.traits.specialTraits[x].description%></span>
+                        </section>
+                        <section class = "<%if(characterinfo.traits.specialTraits[x].replaced!=undefined){if(characterinfo.traits.specialTraits[x].replaced.dueTo!=undefined){%>strike-through<%}}%> character-box-content character-box-section">
+                            <b>Effect:</b> <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.specialTraits[x]._id%>-effect" ><%=characterinfo.traits.specialTraits[x].effect%></span>
+                        </section>
+                        <section class="character-box-content character-box-section">
+                            Ath:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-0" contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[0]%></span>
+                            Spi:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-1"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[1]%></span>
+                            Soc:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-2"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[2]%></span>
+                            Dec:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-3"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[3]%></span>
+                            Man:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-4"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[4]%></span>
+                            Ing:<span id="<%=characterinfo.traits.specialTraits[x]._id%>-statModifiers-5"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.specialTraits[x].statModifiers[5]%></span>
+                        </section>
+                        <%if(characterinfo.traits.specialTraits[x].replaced!=undefined){%>
+                            <%if(characterinfo.traits.specialTraits[x].replaced.by!=undefined){%>
+                                <section class = "character-box-content character-box-section">
+                                    <b>Replaced by <%=characterinfo.traits.specialTraits[x].replaced.by%> due to <%=characterinfo.traits.specialTraits[x].replaced.dueTo%></b>
+                                </section>
+                            <%}%>
+                        <%}%>
+                    </section>
+                    <%if(characterinfo.traits.specialTraits[x].replaced!=undefined){%>
+                        <%if(characterinfo.traits.specialTraits[x].replaced.by!=undefined){%>
+                            <section class = "trait">
+                                <section class = "character-box-title character-box-section">
+                                    <%=characterinfo.traits.specialTraits[x].replaced.by%>
+                                </section>
+                                <section class = "character-box-content character-box-section">
+                                    <b>Effect:</b><%=characterinfo.traits.specialTraits[x].replaced.effect%>
+                                </section>
+                            </section>
+                        <%}%>
+                    <%}%>
+                <%}%>
+                <section id="specialTraits" class="trait add-trait-button">
+                    +
+                </section>
+            </section>
+        </section>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Aptitude Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.aptitudeTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-name" ><%=characterinfo.traits.aptitudeTraits[x].name%></span>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-description" ><%=characterinfo.traits.aptitudeTraits[x].description%></span>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <b>Effect:</b> <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-effect" ><%=characterinfo.traits.aptitudeTraits[x].effect%></span>
+                        </section>
+                        <section class="character-box-content character-box-section">
+                            Ath:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-0" contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[0]%></span>
+                            Spi:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-1"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[1]%></span>
+                            Soc:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-2"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[2]%></span>
+                            Dec:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-3"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[3]%></span>
+                            Man:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-4"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[4]%></span>
+                            Ing:<span id="<%=characterinfo.traits.aptitudeTraits[x]._id%>-statModifiers-5"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.aptitudeTraits[x].statModifiers[5]%></span>
+                        </section>
+                    </section>
+                <%}%>
+                <section id="aptitudeTraits" class="trait add-trait-button">
+                    +
+                </section>
+            </section>
+        </section>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Personality Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.personalityTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.personalityTraits[x]._id%>-name" ><%=characterinfo.traits.personalityTraits[x].name%></span>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.personalityTraits[x]._id%>-description" ><%=characterinfo.traits.personalityTraits[x].description%></span>
+                        </section>
+                        <section class = "<%if(characterinfo.traits.personalityTraits[x].unusable!=undefined){if(characterinfo.traits.personalityTraits[x].unusable.dueTo!=undefined){%>strike-through<%}}%> character-box-content character-box-section">
+                            <b>Effect:</b> <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.personalityTraits[x]._id%>-effect" ><%=characterinfo.traits.personalityTraits[x].effect%></span>
+                        </section>
+                        <section class="character-box-content character-box-section">
+                            Ath:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-0" contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[0]%></span>
+                            Spi:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-1"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[1]%></span>
+                            Soc:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-2"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[2]%></span>
+                            Dec:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-3"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[3]%></span>
+                            Man:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-4"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[4]%></span>
+                            Ing:<span id="<%=characterinfo.traits.personalityTraits[x]._id%>-statModifiers-5"  contenteditable="true" class="trait-edit"><%=characterinfo.traits.personalityTraits[x].statModifiers[5]%></span>
+                        </section>
+                        <%if(characterinfo.traits.personalityTraits[x].unusable!=undefined){%>
+                            <%if(characterinfo.traits.personalityTraits[x].unusable.dueTo!=undefined){%>
+                                <section class = "character-box-content character-box-section">
+                                    <b>Unusable due to <%=characterinfo.traits.personalityTraits[x].unusable.dueTo%></b>
+                                </section>
+                            <%}%>
+                        <%}%>
+                    </section>
+                <%}%>
+                <section id="personalityTraits" class="trait add-trait-button">
+                    +
+                </section>
+            </section>
+        </section>
+        <section class="trait-section">
+            <section class = "character-big-title character-box-section border-left-thick border-top-thick border-right-thick border-bottom-thick">
+                Flavor Traits
+            </section>
+            <section class = "traits">
+                <%for(let x=0; x<characterinfo.traits.flavorTraits.length; x++){%>
+                    <section class = "trait">
+                        <section class = "character-box-title character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.flavorTraits[x]._id%>-name" ><%=characterinfo.traits.flavorTraits[x].name%></span>
+                        </section>
+                        <section class = "character-box-content character-box-section">
+                            <span class="trait-edit" contenteditable="true" id="<%=characterinfo.traits.flavorTraits[x]._id%>-description" ><%=characterinfo.traits.flavorTraits[x].description%></span>
+                        </section>
+                    </section>
+                <%}%>
+                <section id="flavorTraits" class="trait add-trait-button">
+                    +
+                </section>
+            </section>
+        </section>
+</section>
+<script>
+    $(".trait-edit").on("input",async function(){
+        let updateObject = await loadDatabaseObject("Trait",$(this).attr("id").split("-")[0])
+        if($(this).attr("id").includes("statModifiers")){
+            updateObject[$(this).attr("id").split("-")[1]][$(this).attr("id").split("-")[2]] = $(this).text();
+        }else{
+            updateObject[$(this).attr("id").split("-")[1]] = $(this).text();
+        }
+        let updateTrait = await updateDatabaseObject("Trait",$(this).attr("id").split("-")[0],updateObject);
+        if($(this).attr("id").includes("statModifiers")){
+            loadState(2,"none");
+        }
+    })
+    $(".add-trait-button").on("click",async function(){
+        let traitName = prompt("Trait Name")
+        let traitDescription = prompt("Trait Description")
+        let traitType = "";
+        let traitEffect = "";
+        if($(this).attr("id")=="specialTraits"){
+            traitType = "Special";
+        }
+        if($(this).attr("id")=="aptitudeTraits"){
+            traitType = "Aptitude";
+        }
+        if($(this).attr("id")=="personalityTraits"){
+            traitType = "Personality";
+        }
+        if($(this).attr("id")=="flavorTraits"){
+            traitType = "Flavor";
+        }
+        if($(this).attr("id")!="flavorTraits"){
+            traitEffect = prompt("Trait Effect")
+        }
+        let newTrait = await createDatabaseObject("Trait",{name:traitName,description:traitDescription,effect:traitEffect,type:traitType,statModifiers:[0,0,0,0,0,0]})
+        let thisCharacter = await loadDatabaseObject("Characterinfo",'<%=characterinfo._id%>');
+        thisCharacter.traits[$(this).attr("id")].push(newTrait._id);
+        let character = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',thisCharacter);
+        loadState(2,"none");
+    })
+</script>

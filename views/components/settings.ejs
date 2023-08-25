@@ -26,7 +26,13 @@
     <div id="use-scroll"class="setting">
         Use Page Scrolling?
         <form class="checkbox-form" id="pageScroll">
-            <input type="checkbox" value="pageScroll" class="checkbox" id="pageScroll-checkbox")>
+            <input type="checkbox" value="pageScroll" class="checkbox" id="pageScroll-checkbox">
+        </form>
+    </div>
+    <div id="use-tts"class="setting">
+        Turn on Text to Speech
+        <form class="checkbox-form" id="voiceTrue">
+            <input type="checkbox" value="voiceTrue" class="checkbox" id="voiceTrue-checkbox">
         </form>
     </div>
     <div id="testSound" class = "clickable menu-item setting">
@@ -37,6 +43,9 @@
     </div>
 </section>
 <script>
+    if(user.settings.voiceTrue){
+        $("#voiceTrue-checkbox").attr("checked","checked");
+    }
     if(user.settings.pageScroll){
         $("#pageScroll-checkbox").attr('checked', 'checked');
     }
@@ -68,6 +77,14 @@
             user.settings.pageScroll = true; 
         }else{
             user.settings.pageScroll = false;
+        }
+        updateDatabaseObject("User",user._id,user);
+    })
+    $("#voiceTrue-checkbox").on("change", async function(){
+        if(this.checked){
+            user.settings.voiceTrue = true; 
+        }else{
+            user.settings.voiceTrue = false;
         }
         updateDatabaseObject("User",user._id,user);
     })

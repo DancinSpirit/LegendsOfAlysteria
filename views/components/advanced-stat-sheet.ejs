@@ -1,4 +1,152 @@
 <animation>advancedStatSheet</animation>
+<%if(characterinfo.informationLevel(player.name)==6){%>
+    <div id="advanced-stat-sheet">
+        <%-include('basic-combat/stat-calculations.ejs')%>
+        <section id="advanced-stats">
+            <section id="label-column">
+                <div class="advanced-box-section fake-dice-box">
+                    &nbsp;
+                </div>
+                <div class='advanced-box-section invisible-border-top-thick'>
+                    &nbsp; 
+                </div>
+                <div class='advanced-box-section character-box-title border-left-thick border-top-thick border-right'>
+                    &nbsp; 
+                </div>
+                <%for(let x=0; x<characterinfo.longestStat()-1; x++){%>
+                    <div class='advanced-box-section character-box-title border-right-thick border-left-thick invisible-border-top'>
+                        &nbsp; 
+                    </div>
+                <%}%>
+                <div class='advanced-box-section character-box-title border-right-thick border-bottom-thick border-left-thick invisible-border-top-thick'>
+                    Dice
+                </div>
+                <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom'>
+                    Priority Bonus
+                </div>
+                <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom-thick'>
+                    Total
+                </div>
+                <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom'>
+                    Training
+                </div>
+                <div class='advanced-box-section character-box-title border-right-thick border-left-thick border-bottom-thick'>
+                    Total
+                </div>
+            </section>
+            <%for(let y=0; y<6; y++){%>
+            <section class="stat-column">
+                <%if(!characterinfo.stats[y]){%>
+                    <%let nameString;%>
+                    <%if(y==0){nameString="Athleticism"}%>
+                    <%if(y==1){nameString="Spirituality"}%>
+                    <%if(y==2){nameString="Sociability"}%>
+                    <%if(y==3){nameString="Deception"}%>
+                    <%if(y==4){nameString="Management"}%>
+                    <%if(y==5){nameString="Ingenuity"}%>
+                    <%characterinfo.stats[y] = {
+                        name:nameString,
+                        priorityStat: false,
+                        dice: [],
+                        trainingPoints: 0,
+                        trainedPoints: 0,
+                        rerolls: {available:0,max:0},
+                        limitBreak: false
+                    }%>
+                    <script>
+                        updateStatObject.stats.push(<%-JSON.stringify({
+                            name:nameString,
+                            priorityStat: false,
+                            dice: [],
+                            trainingPoints: 0,
+                            trainedPoints: 0,
+                            rerolls: {available:0,max:0},
+                            limitBreak: false
+                        })%>)
+                        updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateStatObject)
+                    </script>
+                <%}%>
+                <div id="dice-<%=y%>"class="add-dice-box">
+                    +
+                </div>
+                    <div class="priority-box advanced-box-section character-box-content border-right-thick border-left-thick border-top-thick">
+                        <strong>Priority Stat:</strong><span contenteditable="true" id="stats[<%=y%>].priorityStat" class="edit-info"><%=characterinfo.stats[y].priorityStat%></span>
+                    </div>
+                <div class='advanced-box-section character-box-title border-top-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%> border-bottom-thick'>
+                    <%=characterinfo.stats[y].name%>
+                </div>
+                <%for(let x=0; x<characterinfo.longestStat(); x++){%>
+                    <div class='advanced-box-section character-box-content <%if(x==characterinfo.longestStat()-1){%>border-bottom-thick<%}else{%>border-bottom<%}%> <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'> 
+                        <%if(characterinfo.stats[y].dice[x]){%>
+                            <%=characterinfo.stats[y].dice[x]%>
+                        <%}else{%>
+                            &nbsp; 
+                        <%}%>
+                    </div>
+                <%}%>
+                <div class='advanced-box-section character-box-content <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%> border-bottom'>
+                    <%if(characterinfo.stats[y].priorityStat){%>
+                        <%=characterinfo.stats[y].dice.length%>
+                    <%}else{%>
+                        &nbsp; 
+                    <%}%>
+                </div>
+                <div class='advanced-box-section character-box-content border-bottom-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                    <%=characterinfo.preTrainedStat(y)%>
+                </div>
+                <div class='advanced-box-section character-box-content border-bottom <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                    <%if(characterinfo.stats[y].trainedPoints){%>
+                    <%=characterinfo.stats[y].trainedPoints%> 
+                    <%}else{%>
+                        &nbsp;
+                    <%}%>
+                </div>
+                <div class='advanced-box-section character-box-content border-bottom-thick <%if(y==5){%>border-right-thick<%}else{%>border-right<%}%>'>
+                    <%=characterinfo.baseStat(y)%> 
+                </div>
+            </section>
+            <%}%>
+    
+        </section>
+    </div>
+    <script>
+        $(".add-dice-box").on("click",async function(){
+            let diceBoxInput = prompt("Formatting: NUM,NUM,NUM")
+            let dice = diceBoxInput.split(",");
+            updateObject = await loadDatabaseObject("Characterinfo",'<%=characterinfo._id%>')
+            for(let x=0; x<dice.length; x++){
+                updateObject.stats[parseInt($(this).attr("id").split("-")[1])].dice.push(dice[x])
+            }
+            let updatedDatabaseObject = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateObject)
+            loadState(2,"none")
+        })
+        buttons.editables = $(".edit-info")
+        for(let x=0; x<buttons.editables.length; x++){
+            $(buttons.editables[x]).on("input",async function(){
+                let updateObject = {}
+                if(buttons.editables[x].id.includes("]")){
+                    updateObject = await loadDatabaseObject("Characterinfo",'<%=characterinfo._id%>')
+                    if(buttons.editables[x].id.includes("priorityStat")){
+                        let updateBoolean;
+                        if($(buttons.editables[x]).text().includes("true")){
+                            updateBoolean = true;
+                        }else{
+                            updateBoolean = false;
+                        }
+                        updateObject[buttons.editables[x].id.split("[")[0]][buttons.editables[x].id.split("[")[1].split("]")[0]][buttons.editables[x].id.split("].")[1]] = updateBoolean;
+                    }else{
+                        updateObject[buttons.editables[x].id.split("[")[0]][buttons.editables[x].id.split("[")[1].split("]")[0]][buttons.editables[x].id.split("].")[1]] = $(buttons.editables[x]).text();
+                    }
+
+                }else{
+                    updateObject[buttons.editables[x].id] = $(buttons.editables[x]).text();
+                }
+                let updatedDatabaseObject = await updateDatabaseObject("Characterinfo",'<%=characterinfo._id%>',updateObject)
+                loadState(2,"none")
+            })
+        }
+    </script>
+<%}else{%>
 <div id="advanced-stat-sheet">
     <section id="advanced-stats">
         <section id="label-column">
@@ -88,4 +236,6 @@
         <%}%>
 
     </section>
+    <%-include('basic-combat/stat-calculations.ejs')%>
 </div>
+<%}%>

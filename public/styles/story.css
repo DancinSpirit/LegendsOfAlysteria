@@ -1476,7 +1476,7 @@ width: 50%;
   width: 10%;
 }
 .combat-style-box{
-  width: 90%;
+  width: calc(90% + 2px);
   display: flex;
   flex-direction: column;
 }
@@ -1484,7 +1484,7 @@ width: 50%;
 #combat-style-name{
   writing-mode: vertical-lr;
   transform: rotate(180deg);
-  width:10%;
+  width:calc(10% - 2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1523,7 +1523,7 @@ width: 50%;
   width: 120px;
   align-self:center;
 }
-.stat-row{
+.stat-row-load{
   padding-bottom: 20px;
   padding-right: 20px;
   padding-left: 20px;
@@ -1551,4 +1551,92 @@ width: 50%;
   align-self: center;
   padding-top:10px;
   font-weight:normal;
+}
+
+#duchy{
+  display: flex;
+  height: 60vh;
+  width: 90vw;
+  padding: 20px;
+}
+
+#duchy-text{
+  text-align: center;
+  width: 50%;
+}
+
+.duchy-info-p{
+  padding-bottom: 10px;
+}
+
+.duchy-descript-p{
+  text-align: left;
+}
+
+#duchy-symbol{
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#duchy-image{
+  height: 100%;
+  width: 50%;
+}
+
+.no-padding{
+  padding-bottom:0px;
+  padding-left:20px;
+}
+
+.new-box{
+  background-color:green;
+  color:white;
+  font-weight:bold;
+  padding:2px;
+  border: solid 1px black;
+}
+
+.padding-bottom{
+  padding-bottom: 10px;
+}
+
+#tentacle-container{
+  position:absolute;
+  height:100%;
+  width:100%;
+  left:0;
+  top:0;
+  z-index:-3;
+  display: none;
+}
+
+#tentacle-background-color{
+  position: absolute;
+  height: 80vh;
+  width: 90vw;
+  top: 10vh;
+  left: 5vw;
+  display: block;
+  z-index: -2;
+  box-shadow: 0px 0px 0px 200px black;
+  display:none;
+}
+
+.extra-padding{
+  padding-top:20px;
+}
+
+#tentacle-background-image{
+  position:absolute;
+  height:100vh;
+  width:100vw;
+  left:0;
+  top:0;
+  z-index:-1;
+  background-image: url("/images/Istrada.jpg");
+  opacity: 70%;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display:none;
 }

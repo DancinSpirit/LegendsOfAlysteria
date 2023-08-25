@@ -23,7 +23,7 @@
     width: 50vw;
 }
 
-#pageScroll{
+#pageScroll,#voiceTrue{
     display: flex;
     justify-content: center;
     padding-top: 5px;

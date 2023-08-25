@@ -3,6 +3,9 @@ const db = require("../models");
 
 const schema = new mongoose.Schema(
   {
+    newList: [{type:String}],
+    character:{type: mongoose.Schema.Types.ObjectId, ref: "Character"},
+    theme: {type: String,default: "none"},
     year: {type: Number},
     season: {type: Number},
     avatar: {type: String},
@@ -10,13 +13,12 @@ const schema = new mongoose.Schema(
     lastName: {type: String},
     stress: {type: Number},
     birthday: {day: {type: Number},month: {type: Number},year:{type: Number}},
-    stress: {type: Number},
     fateRerolls: {available: {type: Number},max: {type: Number}},
     mana: {available: {type: Number},max: {type: Number}},
     profession: {type: String},
-    savings: {type: Number},
-    salary: {type: Number},
-    lifestyle: {type: Number},
+    savings: {type: Number,default:-1},
+    salary: {type: Number,default:-1},
+    lifestyle: {type: Number,default:2},
     race: {type: String},
     stats: [{
       name: {type: String},
@@ -24,7 +26,8 @@ const schema = new mongoose.Schema(
       dice: [{type: Number}],
       trainingPoints: {type: Number},
       trainedPoints: {type: Number},
-      rerolls: {available: {type: Number},max: {type: Number}}
+      rerolls: {available: {type: Number,default:0},max: {type: Number,default:0}},
+      limitBreak: {type:Boolean,default:false}
     }],
     traits: {
       metaTrait: [{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}],
@@ -37,22 +40,175 @@ const schema = new mongoose.Schema(
     knowledgeTrees: [{type: mongoose.Schema.Types.ObjectId, ref: "Knowledgetree"}],
     //combatStyles need to be ordered strongest first
     combatStyles: [{type: mongoose.Schema.Types.ObjectId, ref: "Combatstyle"}],
+    additionalCombatModifiers: [{name:{type: String},mod:{type: Number}}],
     spiritPowers: [{type: mongoose.Schema.Types.ObjectId, ref: "Spiritpower"}],
     colors: {light: {type: String}, dark: {type: String}, darker: {type: String}, highlight: {type: String}, background: {type: String}},
-    informationLevels: [{player: {type: String}, level: {type: Number}, description: {type: String}, age:{type: String}}],
+    informationLevels: [{player: {type: String,default:"Default Player"}, level: {type: Number,default:0}, description: {type: String,default:"Description"}, age:{type: String}, stress:{type:String},race:{type:String},obscuredTraits:[{trait:{type: mongoose.Schema.Types.ObjectId, ref: "Trait"},name:{type:String},description:{type:String}}],hiddenTraits:[{type: mongoose.Schema.Types.ObjectId, ref: "Trait"}]}],
     combatSheet : {type: Boolean, default: false},
     spiritSheet: {type: Boolean, default: false},
-    heroSheet: {type: Boolean, default: false},
+    heroSheet: {type: Boolean, default: false}
   },
   {timestamps: true}
 )
 
+schema.methods.combatSpiritPowers = function combatSpiritPowers(){
+  let spiritList = []
+  for(let x=0; x<this.spiritPowers.length; x++){
+    if(this.spiritPowers[x].battle){
+      spiritList.push(this.spiritPowers[x])
+    }
+  }
+  console.log(spiritList);
+  return spiritList;
+}
+
+schema.methods.combatSpecialties = function combatSpecialties(){
+  let specialtyList = []
+  for(let x=0; x<this.knowledgeTrees.length; x++){
+    for(let y=0; y<this.knowledgeTrees[x].specialties.length; y++){
+      if(this.knowledgeTrees[x].specialties[y].type.includes("Battle")){
+        specialtyList.push(this.knowledgeTrees[x].specialties[y])
+      }
+    }
+  }
+  console.log(specialtyList)
+  return specialtyList;
+}
+
+schema.methods.fullEstimatedAttack = function fullEstimatedAttack(){
+  let mods = 0;
+  for(let x=0; x<this.spiritPowers.length; x++){
+    if(this.spiritPowers[x].combatMod(this.fullStat(1))>0){
+      mods += this.spiritPowers[x].combatMod(this.fullStat(1));
+    }
+  }
+  for(let x=0; x<this.additionalCombatModifiers.length; x++){
+    mods += this.additionalCombatModifiers[x].mod;
+  }
+  return this.combatStyles[0].attack() + mods + this.combatStyles[0].weightModifier() + this.fullStat(0);
+}
+schema.methods.fullEstimatedDefense = function fullEstimatedDefense(){
+  let mods = 0;
+  for(let x=0; x<this.spiritPowers.length; x++){
+    if(this.spiritPowers[x].combatMod(this.fullStat(1))>0){
+      mods += this.spiritPowers[x].combatMod(this.fullStat(1));
+    }
+  }
+  for(let x=0; x<this.additionalCombatModifiers.length; x++){
+    mods += this.additionalCombatModifiers[x].mod;
+  }
+  return this.combatStyles[0].defense() + mods + this.combatStyles[0].weightModifier() + this.fullStat(0);
+}
+
+schema.methods.traitName = function traitName(player,trait){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==player){
+      for(let y=0; y<this.informationLevels[x].obscuredTraits.length; y++){
+        if(JSON.stringify(this.informationLevels[x].obscuredTraits[y].trait)==JSON.stringify(trait._id)){
+          return this.informationLevels[x].obscuredTraits[y].name;
+        }
+      }
+    }
+  }
+  return trait.name;
+}
+schema.methods.traitDescription = function traitDescription(player,trait){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==player){
+      for(let y=0; y<this.informationLevels[x].obscuredTraits.length; y++){
+        if(JSON.stringify(this.informationLevels[x].obscuredTraits[y].trait)==JSON.stringify(trait._id)){
+          return this.informationLevels[x].obscuredTraits[y].description;
+        }
+      }
+    }
+  }
+  return trait.description;
+}
+schema.methods.traitEffect = function traitEffect(player,trait){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==player){
+      for(let y=0; y<this.informationLevels[x].obscuredTraits.length; y++){
+        if(JSON.stringify(this.informationLevels[x].obscuredTraits[y].trait)==JSON.stringify(trait._id)){
+          return "???"
+        }
+      }
+    }
+  }
+  return trait.effect;
+}
+schema.methods.isTraitHidden = function isTraitHidden(player, trait){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==player){
+      for(let y=0; y<this.informationLevels[x].hiddenTraits.length; y++){
+        if(JSON.stringify(this.informationLevels[x].hiddenTraits[y])==JSON.stringify(trait._id)){
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
 schema.methods.combatValue = function combatValue(){
   let value = this.baseStat(0);
+  let weaponStyleList = [];
+  let newWeaponStyle = true;
   for(let x=0; x<this.combatStyles.length; x++){
-    value += (this.combatStyles[x].weaponStyle.totalSkillModifier()/(x+1))
+    for(let y=0; y<weaponStyleList.length; y++){
+      if(weaponStyleList[y].name==this.combatStyles[x].weaponStyle.name){
+        newWeaponStyle = false;
+      }
+    }
+    if(newWeaponStyle){
+      weaponStyleList.push(this.combatStyles[x].weaponStyle);
+      value += (this.combatStyles[x].weaponStyle.totalSkillModifier()/(x+1))
+    }
+    newWeaponStyle = true;
   }
   return value;
+}
+
+schema.methods.baseRaceHealth = function baseRaceHealth(){
+  if(this.race=="Human"){
+    return 50;
+  }
+}
+
+schema.methods.combatRankModifier = function combatRankModifier(){
+  let rank = this.combatRank();
+  if(rank=="Useless"){
+    return "50%";
+  }
+  if(rank=="Almost Useless"){
+    return "80%";
+  }
+  if(rank=="Beginner"){
+    return "90%";
+  }
+  if(rank=="Rookie"){
+    return "100%";
+  }
+  if(rank=="Experienced"){
+    return "110%";
+  }
+  if(rank=="Skilled"){
+    return "120%";
+  }
+  if(rank=="Expert"){
+    return "130%";
+  }
+  if(rank=="Elite"){
+    return "150%";
+  }
+  if(rank=="Masterful"){
+    return "200%";
+  }
+  if(rank=="Legendary"){
+    return "300%";
+  }
+  if(rank=="Mythical"){
+    return "500%"
+  }
 }
 
 schema.methods.combatRank = function combatRank(){
@@ -92,11 +248,27 @@ schema.methods.combatRank = function combatRank(){
   }
 }
 
-schema.methods.baseHealth = function baseHealth(){
-  let health = 0;
-  if(this.race=="Human"){
-    health = 50;
+schema.methods.knownRace = function knownRace(playerName){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==playerName){
+      if(this.informationLevels[x].race){
+        return this.informationLevels[x].race;
+      }
+    }
   }
+  return this.race;
+}
+
+schema.methods.baseMana = function baseMana(){
+  return this.baseStat(1);
+}
+
+schema.methods.manaMods = function manaMods(){
+  return 0;
+}
+
+schema.methods.baseHealth = function baseHealth(){
+  let health = this.baseRaceHealth();
   let rank = this.combatRank();
   if(rank=="Useless"){
     health = health/2;
@@ -143,9 +315,22 @@ schema.methods.health = function health(){
     }
   }
   if(hardy){
-    health=health*1.1;
+    health=Math.round(health*1.1);
   }
   return parseInt(health);
+}
+
+schema.methods.healthMods = function healthMods(){
+  let hardy = false;
+  for(let x=0; x<this.traits.specialTraits.length; x++){
+    if(this.traits.specialTraits[x].name=="Hardy"){
+      hardy = true;
+    }
+  }
+  if(hardy){
+    return Math.round(this.baseHealth()*.1);
+  }
+  return 0;
 }
 
 schema.methods.baseStamina = function baseStamina(){
@@ -164,6 +349,19 @@ schema.methods.stamina = function stamina(){
     staminaValue = parseInt(staminaValue*fightingSpirit.FSstaminaMod());
   }
   return staminaValue;
+}
+schema.methods.staminaMods = function staminaMods(){
+  let staminaValue = this.baseStamina();
+  let fightingSpirit = false;
+  for(let x=0; x<this.spiritPowers.length; x++){
+    if(this.spiritPowers[x].name=="Fighting Spirit"){
+      fightingSpirit = this.spiritPowers[x];
+    }
+  }
+  if(fightingSpirit){
+    staminaValue = parseInt(staminaValue*fightingSpirit.FSstaminaMod());
+  }
+  return staminaValue-this.baseStamina();
 }
 
 schema.methods.longestStat = function longestStat(){
@@ -204,7 +402,7 @@ schema.methods.infoConversion = function infoConversion(infoNumber){
 }
 
 schema.methods.allTraits = function allTraits(){
-  const allTraits = [...this.traits.metaTrait, ...this.traits.flavorTraits, ...this.traits.specialTraits, ...this.traits.personalityTraits, ...this.traits.aptitudeTraits, ...this.traits.combatAbilities]
+  const allTraits = [...this.traits.metaTrait, ...this.traits.flavorTraits, ...this.traits.specialTraits, ...this.traits.personalityTraits, ...this.traits.aptitudeTraits, ...this.traits.combatAbilities, ...this.spiritPowers]
   return allTraits;
 }
 
@@ -225,6 +423,7 @@ schema.methods.returnDescription = function returnDescription(player){
 }
 
 schema.methods.informationLevel = function informationLevel(player){
+  console.log(player);
   if(player=="Observer"){
     return 5;
   }
@@ -307,14 +506,24 @@ schema.methods.age = function age(player){
       return this.informationLevels[x].age
     }
   }
+  console.log(this.year)
+  console.log(this.birthday.year);
   let age = this.year - this.birthday.year;
-  if(this.birthday.month/4>=this.season+1){
+  console.log(age);
+  if(this.birthday.month/4<=this.season+1){
     age++;
   }
+  console.log(age);
   return age;
 }
 
-schema.methods.stressLevel = function stressLevel(){
+schema.methods.stressLevel = function stressLevel(player){
+  for(let x=0; x<this.informationLevels.length; x++){
+    if(this.informationLevels[x].player==player){
+      if(this.informationLevels[x].stress)
+      return this.informationLevels[x].stress
+    }
+  }
   if(this.stress== -1){
     return "Blissful"
   }
@@ -458,6 +667,32 @@ schema.methods.fullStat = function fullStat(index){
   }
   return total;
 }
+
+schema.methods.limitNum = function limitNum(index){
+  let limitNum = 30;
+  if(this.race=="Fox-Person"){
+    if(index==3||index==1){
+      limitNum = 40;
+    }
+  }
+  return limitNum;
+}
+
+schema.methods.limitStat = function limitStat(index){
+  let fullStat = this.fullStat(index);
+  let limitNum = this.limitNum(index);
+  if(fullStat>limitNum){
+    if(this.stats[index].limitBreak){
+      return fullStat;
+    }else{
+      return limitNum;
+    }
+  }else{
+    return fullStat;
+  }
+}
+
+//ADD statMod for accountfor 1-5 and modify other code for it
 
 const Model = mongoose.model("Characterinfo", schema);
 

@@ -35,6 +35,7 @@
             $("head").append(`<link id="red-style" rel="stylesheet" href="/styles/red.css">`);
         }
     <%}%>
+    updateTentacles=false;
     eventId = JSON.parse(`<%-JSON.stringify(event._id)%>`); 
     index = -1;
     pageNum = 1;

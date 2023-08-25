@@ -25,6 +25,13 @@ const removeCustomStyles = async function(){
     if($("#red-style").length){
         $("#red-style").remove();
     }
+    if($("#othered-style").length){
+        $("#othered-script").remove();
+        $("#othered-style").remove();
+        $("#tentacle-container").fadeOut();
+        $("#tentacle-background-image").fadeOut();
+        $("#tentacle-background-color").fadeOut();
+    }
 }
 
 const loadBackground = async function(url){
@@ -233,6 +240,47 @@ const nextLine = async function(){
                 case "CENTERED":
                     applyClass(sentText, eventId, index, "centered");
                     break;
+                case "EXTRA PADDING":
+                    applyClass(sentText, eventId, index, "extra-padding");
+                    break;
+                case "LAST PADDING":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext" style="padding-bottom:0px">${sentText}</p>`);
+                    if(user.settings.pageScroll){
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" style="height: auto" class="boxtext">${sentText}</p>`);
+                    }else{
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" style="height: auto" class="boxtext">${sentText}</p>`);
+                    }
+                    break;
+                case "FIRST PADDING":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext" style="padding-bottom:0px">${sentText}</p>`);
+                    if(user.settings.pageScroll){
+                        pageCheck(eventId, index, sentText);
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding"style="height: auto" class="boxtext">${sentText}</p>`);
+                    }else{
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding" style="height: auto" class="boxtext">${sentText}</p>`);
+                    }
+                    nextLine();
+                    break;
+                case "NO PADDING":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext" style="padding-bottom:0px">${sentText}</p>`);
+                    if(user.settings.pageScroll){
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding"style="height: auto" class="boxtext">${sentText}</p>`);
+                    }else{
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding" style="height: auto" class="boxtext">${sentText}</p>`);
+                    }
+                    nextLine();
+                    break;
+                case "PURPLE NO PADDING":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext" style="padding-bottom:0px">${sentText}</p>`);
+                    if(user.settings.pageScroll){
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding"style="height: auto" class="boxtext">${sentText}</p>`);
+                        $("#boxtext-"+index).css("color","pink");
+                    }else{
+                        $(`#page-${pageNum}`).append(`<p id="boxtext-${index}" class="no-padding" style="height: auto" class="boxtext">${sentText}</p>`);
+                        $("#boxtext-"+index).css("color","pink");
+                    }
+                    nextLine();
+                    break;
                 case "RECEDING":
                     text1 = sentText.split("<RECEDE>")[0];
                     text2 = sentText.split("<RECEDE>")[1];
@@ -386,6 +434,19 @@ const nextLine = async function(){
                         }
                     }
                     break;
+                case "OTHERED":
+                    updateTentacles=true;
+                    $("#player-box").css("transition","5000ms");
+                    $("head").append(`<link id="othered-style" rel="stylesheet" href="/styles/othered.css">`);
+                    $("head").append(`<script id="othered-script"src="/scripts/tentacles.js"></script>`);
+                    $("#tentacle-container").fadeIn();
+                    $("#tentacle-background-image").fadeIn();
+                    $("#tentacle-background-color").fadeIn();
+                    setTimeout(function(){
+                        $("#player-box").css("transition","0ms");
+                    },5000)
+                    nextLine();
+                    break;
                 case "CUTAWAY IMAGE":
                     ctrlButton = false;
                     enterButton = false;
@@ -485,8 +546,64 @@ const nextLine = async function(){
                     }
                     printLine(sentText); 
                     break;
+                case "DUCHY":
+                    //DuchyName|DuchyRuler|OfficialStance|DiplomatyicStance|InfoLevel|Description
+                    $(`#page-${pageNum}`).append(`<section id="duchy"><section id = "duchy-text"><div id="duchy-symbol"></div></section><section id = "duchy-image"></section></section>`)
+                    let url = "/images/" + sentText.split("|")[0] + ".jpg"
+                    $("#duchy-image").css("background-image", `url(${url})`)
+                    $("#duchy-image").css("background-repeat", `no-repeat`)
+                    $("#duchy-image").css("background-size", `contain`)
+                    $("#duchy-image").css("background-position", `center`)
+                    url = "/images/" + sentText.split("|")[0] + "Symbol.jpg"
+                    $("#duchy-symbol").css("background-image", `url(${url})`)
+                    $("#duchy-symbol").css("background-repeat", `no-repeat`)
+                    $("#duchy-symbol").css("background-size", `contain`)
+                    $("#duchy-symbol").css("background-position", `center`)
+                    $("#duchy-text").append(`<p class="duchy-info-p"><strong>Ruler:</strong> ${sentText.split("|")[1]}</p>`)
+                    $("#duchy-text").append(`<p class="duchy-info-p"><strong>Official Stance:</strong> ${sentText.split("|")[2]}</p>`)
+                    $("#duchy-text").append(`<p class="duchy-info-p"><strong>Diplomatic Relations:</strong> ${sentText.split("|")[3]}</p>`)
+                    $("#duchy-text").append(`<p class="duchy-info-p"><strong>Information Level:</strong> ${sentText.split("|")[4]}</p>`)
+                    $("#duchy-text").append(`<p class="duchy-descript-p"><strong>Description:</strong> ${sentText.split("|")[5]}</p>`)
+                    $("#duchy-symbol").height($("#player-box").height() - $("#duchy-text").height())
+                    break;
+                case "ACTIONS":
+                    //[ACTIONS]actionsId|playerId (playerId for colors)
+                    if(!$("#actions-style").length){
+                        $("head").append(`<link id="actions-style" rel="stylesheet" href="/styles/actions.css">`)
+                    }
+                    $("#title-box-event").css("transition",user.settings.pageSpeed + "ms");
+                    $("#title-box-event").css("transform", "translateY(-100%)");
+                    setTimeout(function(){
+                        $("#title-box-event").css("transition","0ms");
+                        $("#title-box-event").css("transform", "translateY(0%)");
+                    },user.settings.pageSpeed)
+                    let playerC = await loadDatabaseObject("Player",sentText.split("|")[1])
+                    document.documentElement.style.setProperty('--Olight', playerC.colors.light);
+                    document.documentElement.style.setProperty('--Odark', playerC.colors.dark);
+                    document.documentElement.style.setProperty('--Odarker', playerC.colors.darker);
+                    document.documentElement.style.setProperty('--Ohighlight', playerC.colors.highlight);
+                    document.documentElement.style.setProperty('--background', playerC.colors.background);
+                    document.documentElement.style.setProperty('--light', `color-mix(in srgb, var(--Olight)80%, black)`);
+                    document.documentElement.style.setProperty('--dark', `color-mix(in srgb, var(--Odark)80%, black)`);
+                    document.documentElement.style.setProperty('--darker', `color-mix(in srgb, var(--Odarker)80%, black)`);
+                    document.documentElement.style.setProperty('--highlight',`color-mix(in srgb, var(--Ohighlight)80%, black)`);
+                    document.documentElement.style.setProperty('--dark-background',`color-mix(in srgb, var(--background)70%, black)`)
+                    let action = await loadComponent("actions",[{name: "Actions",id:sentText.split("|")[0]}])
+                    if(user.settings.pageScroll){
+                        $(`#page-${pageNum}`).append(action);
+                    }else{
+                        $(`#event-${eventId}`).append(action);
+                    }
+                    $("#actions-page").on("click",function(event){
+                        event.stopPropagation();
+                    })
+                    $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
+                    break;
                 case "CHARACTER":
                     //starting-sheet|Characterinfo-ID|Player-ID|stat-sheet-boolean|combat-sheet-boolean|spirit-sheet-boolean|hero-sheet-boolean
+                    if(!$("#character-style").length){
+                        $("head").append(`<link id="character-style" rel="stylesheet" href="/styles/character.css">`)
+                    }
                     $("#title-box-event").css("transition",user.settings.pageSpeed + "ms");
                     $("#title-box-event").css("transform", "translateY(-100%)");
                     setTimeout(function(){
@@ -580,7 +697,7 @@ const nextLine = async function(){
                 case "STAT UPDATE":
                     //[STAT UPDATE]stat-type(must be lowercase)|mana-remaining|mana-max|action-dexcrittion
                     $(`#event-${eventId}-height-box`).append(` 
-                    <section id="stat-box-${index}" class="rowD stat-row">
+                    <section id="stat-box-${index}" class="rowD stat-row-load">
                         ${sentText.split("|")[3]}
                         <section class="row-cell stat-name">
                         Remaining ${sentText.split("|")[0].charAt(0).toUpperCase() + sentText.split("|")[0].slice(1)}:
@@ -600,6 +717,19 @@ const nextLine = async function(){
                         ${sentText.split("|")[1]}/${sentText.split("|")[2]}
                     </span>`)
                     $(`#page-${pageNum}`).append($("#stat-box-" + index));
+                    break;
+                case "EMPTY":
+                    $(`#event-${eventId}-height-box`).append(`<p id="height-check-${index}" class="boxtext"></p>`);
+                    if(user.settings.pageScroll){
+                        pageCheck(eventId, index, "");
+                        createText($(`#page-${pageNum}`),eventId,index,"");
+                    }else{
+                        createText($(`#event-${eventId}`),eventId,index,"");
+                    }
+                    printLine(""); 
+                    break;
+                case "GAMEMASTER":
+                    nextLine();
                     break;
                 case "AUTO BREAK":
                     //this is to prevent an automatic next line   
@@ -629,7 +759,37 @@ const nextLine = async function(){
     }
 }
 
+const extractContent = function(s) {
+    var span = document.createElement('span');
+    span.innerHTML = s;
+    return span.textContent || span.innerText;
+};
+
 const printLine = async function(sentText){
+    if(user.settings.voiceTrue){
+/*         console.log(extractContent(sentText))
+        asticaVoice(extractContent(sentText),3);   */
+        $().articulate('stop');
+        let audioText = extractContent(sentText).replace("“","").replace("”","");
+        if(googleVoice){
+            speechId = Math.random();
+            let currentId = speechId;
+            for(let x=0; x<audioText.split(". ").length; x++){
+                function checkFlag() {
+                        if(window.speechSynthesis.speaking == true) {
+                            window.setTimeout(checkFlag, 100); 
+                         } else {
+                            if(speechId==currentId){
+                             $(`<span>${audioText.split(". ")[x]}</span>`).articulate("speak");
+                            }
+                         }
+                }
+                checkFlag();  
+            }
+        }else{
+            $(`<span>${audioText}</span>`).articulate("speak");
+        }
+    }
     if(user.settings.pageScroll){
         typing = true;
         await typeWriter(`#page-${pageNum}`,"", 0, sentText, index, `#boxtext-${index}`, 1) 

@@ -14,6 +14,19 @@
                 })
             </script>
         <%}%>
+        <div id="character-create" class="player-character-info clickable">
+            <section class="player-character-name">Create New Character</section>
+        </div>
+        <script>
+            $("#character-create").on("click",async function(){
+                $("#character-create").off("click");
+                $("#character-create").html("<section id='new-character-name'class='player-character-name' contenteditable=true>Name?</section><button id='new-character-submit'>Submit</button>")
+                $("#new-character-submit").on("click",async function(){
+                    let newCharacter = await createDatabaseObject("Character",{name:$("#new-character-name").text(),turnInfo:[]})
+                    loadState(2,"none")
+                })
+            })
+        </script>
     </section>
     <div id="sub-character-list-container-container">
         <div id="sub-character-list-container">

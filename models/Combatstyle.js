@@ -117,7 +117,9 @@ schema.methods.allPassiveAbilities = function allPassiveAbilities(){
     if(this.weaponStyle.knowledgeTree.specialties[y].type=="Passive Battle Ability"){
         abilities.push(this.weaponStyle.knowledgeTree.specialties[y])
         abilities[abilities.length-1].amount = 1;
-        abilities[abilities.length-1].name += " [Rank " + abilities[abilities.length-1].info.rankString() + "]";
+        if(!abilities[abilities.length-1].name.includes("[Rank")){
+          abilities[abilities.length-1].name += " [Rank " + abilities[abilities.length-1].info.rankString() + "]";
+        }
     }
   }
   for(let y=0; y<this.character.spiritPowers.length; y++){
@@ -125,7 +127,9 @@ schema.methods.allPassiveAbilities = function allPassiveAbilities(){
       if(!this.character.spiritPowers[y].active){
         abilities.push(this.character.spiritPowers[y])
         abilities[abilities.length-1].amount = 1;
-        abilities[abilities.length-1].name += " [Rank " + abilities[abilities.length-1].info.rankString() + "]";
+        if(!abilities[abilities.length-1].name.includes("[Rank")){
+          abilities[abilities.length-1].name += " [Rank " + abilities[abilities.length-1].info.rankString() + "]";
+        }
       }
     }
   }
@@ -213,15 +217,25 @@ schema.methods.armorPenetration = function armorPenetration(){
 }
 
 schema.methods.meleeArmor = function meleeArmor(){
+  if(this.armor)
   return this.armor.meleeArmor;
+  else
+  return 0;
 }
 
 schema.methods.rangedArmor = function rangedArmor(){
+  if(this.armor)
   return this.armor.rangedArmor;
+  else
+  return 0;
 }
 
 schema.methods.armorDurability = function armorDurability(){
-  return this.armor.durability;
+  if(this.armor){
+    return this.armor.durability;
+  }else{
+    return 0;
+  }
 }
 
 schema.methods.weaponWeight = function weaponWeight(){
@@ -233,7 +247,11 @@ schema.methods.weaponWeight = function weaponWeight(){
 }
 
 schema.methods.armorWeight = function armorWeight(){
-  return this.armor.weight;
+  if(this.armor){
+    return this.armor.weight;
+  }else{
+    return 0;
+  }
 }
 
 schema.methods.weightValue = function weightValue(){
@@ -286,7 +304,7 @@ schema.methods.weightModifier = function weightModifier(){
   if(this.weightClass()=="Heavy"){
     return -10
   }
-  if(this.weightclass()=="Very Heavy"){
+  if(this.weightClass()=="Very Heavy"){
     return -20
   }
 }
@@ -310,7 +328,7 @@ schema.methods.weightStamina = function weightStamina(){
   if(this.weightClass()=="Heavy"){
     return 2
   }
-  if(this.weightclass()=="Very Heavy"){
+  if(this.weightClass()=="Very Heavy"){
     return 4
   }
 }
@@ -334,7 +352,7 @@ schema.methods.weightMovement = function weightMovement(){
   if(this.weightClass()=="Heavy"){
     return .5
   }
-  if(this.weightclass()=="Very Heavy"){
+  if(this.weightClass()=="Very Heavy"){
     return .25
   }
 }

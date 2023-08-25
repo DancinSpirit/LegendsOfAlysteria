@@ -1,0 +1,79 @@
+<%user.gamemaster=false%>
+<section id="actions-page">
+    <%for(let x=0; x<actions.sections.length; x++){%>
+        <section id="action-section-name-container-<%=x%>"class="action-section-name-container <%if((x>0)&&(actions.sections[x].actionsNum!=0)){%>action-section-name-container-uncollapsed<%}else{%>action-section-name-container-collapsed<%}%>">
+            <section id="action-section-name-<%=x%>" class="action-section-name  <%if((x>0)&&(actions.sections[x].actionsNum!=0)){%>uncollapsed-name<%}else{%>collapsed-name<%}%>">
+                <%if(user.gamemaster){%>%><%=actions.sections[x].name%><%}else{%><%-actions.sections[x].name%><%}%>
+            </section>
+            <section id="action-section-top-<%=x%>"class="action-section-top-<%if((x>0)&&(actions.sections[x].actionsNum!=0)){%>uncollapsed<%}else{%>collapsed<%}%>"></section>
+        </section>
+        <section id="action-section-<%=x%>" class="action-section <%if((x>0)&&(actions.sections[x].actionsNum!=0)){%>uncollapsed<%}else{%>collapsed<%}%>">
+            <%for(let y=0; y<actions.sections[x].text.length; y++){%>
+                <p class="action-text"><%if(user.gamemaster){%>%><%=actions.sections[x].text[y]%><%}else{%><%-actions.sections[x].text[y]%><%}%></p>
+            <%}%>
+            <%for(let y=0; y<actions.sections[x].actions.length; y++){%>
+                <section class="action">
+                    <p class="action-name">
+                        <%for(let z=0; z<actions.sections[x].actions[y].actionSlots.length; z++){%>
+                            <span contenteditable="true" class="action-box"><%=actions.sections[x].actions[y].actionSlots[z]%></span>
+                        <%}%>
+                        <%if(actions.sections[x].actions[y].moneySlot){%>
+                            $: <span contenteditable="true" class="money-box"><%=actions.sections[x].actions[y].moneySlot%></span>
+                        <%}%>
+                        <%=actions.sections[x].actions[y].name%>
+                        <%if(actions.sections[x].actions[y].customAction){%>
+                            | <span contenteditable="true" class="custom-box"><%=actions.sections[x].actions[y].customAction%></span> |
+                        <%}%>
+                    </p>
+                    <p class="action-description"><%=actions.sections[x].actions[y].description%></p>
+                    <p class="action-rewards">
+                        <span class="action-info"><strong>Rewards:</strong> <%=actions.sections[x].actions[y].rewards%></span>
+                        <%if(actions.sections[x].actions[y].cost){%>
+                            <span class="action-info"><strong>Cost:</strong> <%=actions.sections[x].actions[y].cost%></span>
+                        <%}%>
+                        <%if(actions.sections[x].actions[y].length){%>
+                            <span class="action-info"><strong>Length:</strong> <%=actions.sections[x].actions[y].length%></span>
+                        <%}%>
+                        <%if(actions.sections[x].actions[y].difficulty){%>
+                            <span class="action-info"><strong>Difficulty:</strong> <%=actions.sections[x].actions[y].difficulty%></span>
+                        <%}%>
+                        <%if(actions.sections[x].actions[y].danger){%>
+                            <span class="action-info"><strong>Danger:</strong> <%=actions.sections[x].actions[y].danger%></span>
+                        <%}%>
+                    </p>
+                </section>
+            <%}%>
+        </section>
+        <script>
+            $("#action-section-name-<%=x%>").on("click",function(){
+                if($("#action-section-name-<%=x%>").hasClass("collapsed-name")){
+                    $("#action-section-name-<%=x%>").removeClass("collapsed-name")
+                    $("#action-section-name-<%=x%>").addClass("uncollapsed-name")
+                    $("#action-section-name-container-<%=x%>").removeClass("action-section-name-container-collapsed")
+                    $("#action-section-name-container-<%=x%>").addClass("action-section-name-container-uncollapsed")
+                    $("#action-section-top-<%=x%>").removeClass("action-section-top-collapsed")
+                    $("#action-section-top-<%=x%>").addClass("action-section-top-uncollapsed")
+                    $("#action-section-<%=x%>").removeClass("collapsed")
+                    $("#action-section-<%=x%>").addClass("uncollapsed")
+                }else{
+                    $("#action-section-name-<%=x%>").addClass("collapsed-name")
+                    $("#action-section-name-<%=x%>").removeClass("uncollapsed-name")
+                    $("#action-section-name-container-<%=x%>").addClass("action-section-name-container-collapsed")
+                    $("#action-section-name-container-<%=x%>").removeClass("action-section-name-container-uncollapsed")
+                    $("#action-section-top-<%=x%>").addClass("action-section-top-collapsed")
+                    $("#action-section-top-<%=x%>").removeClass("action-section-top-uncollapsed")
+                    $("#action-section-<%=x%>").addClass("collapsed")
+                    $("#action-section-<%=x%>").removeClass("uncollapsed")
+                }
+            })
+        </script>
+    <%}%>
+    <%if(user.gamemaster){%>
+        <section class="action-section-name-container">
+            <section class="action-section-name collapsed-name">
+                + Add New Section
+            </section>
+            <section class="action-section-top-collapsed"></section>
+        </section>
+    <%}%>
+</section>

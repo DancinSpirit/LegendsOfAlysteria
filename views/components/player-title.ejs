@@ -7,6 +7,9 @@
             <%if(story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].player){%>
             <p class="boxtext story-subtitle">Player: <%=story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].player%></p>
             <%}%>
+            <%if(story.years[year].seasons[season].regionPhases[regionPhase].rulerPhases[rulerPhase].name=="Violet Stormchaser"){%>
+                <p class="boxtext story-subtitle">Another Side</p>
+            <%}%>
             <p class="boxtext story-subsubtitle"><%=story.years[year].seasons[season].regionPhases[regionPhase].name%></p>
     </div>
     <p class="boxtext big-boy big-boy-player-title"></p>

@@ -1,0 +1,89 @@
+<div class="flex-column basic-combat-right-section">
+    <section class="character-big-title character-box-section">
+        Combat Abilities
+    </section>
+    <section class="flex-row">
+        <section class="flex-column fill-width">
+            <section class="character-big-title character-box-section">
+                Combat Traits
+            </section>
+            <%for(let x=0; x<characterinfo.traits.combatAbilities.length; x++){%>
+                <section class="character-box-title character-box-section">
+                   <%=characterinfo.traits.combatAbilities[x].name%>
+                </section>
+            <%}%>
+        </section>
+        <section class="flex-column fill-width">
+            <section class="character-big-title character-box-section">
+                Combat Specialties
+            </section>
+            <%let combatSpecialties = characterinfo.combatSpecialties()%>
+            <%for(let x=0; x<combatSpecialties.length; x++){%>
+                <section class="character-box-title character-box-section">
+                    <%=combatSpecialties[x].name%>
+                </section>
+                <section class="combat-style-content-row">
+                    <section class="character-box-content character-box-section combat-row-half">
+                        Rank:
+                    </section>
+                    <section class="character-box-content character-box-section combat-row-half">
+                        <%=combatSpecialties[x].info.rankString()%>
+                    </section>
+                </section>
+                <section class="combat-style-content-row">
+                    <section class="character-box-content character-box-section combat-row-half">
+                        Training Points:
+                    </section>
+                    <section class="character-box-content character-box-section combat-row-half">
+                        <%=combatSpecialties[x].info.trainingPoints;%>
+                    </section>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <strong>Effect:</strong>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <%=combatSpecialties[x].effect;%>
+                </section>
+            <%}%>
+        </section>
+        <section class="flex-column fill-width">
+            <section class="character-big-title character-box-section">
+                Combat Spirit Powers
+            </section>
+            <%let combatSpirits = characterinfo.combatSpiritPowers()%>
+            <%for(let x=0; x<combatSpirits.length; x++){%>
+                <section class="character-box-title character-box-section">
+                    <%=combatSpirits[x].name%>
+                </section>
+                <section class="combat-style-content-row">
+                    <section class="character-box-content character-box-section combat-row-half">
+                        Rank:
+                    </section>
+                    <section class="character-box-content character-box-section combat-row-half">
+                        <%=combatSpirits[x].info.rankString()%>
+                    </section>
+                </section>
+                <section class="combat-style-content-row">
+                    <section class="character-box-content character-box-section combat-row-half">
+                        Spirit Points:
+                    </section>
+                    <section class="character-box-content character-box-section combat-row-half">
+                        <%=combatSpirits[x].info.trainingPoints;%>
+                    </section>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <strong>Description:</strong>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <%=combatSpirits[x].description;%>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <strong>Effect:</strong>
+                </section>
+                <section class="character-box-content character-box-section">
+                    <%=combatSpirits[x].effect;%>
+                </section>
+            <%}%>
+        </section>
+    </section>
+</div>

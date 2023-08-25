@@ -6,17 +6,38 @@
             </section>
             <section class = "traits">
                 <%for(let x=0; x<characterinfo.traits.specialTraits.length; x++){%>
-                <section class = "trait">
-                    <section class = "character-box-title character-box-section">
-                        <%=characterinfo.traits.specialTraits[x].name%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <%=characterinfo.traits.specialTraits[x].description%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <b>Effect:</b> <%=characterinfo.traits.specialTraits[x].effect%>
-                    </section>
-                </section>
+                    <%if(!characterinfo.isTraitHidden(player.name,characterinfo.traits.specialTraits[x])){%>
+                        <section class = "trait">
+                            <section class = "<%if(characterinfo.traits.specialTraits[x].replaced.dueTo!=undefined){%>strike-through<%}%> character-box-title character-box-section">
+                                <%=characterinfo.traitName(player.name,characterinfo.traits.specialTraits[x])%>
+                            </section>
+                            <section class = "character-box-content character-box-section">
+                                <%=characterinfo.traitDescription(player.name,characterinfo.traits.specialTraits[x])%>
+                            </section>
+                            <section class = "<%if(characterinfo.traits.specialTraits[x].replaced.dueTo!=undefined){%>strike-through<%}%> character-box-content character-box-section">
+                                <b>Effect:</b> <%=characterinfo.traitEffect(player.name,characterinfo.traits.specialTraits[x])%>
+                            </section>
+                            <%if(characterinfo.traits.specialTraits[x].replaced!=undefined){%>
+                                <%if(characterinfo.traits.specialTraits[x].replaced.by!=undefined){%>
+                                    <section class = "character-box-content character-box-section">
+                                        <b>Replaced by <%=characterinfo.traits.specialTraits[x].replaced.by%> due to <%=characterinfo.traits.specialTraits[x].replaced.dueTo%></b>
+                                    </section>
+                                <%}%>
+                            <%}%>
+                        </section>
+                        <%if(characterinfo.traits.specialTraits[x].replaced!=undefined){%>
+                            <%if(characterinfo.traits.specialTraits[x].replaced.by!=undefined){%>
+                                <section class = "trait">
+                                    <section class = "character-box-title character-box-section">
+                                        <%=characterinfo.traits.specialTraits[x].replaced.by%>
+                                    </section>
+                                    <section class = "character-box-content character-box-section">
+                                        <b>Effect:</b><%=characterinfo.traits.specialTraits[x].replaced.effect%>
+                                    </section>
+                                </section>
+                            <%}%>
+                        <%}%>
+                    <%}%>
                 <%}%>
             </section>
         </section>
@@ -28,17 +49,19 @@
             </section>
             <section class = "traits">
                 <%for(let x=0; x<characterinfo.traits.aptitudeTraits.length; x++){%>
-                <section class = "trait">
-                    <section class = "character-box-title character-box-section">
-                        <%=characterinfo.traits.aptitudeTraits[x].name%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <%=characterinfo.traits.aptitudeTraits[x].description%>
-                    </section>
-                    <section class = "character-box-content character-box-section">
-                        <b>Effect:</b> <%=characterinfo.traits.aptitudeTraits[x].effect%>
-                    </section>
-                </section>
+                    <%if(!characterinfo.isTraitHidden(player.name,characterinfo.traits.specialTraits[x])){%>
+                        <section class = "trait">
+                            <section class = "character-box-title character-box-section">
+                                <%=characterinfo.traitName(player.name,characterinfo.traits.aptitudeTraits[x])%>
+                            </section>
+                            <section class = "character-box-content character-box-section">
+                                <%=characterinfo.traitDescription(player.name,characterinfo.traits.aptitudeTraits[x])%>
+                            </section>
+                            <section class = "character-box-content character-box-section">
+                                <b>Effect:</b> <%=characterinfo.traitEffect(player.name,characterinfo.traits.aptitudeTraits[x])%>
+                            </section>
+                        </section>
+                    <%}%>
                 <%}%>
             </section>
         </section>
@@ -57,9 +80,16 @@
                         <section class = "character-box-content character-box-section">
                             <%=characterinfo.traits.personalityTraits[x].description%>
                         </section>
-                        <section class = "character-box-content character-box-section">
+                        <section class = "<%if(characterinfo.traits.personalityTraits[x].unusable.dueTo!=undefined){%>strike-through<%}%> character-box-content character-box-section">
                             <b>Effect:</b> <%=characterinfo.traits.personalityTraits[x].effect%>
                         </section>
+                        <%if(characterinfo.traits.personalityTraits[x].unusable!=undefined){%>
+                            <%if(characterinfo.traits.personalityTraits[x].unusable.dueTo!=undefined){%>
+                                <section class = "character-box-content character-box-section">
+                                    <b>Unusable due to <%=characterinfo.traits.personalityTraits[x].unusable.dueTo%></b>
+                                </section>
+                            <%}%>
+                        <%}%>
                     </section>
                 <%}%>
             </section>

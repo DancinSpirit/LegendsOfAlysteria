@@ -20,6 +20,7 @@ mongoose.connection.on("error", function(err){
 });
 
 module.exports = {
+    Actions: require("./Actions"),
     User: require("./User"),
     Character: require("./Character"),
     Characterinfo: require("./Characterinfo"),

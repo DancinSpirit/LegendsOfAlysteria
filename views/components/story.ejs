@@ -50,8 +50,24 @@
 
         </section>
     </section>
+    <div id="tentacle-container">
+
+    </div>
+    <div id="tentacle-background-image">
+        
+    </div>
 </div>
 <script>
+buttons.voicesList = $().articulate('getVoices');
+for(let x=0; x<buttons.voicesList.length; x++){
+    if(buttons.voicesList[x].name=='Microsoft Aria Online (Natural) - English (United States)'){
+        $().articulate('setVoice','name','Microsoft Aria Online (Natural) - English (United States)');
+    }
+    if(buttons.voicesList[x].name=='Google US English'){
+        $().articulate('setVoice','name','Google US English');
+        googleVoice = true;
+    }
+}
 story = JSON.parse(`<%-JSON.stringify(story)%>`); 
 $("body").on("keydown", function (e) {
     if (e.keyCode == 17) {

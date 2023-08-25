@@ -1,0 +1,10 @@
+<animation>spiritualSheet</animation>
+<section class="spirit-sheet">
+    <%for(let x=0; x<characterinfo.spiritPowers.length; x++){%>
+        <section class = "combat-style flex-column">
+            <section class = "character-super-title character-box-section border-top-thick border-bottom-thick border-left-thick border-right-thick">
+                <%=characterinfo.spiritPowers[x].name%>
+            </section>
+        </section>
+    <%}%>
+</section>

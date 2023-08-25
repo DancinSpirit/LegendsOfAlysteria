@@ -1,7 +1,7 @@
 <animation>combatStylesSheet</animation>
 <section class="combat-sheet">
     <%for(let x=0; x<characterinfo.combatStyles.length; x++){%>
-        <section class = "combat-style flex-column">
+        <section class = "combat-style flex-column <%if(x<(characterinfo.combatStyles.length-1)){%>margin-bottom-10<%}%>">
             <section class = "character-super-title character-box-section border-top-thick border-bottom-thick border-left-thick border-right-thick">
                 <%=characterinfo.combatStyles[x].name%>
             </section>
@@ -568,7 +568,7 @@
                                     </section>
                                     <section class = "combat-style-content-row soft-border-bottom">
                                         <section class = "character-box-content soft-border-right character-box-section combat-row-half">
-                                            Weapons:
+                                            Armor Weight:
                                         </section>
                                         <section class = "character-box-content character-box-section combat-row-half border-right-thick">
                                             <%=characterinfo.combatStyles[x].armorWeight()%>
@@ -661,6 +661,5 @@
                     </section>
                 <%}%>
             </section>
-        </section>
     <%}%>
 </section>

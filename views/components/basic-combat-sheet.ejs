@@ -1,9 +1,8 @@
 <animation>basicCombatSheet</animation>
-<section class = "basic-combat">
+<section class = "basic-combat flex-row">
         <%-include('basic-combat/combat-stats.ejs')%>
-        <section class = "flex-column">
-            <%-include('basic-combat/stat-calculations.ejs')%>
+        <section class = "basic-combat-right flex-column">
             <%-include('basic-combat/combat-abilities.ejs')%>
-            <%-include('basic-combat/combat-spirit-powers.ejs')%>
+            <%-include('basic-combat/combat-spells.ejs')%>
         </section>
 </section>

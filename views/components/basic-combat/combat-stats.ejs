@@ -26,151 +26,197 @@
             </section>
         </section>
     </section>
-    <section class="basic-stats">
-        <%let x = 0%>
-        <section id="combat-style-name" class="character-box-section character-big-title">
-            <%=characterinfo.combatStyles[x].name%>
-        </section>
-        <section class="combat-style-box">
-            <section class="combat-style-content-row">
-                <section class="character-box-content character-box-section combat-row-half">
-                    Attack:
+    <section class="basic-stats" id="combat-style-box">
+        <%for(let x=0; x<characterinfo.combatStyles.length; x++){%>
+            <section class="combat-style-container">
+                <section id="combat-style-name" class="character-box-section character-big-title">
+                    <div id="combat-style-left-arrow"><</div><%=characterinfo.combatStyles[x].name%></div><div id="combat-style-right-arrow">></div>
                 </section>
-                <section class="character-box-content character-box-section combat-row-half">
-                    <%=characterinfo.combatStyles[x].attack()%>
-                </section>
-            </section>
-            <section class="combat-style-content-row">
-                <section class="character-box-content character-box-section combat-row-half">
-                    Defense:
-                </section>
-                <section class="character-box-content character-box-section combat-row-half">
-                    <%=characterinfo.combatStyles[x].defense()%>
-                </section>
-            </section>
-            <section class="combat-style-content-row">
-                <section class="character-box-content character-box-section combat-row-half">
-                    Direct Damage:
-                </section>
-                <section class="character-box-content character-box-section combat-row-half">
-                    <%=characterinfo.combatStyles[x].directDamage()%>
-                </section>
-            </section>
-            <section class="combat-style-content-row">
-                <section class="character-box-content character-box-section combat-row-half">
-                    Armor Penetration:
-                </section>
-                <section class="character-box-content character-box-section combat-row-half">
-                    <%=characterinfo.combatStyles[x].armorPenetration()%>
-                </section>
-            </section>
-            <section class="character-box-title character-box-section ">
-                Armor Stats
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-section character-box-content combat-row-half">
-                    Melee Armor:
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half">
-                    <%=characterinfo.combatStyles[x].meleeArmor()%>
-                </section>
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-content character-box-section combat-row-half">
-                    Ranged Armor:
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half ">
-                    <%=characterinfo.combatStyles[x].rangedArmor()%>
-                </section>
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-content character-box-section combat-row-half">
-                    Durability:
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half">
-                    <%=characterinfo.combatStyles[x].armorDurability().available%>/<%=characterinfo.combatStyles[0].armorDurability().max%>
-                </section>
-            </section>
-            <section class="character-box-title character-box-section ">
-                Weight Stats
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-section character-box-content combat-row-half">
-                    Combat Modifier
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half">
-                    <%=characterinfo.combatStyles[x].weightModifier()%>
-                </section>
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-section character-box-content combat-row-half">
-                    Stamina Modifier
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half">
-                    <%=characterinfo.combatStyles[x].weightStamina()%>
-                </section>
-            </section>
-            <section class = "combat-style-content-row">
-                <section class = "character-box-section character-box-content combat-row-half">
-                    Movement Modifier
-                </section>
-                <section class = "character-box-section character-box-content combat-row-half">
-                    <%=characterinfo.combatStyles[x].weightMovement()%>
-                </section>
-            </section>
-            <section class = "character-box-title character-box-section fighting-style-name">
-                Passive Abilities
-            </section>
-            <%let passiveAbilities = characterinfo.combatStyles[x].allPassiveAbilities()%>
-            <%for(let y=0; y<passiveAbilities.length; y++){%>
-            <section class = "combat-style-content-row character-box-content">
-                <%if(passiveAbilities[y].amount==1){%>
-                    <section class = "character-box-section" style="width:100%">
-                        <%=passiveAbilities[y].name%>
+                <section class="combat-style-box">
+                    <section class="combat-style-content-row">
+                        <section class="character-box-content character-box-section combat-row-half">
+                            Attack:
+                        </section>
+                        <section class="character-box-content character-box-section combat-row-half">
+                            <%=characterinfo.combatStyles[x].attack()%>
+                        </section>
                     </section>
-                <%}else{%>
-                <section class = "character-box-section combat-row-half ">
-                    <%=passiveAbilities[y].name%>
-                </section>
-                <section class = "character-box-section combat-row-half">
-                    <%=passiveAbilities[y].amount%>
-                </section>
-                <%}%>
-            </section>
-            <%}%>
-            <%let activeAbilities = characterinfo.combatStyles[x].allActiveAbilities()%>
-            <section class = "character-box-title character-box-section fighting-style-name">
-                Activated Abilities
-            </section>
-            <%for(let y=0; y<activeAbilities.length; y++){%>
-                <section class = "combat-style-content-row character-box-content">
-                    <section class = "character-box-section combat-row-half">
-                        <%=activeAbilities[y].name%>
+                    <section class="combat-style-content-row">
+                        <section class="character-box-content character-box-section combat-row-half">
+                            Defense:
+                        </section>
+                        <section class="character-box-content character-box-section combat-row-half">
+                            <%=characterinfo.combatStyles[x].defense()%>
+                        </section>
                     </section>
-                    <section class = "character-box-section combat-row-half">
-                        <%=activeAbilities[y].available%>/<%=activeAbilities[y].max%>
+                    <section class="combat-style-content-row">
+                        <section class="character-box-content character-box-section combat-row-half">
+                            Direct Damage:
+                        </section>
+                        <section class="character-box-content character-box-section combat-row-half">
+                            <%=characterinfo.combatStyles[x].directDamage()%>
+                        </section>
                     </section>
+                    <section class="combat-style-content-row">
+                        <section class="character-box-content character-box-section combat-row-half">
+                            Armor Penetration:
+                        </section>
+                        <section class="character-box-content character-box-section combat-row-half">
+                            <%=characterinfo.combatStyles[x].armorPenetration()%>
+                        </section>
+                    </section>
+                    <section class="character-box-title character-box-section ">
+                        Armor Stats
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            Melee Armor:
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            <%=characterinfo.combatStyles[x].meleeArmor()%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            Ranged Armor:
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half ">
+                            <%=characterinfo.combatStyles[x].rangedArmor()%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-content character-box-section combat-row-half">
+                            Durability:
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            <%if(characterinfo.combatStyles[x].armorDurability()){%><%=characterinfo.combatStyles[x].armorDurability().available%>/<%=characterinfo.combatStyles[0].armorDurability().max%><%}else{%>N/A<%}%>
+
+                        </section>
+                    </section>
+                    <section class="character-box-title character-box-section ">
+                        Weight Stats
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            Combat Modifier
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            <%=characterinfo.combatStyles[x].weightModifier()%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            Stamina Modifier
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            <%=characterinfo.combatStyles[x].weightStamina()%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            Movement Modifier
+                        </section>
+                        <section class = "character-box-section character-box-content combat-row-half">
+                            <%=characterinfo.combatStyles[x].weightMovement()%>
+                        </section>
+                    </section>
+                    <section class = "character-box-title character-box-section fighting-style-name">
+                        Passive Abilities
+                    </section>
+                    <%let passiveAbilities = characterinfo.combatStyles[x].allPassiveAbilities()%>
+                    <%for(let y=0; y<passiveAbilities.length; y++){%>
+                    <section class = "combat-style-content-row character-box-content">
+                        <%if(passiveAbilities[y].amount==1){%>
+                            <section class = "character-box-section" style="width:100%">
+                                <%=passiveAbilities[y].name%>
+                            </section>
+                        <%}else{%>
+                        <section class = "character-box-section combat-row-half ">
+                            <%=passiveAbilities[y].name%>
+                        </section>
+                        <section class = "character-box-section combat-row-half">
+                            <%=passiveAbilities[y].amount%>
+                        </section>
+                        <%}%>
+                    </section>
+                    <%}%>
+                    <%let activeAbilities = characterinfo.combatStyles[x].allActiveAbilities()%>
+                    <section class = "character-box-title character-box-section fighting-style-name">
+                        Activated Abilities
+                    </section>
+                    <%for(let y=0; y<activeAbilities.length; y++){%>
+                        <section class = "combat-style-content-row character-box-content">
+                            <section class = "character-box-section combat-row-half">
+                                <%=activeAbilities[y].name%>
+                            </section>
+                            <section class = "character-box-section combat-row-half">
+                                <%=activeAbilities[y].available%>/<%=activeAbilities[y].max%>
+                            </section>
+                        </section>
+                    <%}%>
                 </section>
-            <%}%>
-        </section>
+            </section>
+        <%}%>
     </section>
     <section class="basic-stats">
         <section class="empty-name-space"></section>
         <section class="combat-style-box">
-        <section class = "character-box-title character-box-section fighting-style-name">
-            Spirit-Power Modifiers
-        </section>
-        <%for(let y=0; y<characterinfo.spiritPowers.length; y++){%>
-            <section class = "combat-style-content-row character-box-content">
-                <section class = "character-box-section combat-row-half">
-                    <%=characterinfo.spiritPowers[y].name%>
-                </section>
-                <section class = "character-box-section combat-row-half">
-                    INSERT COMBAT MOD HERE (MAKE SURE TO ADD CHECK FOR COMBAT MOD AS WELL)
-                    ALSO SHOULD MAKE WEAPON STYLE SECTION BE A SUB SECTION THAT LOADS IN A "COMBAT STYLE STATS" EJS FILE
-                </section>
+            <section class = "character-box-title character-box-section fighting-style-name">
+                Spirit-Power Modifiers
             </section>
-        <%}%>
+            <%for(let y=0; y<characterinfo.spiritPowers.length; y++){%>
+                <section class = "combat-style-content-row character-box-content">
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.spiritPowers[y].name%>
+                    </section>
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.spiritPowers[y].combatMod(characterinfo.limitStat(1))%>
+                    </section>
+                </section>
+            <%}%>
+            <section class = "character-box-title character-box-section fighting-style-name">
+                Additional Modifiers
+            </section>
+            <%for(let y=0; y<characterinfo.additionalCombatModifiers.length; y++){%>
+                <section class = "combat-style-content-row character-box-content">
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.additionalCombatModifiers[y].name%>
+                    </section>
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.additionalCombatModifiers[y].mod%>
+                    </section>
+                </section>
+            <%}%>
+            <section class = "character-box-title character-box-section fighting-style-name">
+                Estimated Modifiers:
+            </section>
+                <section class = "combat-style-content-row character-box-content">
+                    <section class = "character-box-section combat-row-half">
+                        Best Estimated Attack Mod:
+                    </section>
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.fullEstimatedAttack();%>
+                    </section>
+                </section>
+                <section class = "combat-style-content-row character-box-content">
+                    <section class = "character-box-section combat-row-half">
+                        Best Estimated Defense Mod:
+                    </section>
+                    <section class = "character-box-section combat-row-half">
+                        <%=characterinfo.fullEstimatedDefense();%>
+                    </section>
+                </section>
         </section>
     </section>
 </section>
+<script>
+    $("#combat-style-box").height($(".combat-style-container").height())
+    $("#combat-style-box").on("wheel",function(e){
+        e.preventDefault();
+        if(e.originalEvent.deltaY<0){
+            $("#combat-style-box").scrollTop($("#combat-style-box").scrollTop() - ($(".combat-style-container").height()+4));
+        }else{
+            $("#combat-style-box").scrollTop($("#combat-style-box").scrollTop() + ($(".combat-style-container").height()+4));
+        }
+    })
+</script>

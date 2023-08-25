@@ -1,0 +1,144 @@
+<div class="flex-column basic-combat-right-section stat-calcs">
+    <section class="border-left-thick border-right-thick flex-column">
+        <section class="flex-column fill-width">
+            <section class="border-top-thick border-bottom character-big-title character-box-section">
+                Combat Rank
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Athletics
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.limitStat(0)%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    <%=characterinfo.combatStyles[0].weaponStyle.name%>:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.combatStyles[0].weaponStyle.totalSkillModifier()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Combat Value:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.combatValue()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="border-bottom character-box-title character-box-section combat-row-half">
+                    Combat Rank:
+                </section>
+                <section class="border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.combatRank()%>
+                </section>
+            </section>
+        </section>
+        <section class="flex-column fill-width">
+            <section class="border-bottom character-big-title character-box-section">
+                Health
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    <%=characterinfo.race%> Base Health:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.baseRaceHealth()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    <%=characterinfo.combatRank()%> Modifier:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.combatRankModifier()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Base Health:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.baseHealth()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Modifiers:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.healthMods()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="border-bottom character-box-title character-box-section combat-row-half">
+                    Total Health:
+                </section>
+                <section class="border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.health()%>
+                </section>
+            </section>
+        </section>
+        <section class="flex-column fill-width">
+            <section class="border-bottom character-big-title character-box-section">
+                Stamina
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Base Stamina:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.baseStamina()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Modifiers:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.staminaMods()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="border-bottom character-box-title character-box-section combat-row-half">
+                    Total Stamina:
+                </section>
+                <section class="border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.stamina()%>
+                </section>
+            </section>
+        </section>
+        <section class="flex-column fill-width">
+            <section class="border-bottom character-big-title character-box-section">
+                Mana
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Base Mana:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.baseMana()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="soft-border-bottom character-box-title character-box-section combat-row-half">
+                    Modifiers:
+                </section>
+                <section class="soft-border-bottom character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.manaMods()%>
+                </section>
+            </section>
+            <section class="combat-style-content-row">
+                <section class="border-bottom-thick character-box-title character-box-section combat-row-half">
+                    Total Mana
+                </section>
+                <section class="border-bottom-thick character-box-content character-box-section combat-row-half">
+                    <%=characterinfo.mana.max%>
+                </section>
+            </section>
+        </section>
+    </section>
+</div>

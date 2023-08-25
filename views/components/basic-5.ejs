@@ -70,10 +70,12 @@
         </section>
         <%-include('basic-character/traits.ejs')%>
     </section>
-    <section id = "character-right">
-        <%if(characterinfo.traits.metaTrait.length){%>
-            <%-include('basic-character/meta-trait.ejs')%>
-        <%}%>
-        <%-include('basic-character/knowledge.ejs')%>
-    </section>
+    <%if(characterinfo.traits.metaTrait.length||characterinfo.knowledgeTrees.length||characterinfo.spiritPowers.length){%>
+        <section id = "character-right">
+            <%if(characterinfo.traits.metaTrait.length){%>
+                <%-include('basic-character/meta-trait.ejs')%>
+            <%}%>
+            <%-include('basic-character/knowledge.ejs')%>
+        </section>
+    <%}%>
 </div>

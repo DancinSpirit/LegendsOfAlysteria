@@ -1,4 +1,8 @@
 let buttons = {};
+updateStatObject = {stats:[]};
+let updateTentacles = false;
+let googleVoice = false;
+let speechId = false;
 
 const deactivateButtons = function(x){
     return new Promise(async function(resolve){
@@ -119,6 +123,14 @@ const createDatabaseObject = async function(name,data){
             }
         }) 
     })    
+}
+
+let createNewCharacterInfo = async function(firstName,lastName, character, turnNumber){
+    let newCharacterInfo = await createDatabaseObject("Characterinfo",{firstName:firstName,lastName:lastName});
+    let newCharacter = await loadDatabaseObjectByProperty("Character","name",character)
+    newCharacter.turnInfo[turnNumber].push(newCharacterInfo._id);
+    let updatedCharacter = await updateDatabaseObject("Character",newCharacter._id,{turnInfo:newCharacter.turnInfo})
+    return newCharacterInfo;
 }
 
 const updateStory = async function(id,updateType,updateKey, updateValue, settings){

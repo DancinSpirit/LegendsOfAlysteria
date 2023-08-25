@@ -2,22 +2,28 @@
 <section id ="character">
     <section id="character-navbar">
         <section id = "basic-sheet-button" class = "character-nav-button character-nav-button-unselected">
-            Basic Character Sheet
-        </section> 
-        <section id = "advanced-stat-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(statSheet=="false"){%>invisible<%}%>">
-            Advanced Stat Sheet
+            Character Info
         </section> 
         <section id = "basic-combat-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
-            Basic Combat Sheet
+            Combat Styles
         </section> 
-        <section id = "combat-styles-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
-            Combat Styles Sheet
+        <section id = "fighting-styles-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
+            Fighting Styles
+        </section> 
+        <section id = "combat-training-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
+            Combat Training
         </section> 
         <section id = "spiritual-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(spiritSheet=="false"){%>invisible<%}%>">
-            Spiritual Sheet
+            Spirit Powers
         </section> 
         <section id = "spiritual-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(heroSheet=="false"){%>invisible<%}%>">
-            Hero Sheet
+            Hero
+        </section> 
+        <section id = "advanced-stat-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(statSheet=="false"){%>invisible<%}%>">
+            Advanced Stats
+        </section> 
+        <section id = "combat-styles-sheet-button" class = "character-nav-button character-nav-button-unselected <%if(combatSheet=="false"){%>invisible<%}%>">
+            Advanced Combat Styles
         </section> 
     </section>
     <div id="sub-character-container-container">
@@ -47,7 +53,6 @@
     buttons.basicClick = function(){
         $("#basic-sheet-button").on("click",function(){
             if(states[stateNum]!="basic-sheet"){
-                console.log("CLICKED")
                 states[stateNum] = "basic-sheet";
                 loadState(stateNum);
             }
@@ -69,11 +74,23 @@
             }
         })
     }
+    buttons.spiritSheetClick = function(){
+        $("#spiritual-sheet-button").on("click", function(){
+            if(states[stateNum]!="spirit-sheet"){
+                states[stateNum] = "spirit-sheet";
+                loadState(stateNum);
+            }
+        })
+    }
     buttons.basicClick();
     buttons.advancedStatClick();
     buttons.basicCombatClick();
     buttons.combatStylesSheetClick();
+    buttons.spiritSheetClick();
     characterColors = JSON.parse(`<%-JSON.stringify(characterinfo.colors)%>`)
+    if(states[0]!="story"){
+        loadMusic('<%=characterinfo.theme%>')
+    }
     document.documentElement.style.setProperty('--light', characterColors.light);
     document.documentElement.style.setProperty('--dark', characterColors.dark);
     document.documentElement.style.setProperty('--darker', characterColors.darker);

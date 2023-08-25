@@ -6,6 +6,14 @@
     </div>
 <%}else{%>
     <%-include(`basic-${characterinfo.informationLevel(player.name)}.ejs`)%>
+    <script>
+        buttons.loadNew = function(){
+            <%for(let x=0; x<characterinfo.newList.length; x++){%>
+                $("#<%=characterinfo.newList[x]%>-info").prepend("<span class='new-box'>NEW!</span>")
+            <%}%>
+        }
+        buttons.loadNew();
+    </script>
 <%}%>
 <!-- 
     Information Levels 
