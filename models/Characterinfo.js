@@ -706,8 +706,6 @@ schema.methods.limitStat = function limitStat(index){
   }
 }
 
-//ADD statMod for accountfor 1-5 and modify other code for it
-
 const Model = mongoose.model("Characterinfo", schema);
 
 module.exports = Model;
