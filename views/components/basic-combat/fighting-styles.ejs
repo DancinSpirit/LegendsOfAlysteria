@@ -1,0 +1,95 @@
+<%if(characterinfo.combatStyles[0].weaponStyle.info.rank()>3){%>
+    <section class = "right-side-box combat-style-box-right border-left-thick border-right">
+        <section class = "character-big-title character-box-section border-top-thick border-bottom border-right">
+            Fighting Styles
+        </section>
+        <section class = "combat-style-box-content">
+            <%if(characterinfo.combatStyles[0].fightingStyles.length){%>
+                <section class = "combat-style-box-half">
+                    <section class = "character-box-title character-box-section fighting-style-name border-right">
+                        <%=characterinfo.combatStyles[0].fightingStyles[0].name%>
+                    </section>
+                    <section class = "arial-text combat-style-content-row">
+                        <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                            Advantage Over:
+                        </section>
+                        <section class = "arial-text character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                            <%=characterinfo.combatStyles[0].fightingStyles[0].advantageOver.name%>
+                        </section>
+                    </section>
+                    <section class = "arial-text combat-style-content-row">
+                        <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                            Weak Against:
+                        </section>
+                        <section class = "arial-text character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                            <%=characterinfo.combatStyles[0].fightingStyles[0].weakAgainst.name%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row">
+                        <section class = "arial-text character-box-content character-box-section border-right">
+                            <strong>Effect: </strong><%=characterinfo.combatStyles[0].fightingStyles[0].effect%>
+                        </section>
+                    </section>
+                </section>
+            <%}%>
+            <%if(characterinfo.combatStyles[0].fightingStyles.length===2){%>
+                <section class = "combat-style-box-half flex-column">
+                    <section class = "character-box-title character-box-section fighting-style-name border-right">
+                        <%=characterinfo.combatStyles[0].fightingStyles[1].name%>
+                    </section>
+                    <section class = "arial-text combat-style-content-row">
+                        <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                            Advantage Over:
+                        </section>
+                        <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                            <%=characterinfo.combatStyles[0].fightingStyles[1].advantageOver.name%>
+                        </section>
+                    </section>
+                    <section class = "arial-text combat-style-content-row">
+                        <section class = "character-box-content fighting-advantage character-box-section combat-row-half">
+                            Weak Against:
+                        </section>
+                        <section class = "character-box-content fighting-advantage-type character-box-section combat-row-half border-right">
+                            <%=characterinfo.combatStyles[0].fightingStyles[1].weakAgainst.name%>
+                        </section>
+                    </section>
+                    <section class = "combat-style-content-row" style="flex-grow: 1">
+                        <section class = "arial-text character-box-content character-box-section border-right">
+                            <strong>Effect: </strong><%=characterinfo.combatStyles[0].fightingStyles[1].effect%>
+                        </section>
+                    </section>
+                </section>
+            <%}%>
+        </section>
+        <section class = "combat-style-content-row">
+            <section class = "arial-text combat-style-box-half character-box-content character-box-section border-right border-bottom-thick soft-border-top">
+                <strong>Reroll: </strong>
+                <%if(characterinfo.combatStyles[0].rerolls().length){%>
+                    <%if(characterinfo.combatStyles[0].rerolls()[0].max>1){%>
+                        <%=characterinfo.combatStyles[0].rerolls()[0].name%> x<%=characterinfo.combatStyles[0].rerolls()[0].max%>
+                    <%}else if(characterinfo.combatStyles[0].rerolls()[0].max>0){%>
+                        <%=characterinfo.combatStyles[0].rerolls()[0].name%>
+                    <%}else{%>
+                        None
+                    <%}%>
+                <%}else{%>
+                    None
+                <%}%>                            
+            </section>
+            <section class = "arial-text combat-style-box-half character-box-content character-box-section border-right border-bottom-thick soft-border-top">
+                <strong>Reroll: </strong>
+                <%if(characterinfo.combatStyles[0].rerolls().length==2){%>
+                    <%if(characterinfo.combatStyles[0].rerolls()[1].max>1){%>
+                        <%=characterinfo.combatStyles[0].rerolls()[1].name%> x<%=characterinfo.combatStyles[0].rerolls()[1].max%>
+                    <%}else if(characterinfo.combatStyles[0].rerolls()[1].max>0){%>
+                        <%=characterinfo.combatStyles[0].rerolls()[1].name%>
+                    <%}else{%>
+                        None
+                    <%}%>
+                <%}else{%>
+                    None
+                <%}%>                
+            </section>
+        </section>
+    </section>
+<%}%>

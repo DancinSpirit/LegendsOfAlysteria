@@ -119,6 +119,144 @@ width: 50%;
   max-height: 100%;
   max-width: 100%;
 }
+#character-combat-image-container{
+  width:100%;
+  height: calc(50% - 40px);
+  overflow:hidden;
+  position:relative;
+  border-top: solid black 1px;
+  border-bottom: solid black 1px;
+}
+#character-combat-image{
+  width:100%;
+}
+.combat-style-stats-mods{
+  display:flex;
+  flex-direction:column;
+}
+.ap-dd{
+  border: solid black 1px;
+  font-family: 'Jura';
+  font-weight: bold;
+  font-size: 16px;
+}
+.ap-dd-container{
+  margin:6px;
+}
+.armor-row{
+  margin:10px;
+}
+.stat-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border:solid 1px black;
+  align-items:center;
+  width:100%;
+  position:relative;
+}
+.weight-class-box{
+  position: absolute;
+  padding: 5px;
+  background-color: var(--light);
+  border: solid 1px black;
+  top: calc(100% - 32px);
+  width: 10%;
+  z-index: 1;
+  right: 0px;
+  font-weight: bold;
+  width: auto;
+  font-family: 'Jura';
+  font-size: 18px;
+  border-bottom:none;
+  border-right:none;
+}
+.icon{
+  height:20px;
+  width:20px;
+  margin-right: 5px;
+  margin-left: 2px;
+}
+.mod-row{
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Jura';
+}
+.icon-row{
+  justify-content: flex-start;
+  display: flex;
+  align-items: end;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'Philosopher';
+}
+.icon-row-1{
+  width:33%;
+}
+.icon-row-2{
+  width:67%;
+}
+.combat-style-stats-box-container{
+  background-color: var(--light);
+}
+.combat-style-stats-box{
+  margin: 10px;
+  border: solid black 1px;
+}
+.stat-row-first-half{
+  width:33%;
+}
+.stat-row-second-half{
+  width: 67%;
+}
+.mod-row-first-half{
+  width:33%;
+  display:flex;
+  justify-content: center;
+  align-items:end;
+}
+.mod-row-second-half{
+  width:67%;
+}
+.stat-row-name{
+  display:flex;
+  align-items: center;
+  font-weight: bold;
+  font-family: 'Jura';
+  font-size: 15px;
+}
+.stat-tick{
+  width: 100%;
+  height: 100%;
+}
+.health-tick{
+  background-color: indianred;
+}
+.stamina-tick{
+  background-color: seagreen;
+}
+.mana-tick{
+  background-color: cornflowerblue;
+}
+.empty-tick{
+  background-color:lightgray;
+}
+.armor-tick{
+  background-color: lightyellow;
+}
+.stat-number2{
+  position:absolute;
+  font-family: 'Jura';
+    padding-bottom: 3px;
+    font-weight: bold;
+}
+.right-side-box{
+  width:100%;
+  margin-bottom:20px;
+}
 #basic-info-content-container {
   flex-grow: 1;
   display: flex;
@@ -234,7 +372,6 @@ text-decoration: line-through;
 }
 
 .knowledge-box {
-  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -342,14 +479,35 @@ text-decoration: line-through;
   width: 100%;
 }
 .basic-combat-right{
-  width:calc(70% - 30px);
-  margin-left: 20px;
-  margin-right: 10px;
+  width: calc(100% - 3px);
   align-items: center;
   margin-bottom: 20px;
   font-size:12px;
+  align-items: center;
+  font-family: 'Jura';
+  font-size: 13px;
 }
-.stat-calcs{
+.arial-text{
+  font-family: 'Arial';
+    font-size: 12px;
+}
+.unchecked{
+  color:gray;
+}
+.checked{
+  color:black;
+}
+.mod-title{
+  background-color:var(--dark);
+}
+.basic-combat-right-container{
+  overflow:auto;
+  width:calc(70% - 30px);
+  margin-left: 20px;
+  margin-right: 10px;
+}
+.stat-calc
+s{
   width:50%;
 }
 .flex-column{
@@ -549,20 +707,28 @@ text-decoration: line-through;
   height: 100%;
   width: 30%;
   background-color: var(--background);
+  margin-left:10px;
 }
 
 .basic-stats{
   display: flex;
   flex-direction: row;
+  height:100%;
 }
 
 .empty-name-space{
   width: 10%;
 }
 .combat-style-box{
-  width: calc(90% + 2px);
+  max-height:100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  border: solid black 2px;
+}
+
+.margin-top-5px{
+  margin-top: 5px;
 }
 
 #combat-style-name{
@@ -603,4 +769,13 @@ text-decoration: line-through;
 }
 .padding-bottom{
   padding-bottom: 10px;
+}
+
+.combat-style-name{
+  font-family:'Philosopher';
+  font-size:20px;
+  padding-bottom:5px;
+}
+.highlight{
+  background-color:var(--highlight);
 }

@@ -600,7 +600,7 @@ const nextLine = async function(){
                     $("#sub-story").scrollTop($("#sub-story").prop("scrollHeight"));
                     break;
                 case "CHARACTER":
-                    //starting-sheet|Characterinfo-ID|Player-ID|stat-sheet-boolean|combat-sheet-boolean|spirit-sheet-boolean|hero-sheet-boolean
+                    //starting-sheet|Characterinfo-ID|Player-ID|stat-sheet-boolean|combat-sheet-boolean|spirit-sheet-boolean|hero-sheet-boolean|ritual-sheet-boolean
                     if(!$("#character-style").length){
                         $("head").append(`<link id="character-style" rel="stylesheet" href="/styles/character.css">`)
                     }
@@ -617,7 +617,8 @@ const nextLine = async function(){
                     let combatSheet = sentText.split("|")[4];
                     let spiritSheet = sentText.split("|")[5];
                     let heroSheet = sentText.split("|")[6];
-                    characterInfo = await loadComponent("character",[{name: "Characterinfo",id:characterInfoId},{name:"Player",id:playerId}],{statSheet:statSheet,combatSheet:combatSheet,spiritSheet:spiritSheet,heroSheet:heroSheet})
+                    let ritualSheet = sentText.split("|")[7];
+                    characterInfo = await loadComponent("character",[{name: "Characterinfo",id:characterInfoId},{name:"Player",id:playerId}],{statSheet:statSheet,combatSheet:combatSheet,spiritSheet:spiritSheet,heroSheet:heroSheet,ritualSheet:ritualSheet})
                     if(user.settings.pageScroll){
                         $(`#page-${pageNum}`).append(characterInfo);
                     }else{

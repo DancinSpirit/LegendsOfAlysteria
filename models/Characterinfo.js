@@ -657,6 +657,20 @@ schema.methods.preTrainedStat = function preTrainedStat(index){
   return total;
 }
 
+schema.methods.statMod = function statMod(index){
+  let fullStat = this.fullStat(index);
+  if(fullStat>this.limitNum(index)){
+    fullStat = this.limitNum(index)
+  }
+  if(fullStat>5){
+    return fullStat-5;
+  }else if(fullStat==0){
+    return -25;
+  }else{
+    return (fullStat-5)*5;
+  }
+}
+
 schema.methods.fullStat = function fullStat(index){
   let total = this.baseStat(index);
   let allTraits = this.allTraits();

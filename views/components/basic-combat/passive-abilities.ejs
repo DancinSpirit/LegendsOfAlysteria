@@ -1,0 +1,34 @@
+<section class = "right-side-box combat-style-box-right border-left-thick">
+    <section class = "character-big-title character-box-section border-top-thick border-bottom border-right-thick">
+        Passive Abilities
+    </section>
+    <%let abilities = characterinfo.combatStyles[0].allPassiveAbilities()%>
+    <%for(let y=0; y<abilities.length; y++){%>
+        <%if(abilities[y].amount==1){%>
+            <section class = "combat-style-box-content character-box-title character-box-section border-right-thick">
+                <%=abilities[y].name%>
+            </section>
+        <%}else{%>
+            <section class = "combat-style-box-half">
+                <section class = "combat-style-box-content character-box-title character-box-section ">
+                    <%=abilities[y].name%>
+                </section>
+            </section>
+            <section class = "combat-style-box-half">
+                <section class = "combat-style-box-half">
+                    <section class = "combat-style-box-content character-box-title character-box-section">
+                        Stack Count:
+                    </section>
+                </section>
+                <section class = "combat-style-box-half">
+                    <section class = "combat-style-box-content character-box-title character-box-section border-right-thick">
+                        <%=abilities[y].amount%>
+                    </section>
+                </section>
+            </section>
+        <%}%>
+        <section class = "arial-text combat-style-box-content character-box-section character-box-content <%if(y==abilities.length-1){%>border-bottom-thick<%}else{%>border-bottom<%}%> border-right-thick">
+            <%=abilities[y].effect%>
+        </section>
+    <%}%>
+</section>

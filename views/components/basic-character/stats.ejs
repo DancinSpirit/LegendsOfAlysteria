@@ -12,6 +12,9 @@
         <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
             Final Stat:
         </section>
+        <section class = "character-box-title character-box-section grid-title border-top-thick border-left">
+            Stat Modifier:
+        </section>
         <section class = "character-box-title character-box-section grid-title border-top-thick border-right-thick border-left">
             Rerolls:
         </section>
@@ -36,6 +39,9 @@
             </section>
             <section class = "character-box-content character-box-section stat-row grid-content highlight border-left border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
                 <%=characterinfo.fullStat(x)%> <%if(characterinfo.fullStat(x)>characterinfo.limitNum(x)){%>[<%=characterinfo.limitNum(x)%>]<%}%>
+            </section>
+            <section class = "character-box-content character-box-section stat-row grid-content border-left border-top <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
+                <%=characterinfo.statMod(x)%>
             </section>
             <section class = "character-box-content character-box-section stat-row grid-content border-left border-top border-right-thick <%if(x==characterinfo.stats.length-1){%>border-bottom-thick<%}%>">
                 <%=characterinfo.stats[x].rerolls.available%>/<%=characterinfo.stats[x].rerolls.max%>

@@ -66,6 +66,20 @@ schema.methods.rerolls = function rerolls(){
       rerollList[rerollList.length-1].max = 2;
     }
   }
+  for(let x=0; x<rerollList.length; x++){
+    if(rerollList[x].name=="Soft Opponent Reroll"){
+      rerollList[x].effect="Can reroll the most recent roll within a chain of rolls for a targeted opponent."
+    }
+    if(rerollList[x].name=="Hard Opponent Reroll"){
+      rerollList[x].effect="Can reroll the most recent chain of rolls for a targeted opponent."
+    }
+    if(rerollList[x].name=="Soft Reroll"){
+      rerollList[x].effect="Can reroll your most recent roll within a chain of rolls."
+    }
+    if(rerollList[x].name=="Hard Reroll"){
+      rerollList[x].effect="Can reroll your most recent chain of rolls."
+    }
+  }
   return rerollList;
 }
 
@@ -73,11 +87,11 @@ schema.methods.allRerolls = function allRerolls(){
   let rerolls = this.rerolls();
   let statRoll = this.character.stats[0].rerolls;
   if(statRoll.max>0){
-    rerolls.push({name: "Athletics Reroll",available: statRoll.available, max: statRoll.max})
+    rerolls.push({name: "Athletics Reroll",available: statRoll.available, max: statRoll.max,effect:"Can reroll (Hard or Soft) any personal action that uses Athleticism as a modifier at any time."})
   }
   statRoll = this.character.stats[1].rerolls;
   if(statRoll.max>0){
-    rerolls.push({name: "Spirituality Reroll",available: statRoll.available, max: statRoll.max})
+    rerolls.push({name: "Spirituality Reroll",available: statRoll.available, max: statRoll.max, effect:"Can reroll (Hard or Soft) any personal action that uses Spirituality as a modifier at any time."})
   }
   fateRoll = this.character.fateRerolls;
   if(fateRoll.max>0){

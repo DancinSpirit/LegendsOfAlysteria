@@ -1,5 +1,6 @@
-<div class="flex-column basic-combat-right-section stat-calcs">
+<div class="flex-column stat-calcs" style="width:40%">
     <section class="border-left-thick border-right-thick flex-column">
+        <%if(characterinfo.combatStyles.length){%>
         <section class="flex-column fill-width">
             <section class="border-top-thick border-bottom character-big-title character-box-section">
                 Combat Rank
@@ -37,6 +38,7 @@
                 </section>
             </section>
         </section>
+        <%}%>
         <section class="flex-column fill-width">
             <section class="border-bottom character-big-title character-box-section">
                 Health

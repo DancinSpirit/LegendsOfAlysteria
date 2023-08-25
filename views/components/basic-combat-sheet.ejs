@@ -1,8 +1,11 @@
 <animation>basicCombatSheet</animation>
 <section class = "basic-combat flex-row">
         <%-include('basic-combat/combat-stats.ejs')%>
-        <section class = "basic-combat-right flex-column">
-            <%-include('basic-combat/combat-abilities.ejs')%>
-            <%-include('basic-combat/combat-spells.ejs')%>
+        <section class="basic-combat-right-container">
+            <section class = "basic-combat-right flex-column">
+                <%-include('basic-combat/fighting-styles.ejs')%>
+                <%-include('basic-combat/passive-abilities.ejs')%>
+                <%-include('basic-combat/activated-abilities.ejs')%>
+            </section>
         </section>
 </section>
